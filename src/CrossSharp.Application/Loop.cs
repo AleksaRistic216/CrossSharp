@@ -1,17 +1,48 @@
 using CrossSharp.Ui;
+using CrossSharp.Utils.Enums;
 namespace CrossSharp.Application;
 
-class Loop {
+class Loop : IDisposable {
     readonly CancellationTokenSource _cts = new ();
-    Form _mainForm;
-    public void Run<T>() where T : Form {
-        _ = Input.StartAsync(_cts.Token);
-        _mainForm = Activator.CreateInstance<T>();
-        _mainForm.Show();
-        while (!_cts.Token.IsCancellationRequested) {
-            Thread.Sleep(100);
-            Console.WriteLine("Running application loop...");
+    internal void Run<T>(CrossPlatformType platformType) where T : Form, new() {
+        _ = InputHandler.StartListeningAsync(_cts.Token);
+        switch (platformType) {
+            case CrossPlatformType.Windows:
+                RunWindowsApp<T>();
+                break;
+            case CrossPlatformType.Linux:
+                RunLinuxApp<T>();
+                break;
+            case CrossPlatformType.MacOs:
+                RunMacOsApp<T>();
+                break;
+            case CrossPlatformType.Undefined:
+                throw new PlatformNotSupportedException("Platform could not be determined.");
+            default:
+                throw new PlatformNotSupportedException("The current platform is not supported.");
         }
-        Console.WriteLine("Application loop has been cancelled.");
+        Console.WriteLine("Running application...");
+    }
+    static void RunMacOsApp<T>() where T : Form {
+        throw new NotImplementedException();
+    }
+    static void RunLinuxApp<T>() where T : Form, new() {
+        GtkApplicationRunner.Run<T>();
+    }
+    static void RunWindowsApp<T>() where T : Form {
+        throw new NotImplementedException();
+        // Bellow is a placeholder for actual Windows Forms application loop
+        Thread thread = new (() => {
+            throw new NotImplementedException();
+        });
+#pragma warning disable CA1416
+        thread.SetApartmentState(ApartmentState.STA);
+#pragma warning restore CA1416
+        thread.Start();
+        thread.Join();
+    }
+    public void Dispose() {
+        _cts.Cancel();
+        _cts.Dispose();
     }
 }

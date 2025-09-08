@@ -1,15 +1,15 @@
 using SharpHook;
 namespace CrossSharp.Application;
 
-internal static class Input {
+internal static class InputHandler {
     static SimpleGlobalHook _hook = new ();
     internal static event EventHandler<HookEventArgs>? KeyPressed;
     internal static event EventHandler<HookEventArgs>? MousePressed;
     internal static event EventHandler<HookEventArgs>? MouseMoved;
     internal static event EventHandler<HookEventArgs>? MouseWheel;
-    internal static Task StartAsync(CancellationToken token) {
+    internal static Task StartListeningAsync(CancellationToken token) {
         if(_hook.IsRunning)
-            throw new InvalidOperationException("Input hook is already running.");
+            throw new InvalidOperationException("InputHandler hook is already running.");
         return Task.Run(() => {
             _hook.KeyPressed += OnKeyPressed;
             _hook.MousePressed += OnMousePressed;
