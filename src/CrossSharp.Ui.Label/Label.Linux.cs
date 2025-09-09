@@ -4,7 +4,6 @@ namespace CrossSharp.Ui;
 
 public partial class Label {
     void InitializeLinux() {
-        Handle = GtkHelpers.gtk_label_new("asd");
         GtkHelpers.gtk_widget_set_size_request(Handle, 100, 30);
     }
     void ShowLinux() {
@@ -13,7 +12,6 @@ public partial class Label {
     }
     void DisposeLinux() {
         GtkHelpers.gtk_widget_unparent(Handle);
-        Handle = IntPtr.Zero;
         GtkHelpers.g_object_unref(Handle);
     }
 }

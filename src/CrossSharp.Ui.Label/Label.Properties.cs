@@ -1,11 +1,8 @@
-using System.Drawing;
+using CrossSharp.Utils.Gtk;
 namespace CrossSharp.Ui;
 
 public partial class Label {
-    public Point Location { get; set; }
+    public override IntPtr Handle { get; } = GtkHelpers.gtk_label_new("asd");
     public float FontSize { get; set; }
     public IntPtr ContainerHandle { get; set; }
-    public IntPtr Handle { get; private set; }
-    public IntPtr ParentHandle { get; set; }
-    public bool Visible { get; set; }
 }

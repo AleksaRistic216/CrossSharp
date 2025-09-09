@@ -1,8 +1,10 @@
+using System.Drawing;
 using CrossSharp.Utils.Gtk;
 namespace CrossSharp.Utils;
 
 public partial class Control {
     #region private
+    Point _location = new Point(0, 0);
     int _width = 0;
     int _height = 0;
     #endregion
@@ -28,6 +30,19 @@ public partial class Control {
             _height = value;
             if (Handle != IntPtr.Zero)
                 GtkHelpers.gtk_widget_set_size_request(Handle, _width, _height);
+        }
+    }
+    public Point Location {
+        get => _location;
+        set {
+            if(_location == value)
+                return;
+            _location = value;
+            OnLocationChanged?.Invoke(this, _location);
+            if(ParentHandle == IntPtr.Zero || Handle == IntPtr.Zero)
+                return;
+            
+            Redraw();
         }
     }
     #endregion

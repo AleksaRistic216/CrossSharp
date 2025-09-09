@@ -26,10 +26,15 @@ static class GtkHelpers {
     [DllImport("libgtk-4.so.1")] internal static extern IntPtr gtk_window_new(int type);
     [DllImport("libgtk-4.so.1")] internal static extern void gtk_window_present(IntPtr window);
     [DllImport("libgtk-4.so.1")] internal static extern IntPtr gtk_widget_snapshot(IntPtr widget, IntPtr snapshot);
+    [DllImport("libgtk-4.so.1")] public static extern void gtk_fixed_move(IntPtr container, IntPtr widget, int x, int y);
     [DllImport("libgtk-4.so.1")] internal static extern void gtk_snapshot_append_color(IntPtr snapshot, ref GtkRgba color, ref GtkRectangle rect);
+    [DllImport("libgtk-4.so.1")] internal static extern void gtk_fixed_remove(IntPtr fixedContainer, IntPtr widget);
     [DllImport("libgtk-4.so.1")] internal static extern void gtk_drawing_area_set_draw_func(IntPtr drawingArea, DrawFunc drawFunc, IntPtr userData, IntPtr destroyNotify);
     [Obsolete("This crashes for some reason", true)]
     [DllImport("libgdk-4.so.1")] internal static extern void gdk_cairo_set_source_rgba(IntPtr cr, ref GtkRgba color);
+    [DllImport("libgtk-4.so.1", CallingConvention = CallingConvention.Cdecl)] internal static extern void gtk_widget_queue_draw(IntPtr widget);
+
+
 
     // Signals
     [DllImport("libgobject-2.0.so.0")] internal static extern void g_object_unref(IntPtr handle);

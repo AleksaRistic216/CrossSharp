@@ -3,12 +3,12 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 namespace CrossSharp.Ui;
 
-public partial class Label : ILocationProvider, IFontProvider, IControl {
+public partial class Label : Control {
     
     public Label() {
         Initialize();
     }
-    void Initialize() {
+    public override void Initialize() {
         switch(PlatformHelpers.GetCurrentPlatform()) {
             case CrossPlatformType.Windows:
                 throw new NotImplementedException();
@@ -22,10 +22,7 @@ public partial class Label : ILocationProvider, IFontProvider, IControl {
                 throw new PlatformNotSupportedException("The current platform is not supported.");
         }
     }
-    void IControl.Initialize() {
-        Initialize();
-    }
-    public void Show() {
+    public override void Show() {
         switch(PlatformHelpers.GetCurrentPlatform()) {
             case CrossPlatformType.Windows:
                 throw new NotImplementedException();

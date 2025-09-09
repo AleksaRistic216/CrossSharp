@@ -6,6 +6,7 @@ public partial class Form {
     public  EventHandler? OnShow { get; set; }
     public  EventHandler? OnClose { get; set; }
     public EventHandler<Size> OnSizeChanged { get; set; }
+    public EventHandler<Point>? OnLocationChanged { get; set; }
     void RaiseOnShow() {
         OnShow?.Invoke(this, EventArgs.Empty);
     }

@@ -3,4 +3,5 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface ILocationProvider {
     Point Location { get; set; }
+    EventHandler<Point>? OnLocationChanged { get; set; }
 }
