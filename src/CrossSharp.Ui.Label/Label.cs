@@ -4,6 +4,7 @@ using CrossSharp.Utils.Interfaces;
 namespace CrossSharp.Ui;
 
 public partial class Label : ILocationProvider, IFontProvider, IControl {
+    
     public Label() {
         Initialize();
     }

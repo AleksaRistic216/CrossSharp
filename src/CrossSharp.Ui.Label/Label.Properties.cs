@@ -7,4 +7,5 @@ public partial class Label {
     public IntPtr ContainerHandle { get; set; }
     public IntPtr Handle { get; private set; }
     public IntPtr ParentHandle { get; set; }
+    public bool Visible { get; set; }
 }
