@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Form", "src\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Application", "src\CrossSharp.Application\CrossSharp.Application.csproj", "{8382B7FC-F82C-410A-8534-A4AE4B638C3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Label", "src\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj", "{0445F931-4979-49C5-B664-39C64E552C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Panel", "src\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj", "{412BED6D-48C7-43AE-AA2E-43C9667DA509}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{8382B7FC-F82C-410A-8534-A4AE4B638C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8382B7FC-F82C-410A-8534-A4AE4B638C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8382B7FC-F82C-410A-8534-A4AE4B638C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0445F931-4979-49C5-B664-39C64E552C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0445F931-4979-49C5-B664-39C64E552C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0445F931-4979-49C5-B664-39C64E552C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0445F931-4979-49C5-B664-39C64E552C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{412BED6D-48C7-43AE-AA2E-43C9667DA509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{412BED6D-48C7-43AE-AA2E-43C9667DA509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{412BED6D-48C7-43AE-AA2E-43C9667DA509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{412BED6D-48C7-43AE-AA2E-43C9667DA509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24E7C5FF-9728-48A0-B2BF-FBE0FD28386A} = {C74D1299-EDB5-4CAC-8255-BA11848B491B}

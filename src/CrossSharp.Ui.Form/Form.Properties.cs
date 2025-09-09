@@ -1,17 +1,34 @@
 using System.Drawing;
-using CrossSharp.Utils.Helpers;
+using System.Runtime.CompilerServices;
 using CrossSharp.Utils.Interfaces;
-
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Application")]
+[assembly: InternalsVisibleTo("CrossSharp.Application")]
 namespace CrossSharp.Ui;
 
 public partial class Form {
+    readonly IApplication _appInstance;
     public IntPtr Handle { get; internal set; }
+    public IntPtr ParentHandle { get; internal set; }
+    public ControlsContainer Controls { get; internal set; }
     public Point Location { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    int _width;
+    public int Width {
+        get => _width;
+        set {
+            if(value == _width)
+                return;
+            _width = value;
+            RaiseSizeChanged(new Size(_width, _height));
+        }
+    }
+    int _height;
+    public int Height {
+        get => _height;
+        set {
+            if(value == _height)
+                return;
+            _height = value;
+            RaiseSizeChanged(new Size(_width, _height));
+        }
+    }
     public string Title { get; set; } = "Form";
-    string? _applicationId;
-    IApplicationConfiguration _applicationConfiguration;
-    internal string ApplicationId => _applicationId ??= ApplicationNameHelpers.FormatApplicationId(_applicationConfiguration.ApplicationName, _applicationConfiguration.CompanyName);
 }

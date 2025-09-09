@@ -10,6 +10,7 @@ public class Builder {
     static readonly CrossPlatformType _currentPlatform = PlatformHelpers.GetCurrentPlatform();
     public Builder(IApplicationConfiguration applicationConfiguration) {
         AddSingleton(applicationConfiguration);
+        AddSingleton<IApplication, Utils.Application>();
     }
     public void Run<T>() where T : Form, new() {
         GeneralConstants.AppLoop.Run<T>(_currentPlatform);

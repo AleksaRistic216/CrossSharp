@@ -7,6 +7,7 @@
     </PropertyGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
+      <ProjectReference Include="..\..\src\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
     </ItemGroup>
 
 </Project>

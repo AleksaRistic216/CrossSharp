@@ -2,7 +2,7 @@ using SharpHook;
 namespace CrossSharp.Application;
 
 internal static class InputHandler {
-    static SimpleGlobalHook _hook = new ();
+    static readonly SimpleGlobalHook _hook = new ();
     internal static event EventHandler<HookEventArgs>? KeyPressed;
     internal static event EventHandler<HookEventArgs>? MousePressed;
     internal static event EventHandler<HookEventArgs>? MouseMoved;
@@ -29,5 +29,10 @@ internal static class InputHandler {
     }
     static void OnMouseWheel(object? sender, HookEventArgs e) {
         MouseWheel?.Invoke(sender, e);
+    }
+    public static void StopListening() {
+        if(!_hook.IsRunning)
+            throw new InvalidOperationException("InputHandler hook is not running.");
+        _hook.Stop();
     }
 }

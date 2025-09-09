@@ -1,19 +1,36 @@
-using System.Runtime.InteropServices;
+using CrossSharp.Utils.Gtk;
 namespace CrossSharp.Ui;
 
 public partial class Form {
-    [DllImport("libgtk-4.so.1")] static extern IntPtr gtk_application_window_new(IntPtr app);
-    [DllImport("libgtk-4.so.1")] static extern void gtk_window_set_title(IntPtr window, string title);
-    [DllImport("libgtk-4.so.1")] static extern void gtk_window_set_default_size(IntPtr window, int width, int height);
-    [DllImport("libgtk-4.so.1")] static extern void gtk_widget_show(IntPtr widget);
+    void InitializeLinux() {
+        Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
+        Controls = new ControlsContainer(Handle, this);
+        GtkHelpers.gtk_window_set_title(Handle, Title);
+        SubscribeToGtkSignals();
+    }
     void ShowLinux()
     {
-        if (Handle == IntPtr.Zero)
-            throw new InvalidOperationException("The form has not been initialized properly.");
-
-        IntPtr window = gtk_application_window_new(Handle);
-        gtk_window_set_title(window, Title);
-        gtk_window_set_default_size(window, Width, Height);
-        gtk_widget_show(window);
+        GtkHelpers.gtk_widget_show(Handle);
+        Controls.Show();
+    }
+    #region Gtk signals and handlers
+    void SubscribeToGtkSignals() {
+        GtkHelpers.g_signal_connect_data(Handle, "map", (GtkHelpers.MapCallback) SignalOnWidgetMapped, IntPtr.Zero, IntPtr.Zero, 0);
+        GtkHelpers.g_signal_connect_data(Handle, "close-request", (GtkHelpers.CloseRequestCallback) SignalOnClose, IntPtr.Zero, IntPtr.Zero, 0);
+    }
+    void SignalOnWidgetMapped(IntPtr widget, IntPtr _) {
+        RaiseOnShow();
+    }
+    bool SignalOnClose(IntPtr windowPtr, IntPtr _) {
+        // ParentHandle any cleanup if necessary
+        Dispose();
+        RaiseOnClose();
+        return false; // Return true to prevent the window from closing
+    }
+    #endregion
+    void DisposeLinux()
+    {
+        // Utils.GtkHelpers.g_object_unref(Handle);
+        // Handle = IntPtr.Zero;
     }
 }

@@ -21,7 +21,6 @@ class Loop : IDisposable {
             default:
                 throw new PlatformNotSupportedException("The current platform is not supported.");
         }
-        Console.WriteLine("Running application...");
     }
     static void RunMacOsApp<T>() where T : Form {
         throw new NotImplementedException();
@@ -44,5 +43,6 @@ class Loop : IDisposable {
     public void Dispose() {
         _cts.Cancel();
         _cts.Dispose();
+        InputHandler.StopListening();
     }
 }
