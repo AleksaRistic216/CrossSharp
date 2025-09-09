@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 namespace CrossSharp.Ui;
@@ -11,6 +12,7 @@ public class ControlsContainer {
         GtkHelpers.gtk_window_set_child(windowHandler, Handle);
         _widget = new PanelControl {
             ParentHandle = Handle,
+            BackgroundColor = Color.WhiteSmoke,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height
         };

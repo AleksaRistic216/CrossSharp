@@ -42,6 +42,7 @@ public partial class Control {
             if(ParentHandle == IntPtr.Zero || Handle == IntPtr.Zero)
                 return;
             
+            GtkHelpers.gtk_widget_set_size_request(Handle, Location.X + Width, Location.Y + Height);
             Redraw();
         }
     }

@@ -1,8 +1,10 @@
+using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Enums;
 namespace CrossSharp.Utils.Gtk;
 
 public abstract class GtkWidget : Control {
     public override IntPtr Handle { get; } = GtkHelpers.gtk_drawing_area_new();
-    protected abstract void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data);
+    Graphics _g;
     public override void Initialize() {
         GtkHelpers.DrawFunc drawFunc = OnDraw;
         GtkHelpers.gtk_drawing_area_set_draw_func(Handle, drawFunc, IntPtr.Zero, IntPtr.Zero);
@@ -14,6 +16,93 @@ public abstract class GtkWidget : Control {
         GtkHelpers.gtk_widget_show(Handle);
         GtkHelpers.gtk_fixed_put(ParentHandle, Handle, Location.X, Location.Y);
     }
+    void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data) {
+        _g = new Graphics(cr);
+        DrawShadows(_g);
+        DrawBackground(_g);
+        DrawBorders(_g);
+        DrawContent(_g);
+    }
+    void DrawShadows(Graphics g) 
+    {
+        switch(PlatformHelpers.GetCurrentPlatform()) {
+            case CrossPlatformType.Linux:
+                DrawShadowsLinux(g);
+                break;
+            case CrossPlatformType.Windows:
+                DrawShadowsWindows(g);
+                break;
+            case CrossPlatformType.MacOs:
+                DrawShadowsMacOs(g);
+                break;
+            case CrossPlatformType.Undefined:
+            default:
+                throw new NotSupportedException("Platform not supported");
+        }
+    }
+    protected abstract void DrawShadowsLinux(Graphics g);
+    protected abstract void DrawShadowsWindows(Graphics g);
+    protected abstract void DrawShadowsMacOs(Graphics g);
+    void DrawBackground(Graphics g) 
+    {
+        switch(PlatformHelpers.GetCurrentPlatform()) {
+            case CrossPlatformType.Linux:
+                DrawBackgroundLinux(g);
+                break;
+            case CrossPlatformType.Windows:
+                DrawBackgroundWindows(g);
+                break;
+            case CrossPlatformType.MacOs:
+                DrawBackgroundMacOs(g);
+                break;
+            case CrossPlatformType.Undefined:
+            default:
+                throw new NotSupportedException("Platform not supported");
+        }
+    }
+    protected abstract void DrawBackgroundLinux(Graphics g);
+    protected abstract void DrawBackgroundWindows(Graphics g);
+    protected abstract void DrawBackgroundMacOs(Graphics g);
+    void DrawBorders(Graphics g) 
+    {
+        switch(PlatformHelpers.GetCurrentPlatform()) {
+            case CrossPlatformType.Linux:
+                DrawBordersLinux(g);
+                break;
+            case CrossPlatformType.Windows:
+                DrawBordersWindows(g);
+                break;
+            case CrossPlatformType.MacOs:
+                DrawBordersMacOs(g);
+                break;
+            case CrossPlatformType.Undefined:
+            default:
+                throw new NotSupportedException("Platform not supported");
+        }
+    }
+    protected abstract void DrawBordersLinux(Graphics g);
+    protected abstract void DrawBordersWindows(Graphics g);
+    protected abstract void DrawBordersMacOs(Graphics g);
+    void DrawContent(Graphics g) 
+    {
+        switch(PlatformHelpers.GetCurrentPlatform()) {
+            case CrossPlatformType.Linux:
+                DrawContentLinux(g);
+                break;
+            case CrossPlatformType.Windows:
+                DrawContentWindows(g);
+                break;
+            case CrossPlatformType.MacOs:
+                DrawContentMacOs(g);
+                break;
+            case CrossPlatformType.Undefined:
+            default:
+                throw new NotSupportedException("Platform not supported");
+        }
+    }
+    protected abstract void DrawContentLinux(Graphics g);
+    protected abstract void DrawContentWindows(Graphics g);
+    protected abstract void DrawContentMacOs(Graphics g);
     public override void Dispose() {
         GtkHelpers.gtk_widget_unparent(Handle);
         GtkHelpers.g_object_unref(Handle);
