@@ -52,11 +52,10 @@ public partial class Control
             if (ParentHandle == IntPtr.Zero || Handle == IntPtr.Zero)
                 return;
 
-            if (Visible)
-            {
-                GtkHelpers.gtk_fixed_move(ParentHandle, Handle, _location.X, _location.Y);
-                Redraw();
-            }
+            if (!Visible)
+                return;
+            GtkHelpers.gtk_fixed_move(ParentHandle, Handle, _location.X, _location.Y);
+            Redraw();
         }
     }
     #endregion

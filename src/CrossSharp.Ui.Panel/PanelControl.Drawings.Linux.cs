@@ -18,7 +18,7 @@ public partial class PanelControl
             BackgroundColor.B,
             BackgroundColor.A
         );
-        GtkHelpers.cairo_rectangle(g.ContextHandle, 0, 0, Width, Height);
+        GtkHelpers.cairo_rectangle(g.ContextHandle, Location.X, Location.Y, Width, Height);
         GtkHelpers.cairo_fill(g.ContextHandle);
     }
 

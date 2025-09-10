@@ -65,6 +65,16 @@ static class GtkHelpers
     );
 
     [DllImport(GTK)]
+    internal static extern bool gtk_widget_translate_coordinates(
+        IntPtr srcWidget,
+        IntPtr destWidget,
+        int srcX,
+        int srcY,
+        out int destX,
+        out int destY
+    );
+
+    [DllImport(GTK)]
     internal static extern IntPtr gtk_window_new(int type);
 
     [DllImport(GTK)]
@@ -109,6 +119,14 @@ static class GtkHelpers
     // Signals
     [DllImport(GOBJECT)]
     internal static extern void g_object_unref(IntPtr handle);
+
+    [DllImport(GOBJECT)]
+    internal static extern ulong g_signal_connect(
+        IntPtr instance,
+        string detailed_signal,
+        ResizeCallback c_handler,
+        IntPtr data
+    );
 
     [DllImport(GOBJECT)]
     internal static extern void gtk_container_get_children(IntPtr container, out IntPtr children);
@@ -184,6 +202,14 @@ static class GtkHelpers
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void SnapshotHandler(IntPtr widget, IntPtr snapshot, IntPtr user_data);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void ResizeCallback(
+        IntPtr drawingArea,
+        int width,
+        int height,
+        IntPtr userData
+    );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void DrawFunc(

@@ -22,11 +22,21 @@ public abstract class GtkWidget : Control
             return;
         GtkHelpers.gtk_widget_show(Handle);
         GtkHelpers.gtk_fixed_put(ParentHandle, Handle, Location.X, Location.Y);
+        GtkHelpers.gtk_fixed_move(ParentHandle, Handle, Location.X, Location.Y);
         Visible = true;
     }
 
     void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data)
     {
+        GtkHelpers.gtk_widget_get_allocation(Handle, out var all);
+        GtkHelpers.gtk_widget_translate_coordinates(
+            Handle,
+            ParentHandle,
+            0,
+            0,
+            out var absX,
+            out var absY
+        );
         _g = new Graphics(cr);
         DrawShadows(_g);
         DrawBackground(_g);
