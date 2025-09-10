@@ -22,7 +22,6 @@ public abstract class GtkWidget : Control
             return;
         GtkHelpers.gtk_widget_show(Handle);
         GtkHelpers.gtk_fixed_put(ParentHandle, Handle, Location.X, Location.Y);
-        GtkHelpers.gtk_fixed_move(ParentHandle, Handle, Location.X, Location.Y);
         Visible = true;
     }
 

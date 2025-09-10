@@ -29,6 +29,6 @@ public class MainForm : Form
             Location = new Point(200, 200),
             BackgroundColor = Color.Orange,
         };
-        this.Controls.Add(panel1);
+        Controls.Add(panel1);
     }
 }
