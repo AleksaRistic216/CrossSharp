@@ -26,7 +26,12 @@ public partial class Control
             _width = value;
             if (Handle == IntPtr.Zero)
                 return;
-            GtkHelpers.gtk_widget_set_size_request(Handle, _width, _height);
+            GtkHelpers.gtk_widget_set_size_request(
+                Handle,
+                _location.X + _width,
+                _location.Y + _height
+            );
+            Redraw();
         }
     }
     public int Height
@@ -37,7 +42,12 @@ public partial class Control
             _height = value;
             if (Handle == IntPtr.Zero)
                 return;
-            GtkHelpers.gtk_widget_set_size_request(Handle, _width, _height);
+            GtkHelpers.gtk_widget_set_size_request(
+                Handle,
+                _location.X + _width,
+                _location.Y + _height
+            );
+            Redraw();
         }
     }
     public Point Location
@@ -49,12 +59,13 @@ public partial class Control
                 return;
             _location = value;
             OnLocationChanged?.Invoke(this, _location);
-            if (ParentHandle == IntPtr.Zero || Handle == IntPtr.Zero)
+            if (Handle == IntPtr.Zero)
                 return;
-
-            if (!Visible)
-                return;
-            GtkHelpers.gtk_fixed_move(ParentHandle, Handle, _location.X, _location.Y);
+            GtkHelpers.gtk_widget_set_size_request(
+                Handle,
+                _location.X + _width,
+                _location.Y + _height
+            );
             Redraw();
         }
     }

@@ -155,6 +155,9 @@ static class GtkHelpers
     internal static extern void cairo_fill(IntPtr cr);
 
     [DllImport(CAIRO)]
+    internal static extern void cairo_clip(IntPtr cr);
+
+    [DllImport(CAIRO)]
     internal static extern void cairo_set_source_rgba(
         IntPtr cr,
         double r,

@@ -21,22 +21,13 @@ public abstract class GtkWidget : Control
         if (parent == ParentHandle)
             return;
         GtkHelpers.gtk_widget_show(Handle);
-        GtkHelpers.gtk_fixed_put(ParentHandle, Handle, Location.X, Location.Y);
+        GtkHelpers.gtk_fixed_put(ParentHandle, Handle, 0, 0);
         Visible = true;
     }
 
     void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data)
     {
-        GtkHelpers.gtk_widget_get_allocation(Handle, out var all);
-        GtkHelpers.gtk_widget_translate_coordinates(
-            Handle,
-            ParentHandle,
-            0,
-            0,
-            out var absX,
-            out var absY
-        );
-        _g = new Graphics(cr);
+        _g = new Graphics(cr, this, this);
         DrawShadows(_g);
         DrawBackground(_g);
         DrawBorders(_g);
@@ -112,24 +103,16 @@ public abstract class GtkWidget : Control
 
     void DrawDevelopersBordersLinux(Graphics g)
     {
-        IntPtr cr = g.ContextHandle; // cairo_t*
         Color developerBorderColor = Color.Green;
         const float strokeThickness = 2.0f;
-        GtkHelpers.cairo_set_source_rgb(
-            cr,
-            developerBorderColor.R,
-            developerBorderColor.G,
-            developerBorderColor.B
-        ); // Blue
-        GtkHelpers.cairo_set_line_width(cr, strokeThickness); // Border thickness
-        GtkHelpers.cairo_rectangle(
-            cr,
-            Location.X,
-            Location.Y,
-            Width - Location.X - strokeThickness,
-            Height - Location.X - strokeThickness
+        g.DrawRectangle(
+            Location.X + 1,
+            Location.Y + 1,
+            Width - 1,
+            Height - 1,
+            developerBorderColor,
+            strokeThickness
         );
-        GtkHelpers.cairo_stroke(cr); // Draw border only
     }
 
     protected abstract void DrawBordersLinux(Graphics g);

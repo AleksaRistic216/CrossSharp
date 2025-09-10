@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 
@@ -11,15 +12,9 @@ public partial class PanelControl
     {
         if (g.ContextHandle == IntPtr.Zero)
             return;
-        GtkHelpers.cairo_set_source_rgba(
-            g.ContextHandle,
-            BackgroundColor.R,
-            BackgroundColor.G,
-            BackgroundColor.B,
-            BackgroundColor.A
-        );
-        GtkHelpers.cairo_rectangle(g.ContextHandle, Location.X, Location.Y, Width, Height);
-        GtkHelpers.cairo_fill(g.ContextHandle);
+
+        g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
+        // g.FillRectangle(Location.X, Location.Y, 100, 100, Color.Green);
     }
 
     protected override void DrawBordersLinux(Graphics g) { }
