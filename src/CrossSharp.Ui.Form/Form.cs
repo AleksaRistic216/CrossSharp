@@ -1,43 +1,5 @@
-﻿using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
-using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Interfaces;
+﻿using CrossSharp.Ui.Base;
+
 namespace CrossSharp.Ui;
 
-public partial class Form : ILocationProvider, ISizeProvider {
-    protected Form() {
-        _appInstance = ServicesPool.GetSingleton<IApplication>();
-        ParentHandle = _appInstance.MainWindowHandle;
-        Initialize();
-    }
-    void Initialize() {switch(PlatformHelpers.GetCurrentPlatform()) {
-            case CrossPlatformType.Windows:
-                throw new NotImplementedException();
-            case CrossPlatformType.Linux:
-                InitializeLinux();
-                break;
-            case CrossPlatformType.MacOs:
-                throw new NotImplementedException();
-            case CrossPlatformType.Undefined:
-            default:
-                throw new PlatformNotSupportedException("The current platform is not supported.");
-        }
-    }
-    public void Show() {
-        switch(PlatformHelpers.GetCurrentPlatform()) {
-            case CrossPlatformType.Windows:
-                throw new NotImplementedException();
-            case CrossPlatformType.Linux:
-                ShowLinux();
-                break;
-            case CrossPlatformType.MacOs:
-                throw new NotImplementedException();
-            case CrossPlatformType.Undefined:
-            default:
-                throw new PlatformNotSupportedException("The current platform is not supported.");
-        }
-    }
-    public void Dispose() {
-        DisposeLinux();
-    }
-}
+public partial class Form : FormBase;

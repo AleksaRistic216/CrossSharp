@@ -1,5 +1,8 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IApplication {
-    public IntPtr MainWindowHandle { get; internal set; }
+public interface IApplication
+{
+    IntPtr MainWindowHandle { get; internal set; }
+    bool DevelopersMode { get; set; }
+    EventHandler? DevelopersModeChanged { get; set; }
 }

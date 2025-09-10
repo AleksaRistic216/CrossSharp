@@ -4,7 +4,6 @@ using CrossSharp.Utils.Interfaces;
 namespace CrossSharp.Ui;
 
 public partial class Label : Control {
-    
     public Label() {
         Initialize();
     }
@@ -22,6 +21,7 @@ public partial class Label : Control {
                 throw new PlatformNotSupportedException("The current platform is not supported.");
         }
     }
+    public override void Invalidate() { }
     public override void Show() {
         switch(PlatformHelpers.GetCurrentPlatform()) {
             case CrossPlatformType.Windows:
@@ -35,8 +35,5 @@ public partial class Label : Control {
             default:
                 throw new PlatformNotSupportedException("The current platform is not supported.");
         }
-    }
-    public void Dispose() {
-        DisposeLinux();
     }
 }

@@ -1,23 +1,34 @@
 using System.Drawing;
 using CrossSharp.Ui;
+
 namespace FirstDemo;
 
-public class MainForm : Form {
-    public MainForm() {
+public class MainForm : Form
+{
+    public MainForm()
+    {
         this.Width = 800;
         this.Height = 800;
         this.OnShow += MainForm_OnShow;
     }
-    void MainForm_OnShow(object? sender, EventArgs e) {
-        var panel = new PanelControl() {
-            Width = 100,
-            Height = 100,
-            Location = new Point(50, 50)
+
+    void MainForm_OnShow(object? sender, EventArgs e)
+    {
+        // var panel = new PanelControl()
+        // {
+        //     Width = 100,
+        //     Height = 100,
+        //     Location = new Point(0, 0),
+        //     BackgroundColor = Color.Blue,
+        // };
+        // this.Controls.Add(panel);
+        var panel1 = new PanelControl()
+        {
+            Width = 250,
+            Height = 250,
+            Location = new Point(200, 200),
+            BackgroundColor = Color.Orange,
         };
-        this.Controls.Add(panel);
-        Task.Run(() => {
-            Thread.Sleep(2000);
-            panel.Location = new Point(80, 80);
-        });
+        this.Controls.Add(panel1);
     }
 }

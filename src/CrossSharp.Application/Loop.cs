@@ -1,12 +1,19 @@
 using CrossSharp.Ui;
+using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
+
 namespace CrossSharp.Application;
 
-class Loop : IDisposable {
-    readonly CancellationTokenSource _cts = new ();
-    internal void Run<T>(CrossPlatformType platformType) where T : Form, new() {
+class Loop : IDisposable
+{
+    readonly CancellationTokenSource _cts = new();
+
+    internal void Run<T>()
+        where T : Form, new()
+    {
         _ = InputHandler.StartListeningAsync(_cts.Token);
-        switch (platformType) {
+        switch (PlatformHelpers.GetCurrentPlatform())
+        {
             case CrossPlatformType.Windows:
                 RunWindowsApp<T>();
                 break;
@@ -22,16 +29,26 @@ class Loop : IDisposable {
                 throw new PlatformNotSupportedException("The current platform is not supported.");
         }
     }
-    static void RunMacOsApp<T>() where T : Form {
+
+    static void RunMacOsApp<T>()
+        where T : Form
+    {
         throw new NotImplementedException();
     }
-    static void RunLinuxApp<T>() where T : Form, new() {
+
+    static void RunLinuxApp<T>()
+        where T : Form, new()
+    {
         GtkApplicationRunner.Run<T>();
     }
-    static void RunWindowsApp<T>() where T : Form {
+
+    static void RunWindowsApp<T>()
+        where T : Form
+    {
         throw new NotImplementedException();
         // Bellow is a placeholder for actual Windows Forms application loop
-        Thread thread = new (() => {
+        Thread thread = new(() =>
+        {
             throw new NotImplementedException();
         });
 #pragma warning disable CA1416
@@ -40,7 +57,9 @@ class Loop : IDisposable {
         thread.Start();
         thread.Join();
     }
-    public void Dispose() {
+
+    public void Dispose()
+    {
         _cts.Cancel();
         _cts.Dispose();
         InputHandler.StopListening();

@@ -1,9 +1,9 @@
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Ui.FormTitleBar;
 
-public partial class PanelControl
+public partial class FormTitleBarControl
 {
     protected override void DrawShadowsLinux(Graphics g) { }
 
@@ -18,11 +18,16 @@ public partial class PanelControl
             BackgroundColor.B,
             BackgroundColor.A
         );
-        GtkHelpers.cairo_rectangle(g.ContextHandle, 0, 0, Width, Height);
+        GtkHelpers.cairo_rectangle(g.ContextHandle, Location.X, Location.Y, Width, Height);
         GtkHelpers.cairo_fill(g.ContextHandle);
     }
 
     protected override void DrawBordersLinux(Graphics g) { }
 
     protected override void DrawContentLinux(Graphics g) { }
+
+    public override void Invalidate()
+    {
+        GtkHelpers.gtk_window_set_decorated(Handle, false);
+    }
 }
