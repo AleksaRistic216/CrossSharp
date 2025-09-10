@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Ui.FormTitleBar;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -16,14 +17,15 @@ public abstract class FormBase : IForm
     };
     public IntPtr Handle
     {
-        get => _formImpl.Handle;
-        set { _formImpl.Handle = value; }
+        get => ((IControl)_formImpl).Handle;
+        set { ((IControl)_formImpl).Handle = value; }
     }
     public IntPtr ParentHandle
     {
         get => _formImpl.ParentHandle;
         set { _formImpl.ParentHandle = value; }
     }
+    public ITitleBar TitleBar => _formImpl.TitleBar;
     public IApplication AppInstance => _formImpl.AppInstance;
     public IControlsContainer Controls => _formImpl.Controls;
     public bool Visible

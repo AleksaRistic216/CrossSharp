@@ -7,13 +7,13 @@ namespace CrossSharp.Ui;
 public class ControlsContainer : IControlsContainer
 {
     GtkWidget _widget;
-    public IntPtr Handle { get; }
+    public IntPtr Handle { get; internal set; }
     public List<IControl> Items { get; } = [];
 
-    public ControlsContainer(IntPtr windowHandler, ISizeProvider sizeProvider)
+    public ControlsContainer(IntPtr parentHandle, ISizeProvider sizeProvider)
     {
         Handle = GtkHelpers.gtk_fixed_new();
-        GtkHelpers.gtk_window_set_child(windowHandler, Handle);
+        GtkHelpers.gtk_window_set_child(parentHandle, Handle);
         _widget = new PanelControl
         {
             ParentHandle = Handle,
@@ -29,7 +29,7 @@ public class ControlsContainer : IControlsContainer
         };
     }
 
-    public void Show()
+    public virtual void Show()
     {
         GtkHelpers.gtk_widget_show(Handle);
         _widget.Show();

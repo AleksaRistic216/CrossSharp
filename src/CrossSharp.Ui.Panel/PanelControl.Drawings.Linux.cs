@@ -14,7 +14,6 @@ public partial class PanelControl
             return;
 
         g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
-        // g.FillRectangle(Location.X, Location.Y, 100, 100, Color.Green);
     }
 
     protected override void DrawBordersLinux(Graphics g) { }

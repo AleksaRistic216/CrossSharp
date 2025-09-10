@@ -1,5 +1,7 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ITitleBarProvider {
+public interface ITitleBarProvider
+{
+    IntPtr Handle { get; }
     ITitleBar TitleBar { get; }
 }

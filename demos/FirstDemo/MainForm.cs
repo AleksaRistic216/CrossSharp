@@ -14,14 +14,14 @@ public class MainForm : Form
 
     void MainForm_OnShow(object? sender, EventArgs e)
     {
-        // var panel = new PanelControl()
-        // {
-        //     Width = 100,
-        //     Height = 100,
-        //     Location = new Point(0, 0),
-        //     BackgroundColor = Color.Blue,
-        // };
-        // this.Controls.Add(panel);
+        var panel = new PanelControl()
+        {
+            Width = 100,
+            Height = 100,
+            Location = new Point(0, 0),
+            BackgroundColor = Color.Purple,
+        };
+        this.Controls.Add(panel);
         var panel1 = new PanelControl()
         {
             Width = 250,

@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IForm : IControl, ISizeProvider, ILocationProvider
+public interface IForm : IControl, ISizeProvider, ILocationProvider, ITitleBarProvider
 {
     string Title { get; set; }
     IApplication AppInstance { get; }

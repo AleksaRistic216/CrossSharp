@@ -1,3 +1,5 @@
+using CrossSharp.Ui.FormTitleBar;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -17,7 +19,7 @@ partial class FormLinux : IForm
     {
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this);
-        GtkHelpers.gtk_window_set_title(Handle, Title);
+        TitleBar = new FormTitleBarControl(this, Controls.Handle, this);
         SubscribeToGtkSignals();
     }
 
@@ -60,6 +62,7 @@ partial class FormLinux : IForm
     {
         GtkHelpers.gtk_widget_show(Handle);
         Controls.Show();
+        TitleBar.Show();
     }
 
     public void Dispose()

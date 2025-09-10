@@ -1,13 +1,21 @@
 using System.Drawing;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils.Gtk;
 
 public abstract class GtkWidget : Control
 {
     public override IntPtr Handle { get; set; } = GtkHelpers.gtk_drawing_area_new();
-    Graphics _g;
+    Graphics? _g;
+    readonly IApplication _application;
+
+    protected GtkWidget()
+    {
+        _application = ServicesPool.GetSingleton<IApplication>();
+    }
 
     public override void Initialize()
     {
@@ -28,11 +36,11 @@ public abstract class GtkWidget : Control
     void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data)
     {
         _g = new Graphics(cr, this, this);
-        DrawShadows(_g);
-        DrawBackground(_g);
-        DrawBorders(_g);
-        DrawContent(_g);
-        _g.Dispose();
+        DrawShadows(_g!);
+        DrawBackground(_g!);
+        DrawBorders(_g!);
+        DrawContent(_g!);
+        _g!.Dispose();
     }
 
     void DrawShadows(Graphics g)
@@ -103,6 +111,8 @@ public abstract class GtkWidget : Control
 
     void DrawDevelopersBordersLinux(Graphics g)
     {
+        if (_application.DevelopersMode == false)
+            return;
         Color developerBorderColor = Color.Green;
         const float strokeThickness = 2.0f;
         g.DrawRectangle(

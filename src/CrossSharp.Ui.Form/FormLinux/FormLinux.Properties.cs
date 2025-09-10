@@ -1,4 +1,6 @@
 using System.Drawing;
+using CrossSharp.Ui.FormTitleBar;
+using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.FormLinux;
@@ -9,9 +11,22 @@ partial class FormLinux
     int _width = 800;
     int _height = 600;
     Point _location = new(100, 100);
+    string _title = "Form";
     #endregion
     #region exposed
-    public string Title { get; set; } = "Form";
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            if (_title == value)
+                return;
+            _title = value;
+            if (Handle != IntPtr.Zero)
+                GtkHelpers.gtk_window_set_title(Handle, _title);
+        }
+    }
+    public ITitleBar TitleBar { get; private set; }
     public IApplication AppInstance { get; }
     public IControlsContainer Controls { get; private set; }
     public IntPtr Handle { get; set; }

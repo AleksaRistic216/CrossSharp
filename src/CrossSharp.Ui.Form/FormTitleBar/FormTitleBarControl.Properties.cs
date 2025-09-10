@@ -1,5 +1,5 @@
-using System.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.FormTitleBar;
 
@@ -7,7 +7,12 @@ public partial class FormTitleBarControl
 {
     #region private
     TitleBarType _type = TitleBarType.CrossSharp;
+    PanelControl _panelControl;
+    ITitleBarProvider _titleBarProvider;
+    int _height = 36;
     #endregion
+
+    #region exposed
     public TitleBarType Type
     {
         get => _type;
@@ -19,8 +24,6 @@ public partial class FormTitleBarControl
             RaiseTypeChanged();
         }
     }
-    public IntPtr Handle { get; set; }
-    public IntPtr ParentHandle { get; set; }
-    public bool Visible { get; set; }
-    public Color BackgroundColor { get; set; } = Color.Green;
+    public int Height { get; set; }
+    #endregion
 }
