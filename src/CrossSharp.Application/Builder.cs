@@ -16,9 +16,11 @@ public class Builder
         switch(PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
-                throw new NotImplementedException(),
-                    
-            CrossPlatformType.Linux => AddSingleton<IFormFactory, FormFactory>(),
+                throw new NotImplementedException();
+                break;
+            case CrossPlatformType.Linux:
+                AddSingleton<IFormFactory, FormLinuxFactory>();
+            CrossPlatformType.Linux => AddSingleton<IFormFactory, FormLinuxFactory>(),
             CrossPlatformType.MacOs => throw new NotImplementedException(),
             _ => throw new NotSupportedException("Current platform is not supported"),
         };

@@ -2,7 +2,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class FormFactory : IFormFactory
+public class FormLinuxFactory : IFormFactory
 {
     public IForm Create()
     {
