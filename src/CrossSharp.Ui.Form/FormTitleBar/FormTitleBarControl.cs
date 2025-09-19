@@ -1,41 +1,38 @@
 using System.Drawing;
 using CrossSharp.Utils.Gtk;
-using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.FormTitleBar;
 
-public partial class FormTitleBarControl : ITitleBar
+public partial class FormTitleBarControl : IBoundsProvider, ITitleBar, IMouseTargetable
 {
-    public FormTitleBarControl(
-        ITitleBarProvider titleBarProvider,
-        IntPtr container,
-        ISizeProvider sizeProvider
-    )
+    public FormTitleBarControl(IForm form)
     {
-        _titleBarProvider = titleBarProvider;
-        _panelControl = new PanelControl
+        InitializeInputHandler();
+        SubscribeToInputEvents();
+        _titleBarProvider = form;
+        _mainPanel = new PanelControl
         {
-            ParentHandle = container,
-            Parent = container,
+            ParentHandle = form.Controls.Handle,
+            Parent = form.Controls.Handle,
             BackgroundColor = Color.Gray,
-            Width = sizeProvider.Width,
+            Width = form.Width,
             Height = _height,
         };
-        _panelControl.Initialize();
+        _mainPanel.Initialize();
         _applicationButtonsPanel = new PanelControl()
         {
-            ParentHandle = container,
-            Parent = container,
+            ParentHandle = form.Controls.Handle,
+            Parent = form.Controls.Handle,
             BackgroundColor = Color.Orange,
             Width = 150,
             Height = _height,
-            Location = new Point(sizeProvider.Width - 150, 0),
+            Location = new Point(form.Width - 150, 0),
         };
         _applicationButtonsPanel.Initialize();
-        sizeProvider.OnSizeChanged += (s, e) =>
+        form.OnSizeChanged += (s, e) =>
         {
-            _panelControl.Width = e.Width;
+            Width = e.Width;
             _applicationButtonsPanel.Location = new Point(e.Width - 150, 0);
             Invalidate();
         };
@@ -44,7 +41,7 @@ public partial class FormTitleBarControl : ITitleBar
 
     public void Show()
     {
-        _panelControl.Show();
+        _mainPanel.Show();
         _applicationButtonsPanel.Show();
     }
 

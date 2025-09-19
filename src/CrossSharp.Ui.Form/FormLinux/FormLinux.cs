@@ -25,7 +25,7 @@ partial class FormLinux : IForm
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this);
         Controls.Parent = this;
-        TitleBar = new FormTitleBarControl(this, Controls.Handle, this);
+        TitleBar = new FormTitleBarControl(this);
         SubscribeToGtkSignals();
         OnLocationChanged += (s, e) =>
         {
@@ -76,6 +76,8 @@ partial class FormLinux : IForm
 
     void UpdatePositionX11()
     {
+        if (WindowSurfaceHandle == IntPtr.Zero)
+            return;
         uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
         if (x11Surface == 0)
             return;

@@ -1,17 +1,19 @@
-using CrossSharp.Utils;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 using SharpHook;
+using SharpHook.Data;
 
 namespace CrossSharp.Application;
 
 class InputHandler : IInputHandler
 {
     readonly SimpleGlobalHook _hook = new();
-    public event EventHandler<InputArgs>? KeyPressed;
-    public event EventHandler<InputArgs>? MousePressed;
-    public event EventHandler<MouseMoveInputArgs>? MouseMoved;
-    public event EventHandler<InputArgs>? MouseWheel;
+    public event EventHandler<object>? KeyPressed;
+    public event EventHandler<MouseInputArgs>? MousePressed;
+    public event EventHandler<MouseInputArgs>? MouseReleased;
+    public event EventHandler<MouseInputArgs>? MouseMoved;
+    public event EventHandler<MouseInputArgs>? MouseWheel;
+    public event EventHandler<MouseInputArgs>? MouseDragged;
 
     internal Task StartListeningAsync(CancellationToken token)
     {
@@ -22,8 +24,10 @@ class InputHandler : IInputHandler
             {
                 _hook.KeyPressed += OnKeyPressed;
                 _hook.MousePressed += OnMousePressed;
+                _hook.MouseReleased += OnMouseReleased;
                 _hook.MouseMoved += OnMouseMoved;
                 _hook.MouseWheel += OnMouseWheel;
+                _hook.MouseDragged += OnMouseDragged;
                 _hook.RunAsync();
             },
             token
@@ -37,23 +41,36 @@ class InputHandler : IInputHandler
 
     void OnMousePressed(object? sender, HookEventArgs e)
     {
-        MousePressed?.Invoke(sender, null);
+        var castedE = e as MouseHookEventArgs;
+        var args = new MouseInputArgs
+        {
+            Button = ToCrossSharpMouseButton(castedE!.Data.Button),
+            X = castedE.Data.X,
+            Y = castedE.Data.Y,
+            Clicks = castedE.Data.Clicks,
+        };
+        MousePressed?.Invoke(sender, args);
+    }
+
+    void OnMouseReleased(object? sender, HookEventArgs e)
+    {
+        var castedE = e as MouseHookEventArgs;
+        var args = new MouseInputArgs
+        {
+            Button = ToCrossSharpMouseButton(castedE!.Data.Button),
+            X = castedE.Data.X,
+            Y = castedE.Data.Y,
+            Clicks = castedE.Data.Clicks,
+        };
+        MousePressed?.Invoke(sender, args);
     }
 
     void OnMouseMoved(object? sender, HookEventArgs e)
     {
         var castedE = e as MouseHookEventArgs;
-        var args = new MouseMoveInputArgs()
+        var args = new MouseInputArgs
         {
-            Button = castedE.Data.Button switch
-            {
-                SharpHook.Data.MouseButton.Button1 => Utils.Enums.MouseButton.Left,
-                SharpHook.Data.MouseButton.Button2 => Utils.Enums.MouseButton.Right,
-                SharpHook.Data.MouseButton.Button3 => throw new NotImplementedException(),
-                SharpHook.Data.MouseButton.Button4 => throw new NotImplementedException(),
-                SharpHook.Data.MouseButton.Button5 => throw new NotImplementedException(),
-                _ => Utils.Enums.MouseButton.None,
-            },
+            Button = ToCrossSharpMouseButton(castedE!.Data.Button),
             X = castedE.Data.X,
             Y = castedE.Data.Y,
             Clicks = castedE.Data.Clicks,
@@ -66,10 +83,31 @@ class InputHandler : IInputHandler
         MouseWheel?.Invoke(sender, null);
     }
 
+    void OnMouseDragged(object? sender, HookEventArgs e)
+    {
+        var castedE = e as MouseHookEventArgs;
+        var args = new MouseInputArgs
+        {
+            Button = ToCrossSharpMouseButton(castedE!.Data.Button),
+            X = castedE.Data.X,
+            Y = castedE.Data.Y,
+            Clicks = castedE.Data.Clicks,
+        };
+        MouseDragged?.Invoke(sender, args);
+    }
+
     internal void StopListening()
     {
         if (!_hook.IsRunning)
             throw new InvalidOperationException("InputHandler hook is not running.");
         _hook.Stop();
     }
+
+    static CrossSharp.Utils.Enums.MouseButton ToCrossSharpMouseButton(MouseButton button) =>
+        button switch
+        {
+            SharpHook.Data.MouseButton.Button1 => CrossSharp.Utils.Enums.MouseButton.Left,
+            SharpHook.Data.MouseButton.Button2 => CrossSharp.Utils.Enums.MouseButton.Right,
+            _ => CrossSharp.Utils.Enums.MouseButton.None,
+        };
 }

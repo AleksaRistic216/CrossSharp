@@ -9,6 +9,7 @@ public class MainForm : Form
     {
         this.Width = 800;
         this.Height = 800;
+        this.Location = new Point(0, 0);
         this.OnShow += MainForm_OnShow;
     }
 
@@ -38,6 +39,6 @@ public class MainForm : Form
         };
         Controls.Add(button);
 
-        this.Location = new Point(100, 101);
+        this.Location = new Point(0, 1000);
     }
 }

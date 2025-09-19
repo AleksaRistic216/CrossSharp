@@ -4,8 +4,10 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface IInputHandler
 {
-    event EventHandler<InputArgs>? KeyPressed;
-    event EventHandler<InputArgs>? MousePressed;
-    event EventHandler<MouseMoveInputArgs>? MouseMoved;
-    event EventHandler<InputArgs>? MouseWheel;
+    event EventHandler<object>? KeyPressed;
+    event EventHandler<MouseInputArgs>? MousePressed;
+    event EventHandler<MouseInputArgs>? MouseReleased;
+    event EventHandler<MouseInputArgs>? MouseMoved;
+    event EventHandler<MouseInputArgs>? MouseWheel;
+    event EventHandler<MouseInputArgs>? MouseDragged;
 }
