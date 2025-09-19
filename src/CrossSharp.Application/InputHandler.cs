@@ -1,37 +1,57 @@
+using CrossSharp.Utils;
+using CrossSharp.Utils.Interfaces;
 using SharpHook;
+
 namespace CrossSharp.Application;
 
-internal static class InputHandler {
-    static readonly SimpleGlobalHook _hook = new ();
-    internal static event EventHandler<HookEventArgs>? KeyPressed;
-    internal static event EventHandler<HookEventArgs>? MousePressed;
-    internal static event EventHandler<HookEventArgs>? MouseMoved;
-    internal static event EventHandler<HookEventArgs>? MouseWheel;
-    internal static Task StartListeningAsync(CancellationToken token) {
-        if(_hook.IsRunning)
+class InputHandler : IInputHandler
+{
+    readonly SimpleGlobalHook _hook = new();
+    public event EventHandler<InputArgs>? KeyPressed;
+    public event EventHandler<InputArgs>? MousePressed;
+    public event EventHandler<InputArgs>? MouseMoved;
+    public event EventHandler<InputArgs>? MouseWheel;
+
+    internal Task StartListeningAsync(CancellationToken token)
+    {
+        if (_hook.IsRunning)
             throw new InvalidOperationException("InputHandler hook is already running.");
-        return Task.Run(() => {
-            _hook.KeyPressed += OnKeyPressed;
-            _hook.MousePressed += OnMousePressed;
-            _hook.MouseMoved += OnMouseMoved;
-            _hook.MouseWheel += OnMouseWheel;
-            _hook.RunAsync();
-        }, token);
+        return Task.Run(
+            () =>
+            {
+                _hook.KeyPressed += OnKeyPressed;
+                _hook.MousePressed += OnMousePressed;
+                _hook.MouseMoved += OnMouseMoved;
+                _hook.MouseWheel += OnMouseWheel;
+                _hook.RunAsync();
+            },
+            token
+        );
     }
-    static void OnKeyPressed(object? sender, HookEventArgs e) {
-        KeyPressed?.Invoke(sender, e);
+
+    void OnKeyPressed(object? sender, HookEventArgs e)
+    {
+        KeyPressed?.Invoke(sender, null);
     }
-    static void OnMousePressed(object? sender, HookEventArgs e) {
-        MousePressed?.Invoke(sender, e);
+
+    void OnMousePressed(object? sender, HookEventArgs e)
+    {
+        MousePressed?.Invoke(sender, null);
     }
-    static void OnMouseMoved(object? sender, HookEventArgs e) {
-        MouseMoved?.Invoke(sender, e);
+
+    void OnMouseMoved(object? sender, HookEventArgs e)
+    {
+        MouseMoved?.Invoke(sender, null);
     }
-    static void OnMouseWheel(object? sender, HookEventArgs e) {
-        MouseWheel?.Invoke(sender, e);
+
+    void OnMouseWheel(object? sender, HookEventArgs e)
+    {
+        MouseWheel?.Invoke(sender, null);
     }
-    public static void StopListening() {
-        if(!_hook.IsRunning)
+
+    internal void StopListening()
+    {
+        if (!_hook.IsRunning)
             throw new InvalidOperationException("InputHandler hook is not running.");
         _hook.Stop();
     }

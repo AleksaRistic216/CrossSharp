@@ -1,6 +1,4 @@
-using System.Drawing;
 using CrossSharp.Utils.Drawing;
-using CrossSharp.Utils.Gtk;
 
 namespace CrossSharp.Ui;
 

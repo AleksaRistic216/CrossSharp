@@ -1,5 +1,6 @@
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Application;
@@ -11,7 +12,9 @@ class Loop : IDisposable
     internal void Run<T>()
         where T : Form, new()
     {
-        _ = InputHandler.StartListeningAsync(_cts.Token);
+        var ih = new InputHandler();
+        ServicesPool.AddSingleton(ih);
+        _ = ih.StartListeningAsync(_cts.Token);
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
@@ -62,6 +65,7 @@ class Loop : IDisposable
     {
         _cts.Cancel();
         _cts.Dispose();
-        InputHandler.StopListening();
+        var ih = ServicesPool.GetSingleton<InputHandler>();
+        ih.StopListening();
     }
 }

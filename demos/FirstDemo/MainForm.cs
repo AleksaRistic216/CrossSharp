@@ -30,5 +30,12 @@ public class MainForm : Form
             BackgroundColor = Color.Blue,
         };
         Controls.Add(panel1);
+        var button = new CSButton()
+        {
+            Width = 100,
+            Height = 50,
+            Location = new Point(300, 300),
+        };
+        Controls.Add(button);
     }
 }
