@@ -22,9 +22,20 @@ public partial class FormTitleBarControl : ITitleBar
             Height = _height,
         };
         _panelControl.Initialize();
+        _applicationButtonsPanel = new PanelControl()
+        {
+            ParentHandle = container,
+            BackgroundColor = Color.Orange,
+            Width = 150,
+            Height = _height,
+            Location = new Point(sizeProvider.Width - 150, 0),
+        };
+        _applicationButtonsPanel.Initialize();
         sizeProvider.OnSizeChanged += (s, e) =>
         {
             _panelControl.Width = e.Width;
+            _applicationButtonsPanel.Location = new Point(e.Width - 150, 0);
+            Invalidate();
         };
         Invalidate();
     }
@@ -32,6 +43,7 @@ public partial class FormTitleBarControl : ITitleBar
     public void Show()
     {
         _panelControl.Show();
+        _applicationButtonsPanel.Show();
     }
 
     void Invalidate()

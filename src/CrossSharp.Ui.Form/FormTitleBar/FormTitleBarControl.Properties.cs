@@ -8,6 +8,7 @@ public partial class FormTitleBarControl
     #region private
     TitleBarType _type = TitleBarType.CrossSharp;
     PanelControl _panelControl;
+    PanelControl _applicationButtonsPanel;
     ITitleBarProvider _titleBarProvider;
     int _height = 36;
     #endregion
