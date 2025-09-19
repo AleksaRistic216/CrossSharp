@@ -20,9 +20,11 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
 
     public virtual void Dispose()
     {
+        Handle = IntPtr.Zero;
         OnSizeChanged = null;
-        GtkHelpers.gtk_widget_unparent(Handle);
-        GtkHelpers.g_object_unref(Handle);
+        OnShow = null;
+        OnLocationChanged = null;
+        InputHandler.MouseMoved -= OnMouseMoved;
     }
 
     protected void Redraw()

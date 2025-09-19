@@ -1,13 +1,14 @@
-﻿using System.Drawing;
-using CrossSharp.Utils.DI;
+﻿using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public partial class ButtonControl : GtkWidget, IClickable
+public partial class ButtonControl : GtkWidget, IClickable, IBackgroundColorProvider
 {
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.LightGray;
+
     public ButtonControl()
     {
         SubscribeToInputs();
@@ -29,7 +30,7 @@ public partial class ButtonControl : GtkWidget, IClickable
         if (g.ContextHandle == IntPtr.Zero)
             return;
 
-        g.FillRectangle(Location.X, Location.Y, Width, Height, Color.Black);
+        g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
     }
 
     protected override void DrawBackgroundWindows(Graphics g) { }

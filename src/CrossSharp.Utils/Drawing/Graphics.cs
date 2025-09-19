@@ -25,7 +25,7 @@ public class Graphics(
         int y,
         int width,
         int height,
-        Color borderColor,
+        ColorRgba borderColor,
         float borderWidth
     )
     {
@@ -38,7 +38,7 @@ public class Graphics(
         GtkHelpers.cairo_stroke(ContextHandle);
     }
 
-    internal void FillRectangle(int x, int y, int width, int height, Color fillColor)
+    internal void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor)
     {
         if (!ClipRectangle.IntersectsWith(new Rectangle(x, y, width, height)))
             return;
@@ -48,9 +48,16 @@ public class Graphics(
         GtkHelpers.cairo_fill(ContextHandle);
     }
 
-    internal void SetColor(Color color)
+    internal void SetColor(ColorRgba color)
     {
-        GtkHelpers.cairo_set_source_rgba(ContextHandle, color.R, color.G, color.B, color.A);
+        var gtkColor = color.ToGtkRgba();
+        GtkHelpers.cairo_set_source_rgba(
+            ContextHandle,
+            gtkColor.red,
+            gtkColor.green,
+            gtkColor.blue,
+            gtkColor.alpha
+        );
     }
 
     internal void SetClip(int x, int y, int width, int height)

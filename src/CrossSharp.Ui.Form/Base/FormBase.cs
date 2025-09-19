@@ -38,7 +38,15 @@ public abstract class FormBase : IForm
     }
     public ITitleBar TitleBar => _formImpl.TitleBar;
     public IApplication AppInstance => _formImpl.AppInstance;
+
+    public void Close() => _formImpl.Close();
+
     public IControlsContainer Controls => _formImpl.Controls;
+    public int ZIndex
+    {
+        get => _formImpl.ZIndex;
+        set { _formImpl.ZIndex = value; }
+    }
     public bool Visible
     {
         get => _formImpl.Visible;
@@ -55,6 +63,8 @@ public abstract class FormBase : IForm
         get => _formImpl.OnClose;
         set { _formImpl.OnClose = value; }
     }
+
+    public void PerformLayout() => _formImpl.PerformLayout();
 
     public int Width
     {

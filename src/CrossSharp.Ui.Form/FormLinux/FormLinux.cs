@@ -13,12 +13,25 @@ partial class FormLinux : IForm
     public IntPtr DisplayHandle { get; set; }
     public IntPtr WindowSurfaceHandle { get; set; }
 
+    public void Close()
+    {
+        Dispose();
+        GtkHelpers.gtk_window_close(Handle);
+    }
+
+    public void PerformLayout()
+    {
+        Controls.Redraw();
+    }
+
     public FormLinux()
     {
         AppInstance = ServicesPool.GetSingleton<IApplication>();
         ParentHandle = AppInstance.MainWindowHandle;
         Initialize();
     }
+
+    public int ZIndex { get; set; }
 
     public void Initialize()
     {
@@ -112,8 +125,6 @@ partial class FormLinux : IForm
 
     public void Dispose()
     {
-        // GtkHelpers.gtk_widget_unparent(Handle);
-        // GtkHelpers.g_object_unref(Handle);
-        // Controls.Dispose();
+        Controls.Dispose();
     }
 }

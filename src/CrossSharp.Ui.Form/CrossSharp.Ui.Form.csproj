@@ -6,6 +6,7 @@
     <RootNamespace>CrossSharp.Ui</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>

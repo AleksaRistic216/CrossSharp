@@ -7,6 +7,8 @@ namespace CrossSharp.Ui.FormTitleBar;
 public partial class FormTitleBarControl
 {
     #region private
+    static int _height = 36;
+    static int _applicationButtonWidth = 36;
     const int MOVEMENT_TRESHOLD = 5;
     const float MOVEMENT_FPS = 60;
     DateTime _lastDragTime = DateTime.MinValue;
@@ -15,8 +17,8 @@ public partial class FormTitleBarControl
     TitleBarType _type = TitleBarType.CrossSharp;
     PanelControl _mainPanel;
     PanelControl _applicationButtonsPanel;
-    ITitleBarProvider _titleBarProvider;
-    int _height = 36;
+    ButtonControl _closeButton;
+    IForm _form;
     int _width = 0;
     Point? _mouseDownMousePosition;
     Point? _mouseDownFormPosition;

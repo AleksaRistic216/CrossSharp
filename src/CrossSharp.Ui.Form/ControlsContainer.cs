@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -20,7 +21,7 @@ public class ControlsContainer : IControlsContainer
         _widget = new PanelControl
         {
             ParentHandle = Handle,
-            BackgroundColor = Color.Red,
+            BackgroundColor = ColorRgba.Red,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height,
         };
@@ -42,8 +43,8 @@ public class ControlsContainer : IControlsContainer
 
     public void Dispose()
     {
-        GtkHelpers.gtk_widget_unparent(Handle);
-        GtkHelpers.g_object_unref(Handle);
+        foreach (IControl item in Items)
+            item.Dispose();
     }
 
     public void Add(IControl control)
@@ -52,5 +53,11 @@ public class ControlsContainer : IControlsContainer
         control.ParentHandle = Handle;
         control.Parent = this;
         control.Initialize();
+    }
+
+    public void Redraw()
+    {
+        // foreach (IControl item in Items.OrderBy(x => x.ZIndex))
+        //     item.Show();
     }
 }

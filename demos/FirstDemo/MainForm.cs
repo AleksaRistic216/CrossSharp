@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Ui;
+using CrossSharp.Utils;
 
 namespace FirstDemo;
 
@@ -20,7 +21,7 @@ public class MainForm : Form
             Width = 100,
             Height = 100,
             Location = new Point(0, 0),
-            BackgroundColor = Color.Purple,
+            BackgroundColor = ColorRgba.Purple,
         };
         this.Controls.Add(panel);
         var panel1 = new PanelControl()
@@ -28,7 +29,7 @@ public class MainForm : Form
             Width = 250,
             Height = 250,
             Location = new Point(200, 200),
-            BackgroundColor = Color.Blue,
+            BackgroundColor = ColorRgba.Blue,
         };
         Controls.Add(panel1);
         var button = new ButtonControl()
@@ -40,7 +41,7 @@ public class MainForm : Form
         Controls.Add(button);
         button.OnClick += (s, e) =>
         {
-            panel.BackgroundColor = Color.Red;
+            panel.BackgroundColor = ColorRgba.Red;
             panel.Invalidate();
         };
     }

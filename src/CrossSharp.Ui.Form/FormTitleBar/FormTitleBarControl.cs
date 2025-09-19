@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -8,45 +9,71 @@ public partial class FormTitleBarControl : IBoundsProvider, ITitleBar, IMouseTar
 {
     public FormTitleBarControl(IForm form)
     {
+        _form = form;
         InitializeInputHandler();
         SubscribeToInputEvents();
-        _titleBarProvider = form;
-        _mainPanel = new PanelControl
-        {
-            ParentHandle = form.Controls.Handle,
-            Parent = form.Controls.Handle,
-            BackgroundColor = Color.Gray,
-            Width = form.Width,
-            Height = _height,
-        };
-        _mainPanel.Initialize();
-        _applicationButtonsPanel = new PanelControl()
-        {
-            ParentHandle = form.Controls.Handle,
-            Parent = form.Controls.Handle,
-            BackgroundColor = Color.Orange,
-            Width = 150,
-            Height = _height,
-            Location = new Point(form.Width - 150, 0),
-        };
-        _applicationButtonsPanel.Initialize();
+        InitializeMainPanel();
+        InitializeWindowButtons();
         form.OnSizeChanged += (s, e) =>
         {
             Width = e.Width;
-            _applicationButtonsPanel.Location = new Point(e.Width - 150, 0);
             Invalidate();
         };
         Invalidate();
+    }
+
+    void InitializeMainPanel()
+    {
+        _mainPanel = new PanelControl
+        {
+            ParentHandle = _form.Controls.Handle,
+            Parent = _form,
+            BackgroundColor = ColorRgba.Gray,
+            Width = _form.Width,
+            Height = _height,
+        };
+        _mainPanel.Initialize();
+    }
+
+    void InitializeWindowButtons()
+    {
+        _applicationButtonsPanel = new PanelControl
+        {
+            ParentHandle = _form.Controls.Handle,
+            Parent = _form,
+            BackgroundColor = ColorRgba.Transparent,
+            Width = _applicationButtonWidth * 1,
+            Height = _height,
+        };
+        _applicationButtonsPanel.Initialize();
+
+        _closeButton = new ButtonControl
+        {
+            ParentHandle = _form.Controls.Handle,
+            Parent = _form,
+            BackgroundColor = ColorRgba.Red,
+            Width = _applicationButtonWidth,
+            Height = _height,
+            OnClick = (s, e) =>
+            {
+                _form.Close();
+            },
+        };
+        _closeButton.Initialize();
     }
 
     public void Show()
     {
         _mainPanel.Show();
         _applicationButtonsPanel.Show();
+        _closeButton.Show();
     }
 
     void Invalidate()
     {
-        GtkHelpers.gtk_window_set_decorated(_titleBarProvider.Handle, false);
+        IRelativeHandle parentHandle = _form;
+        GtkHelpers.gtk_window_set_decorated(parentHandle.Handle, false);
+        _applicationButtonsPanel.Location = new Point(Width - _applicationButtonWidth * 1, 0);
+        _closeButton.Location = new Point(Width - _applicationButtonWidth, 0);
     }
 }

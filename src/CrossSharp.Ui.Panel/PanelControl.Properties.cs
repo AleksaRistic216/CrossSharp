@@ -1,14 +1,19 @@
 using System.Drawing;
+using CrossSharp.Utils;
+
 namespace CrossSharp.Ui;
 
-public partial class PanelControl {
+public partial class PanelControl
+{
     #region private
-    Color _backgroundColor = Color.Transparent;
+    ColorRgba _backgroundColor = ColorRgba.Transparent;
     #endregion
     #region exposed
-    public Color BackgroundColor {
+    public ColorRgba BackgroundColor
+    {
         get => _backgroundColor;
-        set {
+        set
+        {
             if (_backgroundColor == value)
                 return;
             _backgroundColor = value;

@@ -1,4 +1,3 @@
-using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
@@ -113,7 +112,7 @@ public abstract class GtkWidget : Control
     {
         if (_application.DevelopersMode == false)
             return;
-        Color developerBorderColor = Color.Green;
+        ColorRgba developerBorderColor = ColorRgba.Green;
         const float strokeThickness = 2.0f;
         g.DrawRectangle(
             Location.X + 1,
@@ -152,9 +151,5 @@ public abstract class GtkWidget : Control
     protected abstract void DrawContentWindows(Graphics g);
     protected abstract void DrawContentMacOs(Graphics g);
 
-    public override void Dispose()
-    {
-        GtkHelpers.gtk_widget_unparent(Handle);
-        GtkHelpers.g_object_unref(Handle);
-    }
+    public override void Dispose() { }
 }

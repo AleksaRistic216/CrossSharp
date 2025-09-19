@@ -1,4 +1,5 @@
-﻿using CrossSharp.Application.Constants;
+﻿using System.Diagnostics;
+using CrossSharp.Application.Constants;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -31,6 +32,12 @@ public class Builder
     public void Run<T>()
         where T : Form, new()
     {
+        AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
+        {
+            Console.WriteLine(e.Exception);
+            Debugger.Break();
+        };
+
         GeneralConstants.AppLoop.Run<T>();
     }
 

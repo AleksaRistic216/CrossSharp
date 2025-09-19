@@ -100,6 +100,9 @@ static class GtkHelpers
     internal static extern IntPtr gtk_window_new(int type);
 
     [DllImport(GTK)]
+    internal static extern IntPtr gtk_window_close(IntPtr window);
+
+    [DllImport(GTK)]
     internal static extern void gtk_window_present(IntPtr window);
 
     [DllImport(GTK)]

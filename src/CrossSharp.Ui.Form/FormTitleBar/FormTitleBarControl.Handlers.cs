@@ -34,7 +34,7 @@ public partial class FormTitleBarControl
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
         _mouseDownMousePosition = new Point(e.X, e.Y);
-        _mouseDownFormPosition = _titleBarProvider.Location;
+        _mouseDownFormPosition = _form.Location;
     }
 
     void OnMouseReleased(object? sender, MouseInputArgs e)
@@ -42,7 +42,7 @@ public partial class FormTitleBarControl
         _mouseDownMousePosition = null;
         _mouseDownFormPosition = null;
 
-        if (_titleBarProvider is not IForm form)
+        if (_form is not IForm form)
             return;
         if (form.WindowSurfaceHandle == IntPtr.Zero)
             return;
@@ -60,7 +60,7 @@ public partial class FormTitleBarControl
 
     void OnMouseMoved(object? sender, MouseInputArgs e)
     {
-        var formLocation = _titleBarProvider.Location;
+        var formLocation = _form.Location;
         var bounds = new Rectangle(formLocation.X, formLocation.Y, _width, _height);
         IsMouseOver = bounds.Contains(e.X, e.Y);
     }
@@ -85,6 +85,6 @@ public partial class FormTitleBarControl
             _mouseDownFormPosition.Value.X + _deltaX,
             _mouseDownFormPosition.Value.Y + _deltaY
         );
-        _titleBarProvider.Location = newLocation;
+        _form.Location = newLocation;
     }
 }

@@ -74,5 +74,6 @@ public partial class Control
             Redraw();
         }
     }
+    public int ZIndex { get; set; } = 0;
     #endregion
 }
