@@ -31,12 +31,17 @@ public class MainForm : Form
             BackgroundColor = Color.Blue,
         };
         Controls.Add(panel1);
-        var button = new CSButton()
+        var button = new ButtonControl()
         {
             Width = 100,
             Height = 50,
             Location = new Point(300, 300),
         };
         Controls.Add(button);
+        button.OnClick += (s, e) =>
+        {
+            panel.BackgroundColor = Color.Red;
+            panel.Invalidate();
+        };
     }
 }

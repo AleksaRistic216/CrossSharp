@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils.Gtk;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
@@ -16,6 +17,9 @@ public partial class Control
     #endregion
 
     #region exposed
+    internal IInputHandler InputHandler { get; set; }
+
+    public bool IsMouseOver { get; internal set; }
     public IntPtr ParentHandle { get; set; }
     public object Parent { get; set; }
     public bool Visible { get; set; }

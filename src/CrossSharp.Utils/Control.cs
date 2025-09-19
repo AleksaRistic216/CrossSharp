@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -10,6 +11,12 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
     public abstract void Invalidate();
     public abstract void Show();
     public EventHandler? OnShow { get; set; }
+
+    protected Control()
+    {
+        InputHandler = ServicesPool.GetSingleton<IInputHandler>();
+        SubscribeToInputEvents();
+    }
 
     public virtual void Dispose()
     {
@@ -24,7 +31,7 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
             GtkHelpers.gtk_widget_queue_draw(Handle);
     }
 
-    public IForm GetForm()
+    public IForm? GetForm()
     {
         IRelativeHandle obj = this;
         while (true)
@@ -38,9 +45,7 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
                     obj = rh;
                     continue;
             }
-            throw new Exception(
-                "I hope I do not get here but I expect to cuz I have no idea what to set here..."
-            );
+            return null;
         }
     }
 
@@ -72,6 +77,8 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
     public Rectangle GetScreenBounds()
     {
         IForm form = GetForm();
+        if (form == null)
+            return Rectangle.Empty;
         var formRelativeBounds = GetFormRelativeBounds();
         return new Rectangle(
             form.Location.X + formRelativeBounds.X,

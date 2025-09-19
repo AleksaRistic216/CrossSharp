@@ -1,0 +1,20 @@
+using CrossSharp.Utils.Input;
+
+namespace CrossSharp.Ui;
+
+public partial class ButtonControl
+{
+    public EventHandler? OnClick { get; set; }
+
+    void SubscribeToInputs()
+    {
+        InputHandler.MousePressed += OnMousePressed;
+    }
+
+    void OnMousePressed(object? sender, MouseInputArgs e)
+    {
+        if (!IsMouseOver)
+            return;
+        OnClick?.Invoke(this, EventArgs.Empty);
+    }
+}

@@ -6,18 +6,11 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class CSButton : GtkWidget
+public partial class ButtonControl : GtkWidget, IClickable
 {
-    readonly IInputHandler _inputHandler;
-
-    public CSButton()
+    public ButtonControl()
     {
-        _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
-        _inputHandler.MouseMoved += (s, e) =>
-        {
-            var screenPos = GetScreenBounds();
-            ;
-        };
+        SubscribeToInputs();
     }
 
     public override void Invalidate()
