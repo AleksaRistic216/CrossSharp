@@ -16,7 +16,6 @@ public partial class FormTitleBarControl
     int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
     PanelControl _mainPanel;
-    PanelControl _applicationButtonsPanel;
     ButtonControl _closeButton;
     IForm _form;
     int _width = 0;
@@ -57,7 +56,6 @@ public partial class FormTitleBarControl
                 return;
             _height = value;
             _mainPanel.Height = _height;
-            _applicationButtonsPanel.Height = _height;
             OnSizeChanged?.Invoke(this, new Size(_width, _height));
         }
     }

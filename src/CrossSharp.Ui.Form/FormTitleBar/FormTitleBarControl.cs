@@ -35,18 +35,10 @@ public partial class FormTitleBarControl : IBoundsProvider, ITitleBar, IMouseTar
         _mainPanel.Initialize();
     }
 
+    void InitializeWindowTitle() { }
+
     void InitializeWindowButtons()
     {
-        _applicationButtonsPanel = new PanelControl
-        {
-            ParentHandle = _form.Controls.Handle,
-            Parent = _form,
-            BackgroundColor = ColorRgba.Transparent,
-            Width = _applicationButtonWidth * 1,
-            Height = _height,
-        };
-        _applicationButtonsPanel.Initialize();
-
         _closeButton = new ButtonControl
         {
             ParentHandle = _form.Controls.Handle,
@@ -65,7 +57,6 @@ public partial class FormTitleBarControl : IBoundsProvider, ITitleBar, IMouseTar
     public void Show()
     {
         _mainPanel.Show();
-        _applicationButtonsPanel.Show();
         _closeButton.Show();
     }
 
@@ -73,7 +64,6 @@ public partial class FormTitleBarControl : IBoundsProvider, ITitleBar, IMouseTar
     {
         IRelativeHandle parentHandle = _form;
         GtkHelpers.gtk_window_set_decorated(parentHandle.Handle, false);
-        _applicationButtonsPanel.Location = new Point(Width - _applicationButtonWidth * 1, 0);
         _closeButton.Location = new Point(Width - _applicationButtonWidth, 0);
     }
 }
