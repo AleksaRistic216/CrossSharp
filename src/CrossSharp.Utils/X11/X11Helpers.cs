@@ -7,14 +7,21 @@ static class X11Helpers
     const string Libx11 = "libX11.so.6";
 
     [DllImport(Libx11)]
-    public static extern IntPtr XOpenDisplay(IntPtr display);
+    internal static extern IntPtr XOpenDisplay(IntPtr display);
 
     [DllImport(Libx11)]
-    public static extern void XMoveWindow(IntPtr display, uint window, int x, int y);
+    internal static extern void XMoveWindow(IntPtr display, uint window, int x, int y);
 
     [DllImport(Libx11)]
-    public static extern IntPtr XDefaultRootWindow(IntPtr display);
+    internal static extern IntPtr XDefaultRootWindow(IntPtr display);
 
     [DllImport(Libx11)]
-    public static extern void XFlush(IntPtr display);
+    internal static extern void XFlush(IntPtr display);
+
+    [DllImport(Libx11)]
+    internal static extern void XGetWindowAttributes(
+        IntPtr display,
+        uint window,
+        out XWindowAttributes attributes
+    );
 }

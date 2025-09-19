@@ -62,7 +62,7 @@ class InputHandler : IInputHandler
             Y = castedE.Data.Y,
             Clicks = castedE.Data.Clicks,
         };
-        MousePressed?.Invoke(sender, args);
+        MouseReleased?.Invoke(sender, args);
     }
 
     void OnMouseMoved(object? sender, HookEventArgs e)

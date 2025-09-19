@@ -9,8 +9,8 @@ namespace CrossSharp.Ui.FormLinux;
 
 partial class FormLinux : IForm
 {
-    IntPtr _displayHandle;
     public object Parent { get; set; } = null!;
+    public IntPtr DisplayHandle { get; set; }
     public IntPtr WindowSurfaceHandle { get; set; }
 
     public FormLinux()
@@ -65,9 +65,9 @@ partial class FormLinux : IForm
     {
         // Code bellow works! Leave it here for future reference
         WindowSurfaceHandle = GtkHelpers.gtk_native_get_surface(widget);
-        _displayHandle = GtkHelpers.gtk_root_get_display(widget);
-        IntPtr namePtr = GtkHelpers.gdk_display_get_name(_displayHandle);
-        IntPtr displayType = GtkHelpers.g_type_name_from_instance(_displayHandle);
+        DisplayHandle = GtkHelpers.gtk_root_get_display(widget);
+        IntPtr namePtr = GtkHelpers.gdk_display_get_name(DisplayHandle);
+        IntPtr displayType = GtkHelpers.g_type_name_from_instance(DisplayHandle);
         string n = Marshal.PtrToStringAuto(namePtr) ?? "unknown";
         string t = Marshal.PtrToStringAuto(displayType) ?? "unknown";
         // ===
@@ -81,7 +81,7 @@ partial class FormLinux : IForm
         uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
         if (x11Surface == 0)
             return;
-        IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(_displayHandle);
+        IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(DisplayHandle);
         if (x11Display == IntPtr.Zero)
             return;
 
