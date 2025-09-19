@@ -69,6 +69,12 @@ static class GtkHelpers
     internal static extern IntPtr gtk_native_get_surface(IntPtr native);
 
     [DllImport(GTK)]
+    internal static extern uint gdk_x11_surface_get_xid(IntPtr native);
+
+    [DllImport("libgtk-4.so.1")]
+    internal static extern IntPtr gdk_x11_display_get_xdisplay(IntPtr display);
+
+    [DllImport(GTK)]
     internal static extern IntPtr gtk_root_get_display(IntPtr widget);
 
     [DllImport(GTK)]

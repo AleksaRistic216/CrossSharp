@@ -3,11 +3,13 @@ using CrossSharp.Ui.FormTitleBar;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.X11;
 
 namespace CrossSharp.Ui.FormLinux;
 
 partial class FormLinux : IForm
 {
+    IntPtr _displayHandle;
     public object Parent { get; set; } = null!;
     public IntPtr WindowSurfaceHandle { get; set; }
 
@@ -25,7 +27,10 @@ partial class FormLinux : IForm
         Controls.Parent = this;
         TitleBar = new FormTitleBarControl(this, Controls.Handle, this);
         SubscribeToGtkSignals();
-        OnLocationChanged += (s, e) => { };
+        OnLocationChanged += (s, e) =>
+        {
+            UpdatePositionX11();
+        };
     }
 
     void SubscribeToGtkSignals()
@@ -58,12 +63,27 @@ partial class FormLinux : IForm
 
     void SignalOnRealize(IntPtr widget, IntPtr a)
     {
+        // Code bellow works! Leave it here for future reference
         WindowSurfaceHandle = GtkHelpers.gtk_native_get_surface(widget);
-        IntPtr display = GtkHelpers.gtk_root_get_display(widget);
-        IntPtr namePtr = GtkHelpers.gdk_display_get_name(display);
-        IntPtr displayType = GtkHelpers.g_type_name_from_instance(display);
+        _displayHandle = GtkHelpers.gtk_root_get_display(widget);
+        IntPtr namePtr = GtkHelpers.gdk_display_get_name(_displayHandle);
+        IntPtr displayType = GtkHelpers.g_type_name_from_instance(_displayHandle);
         string n = Marshal.PtrToStringAuto(namePtr) ?? "unknown";
         string t = Marshal.PtrToStringAuto(displayType) ?? "unknown";
+        // ===
+        UpdatePositionX11();
+    }
+
+    void UpdatePositionX11()
+    {
+        uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
+        if (x11Surface == 0)
+            return;
+        IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(_displayHandle);
+        if (x11Display == IntPtr.Zero)
+            return;
+
+        X11Helpers.XMoveWindow(x11Display, x11Surface, Location.X, Location.Y);
     }
 
     void SignalOnWidgetMapped(IntPtr widget, IntPtr _)

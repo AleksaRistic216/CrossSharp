@@ -10,7 +10,7 @@ static class X11Helpers
     public static extern IntPtr XOpenDisplay(IntPtr display);
 
     [DllImport(Libx11)]
-    public static extern void XMoveWindow(IntPtr display, IntPtr window, int x, int y);
+    public static extern void XMoveWindow(IntPtr display, uint window, int x, int y);
 
     [DllImport(Libx11)]
     public static extern IntPtr XDefaultRootWindow(IntPtr display);
