@@ -55,6 +55,7 @@ public partial class FormTitleBarControl
 
         X11Helpers.XGetWindowAttributes(x11Display, x11Surface, out XWindowAttributes attrs);
         form.Location = new Point(attrs.x, attrs.y);
+        _lastDragTime = DateTime.Now;
     }
 
     void OnMouseMoved(object? sender, MouseInputArgs e)
@@ -68,12 +69,21 @@ public partial class FormTitleBarControl
     {
         if (!IsMouseOver || _mouseDownMousePosition is null || _mouseDownFormPosition is null)
             return;
-
-        var deltaX = e.X - _mouseDownMousePosition.Value.X;
-        var deltaY = e.Y - _mouseDownMousePosition.Value.Y;
+        var dx = e.X - _mouseDownMousePosition.Value.X;
+        var dy = e.Y - _mouseDownMousePosition.Value.Y;
+        if (
+            Math.Abs(dx - _deltaX) < MOVEMENT_TRESHOLD
+            && Math.Abs(dy - _deltaY) < MOVEMENT_TRESHOLD
+        )
+            return;
+        if ((DateTime.Now - _lastDragTime).TotalMilliseconds < (1000f / MOVEMENT_FPS))
+            return;
+        _lastDragTime = DateTime.Now;
+        _deltaX = dx;
+        _deltaY = dy;
         var newLocation = new Point(
-            _mouseDownFormPosition.Value.X + deltaX,
-            _mouseDownFormPosition.Value.Y + deltaY
+            _mouseDownFormPosition.Value.X + _deltaX,
+            _mouseDownFormPosition.Value.Y + _deltaY
         );
         _titleBarProvider.Location = newLocation;
     }

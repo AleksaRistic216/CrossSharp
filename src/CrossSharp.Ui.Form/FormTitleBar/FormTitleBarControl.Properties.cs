@@ -7,7 +7,11 @@ namespace CrossSharp.Ui.FormTitleBar;
 public partial class FormTitleBarControl
 {
     #region private
-
+    const int MOVEMENT_TRESHOLD = 5;
+    const float MOVEMENT_FPS = 60;
+    DateTime _lastDragTime = DateTime.MinValue;
+    int _deltaX = 0;
+    int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
     PanelControl _mainPanel;
     PanelControl _applicationButtonsPanel;
