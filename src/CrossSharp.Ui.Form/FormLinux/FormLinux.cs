@@ -1,5 +1,5 @@
+using System.Runtime.InteropServices;
 using CrossSharp.Ui.FormTitleBar;
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -8,6 +8,9 @@ namespace CrossSharp.Ui.FormLinux;
 
 partial class FormLinux : IForm
 {
+    public object Parent { get; set; } = null!;
+    public IntPtr WindowSurfaceHandle { get; set; }
+
     public FormLinux()
     {
         AppInstance = ServicesPool.GetSingleton<IApplication>();
@@ -19,8 +22,10 @@ partial class FormLinux : IForm
     {
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this);
+        Controls.Parent = this;
         TitleBar = new FormTitleBarControl(this, Controls.Handle, this);
         SubscribeToGtkSignals();
+        OnLocationChanged += (s, e) => { };
     }
 
     void SubscribeToGtkSignals()
@@ -41,6 +46,24 @@ partial class FormLinux : IForm
             IntPtr.Zero,
             0
         );
+        GtkHelpers.g_signal_connect_data(
+            Handle,
+            "realize",
+            (GtkHelpers.RealizeCallback)SignalOnRealize,
+            IntPtr.Zero,
+            IntPtr.Zero,
+            0
+        );
+    }
+
+    void SignalOnRealize(IntPtr widget, IntPtr a)
+    {
+        WindowSurfaceHandle = GtkHelpers.gtk_native_get_surface(widget);
+        IntPtr display = GtkHelpers.gtk_root_get_display(widget);
+        IntPtr namePtr = GtkHelpers.gdk_display_get_name(display);
+        IntPtr displayType = GtkHelpers.g_type_name_from_instance(display);
+        string n = Marshal.PtrToStringAuto(namePtr) ?? "unknown";
+        string t = Marshal.PtrToStringAuto(displayType) ?? "unknown";
     }
 
     void SignalOnWidgetMapped(IntPtr widget, IntPtr _)

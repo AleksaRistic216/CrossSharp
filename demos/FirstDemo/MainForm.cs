@@ -37,5 +37,7 @@ public class MainForm : Form
             Location = new Point(300, 300),
         };
         Controls.Add(button);
+
+        this.Location = new Point(100, 101);
     }
 }

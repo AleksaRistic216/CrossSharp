@@ -17,6 +17,7 @@ public partial class FormTitleBarControl : ITitleBar
         _panelControl = new PanelControl
         {
             ParentHandle = container,
+            Parent = container,
             BackgroundColor = Color.Gray,
             Width = sizeProvider.Width,
             Height = _height,
@@ -25,6 +26,7 @@ public partial class FormTitleBarControl : ITitleBar
         _applicationButtonsPanel = new PanelControl()
         {
             ParentHandle = container,
+            Parent = container,
             BackgroundColor = Color.Orange,
             Width = 150,
             Height = _height,

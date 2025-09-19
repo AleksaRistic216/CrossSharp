@@ -1,8 +1,7 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControlsContainer : IDisposable
+public interface IControlsContainer : IDisposable, IRelativeHandle
 {
-    IntPtr Handle { get; }
     List<IControl> Items { get; }
     void Show();
     void Add(IControl control);

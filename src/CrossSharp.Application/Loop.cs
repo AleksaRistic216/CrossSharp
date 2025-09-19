@@ -2,6 +2,7 @@ using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Application;
 
@@ -13,7 +14,7 @@ class Loop : IDisposable
         where T : Form, new()
     {
         var ih = new InputHandler();
-        ServicesPool.AddSingleton(ih);
+        ServicesPool.AddSingleton<IInputHandler>(ih);
         _ = ih.StartListeningAsync(_cts.Token);
         switch (PlatformHelpers.GetCurrentPlatform())
         {
@@ -65,7 +66,7 @@ class Loop : IDisposable
     {
         _cts.Cancel();
         _cts.Dispose();
-        var ih = ServicesPool.GetSingleton<InputHandler>();
+        var ih = ServicesPool.GetSingleton<IInputHandler>() as InputHandler; // Unsafe but should be fine
         ih.StopListening();
     }
 }

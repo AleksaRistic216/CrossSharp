@@ -1,4 +1,5 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 using SharpHook;
 
@@ -9,7 +10,7 @@ class InputHandler : IInputHandler
     readonly SimpleGlobalHook _hook = new();
     public event EventHandler<InputArgs>? KeyPressed;
     public event EventHandler<InputArgs>? MousePressed;
-    public event EventHandler<InputArgs>? MouseMoved;
+    public event EventHandler<MouseMoveInputArgs>? MouseMoved;
     public event EventHandler<InputArgs>? MouseWheel;
 
     internal Task StartListeningAsync(CancellationToken token)
@@ -41,7 +42,23 @@ class InputHandler : IInputHandler
 
     void OnMouseMoved(object? sender, HookEventArgs e)
     {
-        MouseMoved?.Invoke(sender, null);
+        var castedE = e as MouseHookEventArgs;
+        var args = new MouseMoveInputArgs()
+        {
+            Button = castedE.Data.Button switch
+            {
+                SharpHook.Data.MouseButton.Button1 => Utils.Enums.MouseButton.Left,
+                SharpHook.Data.MouseButton.Button2 => Utils.Enums.MouseButton.Right,
+                SharpHook.Data.MouseButton.Button3 => throw new NotImplementedException(),
+                SharpHook.Data.MouseButton.Button4 => throw new NotImplementedException(),
+                SharpHook.Data.MouseButton.Button5 => throw new NotImplementedException(),
+                _ => Utils.Enums.MouseButton.None,
+            },
+            X = castedE.Data.X,
+            Y = castedE.Data.Y,
+            Clicks = castedE.Data.Clicks,
+        };
+        MouseMoved?.Invoke(sender, args);
     }
 
     void OnMouseWheel(object? sender, HookEventArgs e)

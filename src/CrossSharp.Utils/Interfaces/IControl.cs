@@ -1,9 +1,7 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControl : IDisposable
+public interface IControl : IDisposable, IRelativeHandle
 {
-    IntPtr Handle { get; internal set; }
-    IntPtr ParentHandle { get; set; }
     bool Visible { get; set; }
     void Initialize();
     void Invalidate();

@@ -17,6 +17,7 @@ public partial class Control
 
     #region exposed
     public IntPtr ParentHandle { get; set; }
+    public object Parent { get; set; }
     public bool Visible { get; set; }
     public int Width
     {

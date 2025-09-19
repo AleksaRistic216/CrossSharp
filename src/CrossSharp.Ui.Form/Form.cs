@@ -2,4 +2,4 @@
 
 namespace CrossSharp.Ui;
 
-public partial class Form : FormBase;
+public class Form : FormBase;

@@ -8,6 +8,12 @@ public abstract class FormBase : IForm
 {
     readonly IFormFactory _formFactory;
     readonly IForm _formImpl;
+    public object Parent { get; set; } = null!;
+    public IntPtr WindowSurfaceHandle
+    {
+        get => _formImpl.WindowSurfaceHandle;
+        set { _formImpl.WindowSurfaceHandle = value; }
+    }
 
     protected FormBase()
     {

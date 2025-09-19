@@ -2,6 +2,7 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface IForm : IControl, ISizeProvider, ILocationProvider, ITitleBarProvider
 {
+    IntPtr WindowSurfaceHandle { get; set; }
     string Title { get; set; }
     IApplication AppInstance { get; }
     IControlsContainer Controls { get; }

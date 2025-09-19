@@ -1,12 +1,24 @@
 ﻿using System.Drawing;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
 public class CSButton : GtkWidget
 {
-    public CSButton() { }
+    readonly IInputHandler _inputHandler;
+
+    public CSButton()
+    {
+        _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
+        _inputHandler.MouseMoved += (s, e) =>
+        {
+            var screenPos = GetScreenBounds();
+            ;
+        };
+    }
 
     public override void Invalidate()
     {

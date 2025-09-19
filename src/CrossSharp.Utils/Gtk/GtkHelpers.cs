@@ -66,6 +66,21 @@ static class GtkHelpers
     );
 
     [DllImport(GTK)]
+    internal static extern IntPtr gtk_native_get_surface(IntPtr native);
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gtk_root_get_display(IntPtr widget);
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gtk_widget_get_display(IntPtr widget);
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gdk_display_get_name(IntPtr display);
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gdk_display_get_backend(IntPtr display);
+
+    [DllImport(GTK)]
     internal static extern bool gtk_widget_translate_coordinates(
         IntPtr srcWidget,
         IntPtr destWidget,
@@ -128,6 +143,12 @@ static class GtkHelpers
         ResizeCallback c_handler,
         IntPtr data
     );
+
+    [DllImport(GOBJECT)]
+    internal static extern IntPtr g_type_name(IntPtr gType);
+
+    [DllImport(GOBJECT)]
+    internal static extern IntPtr g_type_name_from_instance(IntPtr instance);
 
     [DllImport(GOBJECT)]
     internal static extern void gtk_container_get_children(IntPtr container, out IntPtr children);
@@ -200,6 +221,9 @@ static class GtkHelpers
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void MapCallback(IntPtr widget, IntPtr userData);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void RealizeCallback(IntPtr widget, IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate bool CloseRequestCallback(IntPtr window, IntPtr user_data);
