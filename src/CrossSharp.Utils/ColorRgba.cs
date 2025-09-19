@@ -18,6 +18,15 @@ public class ColorRgba
     public float B { get; set; }
     public float A { get; set; }
 
+    const float HIGHLIGHT_FACTOR = 0.2f;
+    public ColorRgba Highlighted =>
+        new(
+            Math.Min(R + HIGHLIGHT_FACTOR, 1),
+            Math.Min(G + HIGHLIGHT_FACTOR, 1),
+            Math.Min(B + HIGHLIGHT_FACTOR, 1),
+            A
+        );
+
     public ColorRgba(float r, float g, float b, float a)
     {
         R = r;

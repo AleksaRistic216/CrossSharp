@@ -17,4 +17,10 @@ public partial class ButtonControl
             return;
         OnClick?.Invoke(this, EventArgs.Empty);
     }
+
+    internal override void OnMouseMoved(object? sender, MouseInputArgs e)
+    {
+        base.OnMouseMoved(sender, e);
+        Redraw();
+    }
 }

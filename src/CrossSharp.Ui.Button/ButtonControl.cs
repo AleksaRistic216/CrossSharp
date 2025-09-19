@@ -14,10 +14,7 @@ public partial class ButtonControl : GtkWidget, IClickable, IBackgroundColorProv
         SubscribeToInputs();
     }
 
-    public override void Invalidate()
-    {
-        Redraw();
-    }
+    public override void Invalidate() { }
 
     protected override void DrawShadowsLinux(Graphics g) { }
 
@@ -30,7 +27,8 @@ public partial class ButtonControl : GtkWidget, IClickable, IBackgroundColorProv
         if (g.ContextHandle == IntPtr.Zero)
             return;
 
-        g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
+        var color = !IsMouseOver ? BackgroundColor : BackgroundColor.Highlighted;
+        g.FillRectangle(Location.X, Location.Y, Width, Height, color);
     }
 
     protected override void DrawBackgroundWindows(Graphics g) { }
