@@ -4,8 +4,5 @@ namespace CrossSharp.Ui;
 
 public class FormLinuxFactory : IFormFactory
 {
-    public IForm Create()
-    {
-        return null;
-    }
+    public IForm Create() => new FormLinux.FormLinux();
 }

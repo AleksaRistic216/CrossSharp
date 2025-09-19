@@ -13,17 +13,19 @@ public class Builder
     {
         AddSingleton(applicationConfiguration);
         AddSingleton<IApplication, Utils.Application>();
-        switch(PlatformHelpers.GetCurrentPlatform())
+        switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
                 throw new NotImplementedException();
-                break;
             case CrossPlatformType.Linux:
                 AddSingleton<IFormFactory, FormLinuxFactory>();
-            CrossPlatformType.Linux => AddSingleton<IFormFactory, FormLinuxFactory>(),
-            CrossPlatformType.MacOs => throw new NotImplementedException(),
-            _ => throw new NotSupportedException("Current platform is not supported"),
-        };
+                break;
+            case CrossPlatformType.MacOs:
+                throw new NotImplementedException();
+            case CrossPlatformType.Undefined:
+            default:
+                throw new NotSupportedException("Current platform is not supported");
+        }
     }
 
     public void Run<T>()

@@ -1,20 +1,20 @@
 using System.Drawing;
-using CrossSharp.Ui.FormTitleBar;
-using CrossSharp.Utils;
-using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Base;
 
 public abstract class FormBase : IForm
 {
-    readonly IForm _formImpl = PlatformHelpers.GetCurrentPlatform() switch
+    readonly IFormFactory _formFactory;
+    readonly IForm _formImpl;
+
+    protected FormBase()
     {
-        CrossPlatformType.Windows => throw new NotImplementedException(),
-        CrossPlatformType.Linux => new FormLinux.FormLinux(),
-        CrossPlatformType.MacOs => throw new NotImplementedException(),
-        _ => throw new NotSupportedException("Current platform is not supported"),
-    };
+        _formFactory = ServicesPool.GetSingleton<IFormFactory>();
+        _formImpl = _formFactory.Create();
+    }
+
     public IntPtr Handle
     {
         get => ((IControl)_formImpl).Handle;
