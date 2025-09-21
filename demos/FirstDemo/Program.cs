@@ -1,4 +1,5 @@
 ﻿using CrossSharp.Application;
+using CrossSharp.Themes;
 using CrossSharp.Utils.DI;
 using FirstDemo;
 
@@ -7,4 +8,5 @@ Builder builder = new(
 );
 
 // builder.EnableDevelopersMode();
+// builder.SetTheme(some custom theme);
 builder.Run<MainForm>();
