@@ -1,3 +1,3 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IPanelControl : IGtkWidget { }
+public interface IPanelControl : IGtkWidget, IBackgroundColorProvider { }

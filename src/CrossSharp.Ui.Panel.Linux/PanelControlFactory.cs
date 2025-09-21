@@ -4,8 +4,8 @@ namespace CrossSharp.Ui.Linux;
 
 public class PanelControlFactory : IPanelControlFactory
 {
-    public IPanelControl Create(IBackgroundColorProvider backgroundColorProvider)
+    public IPanelControl Create()
     {
-        return new PanelControl(backgroundColorProvider);
+        return new PanelControl();
     }
 }

@@ -1,4 +1,3 @@
-using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -7,7 +6,7 @@ namespace CrossSharp.Ui;
 
 public class ControlsContainer : IControlsContainer
 {
-    GtkWidget _widget;
+    IGtkWidget _widget;
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }
     public object Parent { get; set; }

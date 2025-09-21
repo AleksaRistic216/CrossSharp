@@ -1,7 +1,6 @@
-using System.Drawing;
 using CrossSharp.Utils;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Ui.Linux;
 
 public partial class PanelControl
 {

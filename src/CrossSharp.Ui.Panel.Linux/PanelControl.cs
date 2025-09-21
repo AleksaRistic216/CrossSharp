@@ -1,12 +1,11 @@
+using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public class PanelControl(IBackgroundColorProvider backgroundColorProvider)
-    : GtkWidget,
-        IPanelControl
+public partial class PanelControl : GtkWidget, IPanelControl
 {
     public override void Invalidate() { }
 
@@ -17,13 +16,7 @@ public class PanelControl(IBackgroundColorProvider backgroundColorProvider)
         if (g.ContextHandle == IntPtr.Zero)
             return;
 
-        g.FillRectangle(
-            Location.X,
-            Location.Y,
-            Width,
-            Height,
-            backgroundColorProvider.BackgroundColor
-        );
+        g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
     }
 
     public override void DrawBorders(Graphics g) { }
