@@ -3,13 +3,13 @@ using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Ui.Linux;
 
-public partial class ButtonControl : GtkWidget, IClickable, IBackgroundColorProvider
+public partial class Button : GtkWidget, IButton
 {
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.LightGray;
 
-    public ButtonControl()
+    public Button()
     {
         SubscribeToInputs();
     }

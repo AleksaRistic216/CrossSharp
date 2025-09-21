@@ -1,8 +1,8 @@
 using CrossSharp.Utils.Input;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Ui.Linux;
 
-public partial class ButtonControl
+public partial class Button
 {
     public EventHandler? OnClick { get; set; }
 

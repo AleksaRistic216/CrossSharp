@@ -48,6 +48,7 @@ public class Builder
         AddSingleton<IPanelControlFactory, Ui.Linux.PanelControlFactory>();
         AddSingleton<IFormTitleBarFactory, Ui.Linux.FormTitleBarFactory>();
         AddSingleton<IControlsContainerFactory, Ui.Linux.ControlsContainerFactory>();
+        AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
     }
 
     void RegisterWindowsServices()

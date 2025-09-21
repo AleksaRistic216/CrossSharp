@@ -38,7 +38,7 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeWindowButtons()
     {
-        _closeButton = new ButtonControl
+        _closeButton = new Button
         {
             ParentHandle = _form.Controls.Handle,
             Parent = _form,

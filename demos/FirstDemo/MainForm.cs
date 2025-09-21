@@ -32,7 +32,7 @@ public class MainForm : Form
             BackgroundColor = ColorRgba.Blue,
         };
         Controls.Add(panel1);
-        var button = new ButtonControl()
+        var button = new Button()
         {
             Width = 100,
             Height = 50,
