@@ -43,19 +43,12 @@ public partial class FormTitleBar
                 {
                     if (_formDragDestination is null)
                         continue;
-                    int targetDelay = (int)(
-                        1000f / Services.GetSingleton<IApplicationConfiguration>().CoreFps
-                    );
-                    int delay = 0;
-                    if (_lastFormDragTime is not null)
-                    {
-                        var timeSinceLastDrag = DateTime.Now - _lastFormDragTime.Value;
-                        delay = targetDelay - (int)timeSinceLastDrag.TotalMilliseconds;
-                        if (delay < 0)
-                            delay = 0;
-                    }
-                    if (delay > 0)
-                        Task.Delay(delay).Wait();
+                    int targetDelay = (int)(1000f / _coreFps);
+                    int timeSinceLastDrag = _lastFormDragTime is null
+                        ? int.MaxValue
+                        : (int)(DateTime.Now - _lastFormDragTime.Value).TotalMilliseconds;
+                    if (timeSinceLastDrag < targetDelay)
+                        continue;
                     _lastFormDragTime = DateTime.Now;
                     _form.Location = _formDragDestination.Value;
                 }

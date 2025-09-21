@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
@@ -10,6 +11,7 @@ public partial class FormTitleBar
     static int _height = 36;
     static int _applicationButtonWidth = 36;
     const int MOVEMENT_TRESHOLD = 1;
+    int _coreFps = Services.GetSingleton<IApplicationConfiguration>().CoreFps;
     Task? _formDragTask;
     CancellationTokenSource? _formDragCancellationTokenSource;
     Point? _formDragDestination = null;
