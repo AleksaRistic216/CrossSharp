@@ -7,4 +7,4 @@ Builder builder = new(
 );
 
 // builder.EnableDevelopersMode();
-var app = builder.Run<MainForm>();
+builder.Run<MainForm>();

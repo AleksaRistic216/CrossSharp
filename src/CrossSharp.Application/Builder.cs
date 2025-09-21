@@ -64,7 +64,7 @@ public class Builder
         throw new NotImplementedException();
     }
 
-    public IApplication Run<T>()
+    public void Run<T>()
         where T : Form
     {
         // Catch all exceptions
@@ -77,7 +77,6 @@ public class Builder
 
         ConfirmTheme();
         Services.GetSingleton<IApplicationLoop>().Run<T>();
-        return Services.GetSingleton<IApplication>();
     }
 
     static void ConfirmTheme()
