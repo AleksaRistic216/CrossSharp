@@ -52,7 +52,7 @@ public class MainForm : Form
         {
             Width = 100,
             Height = 100,
-            Location = new Point(400, 100),
+            Location = new Point(0, 100),
             BackgroundColor = ColorRgba.Green,
             Child = new Label() { Location = new Point(10, 10), Text = "I'm centered!" },
         };
@@ -62,7 +62,7 @@ public class MainForm : Form
         {
             Width = 100,
             Height = 100,
-            Location = new Point(400, 200),
+            Location = new Point(0, 200),
             BackgroundColor = ColorRgba.Purple,
             Child = new Panel()
             {

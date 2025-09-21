@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Drawing;
+using System.Runtime.InteropServices;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
@@ -59,5 +60,10 @@ public partial class Label : GtkWidget, ILabel
             PangoWeight.Normal,
             PangoStyle.Normal
         );
+    }
+
+    Size ICenterPanelChild.GetSize()
+    {
+        return new Size(Width, Height);
     }
 }

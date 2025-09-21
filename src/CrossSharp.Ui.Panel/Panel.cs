@@ -29,4 +29,12 @@ public class Panel()
         get => _impl.BackgroundColor;
         set => _impl.BackgroundColor = value;
     }
+
+    Size ICenterPanelChild.GetSize() => _impl.GetSize();
+
+    public EventHandler? LayoutChanged
+    {
+        get => _impl.LayoutChanged;
+        set => _impl.LayoutChanged = value;
+    }
 }

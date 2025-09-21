@@ -1,4 +1,5 @@
-﻿using CrossSharp.Utils;
+﻿using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
@@ -27,5 +28,13 @@ public class Label()
     {
         get => _impl.FontSize;
         set => _impl.FontSize = value;
+    }
+
+    Size ICenterPanelChild.GetSize() => _impl.GetSize();
+
+    public EventHandler? LayoutChanged
+    {
+        get => _impl.LayoutChanged;
+        set => _impl.LayoutChanged = value;
     }
 }

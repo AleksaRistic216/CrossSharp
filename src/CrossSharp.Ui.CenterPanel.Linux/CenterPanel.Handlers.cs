@@ -13,6 +13,7 @@ public partial class CenterPanel
 
     void RaiseChildChanged()
     {
+        Invalidate();
         Redraw();
         ChildChanged?.Invoke(this, EventArgs.Empty);
     }

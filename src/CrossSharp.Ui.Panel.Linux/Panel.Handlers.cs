@@ -5,4 +5,8 @@ public partial class Panel
     public event EventHandler? BackgroundColorChanged;
 
     void RaiseBackgroundColorChanged() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? LayoutChanged { get; set; }
+
+    void RaiseLayoutChanged() => LayoutChanged?.Invoke(this, EventArgs.Empty);
 }

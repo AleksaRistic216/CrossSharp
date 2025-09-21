@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
@@ -19,4 +20,9 @@ public partial class Panel : GtkWidget, IPanel
     public override void DrawBorders(Graphics g) { }
 
     public override void DrawContent(Graphics g) { }
+
+    Size ICenterPanelChild.GetSize()
+    {
+        return new Size(Width, Height);
+    }
 }
