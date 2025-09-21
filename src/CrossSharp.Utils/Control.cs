@@ -14,7 +14,7 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
 
     protected Control()
     {
-        InputHandler = ServicesPool.GetSingleton<IInputHandler>();
+        InputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputEvents();
     }
 

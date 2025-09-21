@@ -1,10 +1,10 @@
 namespace CrossSharp.Utils.DI;
 
-static class ServicesPool
+public static class Services
 {
     static readonly Dictionary<Type, object> _services = new();
 
-    internal static void AddSingleton<T>(T instance, bool overrideExisting = false)
+    public static void AddSingleton<T>(T instance, bool overrideExisting = false)
         where T : class
     {
         Type implementationType = typeof(T);
@@ -19,7 +19,7 @@ static class ServicesPool
             );
     }
 
-    internal static void AddSingleton<TInterface, TImplementation>(bool overrideExisting = false)
+    public static void AddSingleton<TInterface, TImplementation>(bool overrideExisting = false)
         where TInterface : class
         where TImplementation : class, TInterface
     {
@@ -39,7 +39,7 @@ static class ServicesPool
         _services[interfaceType] = implementationInstance;
     }
 
-    internal static TInterface GetSingleton<TInterface>()
+    public static TInterface GetSingleton<TInterface>()
         where TInterface : class
     {
         Type interfaceType = typeof(TInterface);
@@ -55,15 +55,10 @@ static class ServicesPool
         );
     }
 
-    internal static bool IsRegistered<TInterface>()
+    public static bool IsRegistered<TInterface>()
         where TInterface : class
     {
         Type interfaceType = typeof(TInterface);
         return _services.ContainsKey(interfaceType);
-    }
-
-    internal static List<object> GetAllSingletons()
-    {
-        return _services.Values.ToList();
     }
 }

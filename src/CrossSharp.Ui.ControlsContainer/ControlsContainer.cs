@@ -10,7 +10,7 @@ public class ControlsContainer(
     IBackgroundColorProvider backgroundColorProvider
 ) : IControlsContainer
 {
-    readonly IControlsContainer _impl = ServicesPool
+    readonly IControlsContainer _impl = Services
         .GetSingleton<IControlsContainerFactory>()
         .Create(parentHandle, sizeProvider, backgroundColorProvider);
 

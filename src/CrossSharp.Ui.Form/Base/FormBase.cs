@@ -7,7 +7,7 @@ namespace CrossSharp.Ui.Base;
 
 public abstract class FormBase : IForm
 {
-    readonly IForm _formImpl = ServicesPool.GetSingleton<IFormFactory>().Create();
+    readonly IForm _formImpl = Services.GetSingleton<IFormFactory>().Create();
     public object Parent { get; set; } = null!;
     public ITitleBar TitleBar => _formImpl.TitleBar;
     public IApplication AppInstance => _formImpl.AppInstance;

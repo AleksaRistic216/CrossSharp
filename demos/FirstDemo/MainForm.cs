@@ -10,10 +10,8 @@ public class MainForm : Form
     readonly IApplication _application;
     readonly ITheme _theme;
 
-    public MainForm(IApplication application, ITheme theme)
+    public MainForm()
     {
-        _application = application;
-        _theme = theme;
         Width = 800;
         Height = 800;
         Location = new Point(0, 0);

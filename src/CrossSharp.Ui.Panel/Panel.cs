@@ -5,9 +5,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class Panel()
-    : CrossWidget<IPanel>(ServicesPool.GetSingleton<IPanelFactory>().Create()),
-        IPanel
+public class Panel() : CrossWidget<IPanel>(Services.GetSingleton<IPanelFactory>().Create()), IPanel
 {
     public int Width
     {

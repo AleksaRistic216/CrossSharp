@@ -1,4 +1,5 @@
 ﻿using CrossSharp.Application;
+using CrossSharp.Utils.DI;
 using FirstDemo;
 
 Builder builder = new(
@@ -6,4 +7,4 @@ Builder builder = new(
 );
 
 // builder.EnableDevelopersMode();
-builder.Run<MainForm>();
+var app = builder.Run<MainForm>();

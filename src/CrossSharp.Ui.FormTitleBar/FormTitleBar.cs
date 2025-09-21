@@ -7,7 +7,7 @@ namespace CrossSharp.Ui;
 
 public class FormTitleBar(IForm form) : IFormTitleBar
 {
-    readonly IFormTitleBar _impl = ServicesPool.GetSingleton<IFormTitleBarFactory>().Create(form);
+    readonly IFormTitleBar _impl = Services.GetSingleton<IFormTitleBarFactory>().Create(form);
     public Point Location
     {
         get => _impl.Location;

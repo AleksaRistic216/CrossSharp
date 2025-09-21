@@ -23,7 +23,7 @@ static class GtkApplicationRunner
 
         void OnActivate(IntPtr appPtr, IntPtr _)
         {
-            var appInstance = ServicesPool.GetSingleton<IApplication>();
+            var appInstance = Services.GetSingleton<IApplication>();
             appInstance.MainFormType = typeof(T);
             appInstance.MainWindowHandle = appPtr;
             appInstance.Start();

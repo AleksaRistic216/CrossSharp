@@ -8,7 +8,7 @@ namespace CrossSharp.Application;
 class ApplicationLoop : IApplicationLoop
 {
     readonly CancellationTokenSource _cts = new();
-    readonly IInputHandler _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
+    readonly IInputHandler _inputHandler = Services.GetSingleton<IInputHandler>();
 
     void IApplicationLoop.Run<T>()
     {
@@ -63,7 +63,7 @@ class ApplicationLoop : IApplicationLoop
     {
         _cts.Cancel();
         _cts.Dispose();
-        var ih = ServicesPool.GetSingleton<IInputHandler>() as InputHandler; // Unsafe but should be fine
+        var ih = Services.GetSingleton<IInputHandler>() as InputHandler; // Unsafe but should be fine
         ih.StopListening();
     }
 }

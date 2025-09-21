@@ -25,7 +25,7 @@ partial class Form : IForm
 
     public Form()
     {
-        AppInstance = ServicesPool.GetSingleton<IApplication>();
+        AppInstance = Services.GetSingleton<IApplication>();
         ParentHandle = AppInstance.MainWindowHandle;
         Initialize();
     }

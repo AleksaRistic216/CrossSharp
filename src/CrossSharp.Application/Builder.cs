@@ -64,7 +64,7 @@ public class Builder
         throw new NotImplementedException();
     }
 
-    public void Run<T>()
+    public IApplication Run<T>()
         where T : Form
     {
         // Catch all exceptions
@@ -76,38 +76,31 @@ public class Builder
         // ===
 
         ConfirmTheme();
-        ServicesPool.GetSingleton<IApplicationLoop>().Run<T>();
+        Services.GetSingleton<IApplicationLoop>().Run<T>();
+        return Services.GetSingleton<IApplication>();
     }
 
-    void ConfirmTheme()
+    static void ConfirmTheme()
     {
-        if (ServicesPool.IsRegistered<ITheme>())
+        if (Services.IsRegistered<ITheme>())
             return;
 
-        ServicesPool.AddSingleton<ITheme, DefaultTheme>();
+        Services.AddSingleton<ITheme, DefaultTheme>();
     }
 
-    public void SetTheme(ITheme theme)
-    {
-        ServicesPool.AddSingleton(theme, true);
-    }
+    public void SetTheme(ITheme theme) => Services.AddSingleton(theme, true);
 
     public void AddSingleton<T>(T instance)
-        where T : class
-    {
-        ServicesPool.AddSingleton(instance);
-    }
+        where T : class => Services.AddSingleton(instance);
 
     public void AddSingleton<TInterface, TImplementation>()
         where TInterface : class
-        where TImplementation : class, TInterface
-    {
-        ServicesPool.AddSingleton<TInterface, TImplementation>();
-    }
+        where TImplementation : class, TInterface =>
+        Services.AddSingleton<TInterface, TImplementation>();
 
     public void EnableDevelopersMode()
     {
-        IApplication app = ServicesPool.GetSingleton<IApplication>();
+        IApplication app = Services.GetSingleton<IApplication>();
         app.DevelopersMode = true;
     }
 }

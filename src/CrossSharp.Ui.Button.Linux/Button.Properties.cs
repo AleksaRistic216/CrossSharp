@@ -11,7 +11,7 @@ public partial class Button
     string _text = string.Empty;
 
     public ColorRgba BackgroundColor { get; set; } =
-        ServicesPool.GetSingleton<ITheme>().ButtonBackgroundColor;
+        Services.GetSingleton<ITheme>().ButtonBackgroundColor;
 
     public string Text
     {

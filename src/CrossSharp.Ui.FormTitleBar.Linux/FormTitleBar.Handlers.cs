@@ -9,7 +9,7 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class FormTitleBar
 {
-    IInputHandler _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
+    IInputHandler _inputHandler = Services.GetSingleton<IInputHandler>();
     public EventHandler? TypeChanged { get; set; }
 
     void RaiseTypeChanged()

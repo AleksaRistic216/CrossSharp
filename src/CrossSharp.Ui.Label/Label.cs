@@ -5,9 +5,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class Label()
-    : CrossWidget<ILabel>(ServicesPool.GetSingleton<ILabelFactory>().Create()),
-        ILabel
+public class Label() : CrossWidget<ILabel>(Services.GetSingleton<ILabelFactory>().Create()), ILabel
 {
     public EventHandler<EventArgs>? OnTextChanged
     {

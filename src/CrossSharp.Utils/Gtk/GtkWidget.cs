@@ -9,7 +9,7 @@ public abstract class GtkWidget : Control, IGtkWidget
 {
     Graphics? _g;
     bool _initialized = false;
-    readonly IApplication _application = ServicesPool.GetSingleton<IApplication>();
+    readonly IApplication _application = Services.GetSingleton<IApplication>();
     public override IntPtr Handle { get; set; } = GtkHelpers.gtk_drawing_area_new();
 
     public override void Initialize()

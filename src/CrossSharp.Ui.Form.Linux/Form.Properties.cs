@@ -9,7 +9,7 @@ namespace CrossSharp.Ui.Linux;
 partial class Form
 {
     #region private
-    ColorRgba _backgroundColor = ServicesPool.GetSingleton<ITheme>().BackgroundColor;
+    ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
     int _width = 800;
     int _height = 600;
     Point _location = new(100, 100);

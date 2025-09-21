@@ -6,7 +6,7 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class CenterPanel
 {
-    ColorRgba _backgroundColor = ServicesPool.GetSingleton<ITheme>().BackgroundColor;
+    ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
     public ColorRgba BackgroundColor
     {
         get => _backgroundColor;
