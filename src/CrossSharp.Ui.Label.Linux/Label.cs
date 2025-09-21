@@ -25,10 +25,7 @@ public partial class Label : GtkWidget, ILabel
 
     public override void DrawShadows(Graphics g) { }
 
-    public override void DrawBackground(Graphics g)
-    {
-        g.FillRectangle(Location.X, Location.Y, Width, Height, ColorRgba.Pink);
-    }
+    public override void DrawBackground(Graphics g) { }
 
     public override void DrawBorders(Graphics g) { }
 

@@ -16,7 +16,8 @@ public partial class FormTitleBar
     int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
     Panel _mainPanel;
-    Button _closeButton;
+    Button? _closeButton;
+    Label? _titleLabel;
     IForm _form;
     int _width = 0;
     Point? _mouseDownMousePosition;
