@@ -11,7 +11,4 @@
     <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FormLinux\" />
-  </ItemGroup>
 </Project>

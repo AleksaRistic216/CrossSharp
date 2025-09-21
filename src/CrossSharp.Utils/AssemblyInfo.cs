@@ -2,6 +2,10 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Button")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ControlsContainer")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
+    "CrossSharp.Ui.ControlsContainer.Linux"
+)]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FormTitleBar")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FormTitleBar.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Label")]

@@ -2,7 +2,7 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Ui.Linux;
 
 public class ControlsContainer : IControlsContainer
 {

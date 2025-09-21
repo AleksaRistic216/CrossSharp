@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.FormTitleBar"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.FormTitleBar.Linux", "src\CrossSharp.Ui.FormTitleBar.Linux\CrossSharp.Ui.FormTitleBar.Linux.csproj", "{17BD3D51-3F2D-4105-BF44-59120985873A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.ControlsContainer", "src\CrossSharp.Ui.ControlsContainer\CrossSharp.Ui.ControlsContainer.csproj", "{E84B5254-A0CE-4EDF-9532-2FC7055C654F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.ControlsContainer.Linux", "src\CrossSharp.Ui.ControlsContainer.Linux\CrossSharp.Ui.ControlsContainer.Linux.csproj", "{DA507561-265D-477E-8A6E-95A94B14051D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +84,14 @@ Global
 		{17BD3D51-3F2D-4105-BF44-59120985873A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17BD3D51-3F2D-4105-BF44-59120985873A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17BD3D51-3F2D-4105-BF44-59120985873A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E84B5254-A0CE-4EDF-9532-2FC7055C654F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E84B5254-A0CE-4EDF-9532-2FC7055C654F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E84B5254-A0CE-4EDF-9532-2FC7055C654F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E84B5254-A0CE-4EDF-9532-2FC7055C654F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA507561-265D-477E-8A6E-95A94B14051D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA507561-265D-477E-8A6E-95A94B14051D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA507561-265D-477E-8A6E-95A94B14051D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA507561-265D-477E-8A6E-95A94B14051D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24E7C5FF-9728-48A0-B2BF-FBE0FD28386A} = {C74D1299-EDB5-4CAC-8255-BA11848B491B}

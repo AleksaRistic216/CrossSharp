@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Ui.ControlsContainer.Linux\CrossSharp.Ui.ControlsContainer.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.FormTitleBar.Linux\CrossSharp.Ui.FormTitleBar.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
