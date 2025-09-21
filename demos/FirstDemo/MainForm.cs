@@ -8,23 +8,23 @@ public class MainForm : Form
 {
     public MainForm()
     {
-        this.Width = 800;
-        this.Height = 800;
-        this.Location = new Point(0, 0);
-        this.OnShow += MainForm_OnShow;
+        Width = 800;
+        Height = 800;
+        Location = new Point(0, 0);
+        OnShow += MainForm_OnShow;
     }
 
     void MainForm_OnShow(object? sender, EventArgs e)
     {
-        var panel = new PanelControl()
+        var panel = new Panel()
         {
             Width = 100,
             Height = 100,
             Location = new Point(0, 0),
             BackgroundColor = ColorRgba.Purple,
         };
-        this.Controls.Add(panel);
-        var panel1 = new PanelControl()
+        Controls.Add(panel);
+        var panel1 = new Panel()
         {
             Width = 250,
             Height = 250,
@@ -47,5 +47,31 @@ public class MainForm : Form
 
         var label = new Label() { Location = new Point(500, 500), Text = "Hello Motherfuckers!" };
         Controls.Add(label);
+
+        var centerPanel = new CenterPanel()
+        {
+            Width = 100,
+            Height = 100,
+            Location = new Point(400, 100),
+            BackgroundColor = ColorRgba.Green,
+            Child = new Label() { Location = new Point(10, 10), Text = "I'm centered!" },
+        };
+        Controls.Add(centerPanel);
+
+        var centerPanel1 = new CenterPanel()
+        {
+            Width = 100,
+            Height = 100,
+            Location = new Point(400, 200),
+            BackgroundColor = ColorRgba.Purple,
+            Child = new Panel()
+            {
+                Location = new Point(10, 10),
+                Width = 30,
+                Height = 30,
+                BackgroundColor = ColorRgba.Yellow,
+            },
+        };
+        Controls.Add(centerPanel1);
     }
 }

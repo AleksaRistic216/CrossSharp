@@ -2,7 +2,7 @@ using CrossSharp.Utils;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class PanelControl
+public partial class Panel
 {
     #region private
     ColorRgba _backgroundColor = ColorRgba.Transparent;

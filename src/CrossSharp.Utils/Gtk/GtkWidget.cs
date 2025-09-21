@@ -8,27 +8,38 @@ namespace CrossSharp.Utils.Gtk;
 public abstract class GtkWidget : Control, IGtkWidget
 {
     Graphics? _g;
+    bool _initialized = false;
     readonly IApplication _application = ServicesPool.GetSingleton<IApplication>();
     public override IntPtr Handle { get; set; } = GtkHelpers.gtk_drawing_area_new();
 
     public override void Initialize()
     {
+        if (_initialized)
+            return;
         GtkHelpers.DrawFunc drawFunc = OnDraw;
         GtkHelpers.gtk_drawing_area_set_draw_func(Handle, drawFunc, IntPtr.Zero, IntPtr.Zero);
+        _initialized = true;
     }
 
     public override void Show()
     {
-        IntPtr parent = GtkHelpers.gtk_widget_get_parent(Handle);
-        if (parent == ParentHandle)
+        if (GetIsAlreadyBoundToParent())
             return;
         GtkHelpers.gtk_widget_show(Handle);
         GtkHelpers.gtk_fixed_put(ParentHandle, Handle, 0, 0);
         Visible = true;
     }
 
+    bool GetIsAlreadyBoundToParent()
+    {
+        IntPtr parent = GtkHelpers.gtk_widget_get_parent(Handle);
+        return parent == ParentHandle;
+    }
+
     void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data)
     {
+        if (cr == IntPtr.Zero)
+            return;
         _g = new Graphics(cr, this, this);
         DrawShadows(_g!);
         DrawBackground(_g!);

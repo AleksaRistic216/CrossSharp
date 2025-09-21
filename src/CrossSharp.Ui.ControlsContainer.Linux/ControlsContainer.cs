@@ -6,7 +6,7 @@ namespace CrossSharp.Ui.Linux;
 
 public class ControlsContainer : IControlsContainer
 {
-    IPanelControl _widget;
+    IPanel _widget;
     ColorRgba _backgroundColor;
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }
@@ -34,7 +34,7 @@ public class ControlsContainer : IControlsContainer
         Handle = GtkHelpers.gtk_fixed_new();
         ParentHandle = parentHandle;
         GtkHelpers.gtk_window_set_child(parentHandle, Handle);
-        _widget = new PanelControl
+        _widget = new Panel
         {
             ParentHandle = Handle,
             BackgroundColor = backgroundColorProvider.BackgroundColor,
@@ -71,9 +71,5 @@ public class ControlsContainer : IControlsContainer
         control.Initialize();
     }
 
-    public void Redraw()
-    {
-        // foreach (IControl item in Items.OrderBy(x => x.ZIndex))
-        //     item.Show();
-    }
+    public void Redraw() { }
 }

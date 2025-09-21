@@ -42,9 +42,6 @@ public partial class Label : GtkWidget, ILabel
 
     public override void DrawBackground(Graphics g)
     {
-        if (g.ContextHandle == IntPtr.Zero)
-            return;
-
         g.FillRectangle(Location.X, Location.Y, Width, Height, ColorRgba.Pink);
     }
 

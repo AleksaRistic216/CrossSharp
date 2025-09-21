@@ -22,9 +22,6 @@ public partial class Button : GtkWidget, IButton
 
     public override void DrawBackground(Graphics g)
     {
-        if (g.ContextHandle == IntPtr.Zero)
-            return;
-
         var color = !IsMouseOver ? BackgroundColor : BackgroundColor.Highlighted;
         g.FillRectangle(Location.X, Location.Y, Width, Height, color);
     }

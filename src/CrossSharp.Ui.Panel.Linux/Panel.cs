@@ -5,7 +5,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class PanelControl : GtkWidget, IPanelControl
+public partial class Panel : GtkWidget, IPanel
 {
     public override void Invalidate() { }
 
@@ -13,9 +13,6 @@ public partial class PanelControl : GtkWidget, IPanelControl
 
     public override void DrawBackground(Graphics g)
     {
-        if (g.ContextHandle == IntPtr.Zero)
-            return;
-
         g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
     }
 

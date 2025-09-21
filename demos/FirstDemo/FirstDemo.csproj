@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
     <ProjectReference Include="..\..\src\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+    <ProjectReference Include="..\..\src\CrossSharp.Ui.CenterPanel\CrossSharp.Ui.CenterPanel.csproj" />
     <ProjectReference Include="..\..\src\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
   </ItemGroup>
 </Project>

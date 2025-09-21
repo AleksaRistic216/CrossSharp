@@ -1,6 +1,6 @@
 namespace CrossSharp.Ui.Linux;
 
-public partial class PanelControl
+public partial class Panel
 {
     public event EventHandler? BackgroundColorChanged;
 

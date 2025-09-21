@@ -1,15 +1,19 @@
-﻿using System.Drawing;
+using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
-using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class Button()
-    : CrossWidget<IButton>(ServicesPool.GetSingleton<IButtonFactory>().Create()),
-        IButton
+public class CenterPanel()
+    : CrossWidget<ICenterPanel>(ServicesPool.GetSingleton<ICenterPanelFactory>().Create()),
+        ICenterPanel
 {
+    public ColorRgba BackgroundColor
+    {
+        get => _impl.BackgroundColor;
+        set => _impl.BackgroundColor = value;
+    }
     public int Width
     {
         get => _impl.Width;
@@ -25,14 +29,9 @@ public class Button()
         get => _impl.OnSizeChanged;
         set => _impl.OnSizeChanged = value;
     }
-    public EventHandler? OnClick
+    public IGtkWidget? Child
     {
-        get => _impl.OnClick;
-        set => _impl.OnClick = value;
-    }
-    public ColorRgba BackgroundColor
-    {
-        get => _impl.BackgroundColor;
-        set => _impl.BackgroundColor = value;
+        get => _impl.Child;
+        set => _impl.Child = value;
     }
 }

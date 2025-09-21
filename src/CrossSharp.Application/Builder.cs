@@ -46,11 +46,12 @@ public class Builder
     void RegisterLinuxServices()
     {
         AddSingleton<IFormFactory, Ui.Linux.FormFactory>();
-        AddSingleton<IPanelControlFactory, Ui.Linux.PanelControlFactory>();
+        AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
         AddSingleton<IFormTitleBarFactory, Ui.Linux.FormTitleBarFactory>();
         AddSingleton<IControlsContainerFactory, Ui.Linux.ControlsContainerFactory>();
         AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
         AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
+        AddSingleton<ICenterPanelFactory, Ui.Linux.CenterPanelFactory>();
     }
 
     void RegisterWindowsServices()

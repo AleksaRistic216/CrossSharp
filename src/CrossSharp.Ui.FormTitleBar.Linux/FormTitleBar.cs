@@ -23,7 +23,7 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeMainPanel()
     {
-        _mainPanel = new PanelControl
+        _mainPanel = new Panel
         {
             ParentHandle = _form.Controls.Handle,
             Parent = _form,

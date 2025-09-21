@@ -1,14 +1,15 @@
-﻿using System.Drawing;
-using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
+using System.Drawing;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Utils;
 
-public class PanelControl : IPanelControl
+public abstract class CrossWidget<T>(T impl) : IGtkWidget
+    where T : IGtkWidget
 {
-    readonly IPanelControl _impl = ServicesPool.GetSingleton<IPanelControlFactory>().Create();
+    protected T _impl = impl;
+
+    public void Dispose() => _impl.Dispose();
 
     public IntPtr Handle
     {
@@ -42,21 +43,6 @@ public class PanelControl : IPanelControl
 
     public void Show() => _impl.Show();
 
-    public int Width
-    {
-        get => _impl.Width;
-        set => _impl.Width = value;
-    }
-    public int Height
-    {
-        get => _impl.Height;
-        set => _impl.Height = value;
-    }
-    public EventHandler<Size>? OnSizeChanged
-    {
-        get => _impl.OnSizeChanged;
-        set => _impl.OnSizeChanged = value;
-    }
     public Point Location
     {
         get => _impl.Location;
@@ -75,12 +61,4 @@ public class PanelControl : IPanelControl
     public void DrawBorders(Graphics g) => _impl.DrawBorders(g);
 
     public void DrawContent(Graphics g) => _impl.DrawContent(g);
-
-    public ColorRgba BackgroundColor
-    {
-        get => _impl.BackgroundColor;
-        set => _impl.BackgroundColor = value;
-    }
-
-    public void Dispose() => _impl.Dispose();
 }
