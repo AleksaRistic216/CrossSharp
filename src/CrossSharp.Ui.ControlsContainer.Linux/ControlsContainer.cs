@@ -6,7 +6,7 @@ namespace CrossSharp.Ui.Linux;
 
 public class ControlsContainer : IControlsContainer
 {
-    IGtkWidget _widget;
+    IPanelControl _widget;
     ColorRgba _backgroundColor;
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }

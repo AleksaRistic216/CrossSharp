@@ -5,11 +5,13 @@ namespace CrossSharp.Utils.Gtk;
 static class GtkHelpers
 {
     const string GOBJECT = "libgobject-2.0.so.0";
-    const string CAIRO = "libcairo.so.2";
     const string GTK = "libgtk-4.so.1";
 
     [DllImport(GTK)]
-    internal static extern IntPtr gtk_label_new(string text);
+    internal static extern IntPtr gtk_widget_realize(IntPtr widget);
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gtk_widget_get_pango_context(IntPtr widget);
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_window_set_child(IntPtr window, IntPtr child);
@@ -165,58 +167,6 @@ static class GtkHelpers
         IntPtr destroy_data,
         uint connect_flags
     );
-
-    // Cairo
-    [DllImport(CAIRO)]
-    internal static extern void cairo_rectangle(
-        IntPtr cr,
-        double x,
-        double y,
-        double width,
-        double height
-    );
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_fill(IntPtr cr);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_clip(IntPtr cr);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_set_source_rgba(
-        IntPtr cr,
-        double r,
-        double g,
-        double b,
-        double a
-    );
-
-    [DllImport(CAIRO)]
-    internal static extern IntPtr cairo_create(IntPtr surface);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_destroy(IntPtr cr);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_set_source_rgb(IntPtr cr, double r, double g, double b);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_set_line_width(IntPtr cr, double width);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_stroke(IntPtr cr);
-
-    [DllImport(CAIRO)]
-    internal static extern IntPtr cairo_image_surface_create(int format, int width, int height);
-
-    [DllImport(CAIRO)]
-    internal static extern void cairo_surface_destroy(IntPtr surface);
-
-    [DllImport((CAIRO))]
-    internal static extern void cairo_translate(IntPtr cr, double tx, double ty);
-
-    [DllImport(CAIRO)]
-    internal static extern int cairo_surface_write_to_png(IntPtr surface, string filename);
 
     // Callbacks
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

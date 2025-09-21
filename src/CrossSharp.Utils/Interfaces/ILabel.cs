@@ -1,3 +1,9 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ILabel : IGtkWidget;
+public interface ILabel : IGtkWidget
+{
+    EventHandler<EventArgs>? OnTextChanged { get; set; }
+    string Text { get; set; }
+    string FontFamily { get; set; }
+    int FontSize { get; set; }
+}

@@ -1,6 +1,9 @@
 using System.Drawing;
+using CrossSharp.Utils.Cairo;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Pango;
+using CrossSharp.Utils.PangoCairo;
 
 namespace CrossSharp.Utils.Drawing;
 
@@ -33,9 +36,9 @@ public class Graphics(
             return;
         SetClip(ClipRectangle);
         SetColor(borderColor);
-        GtkHelpers.cairo_set_line_width(ContextHandle, borderWidth);
-        GtkHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
-        GtkHelpers.cairo_stroke(ContextHandle);
+        CairoHelpers.cairo_set_line_width(ContextHandle, borderWidth);
+        CairoHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
+        CairoHelpers.cairo_stroke(ContextHandle);
     }
 
     internal void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor)
@@ -44,14 +47,42 @@ public class Graphics(
             return;
         SetClip(ClipRectangle);
         SetColor(fillColor);
-        GtkHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
-        GtkHelpers.cairo_fill(ContextHandle);
+        CairoHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
+        CairoHelpers.cairo_fill(ContextHandle);
     }
 
-    internal void SetColor(ColorRgba color)
+    internal void DrawText(
+        string text,
+        int x,
+        int y,
+        ColorRgba textColor,
+        string fontFamily,
+        int fontSize,
+        PangoWeight fontWeight,
+        PangoStyle fontStyle
+    )
+    {
+        SetClip(ClipRectangle);
+        SetColor(textColor);
+        CairoHelpers.cairo_move_to(ContextHandle, x, y);
+
+        IntPtr layout = PangoCairoHelpers.pango_cairo_create_layout(ContextHandle);
+        PangoHelpers.pango_layout_set_text(layout, text, -1);
+
+        IntPtr pangoDesc = PangoHelpers.CreateDescription(
+            fontFamily,
+            fontSize,
+            fontWeight,
+            fontStyle
+        );
+        PangoHelpers.pango_layout_set_font_description(layout, pangoDesc);
+        PangoCairoHelpers.pango_cairo_show_layout(ContextHandle, layout);
+    }
+
+    void SetColor(ColorRgba color)
     {
         var gtkColor = color.ToGtkRgba();
-        GtkHelpers.cairo_set_source_rgba(
+        CairoHelpers.cairo_set_source_rgba(
             ContextHandle,
             gtkColor.red,
             gtkColor.green,
@@ -62,20 +93,26 @@ public class Graphics(
 
     internal void SetClip(int x, int y, int width, int height)
     {
-        GtkHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
-        GtkHelpers.cairo_clip(ContextHandle);
+        CairoHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
+        CairoHelpers.cairo_clip(ContextHandle);
     }
 
     internal void SetClip(Point location, Size size)
     {
-        GtkHelpers.cairo_rectangle(ContextHandle, location.X, location.Y, size.Width, size.Height);
-        GtkHelpers.cairo_clip(ContextHandle);
+        CairoHelpers.cairo_rectangle(
+            ContextHandle,
+            location.X,
+            location.Y,
+            size.Width,
+            size.Height
+        );
+        CairoHelpers.cairo_clip(ContextHandle);
     }
 
     internal void SetClip(Rectangle rect)
     {
-        GtkHelpers.cairo_rectangle(ContextHandle, rect.X, rect.Y, rect.Width, rect.Height);
-        GtkHelpers.cairo_clip(ContextHandle);
+        CairoHelpers.cairo_rectangle(ContextHandle, rect.X, rect.Y, rect.Width, rect.Height);
+        CairoHelpers.cairo_clip(ContextHandle);
     }
 
     internal void ResetClip()
@@ -84,14 +121,14 @@ public class Graphics(
             locationProvider.Location,
             new Size(sizeProvider.Width, sizeProvider.Height)
         );
-        GtkHelpers.cairo_rectangle(
+        CairoHelpers.cairo_rectangle(
             ContextHandle,
             clipRect.X,
             clipRect.Y,
             clipRect.Width,
             clipRect.Height
         );
-        GtkHelpers.cairo_clip(ContextHandle);
+        CairoHelpers.cairo_clip(ContextHandle);
     }
 
     public void Dispose()

@@ -7,7 +7,7 @@ namespace CrossSharp.Ui;
 
 public class Label : ILabel
 {
-    ILabel _impl = ServicesPool.GetSingleton<ILabelFactory>().Create();
+    readonly ILabel _impl = ServicesPool.GetSingleton<ILabelFactory>().Create();
 
     public void Dispose() => _impl.Dispose();
 
@@ -43,21 +43,6 @@ public class Label : ILabel
 
     public void Show() => _impl.Show();
 
-    public int Width
-    {
-        get => _impl.Width;
-        set => _impl.Width = value;
-    }
-    public int Height
-    {
-        get => _impl.Height;
-        set => _impl.Height = value;
-    }
-    public EventHandler<Size>? OnSizeChanged
-    {
-        get => _impl.OnSizeChanged;
-        set => _impl.OnSizeChanged = value;
-    }
     public Point Location
     {
         get => _impl.Location;
@@ -76,4 +61,25 @@ public class Label : ILabel
     public void DrawBorders(Graphics g) => _impl.DrawBorders(g);
 
     public void DrawContent(Graphics g) => _impl.DrawContent(g);
+
+    public EventHandler<EventArgs>? OnTextChanged
+    {
+        get => _impl.OnTextChanged;
+        set => _impl.OnTextChanged = value;
+    }
+    public string Text
+    {
+        get => _impl.Text;
+        set => _impl.Text = value;
+    }
+    public string FontFamily
+    {
+        get => _impl.FontFamily;
+        set => _impl.FontFamily = value;
+    }
+    public int FontSize
+    {
+        get => _impl.FontSize;
+        set => _impl.FontSize = value;
+    }
 }

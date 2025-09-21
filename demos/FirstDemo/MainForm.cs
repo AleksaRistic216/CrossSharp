@@ -44,5 +44,8 @@ public class MainForm : Form
             panel.BackgroundColor = ColorRgba.Red;
             panel.Invalidate();
         };
+
+        var label = new Label() { Location = new Point(500, 500), Text = "Hello Motherfuckers!" };
+        Controls.Add(label);
     }
 }
