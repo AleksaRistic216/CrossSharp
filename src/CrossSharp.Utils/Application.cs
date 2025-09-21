@@ -1,8 +1,5 @@
 using CrossSharp.Utils.Interfaces;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Application")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
-
 namespace CrossSharp.Utils;
 
 class Application : IApplication

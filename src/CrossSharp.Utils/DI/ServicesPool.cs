@@ -1,8 +1,3 @@
-using System.Runtime.CompilerServices;
-using CrossSharp.Utils.Interfaces;
-
-[assembly: InternalsVisibleTo("CrossSharp.Application")]
-
 namespace CrossSharp.Utils.DI;
 
 static class ServicesPool

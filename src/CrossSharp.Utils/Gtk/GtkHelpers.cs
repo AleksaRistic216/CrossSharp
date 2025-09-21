@@ -1,11 +1,5 @@
 using System.Runtime.InteropServices;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Button")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Label")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Panel")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui")]
-
 namespace CrossSharp.Utils.Gtk;
 
 static class GtkHelpers
