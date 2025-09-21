@@ -4,9 +4,9 @@ using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.X11;
 
-namespace CrossSharp.Ui.FormLinux;
+namespace CrossSharp.Ui.Linux;
 
-partial class FormLinux : IForm
+partial class Form : IForm
 {
     public object Parent { get; set; } = null!;
     public IntPtr DisplayHandle { get; set; }
@@ -23,7 +23,7 @@ partial class FormLinux : IForm
         Controls.Redraw();
     }
 
-    public FormLinux()
+    public Form()
     {
         AppInstance = ServicesPool.GetSingleton<IApplication>();
         ParentHandle = AppInstance.MainWindowHandle;

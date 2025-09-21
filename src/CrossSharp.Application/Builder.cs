@@ -44,7 +44,7 @@ public class Builder
 
     void RegisterLinuxServices()
     {
-        AddSingleton<IFormFactory, FormLinuxFactory>();
+        AddSingleton<IFormFactory, Ui.Linux.FormFactory>();
         AddSingleton<IPanelControlFactory, Ui.Linux.PanelControlFactory>();
         AddSingleton<IFormTitleBarFactory, Ui.Linux.FormTitleBarFactory>();
     }

@@ -1,8 +1,8 @@
 using System.Drawing;
 
-namespace CrossSharp.Ui.FormLinux;
+namespace CrossSharp.Ui.Linux;
 
-partial class FormLinux
+partial class Form
 {
     public EventHandler<Point>? OnLocationChanged { get; set; }
     public EventHandler<Size>? OnSizeChanged { get; set; }

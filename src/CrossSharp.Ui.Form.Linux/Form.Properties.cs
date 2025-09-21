@@ -2,9 +2,9 @@ using System.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui.FormLinux;
+namespace CrossSharp.Ui.Linux;
 
-partial class FormLinux
+partial class Form
 {
     #region private
     int _width = 800;

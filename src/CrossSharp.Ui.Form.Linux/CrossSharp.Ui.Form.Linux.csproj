@@ -5,4 +5,8 @@
     <Nullable>enable</Nullable>
     <RootNamespace>CrossSharp.Ui.Linux</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
+  </ItemGroup>
 </Project>
