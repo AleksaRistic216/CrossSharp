@@ -9,7 +9,7 @@ public partial class FormTitleBar
     #region private
     static int _height = 36;
     static int _applicationButtonWidth = 36;
-    const int MOVEMENT_TRESHOLD = 5;
+    const int MOVEMENT_TRESHOLD = 2;
     const float MOVEMENT_FPS = 60;
     DateTime _lastDragTime = DateTime.MinValue;
     int _deltaX = 0;
