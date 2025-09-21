@@ -35,4 +35,9 @@ public class Button()
         get => _impl.BackgroundColor;
         set => _impl.BackgroundColor = value;
     }
+    public string Text
+    {
+        get => _impl.Text;
+        set => _impl.Text = value;
+    }
 }

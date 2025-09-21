@@ -18,25 +18,9 @@ public partial class Label : GtkWidget, ILabel
 
     public override void Invalidate()
     {
-        CalcSize();
-    }
-
-    void CalcSize()
-    {
-        var pangoContext = GtkHelpers.gtk_widget_get_pango_context(Handle);
-        var layout = PangoHelpers.pango_layout_new(pangoContext);
-        PangoHelpers.pango_layout_set_text(layout, Text, -1);
-
-        IntPtr pangoDesc = PangoHelpers.CreateDescription(
-            FontFamily,
-            FontSize,
-            PangoWeight.Normal, // TODO: Property
-            PangoStyle.Normal // TOOD: Property
-        );
-        PangoHelpers.pango_layout_set_font_description(layout, pangoDesc);
-        PangoHelpers.pango_layout_get_size(layout, out int width, out int height);
-        Width = width / 1024;
-        Height = height / 1024;
+        var renderRect = GtkHelpers.GetTextRenderRect(Handle, Text, FontFamily, FontSize);
+        Width = renderRect.Width;
+        Height = renderRect.Height;
     }
 
     public override void DrawShadows(Graphics g) { }

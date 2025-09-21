@@ -45,6 +45,7 @@ public partial class FormTitleBar : IFormTitleBar
             BackgroundColor = ColorRgba.Red,
             Width = _applicationButtonWidth,
             Height = _height,
+            Text = "X",
             OnClick = (s, e) =>
             {
                 _form.Close();

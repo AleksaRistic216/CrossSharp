@@ -1,4 +1,6 @@
+using System.Drawing;
 using System.Runtime.InteropServices;
+using CrossSharp.Utils.Pango;
 
 namespace CrossSharp.Utils.Gtk;
 
@@ -200,4 +202,26 @@ static class GtkHelpers
         int height,
         IntPtr userData
     );
+
+    internal static Size GetTextRenderRect(
+        IntPtr handle,
+        string text,
+        string fontFamily,
+        int fontSize
+    )
+    {
+        var pangoContext = gtk_widget_get_pango_context(handle);
+        var layout = PangoHelpers.pango_layout_new(pangoContext);
+        PangoHelpers.pango_layout_set_text(layout, text, -1);
+
+        IntPtr pangoDesc = PangoHelpers.CreateDescription(
+            fontFamily,
+            fontSize,
+            PangoWeight.Normal, // TODO: Property
+            PangoStyle.Normal // TOOD: Property
+        );
+        PangoHelpers.pango_layout_set_font_description(layout, pangoDesc);
+        PangoHelpers.pango_layout_get_size(layout, out int width, out int height);
+        return new Size(width / 1024, height / 1024);
+    }
 }

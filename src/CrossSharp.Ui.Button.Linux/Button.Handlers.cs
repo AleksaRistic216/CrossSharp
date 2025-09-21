@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.Input;
 
 namespace CrossSharp.Ui.Linux;
@@ -5,6 +6,19 @@ namespace CrossSharp.Ui.Linux;
 public partial class Button
 {
     public EventHandler? OnClick { get; set; }
+    public EventHandler? OnTextChanged { get; set; }
+
+    void RaiseTextChanged()
+    {
+        Invalidate();
+        Redraw();
+        OnTextChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    void RaiseClick()
+    {
+        OnClick?.Invoke(this, EventArgs.Empty);
+    }
 
     void SubscribeToInputs()
     {
@@ -15,12 +29,24 @@ public partial class Button
     {
         if (!IsMouseOver)
             return;
-        OnClick?.Invoke(this, EventArgs.Empty);
+        RaiseClick();
     }
 
     internal override void OnMouseMoved(object? sender, MouseInputArgs e)
     {
         base.OnMouseMoved(sender, e);
         Redraw();
+    }
+
+    protected override void RaiseOnSizeChanged(Size newSize)
+    {
+        base.RaiseOnSizeChanged(newSize);
+        Invalidate();
+    }
+
+    protected override void RaiseOnLocationChanged(Point newLocation)
+    {
+        base.RaiseOnLocationChanged(newLocation);
+        Invalidate();
     }
 }

@@ -17,4 +17,14 @@ public partial class Control
     {
         IsMouseOver = GetScreenBounds().Contains(e.X, e.Y);
     }
+
+    protected virtual void RaiseOnSizeChanged(Size newSize)
+    {
+        OnSizeChanged?.Invoke(this, newSize);
+    }
+
+    protected virtual void RaiseOnLocationChanged(Point newLocation)
+    {
+        OnLocationChanged?.Invoke(this, newLocation);
+    }
 }

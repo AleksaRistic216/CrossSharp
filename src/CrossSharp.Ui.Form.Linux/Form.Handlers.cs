@@ -16,22 +16,22 @@ partial class Form
         OnShow?.Invoke(this, EventArgs.Empty);
     }
 
-    void RaiseOnClose()
+    protected virtual void RaiseOnClose()
     {
         OnClose?.Invoke(this, EventArgs.Empty);
     }
 
-    void RaiseOnLocationChanged(Point newLocation)
+    protected virtual void RaiseOnLocationChanged(Point newLocation)
     {
         OnLocationChanged?.Invoke(this, newLocation);
     }
 
-    void RaiseOnSizeChanged(Size newSize)
+    protected virtual void RaiseOnSizeChanged(Size newSize)
     {
         OnSizeChanged?.Invoke(this, newSize);
     }
 
-    void RaiseOnBackgroundColorChanged(ColorRgba newColor)
+    protected virtual void RaiseOnBackgroundColorChanged(ColorRgba newColor)
     {
         OnBackgroundColorChanged?.Invoke(this, newColor);
         Controls.BackgroundColor = newColor;

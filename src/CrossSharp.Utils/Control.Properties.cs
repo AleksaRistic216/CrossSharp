@@ -37,6 +37,7 @@ public partial class Control
                 _location.Y + _height
             );
             Redraw();
+            RaiseOnSizeChanged(new Size(Width, Height));
         }
     }
     public int Height
@@ -53,6 +54,7 @@ public partial class Control
                 _location.Y + _height
             );
             Redraw();
+            RaiseOnSizeChanged(new Size(Width, Height));
         }
     }
     public Point Location
@@ -72,6 +74,7 @@ public partial class Control
                 _location.Y + _height
             );
             Redraw();
+            RaiseOnLocationChanged(value);
         }
     }
     public int ZIndex { get; set; } = 0;
