@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using CrossSharp.Application.Constants;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -12,33 +11,64 @@ public class Builder
 {
     public Builder(IApplicationConfiguration applicationConfiguration)
     {
+        RegisterCommonServices(applicationConfiguration);
+        RegisterPlatformSpecificServices();
+    }
+
+    void RegisterCommonServices(IApplicationConfiguration applicationConfiguration)
+    {
         AddSingleton(applicationConfiguration);
+        AddSingleton<IInputHandler, InputHandler>();
         AddSingleton<IApplication, Utils.Application>();
+        AddSingleton<IApplicationLoop, ApplicationLoop>();
+    }
+
+    void RegisterPlatformSpecificServices()
+    {
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
-                throw new NotImplementedException();
+                RegisterWindowsServices();
+                break;
             case CrossPlatformType.Linux:
-                AddSingleton<IFormFactory, FormLinuxFactory>();
+                RegisterLinuxServices();
                 break;
             case CrossPlatformType.MacOs:
-                throw new NotImplementedException();
+                RegisterMacOsServices();
+                break;
             case CrossPlatformType.Undefined:
             default:
                 throw new NotSupportedException("Current platform is not supported");
         }
     }
 
+    void RegisterLinuxServices()
+    {
+        AddSingleton<IFormFactory, FormLinuxFactory>();
+    }
+
+    void RegisterWindowsServices()
+    {
+        throw new NotImplementedException();
+    }
+
+    void RegisterMacOsServices()
+    {
+        throw new NotImplementedException();
+    }
+
     public void Run<T>()
         where T : Form, new()
     {
+        // Catch all exceptions
         AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
         {
             Console.WriteLine(e.Exception);
             Debugger.Break();
         };
+        // ===
 
-        GeneralConstants.AppLoop.Run<T>();
+        ServicesPool.GetSingleton<IApplicationLoop>().Run<T>();
     }
 
     public void AddSingleton<T>(T instance)

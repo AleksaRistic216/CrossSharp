@@ -1,4 +1,3 @@
-using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
@@ -6,16 +5,14 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Application;
 
-class Loop : IDisposable
+class ApplicationLoop : IApplicationLoop
 {
     readonly CancellationTokenSource _cts = new();
+    readonly IInputHandler _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
 
-    internal void Run<T>()
-        where T : Form, new()
+    void IApplicationLoop.Run<T>()
     {
-        var ih = new InputHandler();
-        ServicesPool.AddSingleton<IInputHandler>(ih);
-        _ = ih.StartListeningAsync(_cts.Token);
+        _ = _inputHandler.StartListeningAsync(_cts.Token);
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
@@ -35,19 +32,19 @@ class Loop : IDisposable
     }
 
     static void RunMacOsApp<T>()
-        where T : Form
+        where T : IForm, new()
     {
         throw new NotImplementedException();
     }
 
     static void RunLinuxApp<T>()
-        where T : Form, new()
+        where T : IForm, new()
     {
         GtkApplicationRunner.Run<T>();
     }
 
     static void RunWindowsApp<T>()
-        where T : Form
+        where T : IForm, new()
     {
         throw new NotImplementedException();
         // Bellow is a placeholder for actual Windows Forms application loop

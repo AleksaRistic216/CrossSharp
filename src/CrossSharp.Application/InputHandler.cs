@@ -15,7 +15,7 @@ class InputHandler : IInputHandler
     public event EventHandler<MouseInputArgs>? MouseWheel;
     public event EventHandler<MouseInputArgs>? MouseDragged;
 
-    internal Task StartListeningAsync(CancellationToken token)
+    public Task StartListeningAsync(CancellationToken token)
     {
         if (_hook.IsRunning)
             throw new InvalidOperationException("InputHandler hook is already running.");

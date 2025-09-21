@@ -6,9 +6,11 @@ namespace CrossSharp.Ui.Base;
 
 public abstract class FormBase : IForm
 {
-    readonly IFormFactory _formFactory;
-    readonly IForm _formImpl;
+    readonly IForm _formImpl = ServicesPool.GetSingleton<IFormFactory>().Create();
     public object Parent { get; set; } = null!;
+    public ITitleBar TitleBar => _formImpl.TitleBar;
+    public IApplication AppInstance => _formImpl.AppInstance;
+    public IControlsContainer Controls => _formImpl.Controls;
     public IntPtr DisplayHandle
     {
         get => _formImpl.DisplayHandle;
@@ -19,13 +21,6 @@ public abstract class FormBase : IForm
         get => _formImpl.WindowSurfaceHandle;
         set { _formImpl.WindowSurfaceHandle = value; }
     }
-
-    protected FormBase()
-    {
-        _formFactory = ServicesPool.GetSingleton<IFormFactory>();
-        _formImpl = _formFactory.Create();
-    }
-
     public IntPtr Handle
     {
         get => ((IControl)_formImpl).Handle;
@@ -36,12 +31,6 @@ public abstract class FormBase : IForm
         get => _formImpl.ParentHandle;
         set { _formImpl.ParentHandle = value; }
     }
-    public ITitleBar TitleBar => _formImpl.TitleBar;
-    public IApplication AppInstance => _formImpl.AppInstance;
-
-    public void Close() => _formImpl.Close();
-
-    public IControlsContainer Controls => _formImpl.Controls;
     public int ZIndex
     {
         get => _formImpl.ZIndex;
@@ -63,8 +52,6 @@ public abstract class FormBase : IForm
         get => _formImpl.OnClose;
         set { _formImpl.OnClose = value; }
     }
-
-    public void PerformLayout() => _formImpl.PerformLayout();
 
     public int Width
     {
@@ -96,6 +83,10 @@ public abstract class FormBase : IForm
         get => _formImpl.Title;
         set { _formImpl.Title = value; }
     }
+
+    public void PerformLayout() => _formImpl.PerformLayout();
+
+    public void Close() => _formImpl.Close();
 
     public void Dispose() => _formImpl.Dispose();
 
