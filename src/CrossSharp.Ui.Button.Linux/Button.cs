@@ -1,4 +1,5 @@
 ﻿using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -7,7 +8,8 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class Button : GtkWidget, IButton
 {
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.LightGray;
+    public ColorRgba BackgroundColor { get; set; } =
+        ServicesPool.GetSingleton<ITheme>().ButtonBackgroundColor;
 
     public Button()
     {
