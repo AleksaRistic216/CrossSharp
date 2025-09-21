@@ -1,19 +1,13 @@
-﻿using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui;
+namespace CrossSharp.Ui.Linux;
 
-public partial class ButtonControl : GtkWidget, IClickable, IBackgroundColorProvider
+public class PanelControl(IBackgroundColorProvider backgroundColorProvider)
+    : GtkWidget,
+        IPanelControl
 {
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.LightGray;
-
-    public ButtonControl()
-    {
-        SubscribeToInputs();
-    }
-
     public override void Invalidate() { }
 
     public override void DrawShadows(Graphics g) { }
@@ -23,8 +17,13 @@ public partial class ButtonControl : GtkWidget, IClickable, IBackgroundColorProv
         if (g.ContextHandle == IntPtr.Zero)
             return;
 
-        var color = !IsMouseOver ? BackgroundColor : BackgroundColor.Highlighted;
-        g.FillRectangle(Location.X, Location.Y, Width, Height, color);
+        g.FillRectangle(
+            Location.X,
+            Location.Y,
+            Width,
+            Height,
+            backgroundColorProvider.BackgroundColor
+        );
     }
 
     public override void DrawBorders(Graphics g) { }

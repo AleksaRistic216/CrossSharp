@@ -5,16 +5,11 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils.Gtk;
 
-public abstract class GtkWidget : Control
+public abstract class GtkWidget : Control, IGtkWidget
 {
-    public override IntPtr Handle { get; set; } = GtkHelpers.gtk_drawing_area_new();
     Graphics? _g;
-    readonly IApplication _application;
-
-    protected GtkWidget()
-    {
-        _application = ServicesPool.GetSingleton<IApplication>();
-    }
+    readonly IApplication _application = ServicesPool.GetSingleton<IApplication>();
+    public override IntPtr Handle { get; set; } = GtkHelpers.gtk_drawing_area_new();
 
     public override void Initialize()
     {
@@ -39,69 +34,32 @@ public abstract class GtkWidget : Control
         DrawBackground(_g!);
         DrawBorders(_g!);
         DrawContent(_g!);
+        if (_application.DevelopersMode)
+            DrawDevelopersBorders(_g!);
         _g!.Dispose();
     }
 
-    void DrawShadows(Graphics g)
+    public abstract void DrawShadows(Graphics g);
+
+    public abstract void DrawBackground(Graphics g);
+
+    public abstract void DrawBorders(Graphics g);
+
+    public abstract void DrawContent(Graphics g);
+
+    void DrawDevelopersBorders(Graphics g)
     {
-        switch (PlatformHelpers.GetCurrentPlatform())
-        {
-            case CrossPlatformType.Linux:
-                DrawShadowsLinux(g);
-                break;
-            case CrossPlatformType.Windows:
-                DrawShadowsWindows(g);
-                break;
-            case CrossPlatformType.MacOs:
-                DrawShadowsMacOs(g);
-                break;
-            case CrossPlatformType.Undefined:
-            default:
-                throw new NotSupportedException("Platform not supported");
-        }
-    }
-
-    protected abstract void DrawShadowsLinux(Graphics g);
-    protected abstract void DrawShadowsWindows(Graphics g);
-    protected abstract void DrawShadowsMacOs(Graphics g);
-
-    void DrawBackground(Graphics g)
-    {
-        switch (PlatformHelpers.GetCurrentPlatform())
-        {
-            case CrossPlatformType.Linux:
-                DrawBackgroundLinux(g);
-                break;
-            case CrossPlatformType.Windows:
-                DrawBackgroundWindows(g);
-                break;
-            case CrossPlatformType.MacOs:
-                DrawBackgroundMacOs(g);
-                break;
-            case CrossPlatformType.Undefined:
-            default:
-                throw new NotSupportedException("Platform not supported");
-        }
-    }
-
-    protected abstract void DrawBackgroundLinux(Graphics g);
-    protected abstract void DrawBackgroundWindows(Graphics g);
-    protected abstract void DrawBackgroundMacOs(Graphics g);
-
-    void DrawBorders(Graphics g)
-    {
+        if (_application.DevelopersMode == false)
+            return;
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Linux:
                 DrawDevelopersBordersLinux(g);
-                DrawBordersLinux(g);
                 break;
             case CrossPlatformType.Windows:
-                DrawBordersWindows(g);
-                break;
+                throw new NotImplementedException();
             case CrossPlatformType.MacOs:
-                DrawBordersMacOs(g);
-                break;
+                throw new NotImplementedException();
             case CrossPlatformType.Undefined:
             default:
                 throw new NotSupportedException("Platform not supported");
@@ -110,8 +68,6 @@ public abstract class GtkWidget : Control
 
     void DrawDevelopersBordersLinux(Graphics g)
     {
-        if (_application.DevelopersMode == false)
-            return;
         ColorRgba developerBorderColor = ColorRgba.Green;
         const float strokeThickness = 2.0f;
         g.DrawRectangle(
@@ -123,33 +79,6 @@ public abstract class GtkWidget : Control
             strokeThickness
         );
     }
-
-    protected abstract void DrawBordersLinux(Graphics g);
-    protected abstract void DrawBordersWindows(Graphics g);
-    protected abstract void DrawBordersMacOs(Graphics g);
-
-    void DrawContent(Graphics g)
-    {
-        switch (PlatformHelpers.GetCurrentPlatform())
-        {
-            case CrossPlatformType.Linux:
-                DrawContentLinux(g);
-                break;
-            case CrossPlatformType.Windows:
-                DrawContentWindows(g);
-                break;
-            case CrossPlatformType.MacOs:
-                DrawContentMacOs(g);
-                break;
-            case CrossPlatformType.Undefined:
-            default:
-                throw new NotSupportedException("Platform not supported");
-        }
-    }
-
-    protected abstract void DrawContentLinux(Graphics g);
-    protected abstract void DrawContentWindows(Graphics g);
-    protected abstract void DrawContentMacOs(Graphics g);
 
     public override void Dispose() { }
 }

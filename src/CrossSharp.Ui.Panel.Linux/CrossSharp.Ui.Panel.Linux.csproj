@@ -3,13 +3,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>CrossSharp.Ui.Linux</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SharpHook" Version="7.0.1" />
   </ItemGroup>
 </Project>
