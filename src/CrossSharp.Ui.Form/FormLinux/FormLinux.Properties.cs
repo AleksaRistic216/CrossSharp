@@ -1,5 +1,4 @@
 using System.Drawing;
-using CrossSharp.Ui.FormTitleBar;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 

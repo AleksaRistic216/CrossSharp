@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class PanelControl : IGtkWidget, IBackgroundColorProvider
+public class PanelControl : IPanelControl
 {
     readonly IPanelControl _impl = ServicesPool.GetSingleton<IPanelControlFactory>().Create();
 

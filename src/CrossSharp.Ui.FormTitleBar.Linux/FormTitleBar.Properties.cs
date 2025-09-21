@@ -2,9 +2,9 @@ using System.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui.FormTitleBar;
+namespace CrossSharp.Ui.Linux;
 
-public partial class FormTitleBarControl
+public partial class FormTitleBar
 {
     #region private
     static int _height = 36;

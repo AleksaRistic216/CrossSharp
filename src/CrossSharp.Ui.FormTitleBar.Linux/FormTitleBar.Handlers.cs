@@ -5,22 +5,17 @@ using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.X11;
 
-namespace CrossSharp.Ui.FormTitleBar;
+namespace CrossSharp.Ui.Linux;
 
-public partial class FormTitleBarControl
+public partial class FormTitleBar
 {
-    IInputHandler _inputHandler;
+    IInputHandler _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
     public EventHandler? TypeChanged { get; set; }
 
     void RaiseTypeChanged()
     {
         Invalidate();
         TypeChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    void InitializeInputHandler()
-    {
-        _inputHandler = ServicesPool.GetSingleton<IInputHandler>();
     }
 
     void SubscribeToInputEvents()
@@ -61,7 +56,7 @@ public partial class FormTitleBarControl
     void OnMouseMoved(object? sender, MouseInputArgs e)
     {
         var formLocation = _form.Location;
-        var bounds = new Rectangle(formLocation.X, formLocation.Y, _width, _height);
+        var bounds = new Rectangle(formLocation.X, formLocation.Y, _width, FormTitleBar._height);
         IsMouseOver = bounds.Contains(e.X, e.Y);
     }
 
@@ -72,11 +67,11 @@ public partial class FormTitleBarControl
         var dx = e.X - _mouseDownMousePosition.Value.X;
         var dy = e.Y - _mouseDownMousePosition.Value.Y;
         if (
-            Math.Abs(dx - _deltaX) < MOVEMENT_TRESHOLD
-            && Math.Abs(dy - _deltaY) < MOVEMENT_TRESHOLD
+            Math.Abs((int)(dx - _deltaX)) < FormTitleBar.MOVEMENT_TRESHOLD
+            && Math.Abs((int)(dy - _deltaY)) < FormTitleBar.MOVEMENT_TRESHOLD
         )
             return;
-        if ((DateTime.Now - _lastDragTime).TotalMilliseconds < (1000f / MOVEMENT_FPS))
+        if ((DateTime.Now - _lastDragTime).TotalMilliseconds < (1000f / FormTitleBar.MOVEMENT_FPS))
             return;
         _lastDragTime = DateTime.Now;
         _deltaX = dx;

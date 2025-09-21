@@ -3,14 +3,13 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui.FormTitleBar;
+namespace CrossSharp.Ui.Linux;
 
-public partial class FormTitleBarControl : IBoundsProvider, ITitleBar, IMouseTargetable
+public partial class FormTitleBar : IFormTitleBar
 {
-    public FormTitleBarControl(IForm form)
+    public FormTitleBar(IForm form)
     {
         _form = form;
-        InitializeInputHandler();
         SubscribeToInputEvents();
         InitializeMainPanel();
         InitializeWindowButtons();

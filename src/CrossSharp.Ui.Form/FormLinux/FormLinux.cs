@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using CrossSharp.Ui.FormTitleBar;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -38,7 +37,7 @@ partial class FormLinux : IForm
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this);
         Controls.Parent = this;
-        TitleBar = new FormTitleBarControl(this);
+        TitleBar = new FormTitleBar(this);
         SubscribeToGtkSignals();
         OnLocationChanged += (s, e) =>
         {
