@@ -9,7 +9,7 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class FormTitleBar
 {
-    IInputHandler _inputHandler = Services.GetSingleton<IInputHandler>();
+    readonly IInputHandler _inputHandler = Services.GetSingleton<IInputHandler>();
     public EventHandler? TypeChanged { get; set; }
 
     void RaiseTypeChanged()
@@ -30,10 +30,43 @@ public partial class FormTitleBar
     {
         _mouseDownMousePosition = new Point(e.X, e.Y);
         _mouseDownFormPosition = _form.Location;
+        StartMovingForm();
+    }
+
+    void StartMovingForm()
+    {
+        _formDragCancellationTokenSource = new CancellationTokenSource();
+        _formDragTask = Task.Run(
+            () =>
+            {
+                while (!_formDragCancellationTokenSource.IsCancellationRequested)
+                {
+                    if (_formDragDestination is null)
+                        continue;
+                    int targetDelay = (int)(
+                        1000f / Services.GetSingleton<IApplicationConfiguration>().CoreFps
+                    );
+                    int delay = 0;
+                    if (_lastFormDragTime is not null)
+                    {
+                        var timeSinceLastDrag = DateTime.Now - _lastFormDragTime.Value;
+                        delay = targetDelay - (int)timeSinceLastDrag.TotalMilliseconds;
+                        if (delay < 0)
+                            delay = 0;
+                    }
+                    if (delay > 0)
+                        Task.Delay(delay).Wait();
+                    _lastFormDragTime = DateTime.Now;
+                    _form.Location = _formDragDestination.Value;
+                }
+            },
+            _formDragCancellationTokenSource.Token
+        );
     }
 
     void OnMouseReleased(object? sender, MouseInputArgs e)
     {
+        _formDragCancellationTokenSource?.Cancel();
         _mouseDownMousePosition = null;
         _mouseDownFormPosition = null;
 
@@ -50,7 +83,6 @@ public partial class FormTitleBar
 
         X11Helpers.XGetWindowAttributes(x11Display, x11Surface, out XWindowAttributes attrs);
         form.Location = new Point(attrs.x, attrs.y);
-        _lastDragTime = DateTime.Now;
     }
 
     void OnMouseMoved(object? sender, MouseInputArgs e)
@@ -71,15 +103,12 @@ public partial class FormTitleBar
             && Math.Abs((int)(dy - _deltaY)) < MOVEMENT_TRESHOLD
         )
             return;
-        if ((DateTime.Now - _lastDragTime).TotalMilliseconds < (1000f / MOVEMENT_FPS))
-            return;
-        _lastDragTime = DateTime.Now;
         _deltaX = dx;
         _deltaY = dy;
         var newLocation = new Point(
             _mouseDownFormPosition.Value.X + _deltaX,
             _mouseDownFormPosition.Value.Y + _deltaY
         );
-        _form.Location = newLocation;
+        _formDragDestination = newLocation;
     }
 }

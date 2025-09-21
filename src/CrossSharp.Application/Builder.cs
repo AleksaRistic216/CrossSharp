@@ -97,9 +97,6 @@ public class Builder
         where TImplementation : class, TInterface =>
         Services.AddSingleton<TInterface, TImplementation>();
 
-    public void EnableDevelopersMode()
-    {
-        IApplication app = Services.GetSingleton<IApplication>();
-        app.DevelopersMode = true;
-    }
+    public void EnableDevelopersMode() =>
+        Services.GetSingleton<IApplication>().DevelopersMode = true;
 }

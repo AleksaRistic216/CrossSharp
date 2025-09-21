@@ -1,6 +1,8 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IApplicationConfiguration {
+public interface IApplicationConfiguration
+{
     string ApplicationName { get; set; }
     string CompanyName { get; set; }
+    int CoreFps { get; set; }
 }

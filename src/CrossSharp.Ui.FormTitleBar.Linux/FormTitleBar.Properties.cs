@@ -9,9 +9,11 @@ public partial class FormTitleBar
     #region private
     static int _height = 36;
     static int _applicationButtonWidth = 36;
-    const int MOVEMENT_TRESHOLD = 10;
-    const float MOVEMENT_FPS = 60f;
-    DateTime _lastDragTime = DateTime.MinValue;
+    const int MOVEMENT_TRESHOLD = 1;
+    Task? _formDragTask;
+    CancellationTokenSource? _formDragCancellationTokenSource;
+    Point? _formDragDestination = null;
+    DateTime? _lastFormDragTime;
     int _deltaX = 0;
     int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
