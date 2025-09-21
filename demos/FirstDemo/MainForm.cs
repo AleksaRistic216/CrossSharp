@@ -1,13 +1,19 @@
 using System.Drawing;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Interfaces;
 
 namespace FirstDemo;
 
 public class MainForm : Form
 {
-    public MainForm()
+    readonly IApplication _application;
+    readonly ITheme _theme;
+
+    public MainForm(IApplication application, ITheme theme)
     {
+        _application = application;
+        _theme = theme;
         Width = 800;
         Height = 800;
         Location = new Point(0, 0);
@@ -39,11 +45,7 @@ public class MainForm : Form
             Location = new Point(300, 300),
         };
         Controls.Add(button);
-        button.OnClick += (s, e) =>
-        {
-            panel.BackgroundColor = ColorRgba.Red;
-            panel.Invalidate();
-        };
+        button.OnClick += (s, e) => { };
 
         var label = new Label() { Location = new Point(500, 500), Text = "Hello Motherfuckers!" };
         Controls.Add(label);

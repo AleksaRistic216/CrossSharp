@@ -65,7 +65,7 @@ public class Builder
     }
 
     public void Run<T>()
-        where T : Form, new()
+        where T : Form
     {
         // Catch all exceptions
         AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>

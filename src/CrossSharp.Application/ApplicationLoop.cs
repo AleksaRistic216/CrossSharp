@@ -32,19 +32,19 @@ class ApplicationLoop : IApplicationLoop
     }
 
     static void RunMacOsApp<T>()
-        where T : IForm, new()
+        where T : IForm
     {
         throw new NotImplementedException();
     }
 
     static void RunLinuxApp<T>()
-        where T : IForm, new()
+        where T : IForm
     {
         GtkApplicationRunner.Run<T>();
     }
 
     static void RunWindowsApp<T>()
-        where T : IForm, new()
+        where T : IForm
     {
         throw new NotImplementedException();
         // Bellow is a placeholder for actual Windows Forms application loop

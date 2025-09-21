@@ -61,4 +61,9 @@ static class ServicesPool
         Type interfaceType = typeof(TInterface);
         return _services.ContainsKey(interfaceType);
     }
+
+    internal static List<object> GetAllSingletons()
+    {
+        return _services.Values.ToList();
+    }
 }

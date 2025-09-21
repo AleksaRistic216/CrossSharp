@@ -1,5 +1,3 @@
-using CrossSharp.Application.Constants;
-using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -9,7 +7,7 @@ namespace CrossSharp.Application;
 static class GtkApplicationRunner
 {
     internal static void Run<T>()
-        where T : IForm, new()
+        where T : IForm
     {
         var app = GtkHelpers.gtk_application_new("org.example.GtkApp", 0); // TODO: App ID
         GtkHelpers.g_signal_connect_data(
@@ -26,13 +24,9 @@ static class GtkApplicationRunner
         void OnActivate(IntPtr appPtr, IntPtr _)
         {
             var appInstance = ServicesPool.GetSingleton<IApplication>();
+            appInstance.MainFormType = typeof(T);
             appInstance.MainWindowHandle = appPtr;
-            IForm mainForm = new T();
-            mainForm.OnClose += (_, _) =>
-            {
-                ServicesPool.GetSingleton<IApplicationLoop>().Dispose();
-            };
-            mainForm.Show();
+            appInstance.Start();
         }
     }
 }
