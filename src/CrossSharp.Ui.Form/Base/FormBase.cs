@@ -12,6 +12,11 @@ public abstract class FormBase : IForm
     public ITitleBar TitleBar => _formImpl.TitleBar;
     public IApplication AppInstance => _formImpl.AppInstance;
     public IControlsContainer Controls => _formImpl.Controls;
+    public bool UseNativeTitleBar
+    {
+        get => _formImpl.UseNativeTitleBar;
+        set { _formImpl.UseNativeTitleBar = value; }
+    }
     public IntPtr DisplayHandle
     {
         get => _formImpl.DisplayHandle;

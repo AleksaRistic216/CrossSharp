@@ -8,10 +8,6 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Form : IForm
 {
-    public object Parent { get; set; } = null!;
-    public IntPtr DisplayHandle { get; set; }
-    public IntPtr WindowSurfaceHandle { get; set; }
-
     public void Close()
     {
         Dispose();
@@ -37,12 +33,8 @@ partial class Form : IForm
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this, this);
         Controls.Parent = this;
-        TitleBar = new FormTitleBar(this);
         SubscribeToGtkSignals();
-        OnLocationChanged += (s, e) =>
-        {
-            UpdatePositionX11();
-        };
+        Invalidate();
     }
 
     void SubscribeToGtkSignals()
@@ -98,6 +90,7 @@ partial class Form : IForm
             return;
 
         X11Helpers.XMoveWindow(x11Display, x11Surface, Location.X, Location.Y);
+        X11Helpers.XFlush(x11Display);
     }
 
     void SignalOnWidgetMapped(IntPtr widget, IntPtr _)
@@ -113,13 +106,19 @@ partial class Form : IForm
         return false; // Return true to prevent the window from closing
     }
 
-    public void Invalidate() { }
+    public void Invalidate()
+    {
+        if (!UseNativeTitleBar && TitleBar is null)
+            TitleBar = new FormTitleBar(this);
+        if (UseNativeTitleBar)
+            TitleBar = null;
+    }
 
     public void Show()
     {
         GtkHelpers.gtk_widget_show(Handle);
         Controls.Show();
-        TitleBar.Show();
+        TitleBar?.Show();
     }
 
     public void Dispose()

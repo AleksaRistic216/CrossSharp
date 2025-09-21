@@ -9,13 +9,14 @@ public partial class FormTitleBar
     #region private
     static int _height = 36;
     static int _applicationButtonWidth = 36;
-    const int MOVEMENT_TRESHOLD = 2;
-    const float MOVEMENT_FPS = 60;
+    const int MOVEMENT_TRESHOLD = 10;
+    const float MOVEMENT_FPS = 60f;
     DateTime _lastDragTime = DateTime.MinValue;
     int _deltaX = 0;
     int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
     Panel _mainPanel;
+    Button? _maximizeButton;
     Button? _closeButton;
     Label? _titleLabel;
     IForm _form;

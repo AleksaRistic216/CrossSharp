@@ -49,6 +49,17 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeWindowButtons()
     {
+        _maximizeButton = new FormTitleBarMaximizeButton
+        {
+            ParentHandle = _form.Controls.Handle,
+            Parent = _form,
+            BackgroundColor = ColorRgba.Pink,
+            Width = _applicationButtonWidth,
+            Height = _height,
+            Text = "M",
+            OnClick = (s, e) => { },
+        };
+        _maximizeButton.Initialize();
         _closeButton = new Button
         {
             ParentHandle = _form.Controls.Handle,
@@ -68,6 +79,7 @@ public partial class FormTitleBar : IFormTitleBar
     public void Show()
     {
         _mainPanel.Show();
+        _maximizeButton?.Show();
         _closeButton?.Show();
         _titleLabel?.Show();
     }
@@ -76,15 +88,25 @@ public partial class FormTitleBar : IFormTitleBar
     {
         IRelativeHandle parentHandle = _form;
         GtkHelpers.gtk_window_set_decorated(parentHandle.Handle, false);
+        InvalidateMaximizeButton();
         InvalidateCloseButton();
         InvalidateTitleLabel();
+    }
+
+    void InvalidateMaximizeButton()
+    {
+        if (_maximizeButton is null)
+            return;
+        var desiredWidth = Width - 2 * _applicationButtonWidth;
+        _maximizeButton.Location = new Point(Math.Max(desiredWidth, 0), 0);
     }
 
     void InvalidateCloseButton()
     {
         if (_closeButton is null)
             return;
-        _closeButton.Location = new Point(Width - _applicationButtonWidth, 0);
+        var desiredWidth = Width - _applicationButtonWidth;
+        _closeButton.Location = new Point(Math.Max(desiredWidth, 0), 0);
     }
 
     void InvalidateTitleLabel()

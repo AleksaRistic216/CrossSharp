@@ -7,4 +7,5 @@ public class DefaultTheme : ITheme
 {
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.WhiteSmoke;
     public ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.LightGray;
+    public bool UseNativeTitleBar { get; set; } = false;
 }

@@ -8,14 +8,26 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Form
 {
-    #region private
     ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
     int _width = 800;
     int _height = 600;
     Point _location = new(100, 100);
     string _title = "Form";
-    #endregion
-    #region exposed
+    bool _useNativeTitleBar = Services.GetSingleton<ITheme>().UseNativeTitleBar;
+    public object Parent { get; set; } = null!;
+    public bool UseNativeTitleBar
+    {
+        get => _useNativeTitleBar;
+        set
+        {
+            if (_useNativeTitleBar == value)
+                return;
+            _useNativeTitleBar = value;
+            RaiseOnNativeTitleBarChanged();
+        }
+    }
+    public IntPtr DisplayHandle { get; set; }
+    public IntPtr WindowSurfaceHandle { get; set; }
     public string Title
     {
         get => _title;
@@ -28,7 +40,7 @@ partial class Form
                 GtkHelpers.gtk_window_set_title(Handle, _title);
         }
     }
-    public ITitleBar TitleBar { get; private set; }
+    public ITitleBar? TitleBar { get; private set; }
     public IApplication AppInstance { get; }
     public IControlsContainer Controls { get; private set; }
     public IntPtr Handle { get; set; }
@@ -78,5 +90,4 @@ partial class Form
             RaiseOnBackgroundColorChanged(_backgroundColor);
         }
     }
-    #endregion
 }

@@ -67,11 +67,11 @@ public partial class FormTitleBar
         var dx = e.X - _mouseDownMousePosition.Value.X;
         var dy = e.Y - _mouseDownMousePosition.Value.Y;
         if (
-            Math.Abs((int)(dx - _deltaX)) < FormTitleBar.MOVEMENT_TRESHOLD
-            && Math.Abs((int)(dy - _deltaY)) < FormTitleBar.MOVEMENT_TRESHOLD
+            Math.Abs((int)(dx - _deltaX)) < MOVEMENT_TRESHOLD
+            && Math.Abs((int)(dy - _deltaY)) < MOVEMENT_TRESHOLD
         )
             return;
-        if ((DateTime.Now - _lastDragTime).TotalMilliseconds < (1000f / FormTitleBar.MOVEMENT_FPS))
+        if ((DateTime.Now - _lastDragTime).TotalMilliseconds < (1000f / MOVEMENT_FPS))
             return;
         _lastDragTime = DateTime.Now;
         _deltaX = dx;

@@ -5,6 +5,7 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Form
 {
+    public EventHandler? OnUseNativeTitleBarChanged { get; set; }
     public EventHandler<Point>? OnLocationChanged { get; set; }
     public EventHandler<Size>? OnSizeChanged { get; set; }
     public EventHandler<ColorRgba>? OnBackgroundColorChanged { get; set; }
@@ -23,6 +24,7 @@ partial class Form
 
     protected virtual void RaiseOnLocationChanged(Point newLocation)
     {
+        UpdatePositionX11();
         OnLocationChanged?.Invoke(this, newLocation);
     }
 
@@ -35,5 +37,11 @@ partial class Form
     {
         OnBackgroundColorChanged?.Invoke(this, newColor);
         Controls.BackgroundColor = newColor;
+    }
+
+    protected virtual void RaiseOnNativeTitleBarChanged()
+    {
+        Invalidate();
+        OnUseNativeTitleBarChanged?.Invoke(this, EventArgs.Empty);
     }
 }
