@@ -5,4 +5,5 @@ public interface IApplication
     IntPtr MainWindowHandle { get; internal set; }
     bool DevelopersMode { get; set; }
     EventHandler? DevelopersModeChanged { get; set; }
+    void SetTheme(ITheme theme);
 }

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using CrossSharp.Themes;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -73,7 +74,21 @@ public class Builder
         };
         // ===
 
+        ConfirmTheme();
         ServicesPool.GetSingleton<IApplicationLoop>().Run<T>();
+    }
+
+    void ConfirmTheme()
+    {
+        if (ServicesPool.IsRegistered<ITheme>())
+            return;
+
+        ServicesPool.AddSingleton<ITheme, DefaultTheme>();
+    }
+
+    public void SetTheme(ITheme theme)
+    {
+        ServicesPool.AddSingleton(theme, true);
     }
 
     public void AddSingleton<T>(T instance)

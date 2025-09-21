@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Button.Linux"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Label.Linux", "src\CrossSharp.Ui.Label.Linux\CrossSharp.Ui.Label.Linux.csproj", "{F7845578-A20F-4CA8-A3B2-9AF0A0E17B2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Themes", "src\CrossSharp.Themes\CrossSharp.Themes.csproj", "{BA6B4E3B-606A-4467-882A-652D89AC63B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,10 @@ Global
 		{F7845578-A20F-4CA8-A3B2-9AF0A0E17B2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7845578-A20F-4CA8-A3B2-9AF0A0E17B2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7845578-A20F-4CA8-A3B2-9AF0A0E17B2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA6B4E3B-606A-4467-882A-652D89AC63B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA6B4E3B-606A-4467-882A-652D89AC63B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA6B4E3B-606A-4467-882A-652D89AC63B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA6B4E3B-606A-4467-882A-652D89AC63B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24E7C5FF-9728-48A0-B2BF-FBE0FD28386A} = {C74D1299-EDB5-4CAC-8255-BA11848B491B}

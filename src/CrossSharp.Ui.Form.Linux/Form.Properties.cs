@@ -1,4 +1,6 @@
 using System.Drawing;
+using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -7,6 +9,7 @@ namespace CrossSharp.Ui.Linux;
 partial class Form
 {
     #region private
+    ColorRgba _backgroundColor = ServicesPool.GetSingleton<ITheme>().BackgroundColor;
     int _width = 800;
     int _height = 600;
     Point _location = new(100, 100);
@@ -62,6 +65,17 @@ partial class Form
                 return;
             _location = value;
             RaiseOnLocationChanged(_location);
+        }
+    }
+    public ColorRgba BackgroundColor
+    {
+        get => _backgroundColor;
+        set
+        {
+            if (_backgroundColor == value)
+                return;
+            _backgroundColor = value;
+            RaiseOnBackgroundColorChanged(_backgroundColor);
         }
     }
     #endregion

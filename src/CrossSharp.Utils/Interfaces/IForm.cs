@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IForm : IControl, ISizeProvider, ILocationProvider, ITitleBarProvider
+public interface IForm : IControl, ISizeProvider, ITitleBarProvider, IBackgroundColorProvider
 {
     IntPtr DisplayHandle { get; set; }
     IntPtr WindowSurfaceHandle { get; set; }

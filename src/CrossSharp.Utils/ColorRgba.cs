@@ -11,7 +11,12 @@ public class ColorRgba
     public static readonly ColorRgba Purple = new(0.5f, 0, 0.5f, 1);
     public static readonly ColorRgba Gray = new(0.5f, 0.5f, 0.5f, 1);
     public static readonly ColorRgba LightGray = new(0.8f, 0.8f, 0.8f, 1);
+    public static readonly ColorRgba DarkGray = new(0.2f, 0.2f, 0.2f, 1);
+    public static readonly ColorRgba Yellow = new(1, 1, 0, 1);
+    public static readonly ColorRgba Orange = new(1, 0.65f, 0, 1);
+    public static readonly ColorRgba Pink = new(1, 0.75f, 0.8f, 1);
     public static readonly ColorRgba White = new(1, 1, 1, 1);
+    public static readonly ColorRgba WhiteSmoke = new(0.9f, 0.9f, 0.9f, 1);
     public static readonly ColorRgba Black = new(0, 0, 0, 1);
     public float R { get; set; }
     public float G { get; set; }

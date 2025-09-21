@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
@@ -95,4 +96,10 @@ public abstract class FormBase : IForm
     public void Invalidate() => _formImpl.Invalidate();
 
     public void Show() => _formImpl.Show();
+
+    public ColorRgba BackgroundColor
+    {
+        get => _formImpl.BackgroundColor;
+        set { _formImpl.BackgroundColor = value; }
+    }
 }

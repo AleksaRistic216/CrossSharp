@@ -35,7 +35,7 @@ partial class Form : IForm
     public void Initialize()
     {
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
-        Controls = new ControlsContainer(Handle, this);
+        Controls = new ControlsContainer(Handle, this, this);
         Controls.Parent = this;
         TitleBar = new FormTitleBar(this);
         SubscribeToGtkSignals();

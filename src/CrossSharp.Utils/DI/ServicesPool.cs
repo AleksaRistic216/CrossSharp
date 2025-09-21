@@ -54,4 +54,11 @@ static class ServicesPool
             $"Service for type {interfaceType.FullName} is not registered."
         );
     }
+
+    internal static bool IsRegistered<TInterface>()
+        where TInterface : class
+    {
+        Type interfaceType = typeof(TInterface);
+        return _services.ContainsKey(interfaceType);
+    }
 }

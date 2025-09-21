@@ -1,3 +1,4 @@
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
@@ -18,6 +19,11 @@ class Application : IApplication
         }
     }
     public EventHandler? DevelopersModeChanged { get; set; }
+
+    public void SetTheme(ITheme theme)
+    {
+        ServicesPool.AddSingleton(theme, true);
+    }
 
     void RaiseDevelopersModeChanged()
     {

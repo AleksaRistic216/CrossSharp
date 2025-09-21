@@ -4,6 +4,9 @@ namespace CrossSharp.Ui.Linux;
 
 public class ControlsContainerFactory : IControlsContainerFactory
 {
-    public IControlsContainer Create(IntPtr parentHandle, ISizeProvider sizeProvider) =>
-        new ControlsContainer(parentHandle, sizeProvider);
+    public IControlsContainer Create(
+        IntPtr parentHandle,
+        ISizeProvider sizeProvider,
+        IBackgroundColorProvider backgroundColorProvider
+    ) => new ControlsContainer(parentHandle, sizeProvider, backgroundColorProvider);
 }
