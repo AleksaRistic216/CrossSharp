@@ -49,6 +49,16 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeWindowButtons()
     {
+        _minimizeButton = new FormTitleBarMinimizeButton
+        {
+            ParentHandle = _form.Controls.Handle,
+            Parent = _form,
+            BackgroundColor = ColorRgba.LightGray,
+            Width = _applicationButtonWidth,
+            Height = _height,
+            OnClick = (s, e) => { },
+        };
+        _minimizeButton.Initialize();
         _maximizeButton = new FormTitleBarMaximizeButton
         {
             ParentHandle = _form.Controls.Handle,
@@ -56,7 +66,6 @@ public partial class FormTitleBar : IFormTitleBar
             BackgroundColor = ColorRgba.Pink,
             Width = _applicationButtonWidth,
             Height = _height,
-            Text = "M",
             OnClick = (s, e) => { },
         };
         _maximizeButton.Initialize();
@@ -79,6 +88,7 @@ public partial class FormTitleBar : IFormTitleBar
     public void Show()
     {
         _mainPanel.Show();
+        _minimizeButton?.Show();
         _maximizeButton?.Show();
         _closeButton?.Show();
         _titleLabel?.Show();
@@ -86,9 +96,18 @@ public partial class FormTitleBar : IFormTitleBar
 
     void Invalidate()
     {
+        InvalidateMinimizeButton();
         InvalidateMaximizeButton();
         InvalidateCloseButton();
         InvalidateTitleLabel();
+    }
+
+    void InvalidateMinimizeButton()
+    {
+        if (_minimizeButton is null)
+            return;
+        var desiredWidth = Width - 3 * _applicationButtonWidth;
+        _minimizeButton.Location = new Point(Math.Max(desiredWidth, 0), 0);
     }
 
     void InvalidateMaximizeButton()

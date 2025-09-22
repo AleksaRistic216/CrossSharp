@@ -3,21 +3,22 @@ using CrossSharp.Utils.Drawing;
 
 namespace CrossSharp.Ui.Linux;
 
-class FormTitleBarMaximizeButton() : Ui.Button(new FormTitleBarMaximizeButtonLinux());
+class FormTitleBarMinimizeButton() : Ui.Button(new FormTitleBarMinimizeButtonLinux());
 
-class FormTitleBarMaximizeButtonLinux : Button
+class FormTitleBarMinimizeButtonLinux : Button
 {
-    const int GLYPH_OFFSET = 24;
+    const int GLYPH_OFFSET = 16;
+    const int BORDER_WIDTH = 1;
 
     public override void DrawContent(Graphics g)
     {
         g.DrawRectangle(
             Location.X + GLYPH_OFFSET / 2,
-            Location.Y + GLYPH_OFFSET / 2,
+            Location.Y + Height / 2,
             Width - GLYPH_OFFSET,
-            Height - GLYPH_OFFSET,
+            1,
             ColorRgba.Black,
-            2
+            BORDER_WIDTH
         );
     }
 }
