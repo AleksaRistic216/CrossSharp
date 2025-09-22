@@ -109,9 +109,15 @@ partial class Form : IForm
     public void Invalidate()
     {
         if (!UseNativeTitleBar && TitleBar is null)
+        {
             TitleBar = new FormTitleBar(this);
+            GtkHelpers.gtk_window_set_decorated(Handle, false);
+        }
         if (UseNativeTitleBar)
+        {
             TitleBar = null;
+            GtkHelpers.gtk_window_set_decorated(Handle, true);
+        }
     }
 
     public void Show()

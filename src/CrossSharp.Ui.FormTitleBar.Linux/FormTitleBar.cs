@@ -86,8 +86,6 @@ public partial class FormTitleBar : IFormTitleBar
 
     void Invalidate()
     {
-        IRelativeHandle parentHandle = _form;
-        GtkHelpers.gtk_window_set_decorated(parentHandle.Handle, false);
         InvalidateMaximizeButton();
         InvalidateCloseButton();
         InvalidateTitleLabel();

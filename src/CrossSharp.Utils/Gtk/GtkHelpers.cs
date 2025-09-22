@@ -139,6 +139,12 @@ static class GtkHelpers
     [DllImport(GTK)]
     internal static extern void gtk_window_set_decorated(IntPtr window, bool setting);
 
+    [DllImport(GTK)]
+    internal static extern void gtk_widget_set_opacity(IntPtr widget, double opacity); // Works but it does on all the children too
+
+    [DllImport(GTK)]
+    internal static extern void gtk_window_set_resizable(IntPtr window, bool setting);
+
     // Signals
     [DllImport(GOBJECT)]
     internal static extern void g_object_unref(IntPtr handle);
