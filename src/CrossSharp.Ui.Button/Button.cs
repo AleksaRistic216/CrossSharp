@@ -6,10 +6,14 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class Button()
-    : CrossWidget<IButton>(Services.GetSingleton<IButtonFactory>().Create()),
-        IButton
+public class Button : CrossWidget<IButton>, IButton
 {
+    public Button()
+        : base(Services.GetSingleton<IButtonFactory>().Create()) { }
+
+    public Button(IButton impl)
+        : base(impl) { }
+
     public int Width
     {
         get => _impl.Width;

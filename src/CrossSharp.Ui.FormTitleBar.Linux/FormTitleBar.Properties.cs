@@ -20,7 +20,7 @@ public partial class FormTitleBar
     int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
     Panel _mainPanel;
-    Button? _maximizeButton;
+    FormTitleBarMaximizeButton? _maximizeButton;
     Button? _closeButton;
     Label? _titleLabel;
     IForm _form;
