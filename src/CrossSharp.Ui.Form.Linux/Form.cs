@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Runtime.InteropServices;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Gtk;
@@ -16,12 +17,18 @@ partial class Form : IForm
 
     public void PerformLayout()
     {
-        Controls.Redraw();
+        Invalidate();
+        Redraw();
     }
 
     public void Minimize()
     {
         GtkHelpers.gtk_window_minimize(Handle);
+    }
+
+    public void Maximize()
+    {
+        GtkHelpers.gtk_window_maximize(Handle);
     }
 
     public Form()
@@ -68,6 +75,14 @@ partial class Form : IForm
             IntPtr.Zero,
             0
         );
+        GtkHelpers.g_signal_connect_data(
+            Handle,
+            "notify::maximized",
+            (GtkHelpers.MaximizedCallback)SignalOnMaximized,
+            IntPtr.Zero,
+            IntPtr.Zero,
+            0
+        );
     }
 
     void SignalOnRealize(IntPtr widget, IntPtr a)
@@ -83,6 +98,17 @@ partial class Form : IForm
         UpdatePositionX11();
     }
 
+    void SignalOnMaximized(IntPtr widget, IntPtr a)
+    {
+        var maximized = GtkHelpers.gtk_window_is_maximized(Handle);
+        if (!maximized)
+            return;
+        var screenSize = GetScreenSize();
+        this.Location = new Point(0, 0);
+        this.Width = screenSize.Width;
+        this.Height = screenSize.Height;
+    }
+
     void UpdatePositionX11()
     {
         if (WindowSurfaceHandle == IntPtr.Zero)
@@ -96,6 +122,21 @@ partial class Form : IForm
 
         X11Helpers.XMoveWindow(x11Display, x11Surface, Location.X, Location.Y);
         X11Helpers.XFlush(x11Display);
+    }
+
+    Size GetScreenSize()
+    {
+        if (WindowSurfaceHandle == IntPtr.Zero)
+            return Size.Empty;
+        uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
+        if (x11Surface == 0)
+            return Size.Empty;
+        IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(DisplayHandle);
+        if (x11Display == IntPtr.Zero)
+            return Size.Empty;
+
+        X11Helpers.XGetWindowAttributes(x11Display, x11Surface, out XWindowAttributes attrs);
+        return new Size(attrs.width, attrs.height);
     }
 
     void SignalOnWidgetMapped(IntPtr widget, IntPtr _)
@@ -123,6 +164,9 @@ partial class Form : IForm
             TitleBar = null;
             GtkHelpers.gtk_window_set_decorated(Handle, true);
         }
+        TitleBar?.Invalidate();
+        foreach (var control in Controls.Items)
+            control.Invalidate();
     }
 
     public void Show()
@@ -130,6 +174,12 @@ partial class Form : IForm
         GtkHelpers.gtk_widget_show(Handle);
         Controls.Show();
         TitleBar?.Show();
+    }
+
+    public void Redraw()
+    {
+        // Controls.Redraw();
+        // TitleBar.Redraw();
     }
 
     public void Dispose()

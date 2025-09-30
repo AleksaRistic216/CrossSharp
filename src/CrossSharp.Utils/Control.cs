@@ -27,7 +27,7 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         InputHandler.MouseMoved -= OnMouseMoved;
     }
 
-    protected void Redraw()
+    public void Redraw()
     {
         if (Handle != IntPtr.Zero)
             GtkHelpers.gtk_widget_queue_draw(Handle);
