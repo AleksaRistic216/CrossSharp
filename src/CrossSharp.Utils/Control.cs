@@ -89,4 +89,16 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
             _height
         );
     }
+
+    internal void SuspendLayout()
+    {
+        _suspendLayout = true;
+    }
+
+    internal void ResumeLayout()
+    {
+        _suspendLayout = false;
+        Invalidate();
+        Redraw();
+    }
 }

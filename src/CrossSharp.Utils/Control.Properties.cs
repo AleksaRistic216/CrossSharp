@@ -13,6 +13,8 @@ public partial class Control
     bool _visible = true;
     #endregion
 
+    internal bool _suspendLayout = false;
+
     #region abstract
     public abstract IntPtr Handle { get; set; }
     #endregion
@@ -31,10 +33,15 @@ public partial class Control
             if (_visible == value)
                 return;
             _visible = value;
-            if (_visible)
-                GtkHelpers.gtk_widget_show(Handle);
-            else
-                GtkHelpers.gtk_widget_hide(Handle);
+            if (Handle == IntPtr.Zero)
+                return;
+            if (!_suspendLayout)
+            {
+                if (_visible)
+                    GtkHelpers.gtk_widget_show(Handle);
+                else
+                    GtkHelpers.gtk_widget_hide(Handle);
+            }
         }
     }
     public int Width
@@ -42,15 +49,20 @@ public partial class Control
         get => _width;
         set
         {
+            if (_width == value)
+                return;
             _width = value;
             if (Handle == IntPtr.Zero)
                 return;
-            GtkHelpers.gtk_widget_set_size_request(
-                Handle,
-                _location.X + _width,
-                _location.Y + _height
-            );
-            Redraw();
+            if (!_suspendLayout)
+            {
+                GtkHelpers.gtk_widget_set_size_request(
+                    Handle,
+                    _location.X + _width,
+                    _location.Y + _height
+                );
+                Redraw();
+            }
             RaiseOnSizeChanged(new Size(Width, Height));
         }
     }
@@ -62,12 +74,15 @@ public partial class Control
             _height = value;
             if (Handle == IntPtr.Zero)
                 return;
-            GtkHelpers.gtk_widget_set_size_request(
-                Handle,
-                _location.X + _width,
-                _location.Y + _height
-            );
-            Redraw();
+            if (!_suspendLayout)
+            {
+                GtkHelpers.gtk_widget_set_size_request(
+                    Handle,
+                    _location.X + _width,
+                    _location.Y + _height
+                );
+                Redraw();
+            }
             RaiseOnSizeChanged(new Size(Width, Height));
         }
     }
@@ -79,15 +94,17 @@ public partial class Control
             if (_location == value)
                 return;
             _location = value;
-            OnLocationChanged?.Invoke(this, _location);
             if (Handle == IntPtr.Zero)
                 return;
-            GtkHelpers.gtk_widget_set_size_request(
-                Handle,
-                _location.X + _width,
-                _location.Y + _height
-            );
-            Redraw();
+            if (!_suspendLayout)
+            {
+                GtkHelpers.gtk_widget_set_size_request(
+                    Handle,
+                    _location.X + _width,
+                    _location.Y + _height
+                );
+                Redraw();
+            }
             RaiseOnLocationChanged(value);
         }
     }
