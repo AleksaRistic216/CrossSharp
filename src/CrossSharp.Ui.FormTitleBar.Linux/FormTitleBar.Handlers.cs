@@ -104,4 +104,16 @@ public partial class FormTitleBar
         );
         _formDragDestination = newLocation;
     }
+
+    void OnCloseButtonClick(object? sender, EventArgs e)
+    {
+        _form.Close();
+    }
+
+    void OnMinimizeButtonClick(object? sender, EventArgs e)
+    {
+        _form.Minimize();
+    }
+
+    void OnMaximizeButtonClick(object? sender, EventArgs e) { }
 }

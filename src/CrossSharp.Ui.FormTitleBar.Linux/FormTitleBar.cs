@@ -49,6 +49,13 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeWindowButtons()
     {
+        InitializeMinimizeButton();
+        InitializeMaximizeButton();
+        InitializeCloseButton();
+    }
+
+    void InitializeMinimizeButton()
+    {
         _minimizeButton = new FormTitleBarMinimizeButton
         {
             ParentHandle = _form.Controls.Handle,
@@ -56,9 +63,13 @@ public partial class FormTitleBar : IFormTitleBar
             BackgroundColor = ColorRgba.LightGray,
             Width = _applicationButtonWidth,
             Height = _height,
-            OnClick = (s, e) => { },
+            OnClick = OnMinimizeButtonClick,
         };
         _minimizeButton.Initialize();
+    }
+
+    void InitializeMaximizeButton()
+    {
         _maximizeButton = new FormTitleBarMaximizeButton
         {
             ParentHandle = _form.Controls.Handle,
@@ -66,9 +77,13 @@ public partial class FormTitleBar : IFormTitleBar
             BackgroundColor = ColorRgba.Pink,
             Width = _applicationButtonWidth,
             Height = _height,
-            OnClick = (s, e) => { },
+            OnClick = OnMaximizeButtonClick,
         };
         _maximizeButton.Initialize();
+    }
+
+    void InitializeCloseButton()
+    {
         _closeButton = new Button
         {
             ParentHandle = _form.Controls.Handle,
@@ -77,10 +92,7 @@ public partial class FormTitleBar : IFormTitleBar
             Width = _applicationButtonWidth,
             Height = _height,
             Text = "X",
-            OnClick = (s, e) =>
-            {
-                _form.Close();
-            },
+            OnClick = OnCloseButtonClick,
         };
         _closeButton.Initialize();
     }

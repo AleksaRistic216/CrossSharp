@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Base;
@@ -91,6 +92,8 @@ public abstract class FormBase : IForm
     }
 
     public void PerformLayout() => _formImpl.PerformLayout();
+
+    public void Minimize() => _formImpl.Minimize();
 
     public void Close() => _formImpl.Close();
 
