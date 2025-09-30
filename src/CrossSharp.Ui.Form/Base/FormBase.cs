@@ -95,6 +95,8 @@ public abstract class FormBase : IForm
 
     public void Minimize() => _formImpl.Minimize();
 
+    public void Maximize() => _formImpl.Maximize();
+
     public void Close() => _formImpl.Close();
 
     public void Dispose() => _formImpl.Dispose();
@@ -104,6 +106,8 @@ public abstract class FormBase : IForm
     public void Invalidate() => _formImpl.Invalidate();
 
     public void Show() => _formImpl.Show();
+
+    public void Redraw() => _formImpl.Redraw();
 
     public ColorRgba BackgroundColor
     {

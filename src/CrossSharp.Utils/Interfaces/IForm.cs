@@ -13,4 +13,5 @@ public interface IForm : IControl, ISizeProvider, ITitleBarProvider, IBackground
     EventHandler? OnClose { get; set; }
     void PerformLayout();
     void Minimize();
+    void Maximize();
 }

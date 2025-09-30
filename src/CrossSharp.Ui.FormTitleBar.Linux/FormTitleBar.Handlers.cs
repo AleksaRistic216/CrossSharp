@@ -115,5 +115,9 @@ public partial class FormTitleBar
         _form.Minimize();
     }
 
-    void OnMaximizeButtonClick(object? sender, EventArgs e) { }
+    void OnMaximizeButtonClick(object? sender, EventArgs e)
+    {
+        _form.Maximize();
+        _form.PerformLayout();
+    }
 }

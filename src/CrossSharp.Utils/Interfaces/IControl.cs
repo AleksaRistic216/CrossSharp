@@ -7,4 +7,5 @@ public interface IControl : IDisposable, IRelativeHandle
     void Initialize();
     void Invalidate();
     void Show();
+    void Redraw();
 }

@@ -106,7 +106,7 @@ public partial class FormTitleBar : IFormTitleBar
         _titleLabel?.Show();
     }
 
-    void Invalidate()
+    public void Invalidate()
     {
         InvalidateMinimizeButton();
         InvalidateMaximizeButton();

@@ -71,5 +71,9 @@ public class ControlsContainer : IControlsContainer
         control.Initialize();
     }
 
-    public void Redraw() { }
+    public void Redraw()
+    {
+        foreach (IControl item in Items)
+            item.Redraw();
+    }
 }

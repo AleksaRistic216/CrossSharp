@@ -126,6 +126,12 @@ static class GtkHelpers
     internal static extern void gtk_window_minimize(IntPtr window);
 
     [DllImport(GTK)]
+    internal static extern void gtk_window_maximize(IntPtr window);
+
+    [DllImport(GTK)]
+    internal static extern bool gtk_window_is_maximized(IntPtr window);
+
+    [DllImport(GTK)]
     internal static extern void gtk_fixed_remove(IntPtr fixedContainer, IntPtr widget);
 
     [DllImport(GTK)]
@@ -188,6 +194,9 @@ static class GtkHelpers
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void RealizeCallback(IntPtr widget, IntPtr userData);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void MaximizedCallback(IntPtr window, IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate bool CloseRequestCallback(IntPtr window, IntPtr user_data);
