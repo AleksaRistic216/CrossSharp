@@ -60,15 +60,17 @@ public abstract class FormBase : IForm
         set { _formImpl.OnClose = value; }
     }
 
+    int _minimumWidth = 300;
     public int Width
     {
         get => _formImpl.Width;
-        set { _formImpl.Width = value; }
+        set { _formImpl.Width = Math.Max(_minimumWidth, value); }
     }
+    int _minimumHeight = 250;
     public int Height
     {
         get => _formImpl.Height;
-        set { _formImpl.Height = value; }
+        set { _formImpl.Height = Math.Max(_minimumHeight, value); }
     }
     public EventHandler<Size>? OnSizeChanged
     {

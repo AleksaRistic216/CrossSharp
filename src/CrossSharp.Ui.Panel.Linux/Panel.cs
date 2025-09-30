@@ -8,8 +8,6 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class Panel : GtkWidget, IPanel
 {
-    public override void Invalidate() { }
-
     public override void DrawShadows(Graphics g) { }
 
     public override void DrawBackground(Graphics g)

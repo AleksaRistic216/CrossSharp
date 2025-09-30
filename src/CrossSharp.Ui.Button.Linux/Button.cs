@@ -16,6 +16,7 @@ public partial class Button : GtkWidget, IButton
 
     public override void Invalidate()
     {
+        base.Invalidate();
         var rectRect = GtkHelpers.GetTextRenderRect(Handle, Text, "Arial", 12);
         _textLocation = new Point(
             Location.X + (Width - rectRect.Width) / 2,

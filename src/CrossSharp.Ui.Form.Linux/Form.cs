@@ -9,6 +9,22 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Form : IForm
 {
+    public Form()
+    {
+        AppInstance = Services.GetSingleton<IApplication>();
+        ParentHandle = AppInstance.MainWindowHandle;
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
+        Controls = new ControlsContainer(Handle, this, this);
+        Controls.Parent = this;
+        SubscribeToGtkSignals();
+        Invalidate();
+    }
+
     public void Close()
     {
         Dispose();
@@ -29,24 +45,6 @@ partial class Form : IForm
     public void Maximize()
     {
         GtkHelpers.gtk_window_maximize(Handle);
-    }
-
-    public Form()
-    {
-        AppInstance = Services.GetSingleton<IApplication>();
-        ParentHandle = AppInstance.MainWindowHandle;
-        Initialize();
-    }
-
-    public int ZIndex { get; set; }
-
-    public void Initialize()
-    {
-        Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
-        Controls = new ControlsContainer(Handle, this, this);
-        Controls.Parent = this;
-        SubscribeToGtkSignals();
-        Invalidate();
     }
 
     void SubscribeToGtkSignals()

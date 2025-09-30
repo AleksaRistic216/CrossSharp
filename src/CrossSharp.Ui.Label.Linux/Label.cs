@@ -18,6 +18,7 @@ public partial class Label : GtkWidget, ILabel
 
     public override void Invalidate()
     {
+        base.Invalidate();
         var renderRect = GtkHelpers.GetTextRenderRect(Handle, Text, FontFamily, FontSize);
         Width = renderRect.Width;
         Height = renderRect.Height;

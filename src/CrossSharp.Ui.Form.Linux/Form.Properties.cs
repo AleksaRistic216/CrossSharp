@@ -26,6 +26,7 @@ partial class Form
             RaiseOnNativeTitleBarChanged();
         }
     }
+    public int ZIndex { get; set; }
     public IntPtr DisplayHandle { get; set; }
     public IntPtr WindowSurfaceHandle { get; set; }
     public string Title

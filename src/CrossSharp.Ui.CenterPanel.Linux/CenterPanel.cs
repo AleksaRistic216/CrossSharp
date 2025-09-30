@@ -9,6 +9,7 @@ public partial class CenterPanel : GtkWidget, ICenterPanel
 {
     public override void Invalidate()
     {
+        base.Invalidate();
         InvalidateChildLocation();
     }
 

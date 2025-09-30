@@ -12,8 +12,8 @@ public class MainForm : Form
 
     public MainForm()
     {
-        Width = 800;
-        Height = 800;
+        Width = 100;
+        Height = 100;
         Location = new Point(0, 0);
         OnShow += MainForm_OnShow;
     }

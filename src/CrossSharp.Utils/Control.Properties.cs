@@ -10,6 +10,7 @@ public partial class Control
     Point _location = new Point(0, 0);
     int _width = 0;
     int _height = 0;
+    bool _visible = true;
     #endregion
 
     #region abstract
@@ -22,7 +23,20 @@ public partial class Control
     public bool IsMouseOver { get; internal set; }
     public IntPtr ParentHandle { get; set; }
     public object Parent { get; set; }
-    public bool Visible { get; set; }
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            if (_visible)
+                GtkHelpers.gtk_widget_show(Handle);
+            else
+                GtkHelpers.gtk_widget_hide(Handle);
+        }
+    }
     public int Width
     {
         get => _width;

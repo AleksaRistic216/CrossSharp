@@ -22,6 +22,9 @@ static class GtkHelpers
     internal static extern void gtk_widget_show(IntPtr handle);
 
     [DllImport(GTK)]
+    internal static extern void gtk_widget_hide(IntPtr handle);
+
+    [DllImport(GTK)]
     internal static extern void gtk_widget_unparent(IntPtr handle);
 
     [DllImport(GTK)]

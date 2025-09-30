@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
@@ -21,13 +22,29 @@ public abstract class GtkWidget : Control, IGtkWidget
         _initialized = true;
     }
 
+    public override void Invalidate()
+    {
+        InvalidateVisibility();
+    }
+
+    void InvalidateVisibility()
+    {
+        if (Handle == IntPtr.Zero)
+            return;
+        var form = GetForm();
+        if (form is null)
+            return;
+        // TODO: Should be client bounds but for now we are ok with this
+        Rectangle formBounds = new(0, 0, form.Width, form.Height);
+        var controlBounds = GetFormRelativeBounds();
+        Visible = formBounds.Contains(controlBounds);
+    }
+
     public override void Show()
     {
-        if (GetIsAlreadyBoundToParent())
-            return;
-        GtkHelpers.gtk_widget_show(Handle);
-        GtkHelpers.gtk_fixed_put(ParentHandle, Handle, 0, 0);
-        Visible = true;
+        if (!GetIsAlreadyBoundToParent())
+            GtkHelpers.gtk_fixed_put(ParentHandle, Handle, 0, 0);
+        InvalidateVisibility();
     }
 
     bool GetIsAlreadyBoundToParent()

@@ -14,6 +14,7 @@ partial class Form
 
     void RaiseOnShow()
     {
+        UpdatePositionX11();
         OnShow?.Invoke(this, EventArgs.Empty);
     }
 
@@ -30,6 +31,7 @@ partial class Form
 
     protected virtual void RaiseOnSizeChanged(Size newSize)
     {
+        Invalidate();
         OnSizeChanged?.Invoke(this, newSize);
     }
 
