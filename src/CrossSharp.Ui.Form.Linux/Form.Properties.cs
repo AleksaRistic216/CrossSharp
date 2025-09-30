@@ -56,6 +56,10 @@ partial class Form
                 return;
             _width = value;
             RaiseOnSizeChanged(new Size(_width, _height));
+            GtkIdleInvoker.InvokeWhenIdle(() =>
+            {
+                GtkHelpers.gtk_window_set_default_size(Handle, _width, _height);
+            });
         }
     }
     public int Height
@@ -67,6 +71,10 @@ partial class Form
                 return;
             _height = value;
             RaiseOnSizeChanged(new Size(_width, _height));
+            GtkIdleInvoker.InvokeWhenIdle(() =>
+            {
+                GtkHelpers.gtk_window_set_default_size(Handle, _width, _height);
+            });
         }
     }
     public Point Location

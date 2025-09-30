@@ -33,6 +33,17 @@ partial class Form
     {
         Invalidate();
         OnSizeChanged?.Invoke(this, newSize);
+        // GtkIdleInvoker.InvokeWhenIdle(() =>
+        // {
+        //     GtkTimeoutInvoker.InvokeAfterTimeout(
+        //         2000,
+        //         () =>
+        //         {
+        //             Invalidate();
+        //             OnSizeChanged?.Invoke(this, newSize);
+        //         }
+        //     );
+        // });
     }
 
     protected virtual void RaiseOnBackgroundColorChanged(ColorRgba newColor)

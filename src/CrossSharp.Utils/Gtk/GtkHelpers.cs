@@ -7,7 +7,7 @@ namespace CrossSharp.Utils.Gtk;
 static class GtkHelpers
 {
     const string GOBJECT = "libgobject-2.0.so.0";
-    const string GTK = "libgtk-4.so.1";
+    internal const string GTK = "libgtk-4.so.1";
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_widget_realize(IntPtr widget);

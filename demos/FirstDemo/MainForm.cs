@@ -12,8 +12,8 @@ public class MainForm : Form
 
     public MainForm()
     {
-        Width = 100;
-        Height = 100;
+        Width = 1000;
+        Height = 800;
         Location = new Point(0, 0);
         OnShow += MainForm_OnShow;
     }
@@ -43,7 +43,10 @@ public class MainForm : Form
             Location = new Point(300, 300),
         };
         Controls.Add(button);
-        button.OnClick += (s, e) => { };
+        button.OnClick += (s, e) =>
+        {
+            Width = 500;
+        };
 
         var label = new Label() { Location = new Point(500, 500), Text = "Hello Motherfuckers!" };
         Controls.Add(label);
