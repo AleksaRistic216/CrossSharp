@@ -19,6 +19,11 @@ partial class Form : IForm
         Controls.Redraw();
     }
 
+    public void Minimize()
+    {
+        GtkHelpers.gtk_window_minimize(Handle);
+    }
+
     public Form()
     {
         AppInstance = Services.GetSingleton<IApplication>();

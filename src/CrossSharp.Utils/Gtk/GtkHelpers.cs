@@ -123,6 +123,9 @@ static class GtkHelpers
     );
 
     [DllImport(GTK)]
+    internal static extern void gtk_window_minimize(IntPtr window);
+
+    [DllImport(GTK)]
     internal static extern void gtk_fixed_remove(IntPtr fixedContainer, IntPtr widget);
 
     [DllImport(GTK)]
