@@ -23,7 +23,9 @@ public class MainForm : Form
         {
             Width = 100,
             Height = 100,
-            Location = new Point(0, TitleBar.Height),
+            Location = new Point(0, TitleBar.Height), // cant hold like this because of switch to native titlebar, coordinates will be fcked up
+            // Either have some stack, then on top title bar, bellow fixed
+            // Or offset everything by titlebar height
             BackgroundColor = ColorRgba.Purple,
         };
         Controls.Add(panel);
