@@ -1,5 +1,7 @@
 using System.Drawing;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Input;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 

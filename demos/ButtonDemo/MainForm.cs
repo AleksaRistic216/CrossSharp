@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Desktop;
 using CrossSharp.Ui;
 
 namespace ButtonDemo;
@@ -16,6 +17,10 @@ public class MainForm : Form
             Location = new Point(0, 0),
             Width = 200,
             Height = 100,
+        };
+        button.OnClick += (s, e) =>
+        {
+            Notifications.Show("Hello", "You have clicked the button!");
         };
         Controls.Add(button);
     }
