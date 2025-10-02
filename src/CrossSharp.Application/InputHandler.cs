@@ -37,17 +37,37 @@ class InputHandler : IInputHandler
         KeyPressed?.Invoke(sender, null);
     }
 
+    private DateTime lastClickTime = DateTime.MinValue;
+    private (short X, short Y) lastClickPosition = (0, 0);
+    private const int DoubleClickThresholdMs = 500;
+    private const int PositionTolerance = 2;
+
     void OnMousePressed(object? sender, HookEventArgs e)
     {
         var castedE = e as MouseHookEventArgs;
+        if (castedE == null)
+            return;
+
+        var now = DateTime.Now;
+        var timeDiff = (now - lastClickTime).TotalMilliseconds;
+        var isSamePosition =
+            Math.Abs(castedE.Data.X - lastClickPosition.X) <= PositionTolerance
+            && Math.Abs(castedE.Data.Y - lastClickPosition.Y) <= PositionTolerance;
+
+        int clickCount = (timeDiff <= DoubleClickThresholdMs && isSamePosition) ? 2 : 1;
+
         var args = new MouseInputArgs
         {
-            Button = ToCrossSharpMouseButton(castedE!.Data.Button),
+            Button = ToCrossSharpMouseButton(castedE.Data.Button),
             X = castedE.Data.X,
             Y = castedE.Data.Y,
-            Clicks = castedE.Data.Clicks,
+            Clicks = clickCount,
         };
+
         MousePressed?.Invoke(sender, args);
+
+        lastClickTime = now;
+        lastClickPosition = (castedE.Data.X, castedE.Data.Y);
     }
 
     void OnMouseReleased(object? sender, HookEventArgs e)

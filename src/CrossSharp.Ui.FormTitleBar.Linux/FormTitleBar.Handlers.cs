@@ -35,10 +35,18 @@ public partial class FormTitleBar
         _isMouseOverDraggableArea = IsMouseOverDraggableArea(e);
     }
 
+    bool _cancelMouseReleaseUpdateFormLocation = false;
+
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
         if (!_isMouseOverDraggableArea)
             return;
+        if (e.Clicks == 2)
+        {
+            OnMaximizeRestoreButtonClick(this, EventArgs.Empty);
+            _cancelMouseReleaseUpdateFormLocation = true;
+            return;
+        }
         _mouseDownMousePosition = new Point(e.X, e.Y);
         _mouseDownFormPosition = _form.Location;
         StartMovingForm();
@@ -68,7 +76,9 @@ public partial class FormTitleBar
                     continue;
                 }
                 _lastFormDragTime = DateTime.Now;
+
                 _form.Location = _formDragDestination.Value;
+                _formDragDestination = null;
                 Thread.Sleep(targetDelay);
             }
         });
@@ -84,6 +94,11 @@ public partial class FormTitleBar
         _mouseDownMousePosition = null;
         _mouseDownFormPosition = null;
 
+        if (_cancelMouseReleaseUpdateFormLocation)
+        {
+            _cancelMouseReleaseUpdateFormLocation = false;
+            return;
+        }
         if (_form is not IForm form)
             return;
         if (form.WindowSurfaceHandle == IntPtr.Zero)

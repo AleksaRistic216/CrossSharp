@@ -14,7 +14,6 @@ public class MainForm : Form
     {
         Width = 1000;
         Height = 800;
-        Location = new Point(0, 0);
         OnShow += MainForm_OnShow;
     }
 
