@@ -17,11 +17,7 @@ public sealed class ControlsContainer : IControlsContainer
     public object Parent
     {
         get => _parent;
-        set
-        {
-            _parent = value;
-            _widget.Parent = value;
-        }
+        set { _parent = value; }
     }
 
     public int BorderWidth

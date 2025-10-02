@@ -21,6 +21,7 @@ partial class Form : IForm
     {
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this, this);
+        Controls.Parent = this;
         BorderWidth = Services.GetSingleton<ITheme>().FormBorderWidth;
         BorderColor = Services.GetSingleton<ITheme>().FormBorderColor;
         SubscribeToGtkSignals();

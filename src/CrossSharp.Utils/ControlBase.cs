@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
-using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
@@ -76,7 +75,7 @@ public abstract partial class ControlBase : IControl
         IRelativeHandle obj = this;
         while (obj is IRelativeHandle)
         {
-            if (obj is IForm)
+            if (obj is IForm f)
                 break;
             if (obj is ILocationProvider parent)
             {
@@ -99,12 +98,15 @@ public abstract partial class ControlBase : IControl
         if (form == null)
             return Rectangle.Empty;
         var formRelativeBounds = GetFormRelativeBounds();
-        return new Rectangle(
+        var bounds = new Rectangle(
             form.Location.X + formRelativeBounds.X,
             form.Location.Y + formRelativeBounds.Y,
             _width,
             _height
         );
+        if (form.Controls.Items.Any(x => x.Handle == Handle))
+            bounds.Y += form.TitleBar?.Height ?? 0;
+        return bounds;
     }
 
     public void SuspendLayout()
