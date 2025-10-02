@@ -78,30 +78,27 @@ static class GtkHelpers
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_native_get_surface(IntPtr native);
-    [DllImport("libgtk-4.so.1")]
+    [DllImport(GTK)]
     public static extern IntPtr gtk_css_provider_new();
 
-    [DllImport("libgtk-4.so.1")]
+    [DllImport(GTK)]
     public static extern void gtk_css_provider_load_from_data(
         IntPtr provider,
         string data,
         UIntPtr length,
         IntPtr error);
 
-    [DllImport("libgtk-4.so.1")]
+    [DllImport(GTK)]
     public static extern void gtk_style_context_add_provider_for_display(
         IntPtr display,
         IntPtr provider,
         uint priority);
 
-    [DllImport("libgdk-4.so.1")]
-    public static extern IntPtr gdk_display_get_default();
-
     
     [DllImport(GTK)]
     internal static extern uint gdk_x11_surface_get_xid(IntPtr native);
 
-    [DllImport("libgtk-4.so.1")]
+    [DllImport(GTK)]
     internal static extern IntPtr gdk_x11_display_get_xdisplay(IntPtr display);
 
     [DllImport(GTK)]
