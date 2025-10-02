@@ -46,6 +46,15 @@ static class CairoHelpers
 
     [DllImport(CAIRO)]
     internal static extern void cairo_clip(IntPtr cr);
+    
+    [DllImport(CAIRO)]
+    internal static extern void cairo_new_path(IntPtr cr);
+    
+    [DllImport(CAIRO)]
+    internal static extern void cairo_arc(IntPtr cr, double xc, double yc, double radius, double angle1, double angle2);
+    
+    [DllImport(CAIRO)]
+    internal static extern void cairo_close_path(IntPtr cr);
 
     [DllImport(CAIRO)]
     internal static extern void cairo_set_source_rgb(IntPtr cr, double r, double g, double b);

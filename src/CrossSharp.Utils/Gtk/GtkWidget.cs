@@ -58,6 +58,9 @@ public abstract class GtkWidget : Control, IGtkWidget
         if (cr == IntPtr.Zero)
             return;
         _g = new Graphics(cr, this, this);
+        var form = GetForm();
+        if (form is not null)
+            _g.SetClip(new Rectangle(0, 0, form.Width, form.Height), Services.GetSingleton<ITheme>().RoundedCornersRadius);
         DrawShadows(_g!);
         DrawBackground(_g!);
         DrawBorders(_g!);

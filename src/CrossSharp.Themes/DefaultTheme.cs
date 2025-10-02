@@ -13,4 +13,5 @@ public class DefaultTheme : ITheme
         get => _useNativeTitleBar;
         set => _useNativeTitleBar = value;
     }
+    public int RoundedCornersRadius { get; set; } = 8;
 }

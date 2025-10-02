@@ -91,29 +91,33 @@ public class Graphics(
         );
     }
 
-    internal void SetClip(int x, int y, int width, int height)
-    {
-        CairoHelpers.cairo_rectangle(ContextHandle, x, y, width, height);
-        CairoHelpers.cairo_clip(ContextHandle);
-    }
-
-    internal void SetClip(Point location, Size size)
-    {
-        CairoHelpers.cairo_rectangle(
-            ContextHandle,
-            location.X,
-            location.Y,
-            size.Width,
-            size.Height
-        );
-        CairoHelpers.cairo_clip(ContextHandle);
-    }
 
     internal void SetClip(Rectangle rect)
     {
         CairoHelpers.cairo_rectangle(ContextHandle, rect.X, rect.Y, rect.Width, rect.Height);
         CairoHelpers.cairo_clip(ContextHandle);
     }
+    internal void SetClip(Rectangle rect, double radius)
+    {
+        double x = rect.X;
+        double y = rect.Y;
+        double width = rect.Width;
+        double height = rect.Height;
+
+        double r = Math.Min(radius, Math.Min(width / 2.0, height / 2.0)); // Clamp radius
+
+        // Start drawing the rounded rectangle path
+        CairoHelpers.cairo_new_path(ContextHandle);
+
+        CairoHelpers.cairo_arc(ContextHandle, x + width - r, y + r, r, -Math.PI / 2, 0); // Top-right corner
+        CairoHelpers.cairo_arc(ContextHandle, x + width - r, y + height - r, r, 0, Math.PI / 2); // Bottom-right
+        CairoHelpers.cairo_arc(ContextHandle, x + r, y + height - r, r, Math.PI / 2, Math.PI); // Bottom-left
+        CairoHelpers.cairo_arc(ContextHandle, x + r, y + r, r, Math.PI, 3 * Math.PI / 2); // Top-left
+
+        CairoHelpers.cairo_close_path(ContextHandle);
+        CairoHelpers.cairo_clip(ContextHandle);
+    }
+
 
     internal void ResetClip()
     {
