@@ -48,6 +48,12 @@ public class Control : Utils.Control
         InvalidateVisibility();
     }
 
+    public override void Redraw()
+    {
+        if (Handle != IntPtr.Zero)
+            GtkHelpers.gtk_widget_queue_draw(Handle);
+    }
+
     bool GetIsAlreadyBoundToParent()
     {
         IntPtr parent = GtkHelpers.gtk_widget_get_parent(Handle);
