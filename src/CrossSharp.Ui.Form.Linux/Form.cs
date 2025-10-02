@@ -275,6 +275,14 @@ partial class Form : IForm
         PerformLayout();
     }
 
+    public void DrawShadows(Graphics g) { }
+
+    public void DrawBackground(Graphics g) { }
+
+    public void DrawBorders(Graphics g) { }
+
+    public void DrawContent(Graphics g) { }
+
     public void Dispose()
     {
         Controls.Dispose();

@@ -5,7 +5,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class CenterPanel : GtkWidget, ICenterPanel
+public partial class CenterPanel : Utils.Linux.Control, ICenterPanel
 {
     public override void Invalidate()
     {
@@ -52,7 +52,7 @@ public partial class CenterPanel : GtkWidget, ICenterPanel
         _child!.DrawContent(g);
     }
 
-    void ValidateChild(IGtkWidget? widget)
+    void ValidateChild(IControl? widget)
     {
         if (widget is null)
             return;

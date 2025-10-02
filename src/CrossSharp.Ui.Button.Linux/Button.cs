@@ -7,7 +7,7 @@ using CrossSharp.Utils.Pango;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class Button : GtkWidget, IButton
+public partial class Button : Utils.Linux.Control, IButton
 {
     public Button()
     {

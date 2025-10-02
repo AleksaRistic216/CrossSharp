@@ -3,10 +3,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CrossSharp.Ui.Linux</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
-    <ProjectReference Include="..\CrossSharp.Utils.Linux\CrossSharp.Utils.Linux.csproj" />
   </ItemGroup>
 </Project>

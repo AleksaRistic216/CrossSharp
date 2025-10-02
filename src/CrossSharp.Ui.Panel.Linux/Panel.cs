@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class Panel : GtkWidget, IPanel
+public partial class Panel : Utils.Linux.Control, IPanel
 {
     public override void DrawShadows(Graphics g) { }
 

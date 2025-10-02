@@ -5,8 +5,8 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
-public abstract class CrossWidget<T>(T impl) : IGtkWidget
-    where T : IGtkWidget // TODO: This should implement widget, not gtk widget
+public abstract class CrossWidget<T>(T impl) : IControl
+    where T : IControl // TODO: This should implementUtils.Linux.Control, not gtkUtils.Linux.Control
 {
     protected T _impl = impl;
 

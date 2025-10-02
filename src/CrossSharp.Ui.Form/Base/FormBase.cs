@@ -125,6 +125,14 @@ public abstract class FormBase : IForm
 
     public void ResumeLayout() => _formImpl.ResumeLayout();
 
+    public void DrawShadows(Graphics g) => _formImpl.DrawShadows(g);
+
+    public void DrawBackground(Graphics g) => _formImpl.DrawBackground(g);
+
+    public void DrawBorders(Graphics g) => _formImpl.DrawBorders(g);
+
+    public void DrawContent(Graphics g) => _formImpl.DrawContent(g);
+
     public int BorderWidth
     {
         get => _formImpl.BorderWidth;

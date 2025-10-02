@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils.Linux\CrossSharp.Utils.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />

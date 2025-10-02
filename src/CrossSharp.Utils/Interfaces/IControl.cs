@@ -1,6 +1,8 @@
+using CrossSharp.Utils.Drawing;
+
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControl : IDisposable, IRelativeHandle, IBorder, IClipLimiter
+public interface IControl : IDisposable, IRelativeHandle, IBorder, IClipLimiter, ILocationProvider
 {
     int ZIndex { get; set; }
     bool Visible { get; set; }
@@ -10,4 +12,8 @@ public interface IControl : IDisposable, IRelativeHandle, IBorder, IClipLimiter
     void Redraw();
     void SuspendLayout();
     void ResumeLayout();
+    void DrawShadows(Graphics g);
+    void DrawBackground(Graphics g);
+    void DrawBorders(Graphics g);
+    void DrawContent(Graphics g);
 }

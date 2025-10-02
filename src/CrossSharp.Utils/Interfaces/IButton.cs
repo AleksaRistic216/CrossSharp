@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IButton : IGtkWidget, IClickable, IBackgroundColorProvider, ISizeProvider
+public interface IButton : IControl, IClickable, IBackgroundColorProvider, ISizeProvider
 {
     string Text { get; set; }
 }

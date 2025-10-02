@@ -6,6 +6,7 @@
     <RootNamespace>CrossSharp.Ui.Linux</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Utils.Linux\CrossSharp.Utils.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
 </Project>

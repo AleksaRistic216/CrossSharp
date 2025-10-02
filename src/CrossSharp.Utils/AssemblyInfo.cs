@@ -1,4 +1,5 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Application")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Utils.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ControlsContainer")]

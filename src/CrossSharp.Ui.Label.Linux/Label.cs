@@ -8,7 +8,7 @@ using CrossSharp.Utils.Pango;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class Label : GtkWidget, ILabel
+public partial class Label : Utils.Linux.Control, ILabel
 {
     public override void Show()
     {

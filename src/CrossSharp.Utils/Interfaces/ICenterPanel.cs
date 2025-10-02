@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ICenterPanel : IGtkWidget, IBackgroundColorProvider, ISizeProvider
+public interface ICenterPanel : IControl, IBackgroundColorProvider, ISizeProvider
 {
-    IGtkWidget? Child { get; set; }
+    IControl? Child { get; set; }
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Ui.ControlsContainer\CrossSharp.Ui.ControlsContainer.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils.Linux\CrossSharp.Utils.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>

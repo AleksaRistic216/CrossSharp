@@ -1,16 +1,16 @@
 using System.Drawing;
-using CrossSharp.Utils.Cairo;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Utils.Gtk;
+namespace CrossSharp.Utils.Linux;
 
-public abstract class GtkWidget : Control, IGtkWidget
+public class Control : Utils.Control
 {
     Graphics? _g;
-    bool _initialized = false;
+    bool _initialized;
     readonly IApplication _application = Services.GetSingleton<IApplication>();
     public override IntPtr Handle { get; set; } = GtkHelpers.gtk_drawing_area_new();
 
@@ -79,30 +79,6 @@ public abstract class GtkWidget : Control, IGtkWidget
         }
     }
 
-    public abstract void DrawShadows(Graphics g);
-
-    public abstract void DrawBackground(Graphics g);
-
-    public virtual void DrawBorders(Graphics g)
-    {
-        if (BorderWidth <= 0)
-            return;
-        if (BorderColor == ColorRgba.Transparent)
-            return;
-        if (Width <= 0 || Height <= 0)
-            return;
-        g.DrawRectangle(
-            Location.X + BorderWidth / 2,
-            Location.Y + BorderWidth / 2,
-            Width - BorderWidth,
-            Height - BorderWidth,
-            BorderColor,
-            BorderWidth
-        );
-    }
-
-    public abstract void DrawContent(Graphics g);
-
     void DrawDevelopersBorders(Graphics g)
     {
         if (_application.DevelopersMode == false)
@@ -135,6 +111,4 @@ public abstract class GtkWidget : Control, IGtkWidget
             strokeThickness
         );
     }
-
-    public override void Dispose() { }
 }

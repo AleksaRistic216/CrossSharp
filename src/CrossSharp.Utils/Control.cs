@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Drawing;
+﻿using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
@@ -7,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
-public abstract partial class Control : IControl, ISizeProvider, ILocationProvider
+public abstract partial class Control : IControl, ISizeProvider
 {
     public abstract void Initialize();
     public abstract void Invalidate();
@@ -123,6 +122,30 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         Invalidate();
         Redraw();
     }
+
+    public virtual void DrawShadows(Graphics g) { }
+
+    public virtual void DrawBackground(Graphics g) { }
+
+    public virtual void DrawBorders(Graphics g)
+    {
+        if (BorderWidth <= 0)
+            return;
+        if (BorderColor == ColorRgba.Transparent)
+            return;
+        if (Width <= 0 || Height <= 0)
+            return;
+        g.DrawRectangle(
+            Location.X + BorderWidth / 2,
+            Location.Y + BorderWidth / 2,
+            Width - BorderWidth,
+            Height - BorderWidth,
+            BorderColor,
+            BorderWidth
+        );
+    }
+
+    public virtual void DrawContent(Graphics g) { }
 
     public virtual void LimitClip(ref Graphics g)
     {

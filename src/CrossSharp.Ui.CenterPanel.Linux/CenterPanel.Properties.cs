@@ -18,8 +18,8 @@ public partial class CenterPanel
             RaiseBackgroundColorChanged();
         }
     }
-    IGtkWidget? _child;
-    public IGtkWidget? Child
+    IControl? _child;
+    public IControl? Child
     {
         get => _child;
         set

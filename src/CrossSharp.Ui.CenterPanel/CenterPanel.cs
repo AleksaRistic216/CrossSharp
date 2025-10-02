@@ -29,7 +29,7 @@ public class CenterPanel()
         get => _impl.OnSizeChanged;
         set => _impl.OnSizeChanged = value;
     }
-    public IGtkWidget? Child
+    public IControl? Child
     {
         get => _impl.Child;
         set => _impl.Child = value;
