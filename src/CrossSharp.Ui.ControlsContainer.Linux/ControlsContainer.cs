@@ -11,7 +11,16 @@ public class ControlsContainer : IControlsContainer
     ColorRgba _backgroundColor;
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }
-    public object Parent { get; set; }
+    object _parent;
+    public object Parent
+    {
+        get => _parent;
+        set
+        {
+            _parent = value;
+            _widget.Parent = value;
+        }
+    }
 
     public int Width
     {
@@ -54,16 +63,11 @@ public class ControlsContainer : IControlsContainer
         _widget = new Panel
         {
             ParentHandle = Handle,
-            BackgroundColor = ColorRgba.Transparent,
+            BackgroundColor = backgroundColorProvider.BackgroundColor,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height,
         };
         _widget.Initialize();
-        // sizeProvider.OnSizeChanged += (s, e) =>
-        // {
-        //     _widget.Width = e.Width;
-        //     _widget.Height = e.Height;
-        // };
     }
 
     public virtual void Show()
