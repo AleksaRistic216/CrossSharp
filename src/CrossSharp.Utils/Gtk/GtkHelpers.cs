@@ -13,6 +13,12 @@ static class GtkHelpers
     internal static extern IntPtr gtk_widget_realize(IntPtr widget);
 
     [DllImport(GTK)]
+    internal static extern void gtk_widget_set_hexpand(IntPtr widget, bool expand);
+
+    [DllImport(GTK)]
+    internal static extern void gtk_widget_set_vexpand(IntPtr widget, bool expand);
+
+    [DllImport(GTK)]
     internal static extern bool gtk_widget_get_visible(IntPtr widget);
 
     [DllImport(GTK)]
@@ -32,6 +38,9 @@ static class GtkHelpers
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_fixed_new();
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gtk_grid_new();
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_application_window_new(IntPtr app);
@@ -78,6 +87,7 @@ static class GtkHelpers
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_native_get_surface(IntPtr native);
+
     [DllImport(GTK)]
     public static extern IntPtr gtk_css_provider_new();
 
@@ -86,15 +96,16 @@ static class GtkHelpers
         IntPtr provider,
         string data,
         UIntPtr length,
-        IntPtr error);
+        IntPtr error
+    );
 
     [DllImport(GTK)]
     public static extern void gtk_style_context_add_provider_for_display(
         IntPtr display,
         IntPtr provider,
-        uint priority);
+        uint priority
+    );
 
-    
     [DllImport(GTK)]
     internal static extern uint gdk_x11_surface_get_xid(IntPtr native);
 

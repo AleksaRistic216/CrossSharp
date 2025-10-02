@@ -2,7 +2,13 @@ using CrossSharp.Utils.Drawing;
 
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControl : IDisposable, IRelativeHandle, IBorder, IClipLimiter, ILocationProvider
+public interface IControl
+    : IDisposable,
+        IRelativeHandle,
+        IBorder,
+        IClipLimiter,
+        ILocationProvider,
+        ISizeProvider
 {
     int ZIndex { get; set; }
     bool Visible { get; set; }

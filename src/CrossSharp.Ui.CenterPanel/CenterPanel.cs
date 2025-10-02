@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 namespace CrossSharp.Ui;
 
 public class CenterPanel()
-    : CrossWidget<ICenterPanel>(Services.GetSingleton<ICenterPanelFactory>().Create()),
+    : Control<ICenterPanel>(Services.GetSingleton<ICenterPanelFactory>().Create()),
         ICenterPanel
 {
     public ColorRgba BackgroundColor

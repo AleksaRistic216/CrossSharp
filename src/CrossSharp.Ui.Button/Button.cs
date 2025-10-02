@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class Button : CrossWidget<IButton>, IButton
+public class Button : Control<IButton>, IButton
 {
     public Button()
         : base(Services.GetSingleton<IButtonFactory>().Create()) { }

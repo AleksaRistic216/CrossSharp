@@ -7,7 +7,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils.Linux;
 
-public class Control : Utils.Control
+public class ControlBase : Utils.ControlBase
 {
     Graphics? _g;
     bool _initialized;
@@ -44,8 +44,36 @@ public class Control : Utils.Control
     public override void Show()
     {
         if (!GetIsAlreadyBoundToParent())
-            GtkHelpers.gtk_fixed_put(ParentHandle, Handle, 0, 0);
+            Attach();
         InvalidateVisibility();
+    }
+
+    void Attach()
+    {
+        if (Parent is IControlsContainerProvider containerProvider)
+        {
+            containerProvider.Controls.Attach(
+                this,
+                containerProvider.Column,
+                containerProvider.Row,
+                1,
+                1
+            );
+            return;
+        }
+        if (Parent is IControlsContainer container)
+        {
+            // if (ZIndex == -1)
+            // {
+            //     container.Attach(this, 0, 0, 1, 2);
+            //     return;
+            // }
+            container.Attach(this);
+            return;
+        }
+        throw new InvalidOperationException(
+            $"Parent must implement {nameof(IControlsContainerProvider)} or ${nameof(IControlsContainer)}"
+        );
     }
 
     public override void Redraw()

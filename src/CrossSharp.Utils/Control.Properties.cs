@@ -5,7 +5,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
-public partial class Control
+public partial class ControlBase
 {
     #region private
     Point _location = new Point(0, 0);

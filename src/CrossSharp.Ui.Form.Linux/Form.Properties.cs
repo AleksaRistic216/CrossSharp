@@ -49,6 +49,8 @@ partial class Form
     }
     public ITitleBar? TitleBar { get; private set; }
     public IApplication AppInstance { get; }
+    int IControlsContainerProvider.Column { get; set; } = 0;
+    int IControlsContainerProvider.Row { get; set; } = 0;
     public IControlsContainer Controls { get; private set; }
     WindowState _state = WindowState.Normal;
     public WindowState State

@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class Panel : Utils.Linux.Control, IPanel
+public partial class Panel : Utils.Linux.ControlBase, IPanel
 {
     public override void DrawShadows(Graphics g) { }
 

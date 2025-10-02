@@ -1,150 +1,97 @@
-﻿using System.Drawing;
-using CrossSharp.Utils.DI;
+using System.Drawing;
 using CrossSharp.Utils.Drawing;
-using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
-public abstract partial class Control : IControl, ISizeProvider
+public abstract class Control<T>(T impl) : IControl
+    where T : IControl // TODO: This should implementUtils.Linux.ControlBase, not gtkUtils.Linux.ControlBase
 {
-    public abstract void Initialize();
-    public abstract void Invalidate();
-    public abstract void Show();
-    public EventHandler? OnShow { get; set; }
+    protected T _impl = impl;
 
-    protected Control()
+    public void Dispose() => _impl.Dispose();
+
+    public IntPtr Handle
     {
-        InputHandler = Services.GetSingleton<IInputHandler>();
-        SubscribeToInputEvents();
+        get => _impl.Handle;
+    }
+    public IntPtr ParentHandle
+    {
+        get => _impl.ParentHandle;
+        set => _impl.ParentHandle = value;
+    }
+    public object Parent
+    {
+        get => _impl.Parent;
+        set => _impl.Parent = value;
+    }
+    public int ZIndex
+    {
+        get => _impl.ZIndex;
+        set => _impl.ZIndex = value;
+    }
+    public bool Visible
+    {
+        get => _impl.Visible;
+        set => _impl.Visible = value;
     }
 
-    public virtual void Dispose()
+    public void Initialize() => _impl.Initialize();
+
+    public void Invalidate() => _impl.Invalidate();
+
+    public void Show() => _impl.Show();
+
+    public void Redraw() => _impl.Redraw();
+
+    public void SuspendLayout() => _impl.SuspendLayout();
+
+    public void ResumeLayout() => _impl.ResumeLayout();
+
+    public int BorderWidth
     {
-        Handle = IntPtr.Zero;
-        OnSizeChanged = null;
-        OnShow = null;
-        OnLocationChanged = null;
-        InputHandler.MouseMoved -= OnMouseMoved;
+        get => _impl.BorderWidth;
+        set => _impl.BorderWidth = value;
+    }
+    public ColorRgba BorderColor
+    {
+        get => _impl.BorderColor;
+        set => _impl.BorderColor = value;
+    }
+    public Point Location
+    {
+        get => _impl.Location;
+        set => _impl.Location = value;
+    }
+    public EventHandler<Point>? OnLocationChanged
+    {
+        get => _impl.OnLocationChanged;
+        set => _impl.OnLocationChanged = value;
     }
 
-    public abstract void Redraw();
+    public void DrawShadows(Graphics g) => _impl.DrawShadows(g);
 
-    protected IForm? GetForm()
+    public void DrawBackground(Graphics g) => _impl.DrawBackground(g);
+
+    public void DrawBorders(Graphics g) => _impl.DrawBorders(g);
+
+    public void DrawContent(Graphics g) => _impl.DrawContent(g);
+
+    public void LimitClip(ref Graphics g) => _impl.LimitClip(ref g);
+
+    public int Width
     {
-        IRelativeHandle obj = this;
-        while (true)
-        {
-            var p = obj.Parent;
-            switch (p)
-            {
-                case IForm form:
-                    return form;
-                case IRelativeHandle rh:
-                    obj = rh;
-                    continue;
-            }
-            return null;
-        }
+        get => _impl.Width;
+        set => _impl.Width = value;
     }
-
-    protected Stack<IClipLimiter> GetClipLimiters()
+    public int Height
     {
-        Stack<IClipLimiter> stack = new();
-        IRelativeHandle obj = this;
-        while (true)
-        {
-            if (obj != this && obj is IClipLimiter cl)
-                stack.Push(cl);
-            var p = obj.Parent;
-            switch (p)
-            {
-                case IRelativeHandle rh:
-                    obj = rh;
-                    continue;
-            }
-            break;
-        }
-        return stack;
+        get => _impl.Height;
+        set => _impl.Height = value;
     }
-
-    internal Rectangle GetFormRelativeBounds()
+    public EventHandler<Size>? OnSizeChanged
     {
-        Rectangle rect = Rectangle.Empty;
-        rect.Width = Width;
-        rect.Height = Height;
-        IRelativeHandle obj = this;
-        while (obj is IRelativeHandle)
-        {
-            if (obj is IForm)
-                break;
-            if (obj is ILocationProvider parent)
-            {
-                rect.X += parent.Location.X;
-                rect.Y += parent.Location.Y;
-            }
-            if (obj.Parent is IRelativeHandle rh)
-            {
-                obj = rh;
-                continue;
-            }
-            break;
-        }
-        return rect;
-    }
-
-    internal Rectangle GetScreenBounds()
-    {
-        IForm? form = GetForm();
-        if (form == null)
-            return Rectangle.Empty;
-        var formRelativeBounds = GetFormRelativeBounds();
-        return new Rectangle(
-            form.Location.X + formRelativeBounds.X,
-            form.Location.Y + formRelativeBounds.Y,
-            _width,
-            _height
-        );
-    }
-
-    public void SuspendLayout()
-    {
-        _suspendLayout = true;
-    }
-
-    public void ResumeLayout()
-    {
-        _suspendLayout = false;
-        Invalidate();
-        Redraw();
-    }
-
-    public virtual void DrawShadows(Graphics g) { }
-
-    public virtual void DrawBackground(Graphics g) { }
-
-    public virtual void DrawBorders(Graphics g)
-    {
-        if (BorderWidth <= 0)
-            return;
-        if (BorderColor == ColorRgba.Transparent)
-            return;
-        if (Width <= 0 || Height <= 0)
-            return;
-        g.DrawRectangle(
-            Location.X + BorderWidth / 2,
-            Location.Y + BorderWidth / 2,
-            Width - BorderWidth,
-            Height - BorderWidth,
-            BorderColor,
-            BorderWidth
-        );
-    }
-
-    public virtual void DrawContent(Graphics g) { }
-
-    public virtual void LimitClip(ref Graphics g)
-    {
-        g.SetClip(new Rectangle(Location.X, Location.Y, Width, Height));
+        get => _impl.OnSizeChanged;
+        set => _impl.OnSizeChanged = value;
     }
 }

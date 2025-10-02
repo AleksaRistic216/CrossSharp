@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.Runtime.InteropServices;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
@@ -22,7 +21,6 @@ partial class Form : IForm
     {
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
         Controls = new ControlsContainer(Handle, this, this);
-        Controls.Parent = this;
         BorderWidth = Services.GetSingleton<ITheme>().FormBorderWidth;
         BorderColor = Services.GetSingleton<ITheme>().FormBorderColor;
         SubscribeToGtkSignals();
@@ -197,6 +195,10 @@ partial class Form : IForm
                 window {
                     background-color: rgba(0, 0, 0, 0);
                 }
+                * {
+                    margin: 0;
+                    padding: 0;
+                }
             """;
 
         IntPtr cssProvider = GtkHelpers.gtk_css_provider_new();
@@ -295,4 +297,6 @@ partial class Form : IForm
             Services.GetSingleton<ITheme>().RoundedCornersRadius
         );
     }
+
+    public IntPtr ContainerHandle { get; }
 }

@@ -2,7 +2,6 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
-using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -22,7 +21,6 @@ public class ControlsContainer(
     public IntPtr Handle
     {
         get => _impl.Handle;
-        set => _impl.Handle = value;
     }
     public IntPtr ParentHandle
     {
@@ -43,6 +41,11 @@ public class ControlsContainer(
     public void Redraw() => _impl.Redraw();
 
     public void PerformLayout() => _impl.PerformLayout();
+
+    public void Attach(IControl control) => _impl.Attach(control);
+
+    public void Attach(IControl control, int column, int row, int width, int height) =>
+        _impl.Attach(control, column, row, width, height);
 
     public ColorRgba BackgroundColor
     {

@@ -5,7 +5,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class CenterPanel : Utils.Linux.Control, ICenterPanel
+public partial class CenterPanel : Utils.Linux.ControlBase, ICenterPanel
 {
     public override void Invalidate()
     {

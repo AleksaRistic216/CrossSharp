@@ -6,11 +6,12 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public class ControlsContainer : IControlsContainer
+public sealed class ControlsContainer : IControlsContainer
 {
+    GtkGrid _grid;
     readonly IPanel _widget;
     ColorRgba _backgroundColor;
-    public IntPtr Handle { get; set; }
+    public IntPtr Handle => _grid.Handle;
     public IntPtr ParentHandle { get; set; }
     object _parent;
     public object Parent
@@ -69,11 +70,13 @@ public class ControlsContainer : IControlsContainer
         IBackgroundColorProvider backgroundColorProvider
     )
     {
-        Handle = GtkHelpers.gtk_fixed_new();
+        _grid = new GtkGrid();
         ParentHandle = parentHandle;
         GtkHelpers.gtk_window_set_child(parentHandle, Handle);
         _widget = new Panel
         {
+            Parent = this,
+            ZIndex = -1,
             ParentHandle = Handle,
             BackgroundColor = backgroundColorProvider.BackgroundColor,
             BorderColor = ColorRgba.Yellow,
@@ -83,7 +86,7 @@ public class ControlsContainer : IControlsContainer
         _widget.Initialize();
     }
 
-    public virtual void Show()
+    public void Show()
     {
         GtkHelpers.gtk_widget_show(Handle);
         _widget.Show();
@@ -117,6 +120,16 @@ public class ControlsContainer : IControlsContainer
         _widget.Width = Width;
         _widget.Height = Height;
         _widget.ResumeLayout();
+    }
+
+    public void Attach(IControl control)
+    {
+        Attach(control, 0, 1, 1, 1);
+    }
+
+    public void Attach(IControl control, int column, int row, int width, int height)
+    {
+        _grid.Attach(control.Handle, column, row, width, height);
     }
 
     public void LimitClip(ref Graphics g)

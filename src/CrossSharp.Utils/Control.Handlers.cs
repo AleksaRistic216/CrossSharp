@@ -3,7 +3,7 @@ using CrossSharp.Utils.Input;
 
 namespace CrossSharp.Utils;
 
-public partial class Control
+public partial class ControlBase
 {
     public EventHandler<Size>? OnSizeChanged { get; set; }
     public EventHandler<Point>? OnLocationChanged { get; set; }

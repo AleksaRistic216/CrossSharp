@@ -3,7 +3,6 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Base;
@@ -14,6 +13,16 @@ public abstract class FormBase : IForm
     public object Parent { get; set; } = null!;
     public ITitleBar TitleBar => _formImpl.TitleBar;
     public IApplication AppInstance => _formImpl.AppInstance;
+    public int Column
+    {
+        get => _formImpl.Column;
+        set { _formImpl.Column = value; }
+    }
+    public int Row
+    {
+        get => _formImpl.Row;
+        set { _formImpl.Row = value; }
+    }
     public IControlsContainer Controls => _formImpl.Controls;
     public bool UseNativeTitleBar
     {
@@ -33,7 +42,6 @@ public abstract class FormBase : IForm
     public IntPtr Handle
     {
         get => ((IControl)_formImpl).Handle;
-        set { ((IControl)_formImpl).Handle = value; }
     }
     public IntPtr ParentHandle
     {

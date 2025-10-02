@@ -8,7 +8,7 @@ using CrossSharp.Utils.Pango;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class Label : Utils.Linux.Control, ILabel
+public partial class Label : Utils.Linux.ControlBase, ILabel
 {
     public override void Show()
     {
