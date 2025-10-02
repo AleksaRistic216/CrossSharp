@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace CrossSharp.Utils.Interfaces;
 
 public interface IControlsContainer
@@ -6,7 +8,8 @@ public interface IControlsContainer
         IBackgroundColorProvider,
         ISizeProvider,
         IBorder,
-        IClipLimiter
+        IClipLimiter,
+        ICollection
 {
     List<IControl> Items { get; }
     void Show();

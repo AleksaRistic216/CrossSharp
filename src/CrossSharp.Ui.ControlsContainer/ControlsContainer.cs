@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -79,4 +80,12 @@ public class ControlsContainer(
     }
 
     public void LimitClip(ref Graphics g) => _impl.LimitClip(ref g);
+
+    public IEnumerator GetEnumerator() => _impl.GetEnumerator();
+
+    public void CopyTo(Array array, int index) => _impl.CopyTo(array, index);
+
+    public int Count => _impl.Count;
+    public bool IsSynchronized => _impl.IsSynchronized;
+    public object SyncRoot => _impl.SyncRoot;
 }

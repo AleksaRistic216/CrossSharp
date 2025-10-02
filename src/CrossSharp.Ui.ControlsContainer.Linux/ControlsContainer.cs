@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
@@ -10,10 +11,10 @@ public sealed class ControlsContainer : IControlsContainer
 {
     GtkGrid _grid;
     readonly IPanel _widget;
-    ColorRgba _backgroundColor;
+    ColorRgba _backgroundColor = null!;
     public IntPtr Handle => _grid.Handle;
     public IntPtr ParentHandle { get; set; }
-    object _parent;
+    object _parent = null!;
     public object Parent
     {
         get => _parent;
@@ -139,4 +140,12 @@ public sealed class ControlsContainer : IControlsContainer
             )
         );
     }
+
+    public IEnumerator GetEnumerator() => Items.GetEnumerator();
+
+    public void CopyTo(Array array, int index) => Items.CopyTo((IControl[])array, index);
+
+    public int Count => Items.Count;
+    public bool IsSynchronized => false;
+    public object SyncRoot => this;
 }
