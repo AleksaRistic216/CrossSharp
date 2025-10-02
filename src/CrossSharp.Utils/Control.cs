@@ -33,7 +33,7 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
             GtkHelpers.gtk_widget_queue_draw(Handle);
     }
 
-    public IForm? GetForm()
+    protected IForm? GetForm()
     {
         IRelativeHandle obj = this;
         while (true)
@@ -51,7 +51,7 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         }
     }
 
-    public Rectangle GetFormRelativeBounds()
+    internal Rectangle GetFormRelativeBounds()
     {
         Rectangle rect = Rectangle.Empty;
         rect.Width = Width;
@@ -76,9 +76,9 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         return rect;
     }
 
-    public Rectangle GetScreenBounds()
+    internal Rectangle GetScreenBounds()
     {
-        IForm form = GetForm();
+        IForm? form = GetForm();
         if (form == null)
             return Rectangle.Empty;
         var formRelativeBounds = GetFormRelativeBounds();
@@ -90,12 +90,12 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         );
     }
 
-    internal void SuspendLayout()
+    public void SuspendLayout()
     {
         _suspendLayout = true;
     }
 
-    internal void ResumeLayout()
+    public void ResumeLayout()
     {
         _suspendLayout = false;
         Invalidate();

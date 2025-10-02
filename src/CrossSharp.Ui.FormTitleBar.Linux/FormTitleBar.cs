@@ -1,7 +1,5 @@
 using System.Drawing;
-using System.Reflection.Emit;
 using CrossSharp.Utils;
-using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -56,7 +54,7 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeMinimizeButton()
     {
-        _minimizeButton = new FormTitleBarMinimizeButton
+        _minimizeButton = new FormTitleBarMinimizeButtonLinux
         {
             ParentHandle = _form.Controls.Handle,
             Parent = _form,
@@ -70,16 +68,16 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InitializeMaximizeButton()
     {
-        _maximizeButton = new FormTitleBarMaximizeButton
+        _maximizeRestoreButton = new FormTitleBarMaximizeRestoreButtonLinux
         {
             ParentHandle = _form.Controls.Handle,
             Parent = _form,
             BackgroundColor = ColorRgba.Pink,
             Width = _applicationButtonWidth,
             Height = _height,
-            OnClick = OnMaximizeButtonClick,
+            OnClick = OnMaximizeRestoreButtonClick,
         };
-        _maximizeButton.Initialize();
+        _maximizeRestoreButton.Initialize();
     }
 
     void InitializeCloseButton()
@@ -101,7 +99,7 @@ public partial class FormTitleBar : IFormTitleBar
     {
         _mainPanel.Show();
         _minimizeButton?.Show();
-        _maximizeButton?.Show();
+        _maximizeRestoreButton?.Show();
         _closeButton?.Show();
         _titleLabel?.Show();
     }
@@ -124,10 +122,10 @@ public partial class FormTitleBar : IFormTitleBar
 
     void InvalidateMaximizeButton()
     {
-        if (_maximizeButton is null)
+        if (_maximizeRestoreButton is null)
             return;
         var desiredWidth = Width - 2 * _applicationButtonWidth;
-        _maximizeButton.Location = new Point(Math.Max(desiredWidth, 0), 0);
+        _maximizeRestoreButton.Location = new Point(Math.Max(desiredWidth, 0), 0);
     }
 
     void InvalidateCloseButton()

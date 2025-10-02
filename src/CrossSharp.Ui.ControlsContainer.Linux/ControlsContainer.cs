@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -11,6 +12,22 @@ public class ControlsContainer : IControlsContainer
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }
     public object Parent { get; set; }
+
+    public int Width
+    {
+        get => _widget.Width;
+        set => _widget.Width = value;
+    }
+    public int Height
+    {
+        get => _widget.Height;
+        set => _widget.Height = value;
+    }
+    public EventHandler<Size>? OnSizeChanged
+    {
+        get => _widget.OnSizeChanged;
+        set => _widget.OnSizeChanged = value;
+    }
 
     public ColorRgba BackgroundColor
     {
@@ -37,16 +54,16 @@ public class ControlsContainer : IControlsContainer
         _widget = new Panel
         {
             ParentHandle = Handle,
-            BackgroundColor = backgroundColorProvider.BackgroundColor,
+            BackgroundColor = ColorRgba.Purple,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height,
         };
         _widget.Initialize();
-        sizeProvider.OnSizeChanged += (s, e) =>
-        {
-            _widget.Width = e.Width;
-            _widget.Height = e.Height;
-        };
+        // sizeProvider.OnSizeChanged += (s, e) =>
+        // {
+        //     _widget.Width = e.Width;
+        //     _widget.Height = e.Height;
+        // };
     }
 
     public virtual void Show()
@@ -75,5 +92,13 @@ public class ControlsContainer : IControlsContainer
     {
         foreach (IControl item in Items)
             item.Redraw();
+    }
+
+    public void PerformLayout()
+    {
+        _widget.SuspendLayout();
+        _widget.Width = Width;
+        _widget.Height = Height;
+        _widget.ResumeLayout();
     }
 }

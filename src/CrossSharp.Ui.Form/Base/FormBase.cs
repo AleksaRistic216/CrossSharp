@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -99,6 +100,14 @@ public abstract class FormBase : IForm
 
     public void Maximize() => _formImpl.Maximize();
 
+    public void Restore() => _formImpl.Restore();
+
+    public WindowState State
+    {
+        get => _formImpl.State;
+        set { _formImpl.State = value; }
+    }
+
     public void Close() => _formImpl.Close();
 
     public void Dispose() => _formImpl.Dispose();
@@ -110,6 +119,10 @@ public abstract class FormBase : IForm
     public void Show() => _formImpl.Show();
 
     public void Redraw() => _formImpl.Redraw();
+
+    public void SuspendLayout() => _formImpl.SuspendLayout();
+
+    public void ResumeLayout() => _formImpl.ResumeLayout();
 
     public ColorRgba BackgroundColor
     {

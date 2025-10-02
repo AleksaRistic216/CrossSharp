@@ -45,6 +45,10 @@ public abstract class CrossWidget<T>(T impl) : IGtkWidget
 
     public void Redraw() => _impl.Redraw();
 
+    public void SuspendLayout() => _impl.SuspendLayout();
+
+    public void ResumeLayout() => _impl.ResumeLayout();
+
     public Point Location
     {
         get => _impl.Location;

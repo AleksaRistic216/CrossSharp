@@ -1,3 +1,5 @@
+using CrossSharp.Utils.Enums;
+
 namespace CrossSharp.Utils.Interfaces;
 
 public interface IForm : IControl, ISizeProvider, ITitleBarProvider, IBackgroundColorProvider
@@ -14,4 +16,6 @@ public interface IForm : IControl, ISizeProvider, ITitleBarProvider, IBackground
     void PerformLayout();
     void Minimize();
     void Maximize();
+    void Restore();
+    WindowState State { get; set; }
 }

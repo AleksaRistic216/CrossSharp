@@ -13,6 +13,9 @@ static class GtkHelpers
     internal static extern IntPtr gtk_widget_realize(IntPtr widget);
 
     [DllImport(GTK)]
+    internal static extern bool gtk_widget_get_visible(IntPtr widget);
+
+    [DllImport(GTK)]
     internal static extern IntPtr gtk_widget_get_pango_context(IntPtr widget);
 
     [DllImport(GTK)]
@@ -38,6 +41,13 @@ static class GtkHelpers
 
     [DllImport(GTK)]
     internal static extern void gtk_window_set_default_size(IntPtr window, int width, int height);
+
+    [DllImport(GTK)]
+    internal static extern void gtk_window_get_default_size(
+        IntPtr window,
+        out int width,
+        out int height
+    );
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_widget_get_parent(IntPtr widget);
@@ -74,6 +84,12 @@ static class GtkHelpers
 
     [DllImport("libgtk-4.so.1")]
     internal static extern IntPtr gdk_x11_display_get_xdisplay(IntPtr display);
+
+    [DllImport(GTK)]
+    internal static extern IntPtr gdk_display_get_monitor_at_surface(
+        IntPtr display,
+        IntPtr surface
+    );
 
     [DllImport(GTK)]
     internal static extern IntPtr gtk_root_get_display(IntPtr widget);
@@ -116,7 +132,7 @@ static class GtkHelpers
     internal static extern void gtk_snapshot_append_color(
         IntPtr snapshot,
         ref GtkRgba color,
-        ref GtkRectangle rect
+        ref GdkRectangle rect
     );
 
     [DllImport(GTK)]
@@ -128,8 +144,8 @@ static class GtkHelpers
     [DllImport(GTK)]
     internal static extern void gtk_window_minimize(IntPtr window);
 
-    [DllImport(GTK)]
-    internal static extern void gtk_window_maximize(IntPtr window);
+    // [DllImport(GTK)]
+    // internal static extern void gtk_window_maximize(IntPtr window); // Do not use. Make custom one
 
     [DllImport(GTK)]
     internal static extern bool gtk_window_is_maximized(IntPtr window);
@@ -160,14 +176,6 @@ static class GtkHelpers
     // Signals
     [DllImport(GOBJECT)]
     internal static extern void g_object_unref(IntPtr handle);
-
-    [DllImport(GOBJECT)]
-    internal static extern ulong g_signal_connect(
-        IntPtr instance,
-        string detailed_signal,
-        ResizeCallback c_handler,
-        IntPtr data
-    );
 
     [DllImport(GOBJECT)]
     internal static extern IntPtr g_type_name(IntPtr gType);
@@ -208,12 +216,7 @@ static class GtkHelpers
     internal delegate void SnapshotHandler(IntPtr widget, IntPtr snapshot, IntPtr user_data);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void ResizeCallback(
-        IntPtr drawingArea,
-        int width,
-        int height,
-        IntPtr userData
-    );
+    internal delegate void NotifyResizeCallback(IntPtr drawingArea, IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void DrawFunc(

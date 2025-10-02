@@ -1,6 +1,6 @@
-using System.Drawing;
 using System.Runtime.InteropServices;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.X11;
@@ -31,20 +31,19 @@ partial class Form : IForm
         GtkHelpers.gtk_window_close(Handle);
     }
 
-    public void PerformLayout()
-    {
-        Invalidate();
-        Redraw();
-    }
-
     public void Minimize()
     {
-        GtkHelpers.gtk_window_minimize(Handle);
+        State = WindowState.Minimized;
     }
 
     public void Maximize()
     {
-        GtkHelpers.gtk_window_maximize(Handle);
+        State = WindowState.Maximized;
+    }
+
+    public void Restore()
+    {
+        State = WindowState.Normal;
     }
 
     void SubscribeToGtkSignals()
@@ -81,60 +80,103 @@ partial class Form : IForm
             IntPtr.Zero,
             0
         );
+        GtkHelpers.g_signal_connect_data(
+            Handle,
+            "notify::default-width",
+            (GtkHelpers.NotifyResizeCallback)SignalOnResize,
+            IntPtr.Zero,
+            IntPtr.Zero,
+            0
+        );
+        GtkHelpers.g_signal_connect_data(
+            Handle,
+            "notify::default-height",
+            (GtkHelpers.NotifyResizeCallback)SignalOnResize,
+            IntPtr.Zero,
+            IntPtr.Zero,
+            0
+        );
+    }
+
+    void SignalOnResize(IntPtr widget, IntPtr a)
+    {
+        if (_suspendLayout)
+            return;
+
+        GtkHelpers.gtk_window_get_default_size(Handle, out int width, out int height);
+        // Fallback if GTK doesn't resize for some reason (it happens)
+        if (width != _width || height != _height)
+            PerformLayout();
+        // ===========================
     }
 
     void SignalOnRealize(IntPtr widget, IntPtr a)
     {
-        // Code bellow works! Leave it here for future reference
         WindowSurfaceHandle = GtkHelpers.gtk_native_get_surface(widget);
         DisplayHandle = GtkHelpers.gtk_root_get_display(widget);
-        IntPtr namePtr = GtkHelpers.gdk_display_get_name(DisplayHandle);
-        IntPtr displayType = GtkHelpers.g_type_name_from_instance(DisplayHandle);
-        string n = Marshal.PtrToStringAuto(namePtr) ?? "unknown";
-        string t = Marshal.PtrToStringAuto(displayType) ?? "unknown";
-        // ===
-        UpdatePositionX11();
+        InitializeMonitor();
+        PerformLayout();
+    }
+
+    void InitializeMonitor()
+    {
+        _monitor = new GdkMonitor(
+            GtkHelpers.gdk_display_get_monitor_at_surface(
+                DisplayHandle,
+                GtkHelpers.gtk_native_get_surface(Handle)
+            )
+        );
     }
 
     void SignalOnMaximized(IntPtr widget, IntPtr a)
     {
-        var maximized = GtkHelpers.gtk_window_is_maximized(Handle);
-        if (!maximized)
-            return;
-        var screenSize = GetScreenSize();
-        this.Location = new Point(0, 0);
-        this.Width = screenSize.Width;
-        this.Height = screenSize.Height;
+        throw new Exception("Do not use built int maximize/unmaximize!");
     }
 
-    void UpdatePositionX11()
+    public void PerformLayout()
     {
-        if (WindowSurfaceHandle == IntPtr.Zero)
+        if (_suspendLayout)
             return;
-        uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
-        if (x11Surface == 0)
-            return;
-        IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(DisplayHandle);
-        if (x11Display == IntPtr.Zero)
-            return;
+        Invalidate();
+        PerformSize();
 
-        X11Helpers.XMoveWindow(x11Display, x11Surface, Location.X, Location.Y);
-        X11Helpers.XFlush(x11Display);
+        GtkInvoker.InvokeAfterTimeout(
+            50,
+            () =>
+            {
+                PerformLocation();
+                Redraw();
+            }
+        );
     }
 
-    Size GetScreenSize()
+    void PerformSize()
     {
-        if (WindowSurfaceHandle == IntPtr.Zero)
-            return Size.Empty;
-        uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
-        if (x11Surface == 0)
-            return Size.Empty;
-        IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(DisplayHandle);
-        if (x11Display == IntPtr.Zero)
-            return Size.Empty;
+        Controls.Width = _width;
+        Controls.Height = _height;
+        Controls.PerformLayout();
+        GtkInvoker.InvokeSafe(() =>
+        {
+            GtkHelpers.gtk_window_set_default_size(Handle, _width, _height);
+        });
+    }
 
-        X11Helpers.XGetWindowAttributes(x11Display, x11Surface, out XWindowAttributes attrs);
-        return new Size(attrs.width, attrs.height);
+    void PerformLocation()
+    {
+        GtkInvoker.InvokeSafe(() =>
+        {
+            if (WindowSurfaceHandle == IntPtr.Zero)
+                return;
+            uint x11Surface = GtkHelpers.gdk_x11_surface_get_xid(WindowSurfaceHandle);
+            if (x11Surface == 0)
+                return;
+            IntPtr x11Display = GtkHelpers.gdk_x11_display_get_xdisplay(DisplayHandle);
+            if (x11Display == IntPtr.Zero)
+                return;
+
+            X11Helpers.XMoveWindow(x11Display, x11Surface, Location.X, Location.Y);
+            X11Helpers.XFlush(x11Display);
+        });
     }
 
     void SignalOnWidgetMapped(IntPtr widget, IntPtr _)
@@ -178,6 +220,17 @@ partial class Form : IForm
     {
         // Controls.Redraw();
         // TitleBar.Redraw();
+    }
+
+    public void SuspendLayout()
+    {
+        _suspendLayout = true;
+    }
+
+    public void ResumeLayout()
+    {
+        _suspendLayout = false;
+        PerformLayout();
     }
 
     public void Dispose()

@@ -14,7 +14,7 @@ partial class Form
 
     void RaiseOnShow()
     {
-        UpdatePositionX11();
+        PerformLocation();
         OnShow?.Invoke(this, EventArgs.Empty);
     }
 
@@ -25,7 +25,6 @@ partial class Form
 
     protected virtual void RaiseOnLocationChanged(Point newLocation)
     {
-        UpdatePositionX11();
         OnLocationChanged?.Invoke(this, newLocation);
     }
 
@@ -33,17 +32,6 @@ partial class Form
     {
         Invalidate();
         OnSizeChanged?.Invoke(this, newSize);
-        // GtkIdleInvoker.InvokeWhenIdle(() =>
-        // {
-        //     GtkTimeoutInvoker.InvokeAfterTimeout(
-        //         2000,
-        //         () =>
-        //         {
-        //             Invalidate();
-        //             OnSizeChanged?.Invoke(this, newSize);
-        //         }
-        //     );
-        // });
     }
 
     protected virtual void RaiseOnBackgroundColorChanged(ColorRgba newColor)

@@ -10,9 +10,9 @@ public partial class FormTitleBar
     #region private
     static int _height = 36;
     static int _applicationButtonWidth = 36;
-    const int MOVEMENT_TRESHOLD = 1;
+    const int MOVEMENT_TRESHOLD = 4;
     int _coreFps = Services.GetSingleton<IApplicationConfiguration>().CoreFps;
-    Task? _formDragTask;
+    Thread? _formDragThread;
     CancellationTokenSource? _formDragCancellationTokenSource;
     Point? _formDragDestination = null;
     DateTime? _lastFormDragTime;
@@ -20,8 +20,8 @@ public partial class FormTitleBar
     int _deltaY = 0;
     TitleBarType _type = TitleBarType.CrossSharp;
     Panel _mainPanel;
-    FormTitleBarMinimizeButton? _minimizeButton;
-    FormTitleBarMaximizeButton? _maximizeButton;
+    FormTitleBarMinimizeButtonLinux? _minimizeButton;
+    FormTitleBarMaximizeRestoreButtonLinux? _maximizeRestoreButton;
     Button? _closeButton;
     Label? _titleLabel;
     IForm _form;
@@ -67,7 +67,8 @@ public partial class FormTitleBar
         }
     }
     public EventHandler<Size>? OnSizeChanged { get; set; }
-    public bool IsMouseOver { get; set; }
+    bool _isMouseOverDraggableArea = false;
+    public bool IsMouseOver { get; private set; }
     public Point Location { get; set; } = new(0, 0);
     public EventHandler<Point>? OnLocationChanged { get; set; }
     #endregion

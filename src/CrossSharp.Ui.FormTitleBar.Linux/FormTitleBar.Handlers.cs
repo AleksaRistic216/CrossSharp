@@ -1,6 +1,8 @@
 using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.X11;
@@ -26,8 +28,17 @@ public partial class FormTitleBar
         _inputHandler.MouseDragged += OnMouseDragged;
     }
 
+    void OnMouseMoved(object? sender, MouseInputArgs e)
+    {
+        var screenBounds = GetScreenBounds();
+        IsMouseOver = screenBounds.Contains(e.X, e.Y);
+        _isMouseOverDraggableArea = IsMouseOverDraggableArea(e);
+    }
+
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
+        if (!_isMouseOverDraggableArea)
+            return;
         _mouseDownMousePosition = new Point(e.X, e.Y);
         _mouseDownFormPosition = _form.Location;
         StartMovingForm();
@@ -35,30 +46,40 @@ public partial class FormTitleBar
 
     void StartMovingForm()
     {
+        if (!_isMouseOverDraggableArea)
+            return;
         _formDragCancellationTokenSource = new CancellationTokenSource();
-        _formDragTask = Task.Run(
-            () =>
+        _formDragThread = new Thread(() =>
+        {
+            while (!_formDragCancellationTokenSource.IsCancellationRequested)
             {
-                while (!_formDragCancellationTokenSource.IsCancellationRequested)
+                int targetDelay = (int)(1000f / _coreFps);
+                if (_formDragDestination is null)
                 {
-                    if (_formDragDestination is null)
-                        continue;
-                    int targetDelay = (int)(1000f / _coreFps);
-                    int timeSinceLastDrag = _lastFormDragTime is null
-                        ? int.MaxValue
-                        : (int)(DateTime.Now - _lastFormDragTime.Value).TotalMilliseconds;
-                    if (timeSinceLastDrag < targetDelay)
-                        continue;
-                    _lastFormDragTime = DateTime.Now;
-                    _form.Location = _formDragDestination.Value;
+                    Thread.Sleep(targetDelay);
+                    continue;
                 }
-            },
-            _formDragCancellationTokenSource.Token
-        );
+                int timeSinceLastDrag = _lastFormDragTime is null
+                    ? int.MaxValue
+                    : (int)(DateTime.Now - _lastFormDragTime.Value).TotalMilliseconds;
+                if (timeSinceLastDrag < targetDelay)
+                {
+                    Thread.Sleep(targetDelay);
+                    continue;
+                }
+                _lastFormDragTime = DateTime.Now;
+                _form.Location = _formDragDestination.Value;
+                Thread.Sleep(targetDelay);
+            }
+        });
+        _formDragThread.IsBackground = true;
+        _formDragThread.Start();
     }
 
     void OnMouseReleased(object? sender, MouseInputArgs e)
     {
+        if (!_isMouseOverDraggableArea)
+            return;
         _formDragCancellationTokenSource?.Cancel();
         _mouseDownMousePosition = null;
         _mouseDownFormPosition = null;
@@ -78,16 +99,13 @@ public partial class FormTitleBar
         form.Location = new Point(attrs.x, attrs.y);
     }
 
-    void OnMouseMoved(object? sender, MouseInputArgs e)
-    {
-        var formLocation = _form.Location;
-        var bounds = new Rectangle(formLocation.X, formLocation.Y, _width, FormTitleBar._height);
-        IsMouseOver = bounds.Contains(e.X, e.Y);
-    }
-
     void OnMouseDragged(object? sender, MouseInputArgs e)
     {
-        if (!IsMouseOver || _mouseDownMousePosition is null || _mouseDownFormPosition is null)
+        if (
+            !_isMouseOverDraggableArea
+            || _mouseDownMousePosition is null
+            || _mouseDownFormPosition is null
+        )
             return;
         var dx = e.X - _mouseDownMousePosition.Value.X;
         var dy = e.Y - _mouseDownMousePosition.Value.Y;
@@ -115,9 +133,44 @@ public partial class FormTitleBar
         _form.Minimize();
     }
 
-    void OnMaximizeButtonClick(object? sender, EventArgs e)
+    void OnMaximizeRestoreButtonClick(object? sender, EventArgs e)
     {
-        _form.Maximize();
-        _form.PerformLayout();
+        switch (_form.State)
+        {
+            case WindowState.Normal:
+                _form.Maximize();
+                break;
+            case WindowState.Maximized:
+                _form.Restore();
+                break;
+            case WindowState.Minimized:
+            case WindowState.Fullscreen:
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    Rectangle GetScreenBounds()
+    {
+        var localDraggableBounds = new Rectangle(Location.X, Location.Y, _width, _height);
+        return CoordinateHelpers.GetScreenBounds(_form, localDraggableBounds);
+    }
+
+    bool IsMouseOverDraggableArea(MouseInputArgs e)
+    {
+        if (!IsMouseOver)
+            return false;
+        var closeButtonBounds = _closeButton?.GetScreenBounds() ?? Rectangle.Empty;
+        if (closeButtonBounds.Contains(e.X, e.Y))
+            return false;
+        var maximizeRestoreButtonBounds =
+            _maximizeRestoreButton?.GetScreenBounds() ?? Rectangle.Empty;
+        if (maximizeRestoreButtonBounds.Contains(e.X, e.Y))
+            return false;
+        var minimizeButtonBounds = _minimizeButton?.GetScreenBounds() ?? Rectangle.Empty;
+        if (minimizeButtonBounds.Contains(e.X, e.Y))
+            return false;
+        return true;
     }
 }

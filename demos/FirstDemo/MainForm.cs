@@ -45,7 +45,7 @@ public class MainForm : Form
         Controls.Add(button);
         button.OnClick += (s, e) =>
         {
-            Width = 500;
+            Location = new Point(new Random().Next(0, 201), new Random().Next(0, 201));
         };
 
         var label = new Label() { Location = new Point(500, 500), Text = "Hello Motherfuckers!" };

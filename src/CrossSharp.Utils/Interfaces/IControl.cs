@@ -8,4 +8,6 @@ public interface IControl : IDisposable, IRelativeHandle
     void Invalidate();
     void Show();
     void Redraw();
+    void SuspendLayout();
+    void ResumeLayout();
 }

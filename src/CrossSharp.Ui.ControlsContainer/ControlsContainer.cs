@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
@@ -39,9 +40,26 @@ public class ControlsContainer(
 
     public void Redraw() => _impl.Redraw();
 
+    public void PerformLayout() => _impl.PerformLayout();
+
     public ColorRgba BackgroundColor
     {
         get => _impl.BackgroundColor;
         set => _impl.BackgroundColor = value;
+    }
+    public int Width
+    {
+        get => _impl.Width;
+        set => _impl.Width = value;
+    }
+    public int Height
+    {
+        get => _impl.Height;
+        set => _impl.Height = value;
+    }
+    public EventHandler<Size>? OnSizeChanged
+    {
+        get => _impl.OnSizeChanged;
+        set => _impl.OnSizeChanged = value;
     }
 }

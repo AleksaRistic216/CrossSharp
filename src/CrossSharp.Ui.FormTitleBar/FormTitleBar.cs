@@ -51,6 +51,5 @@ public class FormTitleBar(IForm form) : IFormTitleBar
     public bool IsMouseOver
     {
         get => _impl.IsMouseOver;
-        set => _impl.IsMouseOver = value;
     }
 }
