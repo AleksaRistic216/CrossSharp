@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -45,6 +46,12 @@ public class FormTitleBar(IForm form) : IFormTitleBar
 
     public void Redraw() => _impl.Redraw();
 
+    public ColorRgba BackgroundColor
+    {
+        get => _impl.BackgroundColor;
+        set => _impl.BackgroundColor = value;
+    }
+
     public EventHandler<Size>? OnSizeChanged
     {
         get => _impl.OnSizeChanged;
@@ -53,5 +60,10 @@ public class FormTitleBar(IForm form) : IFormTitleBar
     public bool IsMouseOver
     {
         get => _impl.IsMouseOver;
+    }
+    public ColorRgba ForegroundColor
+    {
+        get => _impl.ForegroundColor;
+        set => _impl.ForegroundColor = value;
     }
 }

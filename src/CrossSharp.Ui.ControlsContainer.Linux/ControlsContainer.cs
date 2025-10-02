@@ -23,6 +23,17 @@ public class ControlsContainer : IControlsContainer
         }
     }
 
+    public int BorderWidth
+    {
+        get => _widget.BorderWidth;
+        set => _widget.BorderWidth = value;
+    }
+    public ColorRgba BorderColor
+    {
+        get => _widget.BorderColor;
+        set => _widget.BorderColor = value;
+    }
+
     public int Width
     {
         get => _widget.Width;
@@ -66,7 +77,6 @@ public class ControlsContainer : IControlsContainer
             ParentHandle = Handle,
             BackgroundColor = backgroundColorProvider.BackgroundColor,
             BorderColor = ColorRgba.Yellow,
-            BorderWidth = 10,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height,
         };
@@ -107,17 +117,6 @@ public class ControlsContainer : IControlsContainer
         _widget.Width = Width;
         _widget.Height = Height;
         _widget.ResumeLayout();
-    }
-
-    public int BorderWidth
-    {
-        get => _widget.BorderWidth;
-        set => _widget.BorderWidth = value;
-    }
-    public ColorRgba BorderColor
-    {
-        get => _widget.BorderColor;
-        set => _widget.BorderColor = value;
     }
 
     public void LimitClip(ref Graphics g)

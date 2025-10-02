@@ -4,10 +4,7 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class Panel
 {
-    #region private
     ColorRgba _backgroundColor = ColorRgba.Transparent;
-    #endregion
-    #region exposed
     public ColorRgba BackgroundColor
     {
         get => _backgroundColor;
@@ -20,5 +17,18 @@ public partial class Panel
             Redraw();
         }
     }
-    #endregion
+
+    ColorRgba _foregroundColor = ColorRgba.Black;
+    public ColorRgba ForegroundColor
+    {
+        get => _foregroundColor;
+        set
+        {
+            if (_foregroundColor == value)
+                return;
+            _foregroundColor = value;
+            // RaiseForegroundColorChanged();
+            Redraw();
+        }
+    }
 }

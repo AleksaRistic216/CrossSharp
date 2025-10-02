@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -27,7 +28,7 @@ public partial class FormTitleBar : IFormTitleBar
         {
             ParentHandle = _form.Controls.Handle,
             Parent = _form,
-            BackgroundColor = ColorRgba.Gray,
+            BackgroundColor = _backgroundColor,
             Width = _form.Width,
             Height = _height,
         };
@@ -39,6 +40,7 @@ public partial class FormTitleBar : IFormTitleBar
         _titleLabel = new Label()
         {
             ParentHandle = _form.Controls.Handle,
+            ForegroundColor = _foregroundColor,
             Text = _form.Title,
             Parent = _form,
         };

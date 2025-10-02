@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -7,7 +8,6 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class FormTitleBar
 {
-    #region private
     static int _height = 36;
     static int _applicationButtonWidth = 36;
     const int MOVEMENT_TRESHOLD = 4;
@@ -28,9 +28,32 @@ public partial class FormTitleBar
     int _width = 0;
     Point? _mouseDownMousePosition;
     Point? _mouseDownFormPosition;
-    #endregion
+    ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().TitleBarBackgroundColor;
+    ColorRgba _foregroundColor = Services.GetSingleton<ITheme>().TitleBarForegroundColor;
 
-    #region exposed
+    public ColorRgba ForegroundColor
+    {
+        get => _foregroundColor;
+        set
+        {
+            if (_foregroundColor == value)
+                return;
+            _foregroundColor = value;
+            if (_titleLabel != null)
+                _titleLabel.ForegroundColor = value;
+        }
+    }
+    public ColorRgba BackgroundColor
+    {
+        get => _backgroundColor;
+        set
+        {
+            if (_backgroundColor == value)
+                return;
+            _backgroundColor = value;
+            _mainPanel.BackgroundColor = value;
+        }
+    }
     public TitleBarType Type
     {
         get => _type;
@@ -71,5 +94,4 @@ public partial class FormTitleBar
     public bool IsMouseOver { get; private set; }
     public Point Location { get; set; } = new(0, 0);
     public EventHandler<Point>? OnLocationChanged { get; set; }
-    #endregion
 }

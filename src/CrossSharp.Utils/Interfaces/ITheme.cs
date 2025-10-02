@@ -6,4 +6,8 @@ public interface ITheme
     ColorRgba ButtonBackgroundColor { get; set; }
     bool UseNativeTitleBar { get; set; }
     int RoundedCornersRadius { get; set; }
+    int FormBorderWidth { get; set; }
+    ColorRgba FormBorderColor { get; set; }
+    ColorRgba TitleBarBackgroundColor { get; set; }
+    ColorRgba TitleBarForegroundColor { get; set; }
 }

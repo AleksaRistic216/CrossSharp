@@ -34,7 +34,7 @@ public partial class Label : GtkWidget, ILabel
             Text,
             Location.X,
             Location.Y,
-            ColorRgba.Black,
+            ForegroundColor,
             FontFamily,
             FontSize,
             PangoWeight.Normal,

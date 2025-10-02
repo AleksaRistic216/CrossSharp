@@ -35,4 +35,9 @@ public class Panel() : CrossWidget<IPanel>(Services.GetSingleton<IPanelFactory>(
         get => _impl.LayoutChanged;
         set => _impl.LayoutChanged = value;
     }
+    public ColorRgba ForegroundColor
+    {
+        get => _impl.ForegroundColor;
+        set => _impl.ForegroundColor = value;
+    }
 }

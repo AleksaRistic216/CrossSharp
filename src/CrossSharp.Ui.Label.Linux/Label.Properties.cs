@@ -1,3 +1,5 @@
+using CrossSharp.Utils;
+
 namespace CrossSharp.Ui.Linux;
 
 public partial class Label
@@ -37,6 +39,20 @@ public partial class Label
                 return;
             _fontSize = value;
             RaiseFontSizeChanged();
+        }
+    }
+
+    ColorRgba _foregroundColor = ColorRgba.Black;
+    public ColorRgba ForegroundColor
+    {
+        get => _foregroundColor;
+        set
+        {
+            if (_foregroundColor == value)
+                return;
+            _foregroundColor = value;
+            // RaiseForegroundColorChanged();
+            Redraw();
         }
     }
 }
