@@ -151,6 +151,9 @@ static class GtkHelpers
     internal static extern bool gtk_window_is_maximized(IntPtr window);
 
     [DllImport(GTK)]
+    internal static extern bool gtk_window_is_active(IntPtr window);
+
+    [DllImport(GTK)]
     internal static extern void gtk_fixed_remove(IntPtr fixedContainer, IntPtr widget);
 
     [DllImport(GTK)]
@@ -217,6 +220,9 @@ static class GtkHelpers
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void NotifyResizeCallback(IntPtr drawingArea, IntPtr userData);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void NotifyCommonCallback(IntPtr drawingArea, IntPtr userData);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void DrawFunc(

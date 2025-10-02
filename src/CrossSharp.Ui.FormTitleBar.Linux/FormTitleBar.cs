@@ -112,6 +112,15 @@ public partial class FormTitleBar : IFormTitleBar
         InvalidateTitleLabel();
     }
 
+    public void Redraw()
+    {
+        _mainPanel.Redraw();
+        _minimizeButton?.Redraw();
+        _maximizeRestoreButton?.Redraw();
+        _closeButton?.Redraw();
+        _titleLabel?.Redraw();
+    }
+
     void InvalidateMinimizeButton()
     {
         if (_minimizeButton is null)

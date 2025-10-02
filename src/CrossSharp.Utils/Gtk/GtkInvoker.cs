@@ -3,6 +3,8 @@ using CrossSharp.Utils.Gtk;
 
 static class GtkInvoker
 {
+    const int SAFE_TIMEOUT = 50;
+
     // Delegate matching GSourceFunc signature
     private delegate bool GSourceFunc(IntPtr data);
 
@@ -63,7 +65,7 @@ static class GtkInvoker
         ArgumentNullException.ThrowIfNull(action);
         InvokeWhenIdle(() =>
         {
-            InvokeAfterTimeout(50, action);
+            InvokeAfterTimeout(SAFE_TIMEOUT, action);
         });
     }
 }

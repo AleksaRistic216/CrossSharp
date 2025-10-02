@@ -96,13 +96,24 @@ partial class Form : IForm
             IntPtr.Zero,
             0
         );
+        GtkHelpers.g_signal_connect_data(
+            Handle,
+            "notify::is-active",
+            (GtkHelpers.NotifyCommonCallback)SignalOnIsVisibleChange,
+            IntPtr.Zero,
+            IntPtr.Zero,
+            0
+        );
+    }
+
+    void SignalOnIsVisibleChange(IntPtr widget, IntPtr a)
+    {
+        TitleBar?.Redraw();
+        PerformLayout();
     }
 
     void SignalOnResize(IntPtr widget, IntPtr a)
     {
-        if (_suspendLayout)
-            return;
-
         GtkHelpers.gtk_window_get_default_size(Handle, out int width, out int height);
         // Fallback if GTK doesn't resize for some reason (it happens)
         if (width != _width || height != _height)
@@ -155,10 +166,7 @@ partial class Form : IForm
         Controls.Width = _width;
         Controls.Height = _height;
         Controls.PerformLayout();
-        GtkInvoker.InvokeSafe(() =>
-        {
-            GtkHelpers.gtk_window_set_default_size(Handle, _width, _height);
-        });
+        GtkHelpers.gtk_window_set_default_size(Handle, _width, _height);
     }
 
     void PerformLocation()
@@ -194,6 +202,25 @@ partial class Form : IForm
 
     public void Invalidate()
     {
+        InvalidateState();
+        InvalidateTitleBar();
+        InvalidateControls();
+    }
+
+    void InvalidateState()
+    {
+        if (State == WindowState.Minimized && GtkHelpers.gtk_window_is_active(Handle))
+            _state = WindowState.Normal;
+    }
+
+    void InvalidateControls()
+    {
+        foreach (var control in Controls.Items)
+            control.Invalidate();
+    }
+
+    void InvalidateTitleBar()
+    {
         if (!UseNativeTitleBar && TitleBar is null)
         {
             TitleBar = new FormTitleBar(this);
@@ -205,8 +232,6 @@ partial class Form : IForm
             GtkHelpers.gtk_window_set_decorated(Handle, true);
         }
         TitleBar?.Invalidate();
-        foreach (var control in Controls.Items)
-            control.Invalidate();
     }
 
     public void Show()
@@ -218,8 +243,7 @@ partial class Form : IForm
 
     public void Redraw()
     {
-        // Controls.Redraw();
-        // TitleBar.Redraw();
+        Controls.Redraw();
     }
 
     public void SuspendLayout()

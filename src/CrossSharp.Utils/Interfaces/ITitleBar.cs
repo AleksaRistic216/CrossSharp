@@ -8,4 +8,5 @@ public interface ITitleBar : IBoundsProvider
     EventHandler? TypeChanged { get; set; }
     void Show();
     void Invalidate();
+    void Redraw();
 }

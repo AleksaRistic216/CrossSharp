@@ -43,6 +43,8 @@ public class FormTitleBar(IForm form) : IFormTitleBar
 
     public void Invalidate() => _impl.Invalidate();
 
+    public void Redraw() => _impl.Redraw();
+
     public EventHandler<Size>? OnSizeChanged
     {
         get => _impl.OnSizeChanged;
