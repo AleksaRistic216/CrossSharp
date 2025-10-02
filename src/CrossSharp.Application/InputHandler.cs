@@ -15,23 +15,21 @@ class InputHandler : IInputHandler
     public event EventHandler<MouseInputArgs>? MouseWheel;
     public event EventHandler<MouseInputArgs>? MouseDragged;
 
-    public Task StartListeningAsync(CancellationToken token)
+    public void StartListeningAsync(CancellationToken token)
     {
         if (_hook.IsRunning)
             throw new InvalidOperationException("InputHandler hook is already running.");
-        return Task.Run(
-            () =>
-            {
-                _hook.KeyPressed += OnKeyPressed;
-                _hook.MousePressed += OnMousePressed;
-                _hook.MouseReleased += OnMouseReleased;
-                _hook.MouseMoved += OnMouseMoved;
-                _hook.MouseWheel += OnMouseWheel;
-                _hook.MouseDragged += OnMouseDragged;
-                _hook.RunAsync();
-            },
-            token
-        );
+        var thread = new Thread(() =>
+        {
+            _hook.KeyPressed += OnKeyPressed;
+            _hook.MousePressed += OnMousePressed;
+            _hook.MouseReleased += OnMouseReleased;
+            _hook.MouseMoved += OnMouseMoved;
+            _hook.MouseWheel += OnMouseWheel;
+            _hook.MouseDragged += OnMouseDragged;
+            _hook.RunAsync();
+        });
+        thread.Start();
     }
 
     void OnKeyPressed(object? sender, HookEventArgs e)

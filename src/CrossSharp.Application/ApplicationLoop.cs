@@ -12,7 +12,7 @@ class ApplicationLoop : IApplicationLoop
 
     void IApplicationLoop.Run<T>()
     {
-        _ = _inputHandler.StartListeningAsync(_cts.Token);
+        _inputHandler.StartListeningAsync(_cts.Token);
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:

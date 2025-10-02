@@ -189,17 +189,20 @@ partial class Form : IForm
 
     void SignalOnWidgetMapped(IntPtr widget, IntPtr _)
     {
-        string css = @"
-window {
-  background-color: rgba(0, 0, 0, 0);
-}
-";
+        string css = """
+                window {
+                    background-color: rgba(0, 0, 0, 0);
+                }
+            """;
+
         IntPtr cssProvider = GtkHelpers.gtk_css_provider_new();
-        GtkHelpers.gtk_css_provider_load_from_data(cssProvider, css, (UIntPtr)css.Length, IntPtr.Zero);
-        GtkHelpers.gtk_style_context_add_provider_for_display(
-            DisplayHandle,
+        GtkHelpers.gtk_css_provider_load_from_data(
             cssProvider,
-            600);
+            css,
+            (UIntPtr)css.Length,
+            IntPtr.Zero
+        );
+        GtkHelpers.gtk_style_context_add_provider_for_display(DisplayHandle, cssProvider, 600);
         RaiseOnShow();
     }
 
