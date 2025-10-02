@@ -1,6 +1,8 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -62,4 +64,16 @@ public class ControlsContainer(
         get => _impl.OnSizeChanged;
         set => _impl.OnSizeChanged = value;
     }
+    public int BorderWidth
+    {
+        get => _impl.BorderWidth;
+        set => _impl.BorderWidth = value;
+    }
+    public ColorRgba BorderColor
+    {
+        get => _impl.BorderColor;
+        set => _impl.BorderColor = value;
+    }
+
+    public void LimitClip(ref Graphics g) => _impl.LimitClip(ref g);
 }

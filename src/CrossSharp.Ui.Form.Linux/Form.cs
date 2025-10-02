@@ -1,5 +1,7 @@
+using System.Drawing;
 using System.Runtime.InteropServices;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
@@ -274,5 +276,13 @@ partial class Form : IForm
     public void Dispose()
     {
         Controls.Dispose();
+    }
+
+    public void LimitClip(ref Graphics g)
+    {
+        g.SetClip(
+            new Rectangle(0, 0, Width, Height),
+            Services.GetSingleton<ITheme>().RoundedCornersRadius
+        );
     }
 }

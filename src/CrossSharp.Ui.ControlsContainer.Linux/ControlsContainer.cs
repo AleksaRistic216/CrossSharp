@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -7,7 +8,7 @@ namespace CrossSharp.Ui.Linux;
 
 public class ControlsContainer : IControlsContainer
 {
-    IPanel _widget;
+    readonly IPanel _widget;
     ColorRgba _backgroundColor;
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }
@@ -64,6 +65,8 @@ public class ControlsContainer : IControlsContainer
         {
             ParentHandle = Handle,
             BackgroundColor = backgroundColorProvider.BackgroundColor,
+            BorderColor = ColorRgba.Yellow,
+            BorderWidth = 10,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height,
         };
@@ -104,5 +107,28 @@ public class ControlsContainer : IControlsContainer
         _widget.Width = Width;
         _widget.Height = Height;
         _widget.ResumeLayout();
+    }
+
+    public int BorderWidth
+    {
+        get => _widget.BorderWidth;
+        set => _widget.BorderWidth = value;
+    }
+    public ColorRgba BorderColor
+    {
+        get => _widget.BorderColor;
+        set => _widget.BorderColor = value;
+    }
+
+    public void LimitClip(ref Graphics g)
+    {
+        g.SetClip(
+            new Rectangle(
+                BorderWidth,
+                BorderWidth,
+                Width - BorderWidth * 2,
+                Height - BorderWidth * 2
+            )
+        );
     }
 }

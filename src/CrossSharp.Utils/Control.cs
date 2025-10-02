@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -51,6 +53,26 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         }
     }
 
+    protected Stack<IClipLimiter> GetClipLimiters()
+    {
+        Stack<IClipLimiter> stack = new();
+        IRelativeHandle obj = this;
+        while (true)
+        {
+            if (obj != this && obj is IClipLimiter cl)
+                stack.Push(cl);
+            var p = obj.Parent;
+            switch (p)
+            {
+                case IRelativeHandle rh:
+                    obj = rh;
+                    continue;
+            }
+            break;
+        }
+        return stack;
+    }
+
     internal Rectangle GetFormRelativeBounds()
     {
         Rectangle rect = Rectangle.Empty;
@@ -100,5 +122,10 @@ public abstract partial class Control : IControl, ISizeProvider, ILocationProvid
         _suspendLayout = false;
         Invalidate();
         Redraw();
+    }
+
+    public virtual void LimitClip(ref Graphics g)
+    {
+        g.SetClip(new Rectangle(Location.X, Location.Y, Width, Height));
     }
 }

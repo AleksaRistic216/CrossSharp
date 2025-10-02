@@ -4,7 +4,9 @@ public interface IControlsContainer
     : IDisposable,
         IRelativeHandle,
         IBackgroundColorProvider,
-        ISizeProvider
+        ISizeProvider,
+        IBorder,
+        IClipLimiter
 {
     List<IControl> Items { get; }
     void Show();

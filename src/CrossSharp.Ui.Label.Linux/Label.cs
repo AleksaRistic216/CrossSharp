@@ -28,8 +28,6 @@ public partial class Label : GtkWidget, ILabel
 
     public override void DrawBackground(Graphics g) { }
 
-    public override void DrawBorders(Graphics g) { }
-
     public override void DrawContent(Graphics g)
     {
         g.DrawText(

@@ -15,8 +15,6 @@ public partial class Panel : GtkWidget, IPanel
         g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
     }
 
-    public override void DrawBorders(Graphics g) { }
-
     public override void DrawContent(Graphics g) { }
 
     Size ICenterPanelChild.GetSize()

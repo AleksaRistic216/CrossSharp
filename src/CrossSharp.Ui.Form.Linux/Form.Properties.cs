@@ -98,6 +98,28 @@ partial class Form
     public IntPtr Handle { get; set; }
     public IntPtr ParentHandle { get; set; }
     public bool Visible { get; set; }
+    public int BorderWidth
+    {
+        get => Controls.BorderWidth;
+        set
+        {
+            if (Controls.BorderWidth == value)
+                return;
+            Controls.BorderWidth = value;
+            Controls.Redraw();
+        }
+    }
+    public ColorRgba BorderColor
+    {
+        get => Controls.BorderColor;
+        set
+        {
+            if (Controls.BorderColor == value)
+                return;
+            Controls.BorderColor = value;
+            Controls.Redraw();
+        }
+    }
     public int Width
     {
         get => _width;

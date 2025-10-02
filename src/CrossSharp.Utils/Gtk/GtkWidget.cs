@@ -54,13 +54,12 @@ public abstract class GtkWidget : Control, IGtkWidget
         return parent == ParentHandle;
     }
 
-    void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data) {
+    void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data)
+    {
         if (cr == IntPtr.Zero)
             return;
         _g = new Graphics(cr, this, this);
-        var form = GetForm();
-        if (form is not null)
-            _g.SetClip(new Rectangle(0, 0, form.Width, form.Height), Services.GetSingleton<ITheme>().RoundedCornersRadius);
+        ParentalLimitClip(ref _g);
         DrawShadows(_g!);
         DrawBackground(_g!);
         DrawBorders(_g!);
@@ -70,11 +69,37 @@ public abstract class GtkWidget : Control, IGtkWidget
         _g!.Dispose();
     }
 
+    void ParentalLimitClip(ref Graphics graphics)
+    {
+        var clipLimiters = GetClipLimiters();
+        while (clipLimiters.Count > 0)
+        {
+            var cl = clipLimiters.Pop();
+            cl.LimitClip(ref graphics);
+        }
+    }
+
     public abstract void DrawShadows(Graphics g);
 
     public abstract void DrawBackground(Graphics g);
 
-    public abstract void DrawBorders(Graphics g);
+    public virtual void DrawBorders(Graphics g)
+    {
+        if (BorderWidth <= 0)
+            return;
+        if (BorderColor == ColorRgba.Transparent)
+            return;
+        if (Width <= 0 || Height <= 0)
+            return;
+        g.DrawRectangle(
+            Location.X + BorderWidth / 2,
+            Location.Y + BorderWidth / 2,
+            Width - BorderWidth,
+            Height - BorderWidth,
+            BorderColor,
+            BorderWidth
+        );
+    }
 
     public abstract void DrawContent(Graphics g);
 

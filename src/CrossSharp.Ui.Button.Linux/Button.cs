@@ -32,8 +32,6 @@ public partial class Button : GtkWidget, IButton
         g.FillRectangle(Location.X, Location.Y, Width, Height, color);
     }
 
-    public override void DrawBorders(Graphics g) { }
-
     public override void DrawContent(Graphics g)
     {
         if (string.IsNullOrWhiteSpace(Text))

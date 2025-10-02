@@ -1,11 +1,12 @@
 using System.Drawing;
 using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
 public abstract class CrossWidget<T>(T impl) : IGtkWidget
-    where T : IGtkWidget
+    where T : IGtkWidget // TODO: This should implement widget, not gtk widget
 {
     protected T _impl = impl;
 
@@ -49,6 +50,16 @@ public abstract class CrossWidget<T>(T impl) : IGtkWidget
 
     public void ResumeLayout() => _impl.ResumeLayout();
 
+    public int BorderWidth
+    {
+        get => _impl.BorderWidth;
+        set => _impl.BorderWidth = value;
+    }
+    public ColorRgba BorderColor
+    {
+        get => _impl.BorderColor;
+        set => _impl.BorderColor = value;
+    }
     public Point Location
     {
         get => _impl.Location;
@@ -67,4 +78,6 @@ public abstract class CrossWidget<T>(T impl) : IGtkWidget
     public void DrawBorders(Graphics g) => _impl.DrawBorders(g);
 
     public void DrawContent(Graphics g) => _impl.DrawContent(g);
+
+    public void LimitClip(ref Graphics g) => _impl.LimitClip(ref g);
 }

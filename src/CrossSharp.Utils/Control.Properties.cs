@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
 using CrossSharp.Utils.Interfaces;
 
@@ -13,7 +14,7 @@ public partial class Control
     bool _visible = true;
     #endregion
 
-    internal bool _suspendLayout = false;
+    bool _suspendLayout = false;
 
     #region abstract
     public abstract IntPtr Handle { get; set; }
@@ -22,7 +23,33 @@ public partial class Control
     #region exposed
     internal IInputHandler InputHandler { get; set; }
 
-    public bool IsMouseOver { get; internal set; }
+    protected bool IsMouseOver { get; set; }
+    int _borderWidth { get; set; }
+    public int BorderWidth
+    {
+        get => _borderWidth;
+        set
+        {
+            if (_borderWidth == value)
+                return;
+            _borderWidth = value;
+            Invalidate();
+            Redraw();
+        }
+    }
+    ColorRgba _borderColor { get; set; } = ColorRgba.Black;
+    public ColorRgba BorderColor
+    {
+        get => _borderColor;
+        set
+        {
+            if (_borderColor == value)
+                return;
+            _borderColor = value;
+            Invalidate();
+            Redraw();
+        }
+    }
     public IntPtr ParentHandle { get; set; }
     public object Parent { get; set; }
     public bool Visible

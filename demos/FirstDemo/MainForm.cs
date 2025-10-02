@@ -33,6 +33,8 @@ public class MainForm : Form
             Height = 250,
             Location = new Point(200, 200),
             BackgroundColor = ColorRgba.Blue,
+            BorderWidth = 50,
+            BorderColor = ColorRgba.DarkGray,
         };
         Controls.Add(panel1);
         var button = new Button()
