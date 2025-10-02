@@ -67,4 +67,10 @@ static class CairoHelpers
 
     [DllImport(CAIRO)]
     internal static extern int cairo_surface_write_to_png(IntPtr surface, string filename);
+    
+    [DllImport(CAIRO)]
+    internal static extern void cairo_set_operator(IntPtr cr, int i);
+    
+    [DllImport(CAIRO)]
+    internal static extern void cairo_paint(IntPtr cr);
 }

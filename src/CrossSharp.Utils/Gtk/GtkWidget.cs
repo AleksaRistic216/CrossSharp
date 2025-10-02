@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils.Cairo;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
@@ -53,8 +54,7 @@ public abstract class GtkWidget : Control, IGtkWidget
         return parent == ParentHandle;
     }
 
-    void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data)
-    {
+    void OnDraw(IntPtr sender, IntPtr cr, int width, int height, IntPtr data) {
         if (cr == IntPtr.Zero)
             return;
         _g = new Graphics(cr, this, this);

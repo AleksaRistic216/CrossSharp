@@ -54,7 +54,7 @@ public class ControlsContainer : IControlsContainer
         _widget = new Panel
         {
             ParentHandle = Handle,
-            BackgroundColor = ColorRgba.Purple,
+            BackgroundColor = ColorRgba.Transparent,
             Width = sizeProvider.Width,
             Height = sizeProvider.Height,
         };

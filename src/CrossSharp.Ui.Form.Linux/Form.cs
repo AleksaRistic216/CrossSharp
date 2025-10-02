@@ -125,6 +125,18 @@ partial class Form : IForm
     {
         WindowSurfaceHandle = GtkHelpers.gtk_native_get_surface(widget);
         DisplayHandle = GtkHelpers.gtk_root_get_display(widget);
+        
+        string css = @"
+window {
+  background-color: rgba(0, 0, 0, 0);
+}
+";
+        IntPtr cssProvider = GtkHelpers.gtk_css_provider_new();
+        GtkHelpers.gtk_css_provider_load_from_data(cssProvider, css, (UIntPtr)css.Length, IntPtr.Zero);
+        GtkHelpers.gtk_style_context_add_provider_for_display(
+            DisplayHandle,
+            cssProvider,
+            600);
         InitializeMonitor();
         PerformLayout();
     }
