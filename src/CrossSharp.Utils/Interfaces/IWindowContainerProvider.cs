@@ -1,8 +1,8 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControlsContainerProvider
+public interface IWindowContainerProvider
 {
     int Column { get; set; }
     int Row { get; set; }
-    IControlsContainer Controls { get; }
+    IWindowContainer Controls { get; }
 }

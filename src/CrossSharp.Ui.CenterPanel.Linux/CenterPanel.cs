@@ -23,33 +23,33 @@ public partial class CenterPanel : Utils.Linux.ControlBase, ICenterPanel
         _child.Location = new Point(x, y);
     }
 
-    public override void DrawShadows(Graphics g)
+    public override void DrawShadows(ref Graphics g)
     {
         if (_child is null)
             return;
-        _child!.DrawShadows(g);
+        _child!.DrawShadows(ref g);
     }
 
-    public override void DrawBackground(Graphics g)
+    public override void DrawBackground(ref Graphics g)
     {
         g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
         if (_child is null)
             return;
-        _child!.DrawBackground(g);
+        _child!.DrawBackground(ref g);
     }
 
-    public override void DrawBorders(Graphics g)
+    public override void DrawBorders(ref Graphics g)
     {
         if (_child is null)
             return;
-        _child!.DrawBorders(g);
+        _child!.DrawBorders(ref g);
     }
 
-    public override void DrawContent(Graphics g)
+    public override void DrawContent(ref Graphics g)
     {
         if (_child is null)
             return;
-        _child!.DrawContent(g);
+        _child!.DrawContent(ref g);
     }
 
     void ValidateChild(IControl? widget)

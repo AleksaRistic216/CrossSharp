@@ -69,13 +69,13 @@ public abstract class Control<T>(T impl) : IControl
         set => _impl.OnLocationChanged = value;
     }
 
-    public void DrawShadows(Graphics g) => _impl.DrawShadows(g);
+    public void DrawShadows(ref Graphics g) => _impl.DrawShadows(ref g);
 
-    public void DrawBackground(Graphics g) => _impl.DrawBackground(g);
+    public void DrawBackground(ref Graphics g) => _impl.DrawBackground(ref g);
 
-    public void DrawBorders(Graphics g) => _impl.DrawBorders(g);
+    public void DrawBorders(ref Graphics g) => _impl.DrawBorders(ref g);
 
-    public void DrawContent(Graphics g) => _impl.DrawContent(g);
+    public void DrawContent(ref Graphics g) => _impl.DrawContent(ref g);
 
     public void LimitClip(ref Graphics g) => _impl.LimitClip(ref g);
 

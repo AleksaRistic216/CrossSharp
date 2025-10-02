@@ -23,7 +23,7 @@ public abstract class FormBase : IForm
         get => _formImpl.Row;
         set { _formImpl.Row = value; }
     }
-    public IControlsContainer Controls => _formImpl.Controls;
+    public IWindowContainer Controls => _formImpl.Controls;
     public bool UseNativeTitleBar
     {
         get => _formImpl.UseNativeTitleBar;
@@ -133,13 +133,13 @@ public abstract class FormBase : IForm
 
     public void ResumeLayout() => _formImpl.ResumeLayout();
 
-    public void DrawShadows(Graphics g) => _formImpl.DrawShadows(g);
+    public void DrawShadows(ref Graphics g) => _formImpl.DrawShadows(ref g);
 
-    public void DrawBackground(Graphics g) => _formImpl.DrawBackground(g);
+    public void DrawBackground(ref Graphics g) => _formImpl.DrawBackground(ref g);
 
-    public void DrawBorders(Graphics g) => _formImpl.DrawBorders(g);
+    public void DrawBorders(ref Graphics g) => _formImpl.DrawBorders(ref g);
 
-    public void DrawContent(Graphics g) => _formImpl.DrawContent(g);
+    public void DrawContent(ref Graphics g) => _formImpl.DrawContent(ref g);
 
     public int BorderWidth
     {

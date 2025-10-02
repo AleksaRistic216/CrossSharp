@@ -10,7 +10,7 @@ class FormTitleBarMaximizeRestoreButtonLinux : Button
 {
     const int GLYPH_OFFSET = 24;
 
-    public override void DrawContent(Graphics g)
+    public override void DrawContent(ref Graphics g)
     {
         var form = GetForm();
         if (form == null)

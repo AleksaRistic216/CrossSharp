@@ -7,14 +7,14 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class ControlsContainer(
+public class WindowContainer(
     IntPtr parentHandle,
     ISizeProvider sizeProvider,
     IBackgroundColorProvider backgroundColorProvider
-) : IControlsContainer
+) : IWindowContainer
 {
-    readonly IControlsContainer _impl = Services
-        .GetSingleton<IControlsContainerFactory>()
+    readonly IWindowContainer _impl = Services
+        .GetSingleton<IWindowContainerFactory>()
         .Create(parentHandle, sizeProvider, backgroundColorProvider);
 
     public void Dispose() => _impl.Dispose();

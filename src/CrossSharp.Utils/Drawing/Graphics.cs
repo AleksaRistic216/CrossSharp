@@ -14,14 +14,15 @@ public class Graphics(
 ) : IDisposable
 {
     Rectangle ClipRectangle =>
-        new(
-            locationProvider.Location,
-            new Size(
-                locationProvider.Location.X + sizeProvider.Width,
-                locationProvider.Location.Y + sizeProvider.Height
-            )
-        );
+        new(locationProvider.Location, new Size(sizeProvider.Width, sizeProvider.Height));
+    Point _offset = Point.Empty;
     internal IntPtr ContextHandle { get; set; } = contextHandle;
+
+    void ApplyOffset(ref int x, ref int y)
+    {
+        x += _offset.X;
+        y += _offset.Y;
+    }
 
     internal void DrawRectangle(
         int x,
@@ -32,6 +33,7 @@ public class Graphics(
         float borderWidth
     )
     {
+        ApplyOffset(ref x, ref y);
         if (!ClipRectangle.IntersectsWith(new Rectangle(x, y, width, height)))
             return;
         SetClip(ClipRectangle);
@@ -43,6 +45,7 @@ public class Graphics(
 
     internal void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor)
     {
+        ApplyOffset(ref x, ref y);
         if (!ClipRectangle.IntersectsWith(new Rectangle(x, y, width, height)))
             return;
         SetClip(ClipRectangle);
@@ -62,6 +65,7 @@ public class Graphics(
         PangoStyle fontStyle
     )
     {
+        ApplyOffset(ref x, ref y);
         SetClip(ClipRectangle);
         SetColor(textColor);
         CairoHelpers.cairo_move_to(ContextHandle, x, y);
@@ -91,12 +95,12 @@ public class Graphics(
         );
     }
 
-
     internal void SetClip(Rectangle rect)
     {
         CairoHelpers.cairo_rectangle(ContextHandle, rect.X, rect.Y, rect.Width, rect.Height);
         CairoHelpers.cairo_clip(ContextHandle);
     }
+
     internal void SetClip(Rectangle rect, double radius)
     {
         double x = rect.X;
@@ -118,26 +122,19 @@ public class Graphics(
         CairoHelpers.cairo_clip(ContextHandle);
     }
 
-
-    internal void ResetClip()
-    {
-        var clipRect = new Rectangle(
-            locationProvider.Location,
-            new Size(sizeProvider.Width, sizeProvider.Height)
-        );
-        CairoHelpers.cairo_rectangle(
-            ContextHandle,
-            clipRect.X,
-            clipRect.Y,
-            clipRect.Width,
-            clipRect.Height
-        );
-        CairoHelpers.cairo_clip(ContextHandle);
-    }
-
     public void Dispose()
     {
         ContextHandle = IntPtr.Zero;
         GC.SuppressFinalize(this);
+    }
+
+    public void ResetOffset()
+    {
+        _offset = Point.Empty;
+    }
+
+    public void SetOffset(int locationX, int locationY)
+    {
+        _offset = new Point(locationX, locationY);
     }
 }

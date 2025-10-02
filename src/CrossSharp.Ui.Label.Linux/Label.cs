@@ -24,11 +24,7 @@ public partial class Label : Utils.Linux.ControlBase, ILabel
         Height = renderRect.Height;
     }
 
-    public override void DrawShadows(Graphics g) { }
-
-    public override void DrawBackground(Graphics g) { }
-
-    public override void DrawContent(Graphics g)
+    public override void DrawContent(ref Graphics g)
     {
         g.DrawText(
             Text,

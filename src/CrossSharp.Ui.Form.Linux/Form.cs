@@ -20,7 +20,7 @@ partial class Form : IForm
     public void Initialize()
     {
         Handle = GtkHelpers.gtk_application_window_new(ParentHandle);
-        Controls = new ControlsContainer(Handle, this, this);
+        Controls = new WindowContainer(Handle, this, this);
         Controls.Parent = this;
         BorderWidth = Services.GetSingleton<ITheme>().FormBorderWidth;
         BorderColor = Services.GetSingleton<ITheme>().FormBorderColor;
@@ -119,7 +119,7 @@ partial class Form : IForm
     {
         GtkHelpers.gtk_window_get_default_size(Handle, out int width, out int height);
         // Fallback if GTK doesn't resize for some reason (it happens)
-        if (width != _width || height != _height)
+        if (width != _width || height != (_height + TitleBar?.Height ?? 0))
             PerformLayout();
         // ===========================
     }
@@ -278,13 +278,13 @@ partial class Form : IForm
         PerformLayout();
     }
 
-    public void DrawShadows(Graphics g) { }
+    public void DrawShadows(ref Graphics g) { }
 
-    public void DrawBackground(Graphics g) { }
+    public void DrawBackground(ref Graphics g) { }
 
-    public void DrawBorders(Graphics g) { }
+    public void DrawBorders(ref Graphics g) { }
 
-    public void DrawContent(Graphics g) { }
+    public void DrawContent(ref Graphics g) { }
 
     public void Dispose()
     {

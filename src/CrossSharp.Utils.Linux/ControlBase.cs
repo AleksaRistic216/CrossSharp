@@ -50,7 +50,7 @@ public class ControlBase : Utils.ControlBase
 
     void Attach()
     {
-        if (Parent is IControlsContainerProvider containerProvider)
+        if (Parent is IWindowContainerProvider containerProvider)
         {
             containerProvider.Controls.Attach(
                 this,
@@ -61,7 +61,7 @@ public class ControlBase : Utils.ControlBase
             );
             return;
         }
-        if (Parent is IControlsContainer container)
+        if (Parent is IWindowContainer container)
         {
             // if (ZIndex == -1)
             // {
@@ -72,7 +72,7 @@ public class ControlBase : Utils.ControlBase
             return;
         }
         throw new InvalidOperationException(
-            $"Parent must implement {nameof(IControlsContainerProvider)} or ${nameof(IControlsContainer)}"
+            $"Parent must implement {nameof(IWindowContainerProvider)} or ${nameof(IWindowContainer)}"
         );
     }
 
@@ -94,10 +94,10 @@ public class ControlBase : Utils.ControlBase
             return;
         _g = new Graphics(cr, this, this);
         ParentalLimitClip(ref _g);
-        DrawShadows(_g!);
-        DrawBackground(_g!);
-        DrawBorders(_g!);
-        DrawContent(_g!);
+        DrawShadows(ref _g!);
+        DrawBackground(ref _g!);
+        DrawBorders(ref _g!);
+        DrawContent(ref _g!);
         if (_application.DevelopersMode)
             DrawDevelopersBorders(_g!);
         _g!.Dispose();

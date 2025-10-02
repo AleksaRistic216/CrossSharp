@@ -18,8 +18,8 @@ public interface IControl
     void Redraw();
     void SuspendLayout();
     void ResumeLayout();
-    void DrawShadows(Graphics g);
-    void DrawBackground(Graphics g);
-    void DrawBorders(Graphics g);
-    void DrawContent(Graphics g);
+    void DrawShadows(ref Graphics g);
+    void DrawBackground(ref Graphics g);
+    void DrawBorders(ref Graphics g);
+    void DrawContent(ref Graphics g);
 }

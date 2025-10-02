@@ -48,7 +48,8 @@ public class Builder
         AddSingleton<IFormFactory, Ui.Linux.FormFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
         AddSingleton<IFormTitleBarFactory, Ui.Linux.FormTitleBarFactory>();
-        AddSingleton<IControlsContainerFactory, Ui.Linux.ControlsContainerFactory>();
+        AddSingleton<IWindowContainerFactory, Ui.Linux.WindowContainerFactory>();
+        AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
         AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
         AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
         AddSingleton<ICenterPanelFactory, Ui.Linux.CenterPanelFactory>();

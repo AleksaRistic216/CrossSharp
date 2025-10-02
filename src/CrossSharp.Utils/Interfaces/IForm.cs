@@ -6,7 +6,7 @@ public interface IForm
     : IControl,
         ITitleBarProvider,
         IBackgroundColorProvider,
-        IControlsContainerProvider
+        IWindowContainerProvider
 {
     bool UseNativeTitleBar { get; set; }
     IntPtr DisplayHandle { get; set; }
@@ -14,7 +14,7 @@ public interface IForm
     string Title { get; set; }
     IApplication AppInstance { get; }
     void Close();
-    IControlsContainer Controls { get; }
+    IWindowContainer Controls { get; }
     EventHandler? OnShow { get; set; }
     EventHandler? OnClose { get; set; }
     void PerformLayout();

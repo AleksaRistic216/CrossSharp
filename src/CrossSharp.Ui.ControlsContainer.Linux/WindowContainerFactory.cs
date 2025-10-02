@@ -2,11 +2,11 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public class ControlsContainerFactory : IControlsContainerFactory
+public class WindowContainerFactory : IWindowContainerFactory
 {
-    public IControlsContainer Create(
+    public IWindowContainer Create(
         IntPtr parentHandle,
         ISizeProvider sizeProvider,
         IBackgroundColorProvider backgroundColorProvider
-    ) => new ControlsContainer(parentHandle, sizeProvider, backgroundColorProvider);
+    ) => new WindowContainer(parentHandle, sizeProvider, backgroundColorProvider);
 }

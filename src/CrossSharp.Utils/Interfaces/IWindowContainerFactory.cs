@@ -1,8 +1,8 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControlsContainerFactory
+public interface IWindowContainerFactory
 {
-    IControlsContainer Create(
+    IWindowContainer Create(
         IntPtr parentHandle,
         ISizeProvider sizeProvider,
         IBackgroundColorProvider backgroundColorProvider

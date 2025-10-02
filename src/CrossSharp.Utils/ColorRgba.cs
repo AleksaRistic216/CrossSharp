@@ -19,6 +19,13 @@ public class ColorRgba
     public static readonly ColorRgba White = new(1, 1, 1, 1);
     public static readonly ColorRgba WhiteSmoke = new(0.9f, 0.9f, 0.9f, 1);
     public static readonly ColorRgba Black = new(0, 0, 0, 1);
+    public static ColorRgba RandomColor =>
+        new(
+            (float)Random.Shared.NextDouble(),
+            (float)Random.Shared.NextDouble(),
+            (float)Random.Shared.NextDouble(),
+            1
+        );
     public float R { get; set; }
     public float G { get; set; }
     public float B { get; set; }

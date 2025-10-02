@@ -36,6 +36,8 @@ public partial class Button
 
     internal override void OnMouseMoved(object? sender, MouseInputArgs e)
     {
+        var form = GetForm();
+        var screenBounds = GetScreenBounds();
         base.OnMouseMoved(sender, e);
         Redraw();
     }

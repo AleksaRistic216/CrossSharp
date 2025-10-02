@@ -24,15 +24,15 @@ public partial class Button : Utils.Linux.ControlBase, IButton
         );
     }
 
-    public override void DrawShadows(Graphics g) { }
+    public override void DrawShadows(ref Graphics g) { }
 
-    public override void DrawBackground(Graphics g)
+    public override void DrawBackground(ref Graphics g)
     {
         var color = !IsMouseOver ? BackgroundColor : BackgroundColor.Highlighted;
         g.FillRectangle(Location.X, Location.Y, Width, Height, color);
     }
 
-    public override void DrawContent(Graphics g)
+    public override void DrawContent(ref Graphics g)
     {
         if (string.IsNullOrWhiteSpace(Text))
             return;

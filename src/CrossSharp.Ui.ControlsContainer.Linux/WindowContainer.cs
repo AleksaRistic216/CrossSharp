@@ -7,7 +7,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public sealed class ControlsContainer : IControlsContainer
+public sealed class WindowContainer : IWindowContainer
 {
     GtkGrid _grid;
     readonly IPanel _widget;
@@ -61,7 +61,7 @@ public sealed class ControlsContainer : IControlsContainer
     }
     public List<IControl> Items { get; } = [];
 
-    public ControlsContainer(
+    public WindowContainer(
         IntPtr parentHandle,
         ISizeProvider sizeProvider,
         IBackgroundColorProvider backgroundColorProvider

@@ -121,11 +121,11 @@ public abstract partial class ControlBase : IControl
         Redraw();
     }
 
-    public virtual void DrawShadows(Graphics g) { }
+    public virtual void DrawShadows(ref Graphics g) { }
 
-    public virtual void DrawBackground(Graphics g) { }
+    public virtual void DrawBackground(ref Graphics g) { }
 
-    public virtual void DrawBorders(Graphics g)
+    public virtual void DrawBorders(ref Graphics g)
     {
         if (BorderWidth <= 0)
             return;
@@ -143,7 +143,7 @@ public abstract partial class ControlBase : IControl
         );
     }
 
-    public virtual void DrawContent(Graphics g) { }
+    public virtual void DrawContent(ref Graphics graphics) { }
 
     public virtual void LimitClip(ref Graphics g)
     {

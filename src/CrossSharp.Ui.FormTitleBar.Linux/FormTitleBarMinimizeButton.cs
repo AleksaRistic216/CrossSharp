@@ -10,7 +10,7 @@ class FormTitleBarMinimizeButtonLinux : Button
     const int GLYPH_OFFSET = 16;
     const int BORDER_WIDTH = 1;
 
-    public override void DrawContent(Graphics g)
+    public override void DrawContent(ref Graphics g)
     {
         g.DrawRectangle(
             Location.X + GLYPH_OFFSET / 2,

@@ -8,14 +8,14 @@ namespace CrossSharp.Ui.Linux;
 
 public partial class Panel : Utils.Linux.ControlBase, IPanel
 {
-    public override void DrawShadows(Graphics g) { }
+    public override void DrawShadows(ref Graphics g) { }
 
-    public override void DrawBackground(Graphics g)
+    public override void DrawBackground(ref Graphics g)
     {
         g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
     }
 
-    public override void DrawContent(Graphics g) { }
+    public override void DrawContent(ref Graphics g) { }
 
     Size ICenterPanelChild.GetSize()
     {
