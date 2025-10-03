@@ -3,6 +3,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils.Linux;
@@ -19,6 +20,7 @@ public class ControlBase : Utils.ControlBase
         if (_initialized)
             return;
         GtkHelpers.DrawFunc drawFunc = OnDraw;
+        GCHelpers.Alloc(drawFunc);
         GtkHelpers.gtk_drawing_area_set_draw_func(Handle, drawFunc, IntPtr.Zero, IntPtr.Zero);
         _initialized = true;
     }

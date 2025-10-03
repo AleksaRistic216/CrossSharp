@@ -3,6 +3,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Gtk;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.X11;
 
@@ -51,42 +52,45 @@ partial class Form : IForm
 
     void SubscribeToGtkSignals()
     {
-        GtkHelpers.g_signal_connect_data(
-            Handle,
-            "map",
-            (GtkHelpers.MapCallback)SignalOnWidgetMapped,
-            IntPtr.Zero,
-            IntPtr.Zero,
-            0
-        );
+        var mapCallback = new GtkHelpers.MapCallback(SignalOnWidgetMapped);
+        GCHelpers.Alloc(mapCallback);
+        GtkHelpers.g_signal_connect_data(Handle, "map", mapCallback, IntPtr.Zero, IntPtr.Zero, 0);
+        var closeCallback = new GtkHelpers.CloseRequestCallback(SignalOnClose);
+        GCHelpers.Alloc(closeCallback);
         GtkHelpers.g_signal_connect_data(
             Handle,
             "close-request",
-            (GtkHelpers.CloseRequestCallback)SignalOnClose,
+            closeCallback,
             IntPtr.Zero,
             IntPtr.Zero,
             0
         );
+        var realizeCallback = new GtkHelpers.RealizeCallback(SignalOnRealize);
+        GCHelpers.Alloc(realizeCallback);
         GtkHelpers.g_signal_connect_data(
             Handle,
             "realize",
-            (GtkHelpers.RealizeCallback)SignalOnRealize,
+            realizeCallback,
             IntPtr.Zero,
             IntPtr.Zero,
             0
         );
+        var maximizeCallback = new GtkHelpers.MaximizedCallback(SignalOnMaximized);
+        GCHelpers.Alloc(maximizeCallback);
         GtkHelpers.g_signal_connect_data(
             Handle,
             "notify::maximized",
-            (GtkHelpers.MaximizedCallback)SignalOnMaximized,
+            maximizeCallback,
             IntPtr.Zero,
             IntPtr.Zero,
             0
         );
+        var resizeCallback = new GtkHelpers.NotifyResizeCallback(SignalOnResize);
+        GCHelpers.Alloc(resizeCallback);
         GtkHelpers.g_signal_connect_data(
             Handle,
             "notify::default-width",
-            (GtkHelpers.NotifyResizeCallback)SignalOnResize,
+            resizeCallback,
             IntPtr.Zero,
             IntPtr.Zero,
             0
@@ -94,15 +98,17 @@ partial class Form : IForm
         GtkHelpers.g_signal_connect_data(
             Handle,
             "notify::default-height",
-            (GtkHelpers.NotifyResizeCallback)SignalOnResize,
+            resizeCallback,
             IntPtr.Zero,
             IntPtr.Zero,
             0
         );
+        var isVisibleCallback = new GtkHelpers.NotifyCommonCallback(SignalOnIsVisibleChange);
+        GCHelpers.Alloc(isVisibleCallback);
         GtkHelpers.g_signal_connect_data(
             Handle,
             "notify::is-active",
-            (GtkHelpers.NotifyCommonCallback)SignalOnIsVisibleChange,
+            isVisibleCallback,
             IntPtr.Zero,
             IntPtr.Zero,
             0

@@ -9,6 +9,8 @@ static class GtkApplicationRunner
     internal static void Run<T>()
         where T : IForm
     {
+        Environment.SetEnvironmentVariable("G_DEBUG", "fatal-warnings");
+        Environment.SetEnvironmentVariable("G_LOG_LEVEL", "debug");
         var app = GtkHelpers.gtk_application_new("org.example.GtkApp", 0); // TODO: App ID
         GtkHelpers.g_signal_connect_data(
             app,
