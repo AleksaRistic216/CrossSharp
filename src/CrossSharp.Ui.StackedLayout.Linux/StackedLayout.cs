@@ -23,6 +23,17 @@ public class StackedLayout : Panel, IStackedLayout
         }
     }
 
+    Dictionary<IControl, ControlSizing> _sizing = new();
+
+    public void SetItemSizing(IControl control, ControlSizing sizing)
+    {
+        ArgumentNullException.ThrowIfNull(control);
+        if (!Items.Contains(control))
+            throw new Exception("Control is not child of this layout");
+        _sizing[control] = sizing;
+        Invalidate();
+    }
+
     public List<IControl> Items { get; } = [];
 
     public override void Invalidate()
@@ -43,12 +54,23 @@ public class StackedLayout : Panel, IStackedLayout
         }
     }
 
+    List<IControl> GetControlsWithoutSizing() => Items.Where(c => !_sizing.ContainsKey(c)).ToList();
+
     void StackHorizontally()
     {
         int x = 0;
+        var nonFillControls = GetControlsWithoutSizing();
+        int totalNonFillWidth = nonFillControls.Sum(c => c.Width);
+        int fillCount = Items.Count - nonFillControls.Count; // Later with other sizing this should be changed
+        int availableWidth = Width - totalNonFillWidth;
         foreach (IControl control in Items)
         {
             control.Location = new Point(x, 0);
+            if (
+                _sizing.TryGetValue(control, out ControlSizing sizing)
+                && sizing == ControlSizing.Fill
+            )
+                control.Width = availableWidth / fillCount;
             x += control.Width;
         }
     }
@@ -56,9 +78,19 @@ public class StackedLayout : Panel, IStackedLayout
     void StackVertically()
     {
         int y = 0;
+        var nonFillControls = GetControlsWithoutSizing();
+        int totalNonFillHeight = nonFillControls.Sum(c => c.Height);
+        int fillCount = Items.Count - nonFillControls.Count;
+        int availableHeight = Height - totalNonFillHeight;
+
         foreach (IControl control in Items)
         {
             control.Location = new Point(0, y);
+            if (
+                _sizing.TryGetValue(control, out ControlSizing sizing)
+                && sizing == ControlSizing.Fill
+            )
+                control.Height = availableHeight / fillCount;
             y += control.Height;
         }
     }

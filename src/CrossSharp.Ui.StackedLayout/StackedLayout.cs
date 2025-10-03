@@ -38,4 +38,7 @@ public class StackedLayout()
         get => _impl.ItemsDirection;
         set => _impl.ItemsDirection = value;
     }
+
+    public void SetItemSizing(IControl control, ControlSizing sizing) =>
+        _impl.SetItemSizing(control, sizing);
 }
