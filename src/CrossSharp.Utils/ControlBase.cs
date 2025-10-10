@@ -44,7 +44,9 @@ public abstract partial class ControlBase : IControl
 
     public virtual void DrawBackground(ref IGraphics g)
     {
-        g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
+        if (this is not IBackgroundColorProvider bgProvider)
+            return;
+        g.FillRectangle(0, 0, Width, Height, bgProvider.BackgroundColor);
     }
 
     public virtual void DrawBorders(ref IGraphics g)
@@ -56,8 +58,8 @@ public abstract partial class ControlBase : IControl
         if (Width <= 0 || Height <= 0)
             return;
         g.DrawRectangle(
-            Location.X + BorderWidth / 2,
-            Location.Y + BorderWidth / 2,
+            BorderWidth / 2,
+            BorderWidth / 2,
             Width - BorderWidth,
             Height - BorderWidth,
             BorderColor,

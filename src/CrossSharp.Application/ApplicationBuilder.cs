@@ -51,6 +51,7 @@ public class ApplicationBuilder
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
         AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
         AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
+        AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
     }
 
     void RegisterWindowsServices()

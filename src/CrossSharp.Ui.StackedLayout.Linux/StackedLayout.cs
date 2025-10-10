@@ -28,6 +28,8 @@ class StackedLayout : IStackedLayout
 
     public void Invalidate()
     {
+        foreach (IControl control in _controls)
+            control.Invalidate();
         if (Direction == Direction.Vertical)
             InvalidateStackVertical();
         else
@@ -69,6 +71,7 @@ class StackedLayout : IStackedLayout
         foreach (IControl control in controls)
             control.Parent = this;
         _controls.AddRange(controls);
+        Invalidate();
     }
 
     public void Remove(params IControl[] controls) => _controls.RemoveAll(controls.Contains);

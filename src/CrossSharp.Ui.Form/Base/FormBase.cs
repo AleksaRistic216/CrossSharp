@@ -123,6 +123,11 @@ public abstract class FormBase : IForm
         get => _formImpl.BackgroundColor;
         set { _formImpl.BackgroundColor = value; }
     }
+    public EventHandler? OnBackgroundColorChange
+    {
+        get => _formImpl.OnBackgroundColorChange;
+        set { _formImpl.OnBackgroundColorChange = value; }
+    }
 
     public void LimitClip(ref IGraphics g) => _formImpl.LimitClip(ref g);
 }

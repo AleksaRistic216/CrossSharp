@@ -25,7 +25,11 @@ class StaticLayout : IStaticLayout
 
     public void Initialize() { }
 
-    public void Invalidate() { }
+    public void Invalidate()
+    {
+        foreach (IControl control in _controls)
+            control.Invalidate();
+    }
 
     public void SuspendLayout() { }
 
@@ -40,6 +44,7 @@ class StaticLayout : IStaticLayout
         foreach (var c in controls)
             c.Parent = this;
         _controls.AddRange(controls);
+        Invalidate();
     }
 
     public void Remove(params IControl[] controls) => _controls.RemoveAll(controls.Contains);

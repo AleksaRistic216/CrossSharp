@@ -26,6 +26,6 @@ public interface IGraphics : IDisposable
     Size MeasureText(string text, FontFamily fontFamily, int fontSize);
     void SetClip(Rectangle rectangle);
     void ResetOffset();
-    void SetOffset(int locationX, int locationY);
+    void SetOffset(int x, int y);
     void SetClip(Rectangle rectangle, int roundedCornersRadius);
 }

@@ -1,5 +1,5 @@
+using CrossSharp.Diagnostics;
 using CrossSharp.Ui;
-using CrossSharp.Utils;
 
 namespace Demos.Label;
 
@@ -14,7 +14,7 @@ public class MainForm : Form
         {
             while (true)
             {
-                label.Text = CrossSharp.Diagnostics.Ui.TicksPerSecond.ToString();
+                label.Text = Ui.TicksPerSecond.ToString();
                 Thread.Sleep(1000);
             }
         });

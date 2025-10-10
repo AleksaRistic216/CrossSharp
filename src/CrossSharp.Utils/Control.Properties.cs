@@ -11,7 +11,6 @@ public partial class ControlBase
     bool _visible = true;
 
     bool _suspendLayout = false;
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public ColorRgba ForegroundColor { get; set; } = ColorRgba.Black;
     public EventHandler? LayoutChanged { get; set; }
 

@@ -23,8 +23,6 @@ partial class Label : ControlBase, ILabel
         // idea is to not draw each time but to have flag, and redraw only when that flag is updated using this
     }
 
-    public override void DrawBackground(ref IGraphics g) { }
-
     public override void DrawContent(ref IGraphics g)
     {
         if (string.IsNullOrEmpty(Text))

@@ -47,4 +47,5 @@ partial class FormSDL
     public EventHandler<Size>? OnSizeChanged { get; set; }
     public EventHandler? OnShow { get; set; }
     public EventHandler? OnClose { get; set; }
+    public EventHandler? OnBackgroundColorChange { get; set; }
 }

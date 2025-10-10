@@ -1,0 +1,39 @@
+using System.Drawing;
+using CrossSharp.Utils;
+using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Interfaces;
+
+namespace CrossSharp.Ui.Linux;
+
+partial class Button : ControlBase, IButton
+{
+    public EventHandler? OnClick { get; set; }
+
+    public override void Initialize() { }
+
+    public override void Invalidate()
+    {
+        if (GetForm() is not IFormSDL form)
+            return;
+        var graphics = new SDLGraphics(form.Renderer);
+        var textSize = graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
+        _textLocation = new Point((Width - textSize.Width) / 2, (Height - textSize.Height) / 2);
+    }
+
+    public override void DrawContent(ref IGraphics g)
+    {
+        g.DrawText(
+            Text,
+            _textLocation.X,
+            _textLocation.Y,
+            _theme.DefaultFontFamily,
+            _theme.DefaultFontSize,
+            ForegroundColor
+        );
+    }
+
+    public override void Redraw()
+    {
+        // idea is to not draw each time but to have flag, and redraw only when that flag is updated using this
+    }
+}

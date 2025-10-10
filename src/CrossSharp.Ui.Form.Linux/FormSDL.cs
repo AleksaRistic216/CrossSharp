@@ -47,8 +47,12 @@ partial class FormSDL : IFormSDL
 
     public void DrawContent(ref IGraphics g)
     {
-        foreach (IControl control in Controls)
+        foreach (var control in Controls)
+        {
+            g.SetOffset(control.Location.X, control.Location.Y);
             control.Draw(ref g);
+            g.ResetOffset();
+        }
     }
 
     public void Draw(ref IGraphics graphics)
@@ -57,8 +61,6 @@ partial class FormSDL : IFormSDL
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);
         DrawContent(ref graphics);
-        foreach (var control in Controls)
-            control.Draw(ref graphics);
         // if (Services.GetSingleton<IApplication>().DevelopersMode)
         //     DrawDevelopersBorders(_g!);
     }

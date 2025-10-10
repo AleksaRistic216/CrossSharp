@@ -85,6 +85,8 @@ public class SDLGraphics : IGraphics
             throw new NullReferenceException(nameof(_renderer));
         if (width <= 0 || height <= 0)
             return;
+        x += offsetX;
+        y += offsetY;
         SDL_SetRenderDrawColor(
             _renderer,
             fillColor.RByte,
@@ -113,6 +115,8 @@ public class SDLGraphics : IGraphics
     {
         if (_renderer == IntPtr.Zero)
             throw new NullReferenceException(nameof(_renderer));
+        x += offsetX;
+        y += offsetY;
         TTF_Init();
 
         var fontPath = _fontFamilyMap.GetFontFamilyPath(fontFamily);
@@ -192,9 +196,22 @@ public class SDLGraphics : IGraphics
 
     public void SetClip(Rectangle rectangle) { }
 
-    public void ResetOffset() { }
+    int offsetX = 0;
+    int offsetY = 0;
 
-    public void SetOffset(int locationX, int locationY) { }
+    public void SetOffset(int y, int x)
+    {
+        if (x == offsetX && y == offsetY)
+            return;
+        offsetX = x;
+        offsetY = y;
+    }
+
+    public void ResetOffset()
+    {
+        offsetX = 0;
+        offsetY = 0;
+    }
 
     public void SetClip(Rectangle rectangle, int roundedCornersRadius) { }
 
