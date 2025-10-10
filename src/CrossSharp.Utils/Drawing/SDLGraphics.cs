@@ -29,6 +29,9 @@ public class SDLGraphics : IGraphics
     static extern IntPtr TTF_OpenFont(string file, int ptsize);
 
     [DllImport(SDLHelpers.TTF_LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern IntPtr TTF_CloseFont(IntPtr font);
+
+    [DllImport(SDLHelpers.TTF_LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern IntPtr TTF_RenderUTF8_Blended(IntPtr font, string text, SDLColor color);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
@@ -126,6 +129,7 @@ public class SDLGraphics : IGraphics
         };
 
         IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
+        TTF_CloseFont(font);
         if (surface == IntPtr.Zero)
             return;
 
@@ -194,5 +198,8 @@ public class SDLGraphics : IGraphics
 
     public void SetClip(Rectangle rectangle, int roundedCornersRadius) { }
 
-    public void Dispose() { }
+    public void Dispose()
+    {
+        _renderer = IntPtr.Zero;
+    }
 }

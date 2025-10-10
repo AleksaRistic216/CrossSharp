@@ -15,6 +15,7 @@ public class MainForm : Form
             while (true)
             {
                 label.Text = CrossSharp.Diagnostics.Ui.TicksPerSecond.ToString();
+                Thread.Sleep(1000);
             }
         });
     }

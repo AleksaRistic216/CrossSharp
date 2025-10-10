@@ -28,8 +28,8 @@ partial class FormSDL : IFormSDL
     {
         IGraphics g = new SDLGraphics(Renderer);
         Draw(ref g);
-        g.Dispose();
         g.ForceRender();
+        g.Dispose();
     }
 
     public void SuspendLayout() { }

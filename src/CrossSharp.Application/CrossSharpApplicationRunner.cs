@@ -33,16 +33,22 @@ static class CrossSharpApplicationRunner
         SDLHelpers.SDL_Quit();
     }
 
+    static DateTime _lastFrameTime = DateTime.UtcNow;
+
     static void WaitForTargetFps()
     {
-        var wantThisFps = Services.GetSingleton<IApplicationConfiguration>().CoreFps;
-        var targetFrameTime = TimeSpan.FromSeconds(1.0 / wantThisFps);
-        var timeSinceLastFrame = DateTime.UtcNow - Diagnostics.Ui.LastRead;
-        if (timeSinceLastFrame >= targetFrameTime)
-            return;
-        var sleepTime = targetFrameTime - timeSinceLastFrame;
-        if (sleepTime > TimeSpan.Zero)
-            Thread.Sleep(sleepTime);
+        var fpsToRun = Services.GetSingleton<IApplicationConfiguration>().CoreFps;
+        var targetFrameDuration = TimeSpan.FromSeconds(1.0 / fpsToRun);
+        var now = DateTime.UtcNow;
+        var timeSinceLastFrame = now - _lastFrameTime;
+        if (timeSinceLastFrame < targetFrameDuration)
+        {
+            var timeToWait = targetFrameDuration - timeSinceLastFrame;
+            if (timeToWait.TotalMilliseconds > 1)
+                SDLHelpers.SDL_Delay((uint)timeToWait.TotalMilliseconds);
+            while (DateTime.UtcNow - _lastFrameTime < targetFrameDuration) { }
+        }
+        _lastFrameTime = DateTime.UtcNow;
     }
 
     static void HandleEvents(SDL_Event e)
