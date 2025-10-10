@@ -9,7 +9,8 @@ namespace CrossSharp.Utils.Drawing;
 
 public class SDLGraphics : IGraphics
 {
-    IntPtr _renderer;
+    const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
+    static IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
@@ -97,14 +98,14 @@ public class SDLGraphics : IGraphics
         int x,
         int y,
         FontFamily fontFamily,
-        float fontSize,
+        int fontSize,
         ColorRgba textColor
     )
     {
         TTF_Init();
 
         var fontPath = _fontFamilyMap.GetFontFamilyPath(fontFamily);
-        IntPtr font = TTF_OpenFont(fontPath, (int)fontSize);
+        IntPtr font = TTF_OpenFont(fontPath, fontSize * FONT_SCALE);
         if (font == IntPtr.Zero)
             return;
 
@@ -132,8 +133,8 @@ public class SDLGraphics : IGraphics
         {
             x = x,
             y = y,
-            w = w,
-            h = h,
+            w = w / FONT_SCALE,
+            h = h / FONT_SCALE,
         };
 
         SDL_RenderCopy(_renderer, texture, IntPtr.Zero, ref dstRect);

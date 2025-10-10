@@ -19,7 +19,7 @@ public interface IGraphics : IDisposable
         int x,
         int y,
         FontFamily fontFamily,
-        float fontSize,
+        int fontSize,
         ColorRgba textColor
     );
     void SetClip(Rectangle rectangle);

@@ -1,5 +1,6 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -21,7 +22,7 @@ public class Label() : CrossControl<ILabel>(Services.GetSingleton<ILabelFactory>
         get => Implementation.Text;
         set => Implementation.Text = value;
     }
-    public string FontFamily
+    public FontFamily FontFamily
     {
         get => Implementation.FontFamily;
         set => Implementation.FontFamily = value;

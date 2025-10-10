@@ -1,11 +1,14 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Themes;
 
 public class DefaultTheme : ITheme
 {
-    bool _useNativeTitleBar = false;
+    bool _useNativeTitleBar;
+    public int DefaultFontSize { get; set; } = 16;
+    public FontFamily DefaultFontFamily { get; set; } = FontFamily.Default;
     public virtual ColorRgba BackgroundColor { get; set; } = ColorRgba.WhiteSmoke;
     public virtual ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.LightGray;
     public virtual bool UseNativeTitleBar

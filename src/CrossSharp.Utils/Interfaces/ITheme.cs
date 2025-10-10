@@ -1,7 +1,11 @@
+using CrossSharp.Utils.Enums;
+
 namespace CrossSharp.Utils.Interfaces;
 
 public interface ITheme
 {
+    int DefaultFontSize { get; set; }
+    FontFamily DefaultFontFamily { get; set; }
     ColorRgba BackgroundColor { get; set; }
     ColorRgba ButtonBackgroundColor { get; set; }
     bool UseNativeTitleBar { get; set; }
