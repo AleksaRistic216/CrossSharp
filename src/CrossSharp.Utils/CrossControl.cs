@@ -48,6 +48,11 @@ public abstract class CrossControl<T>(T implementation) : IControl
         get => Implementation.OnSizeChanged;
         set => Implementation.OnSizeChanged = value;
     }
+    public object Parent
+    {
+        get => Implementation.Parent;
+        set => Implementation.Parent = value;
+    }
     public bool Visible
     {
         get => Implementation.Visible;
@@ -63,4 +68,6 @@ public abstract class CrossControl<T>(T implementation) : IControl
     public void ResumeLayout() => Implementation.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
+
+    public IForm? GetForm() => Implementation.GetForm();
 }

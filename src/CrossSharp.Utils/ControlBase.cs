@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
@@ -12,6 +13,7 @@ public abstract partial class ControlBase : IControl
         SubscribeToInputEvents();
     }
 
+    public object Parent { get; set; }
     public abstract void Initialize();
     public abstract void Invalidate();
 
@@ -75,6 +77,8 @@ public abstract partial class ControlBase : IControl
         DrawBorders(ref graphics);
         DrawContent(ref graphics);
     }
+
+    public IForm? GetForm() => ControlsHelpers.GetForm(this);
 
     public virtual void LimitClip(ref IGraphics g)
     {

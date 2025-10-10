@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -10,7 +9,11 @@ namespace CrossSharp.Ui.Base;
 public abstract class FormBase : IForm
 {
     readonly IForm _formImpl = Services.GetSingleton<IFormFactory>().Create();
-    public object Parent { get; set; } = null!;
+    public object Parent
+    {
+        get => _formImpl.Parent;
+        set { _formImpl.Parent = value; }
+    }
     public IControlsContainer Controls => _formImpl.Controls;
     public IntPtr Handle => _formImpl.Handle;
     public ITitleBar? TitleBar => _formImpl.TitleBar;
@@ -80,6 +83,8 @@ public abstract class FormBase : IForm
 
     public void Show() => _formImpl.Show();
 
+    public void Redraw() => _formImpl.Redraw();
+
     public WindowState State
     {
         get => _formImpl.State;
@@ -99,6 +104,8 @@ public abstract class FormBase : IForm
     public void ResumeLayout() => _formImpl.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => _formImpl.Draw(ref graphics);
+
+    public IForm? GetForm() => _formImpl.GetForm();
 
     public int BorderWidth
     {

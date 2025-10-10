@@ -6,7 +6,7 @@ namespace CrossSharp.Ui.Linux;
 
 partial class FormSDL
 {
-    static IntPtr CreateWindow()
+    static IntPtr CreateWindow(string title, int width, int height)
     {
         var appConfig = Services.GetSingleton<IApplicationConfiguration>();
         var flags = SDLWindowFlags.SHOWN | SDLWindowFlags.RESIZABLE;
@@ -17,11 +17,11 @@ partial class FormSDL
         flags |= SDLWindowFlags.OPENGL;
 
         var window = SDLHelpers.SDL_CreateWindow(
-            "SDL2 Window",
+            title,
             SDLWindowPosition.CENTERED,
             SDLWindowPosition.CENTERED,
-            800,
-            600,
+            width,
+            height,
             flags
         );
         return window;

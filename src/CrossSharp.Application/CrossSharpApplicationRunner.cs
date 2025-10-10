@@ -7,8 +7,6 @@ namespace CrossSharp.Application;
 
 static class CrossSharpApplicationRunner
 {
-    static IntPtr _renderer;
-
     internal static void Run<T>()
         where T : IForm
     {
@@ -20,23 +18,31 @@ static class CrossSharpApplicationRunner
         application.Start();
         var form = application.MainForm;
         application.MainWindowHandle = form.Handle;
-        _renderer = SDLHelpers.SDL_CreateRenderer(application.MainWindowHandle, -1, 0);
         while (
             Services.GetSingleton<IApplication>().MainForm.Handle != IntPtr.Zero // Need to use this instead of application.MainWindowHandle because it can be changed when the main form is replaced
         )
         {
+            WaitForTargetFps();
+            Diagnostics.Ui.FrameCount++;
             while (SDLHelpers.SDL_PollEvent(out SDL_Event e))
                 HandleEvents(e);
             foreach (IForm f in Services.GetSingleton<IApplication>().Forms)
-            {
-                IGraphics g = new SDLGraphics(_renderer);
-                f.Draw(ref g);
-                g.Dispose();
-                SDLHelpers.SDL_RenderPresent(_renderer);
-            }
+                f.Redraw();
         }
         SDLHelpers.SDL_DestroyWindow(Services.GetSingleton<IApplication>().MainWindowHandle);
         SDLHelpers.SDL_Quit();
+    }
+
+    static void WaitForTargetFps()
+    {
+        var wantThisFps = Services.GetSingleton<IApplicationConfiguration>().CoreFps;
+        var targetFrameTime = TimeSpan.FromSeconds(1.0 / wantThisFps);
+        var timeSinceLastFrame = DateTime.UtcNow - Diagnostics.Ui.LastRead;
+        if (timeSinceLastFrame >= targetFrameTime)
+            return;
+        var sleepTime = targetFrameTime - timeSinceLastFrame;
+        if (sleepTime > TimeSpan.Zero)
+            Thread.Sleep(sleepTime);
     }
 
     static void HandleEvents(SDL_Event e)

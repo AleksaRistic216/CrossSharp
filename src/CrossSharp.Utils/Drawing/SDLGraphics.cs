@@ -57,10 +57,14 @@ public class SDLGraphics : IGraphics
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern void SDL_DestroyTexture(IntPtr texture);
 
-    // Set draw color to red
     public SDLGraphics(IntPtr renderer)
     {
         _renderer = renderer;
+    }
+
+    public void ForceRender()
+    {
+        SDLHelpers.SDL_RenderPresent(_renderer);
     }
 
     public void DrawRectangle(
@@ -74,6 +78,8 @@ public class SDLGraphics : IGraphics
 
     public void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor)
     {
+        if (_renderer == IntPtr.Zero)
+            throw new NullReferenceException(nameof(_renderer));
         if (width <= 0 || height <= 0)
             return;
         SDL_SetRenderDrawColor(
@@ -102,6 +108,8 @@ public class SDLGraphics : IGraphics
         ColorRgba textColor
     )
     {
+        if (_renderer == IntPtr.Zero)
+            throw new NullReferenceException(nameof(_renderer));
         TTF_Init();
 
         var fontPath = _fontFamilyMap.GetFontFamilyPath(fontFamily);
@@ -141,6 +149,41 @@ public class SDLGraphics : IGraphics
 
         SDL_FreeSurface(surface);
         SDL_DestroyTexture(texture);
+    }
+
+    public Size MeasureText(string text, FontFamily fontFamily, int fontSize)
+    {
+        if (_renderer == IntPtr.Zero)
+            throw new NullReferenceException(nameof(_renderer));
+        TTF_Init();
+
+        var fontPath = _fontFamilyMap.GetFontFamilyPath(fontFamily);
+        IntPtr font = TTF_OpenFont(fontPath, fontSize * FONT_SCALE);
+        if (font == IntPtr.Zero)
+            return Size.Empty;
+
+        var color = new SDLColor
+        {
+            r = 0,
+            g = 0,
+            b = 0,
+            a = 1,
+        };
+
+        IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
+        if (surface == IntPtr.Zero)
+            return Size.Empty;
+
+        IntPtr texture = SDL_CreateTextureFromSurface(_renderer, surface);
+        if (texture == IntPtr.Zero)
+        {
+            SDL_FreeSurface(surface);
+            return Size.Empty;
+        }
+
+        SDL_QueryTexture(texture, IntPtr.Zero, IntPtr.Zero, out int w, out int h);
+        SDL_FreeSurface(surface);
+        return new Size(w / FONT_SCALE, h / FONT_SCALE);
     }
 
     public void SetClip(Rectangle rectangle) { }

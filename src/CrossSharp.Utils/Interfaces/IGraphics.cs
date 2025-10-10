@@ -5,6 +5,7 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface IGraphics : IDisposable
 {
+    void ForceRender();
     void DrawRectangle(
         int x,
         int y,
@@ -22,6 +23,7 @@ public interface IGraphics : IDisposable
         int fontSize,
         ColorRgba textColor
     );
+    Size MeasureText(string text, FontFamily fontFamily, int fontSize);
     void SetClip(Rectangle rectangle);
     void ResetOffset();
     void SetOffset(int locationX, int locationY);

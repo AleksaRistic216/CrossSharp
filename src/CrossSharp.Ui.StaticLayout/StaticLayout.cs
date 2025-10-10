@@ -58,6 +58,11 @@ public class StaticLayout : IControlsContainer
         get => _impl.OnSizeChanged;
         set => _impl.OnSizeChanged = value;
     }
+    public object Parent
+    {
+        get => _impl.Parent;
+        set { _impl.Parent = value; }
+    }
     public bool Visible
     {
         get => _impl.Visible;
@@ -73,4 +78,6 @@ public class StaticLayout : IControlsContainer
     public void ResumeLayout() => _impl.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
+
+    public IForm? GetForm() => _impl.GetForm();
 }

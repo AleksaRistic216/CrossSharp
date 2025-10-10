@@ -10,6 +10,11 @@ public abstract class Control<T>(T impl) : IControl
 
     public void Dispose() => _impl.Dispose();
 
+    public object Parent
+    {
+        get => _impl.Parent;
+        set => _impl.Parent = value;
+    }
     public bool Visible
     {
         get => _impl.Visible;
@@ -46,6 +51,8 @@ public abstract class Control<T>(T impl) : IControl
     }
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
+
+    public IForm? GetForm() => _impl.GetForm();
 
     public void LimitClip(ref IGraphics g) => _impl.LimitClip(ref g);
 

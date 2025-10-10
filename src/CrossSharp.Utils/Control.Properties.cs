@@ -45,7 +45,6 @@ public partial class ControlBase
         }
     }
     public IntPtr ParentHandle { get; set; }
-    public object Parent { get; set; }
     public bool Visible
     {
         get => _visible;

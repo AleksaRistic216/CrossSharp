@@ -1,5 +1,7 @@
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -7,7 +9,13 @@ partial class FormSDL : IFormSDL
 {
     public FormSDL()
     {
+        Width = 800;
+        Height = 600;
+        Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
         Services.GetSingleton<IApplication>().Forms.Add(this);
+        Renderer = SDLHelpers.SDL_CreateRenderer(Handle, -1, 0);
+        Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
+        Controls.Parent = this;
     }
 
     public void Initialize() { }
@@ -15,6 +23,14 @@ partial class FormSDL : IFormSDL
     public void Invalidate() { }
 
     public void Show() { }
+
+    public void Redraw()
+    {
+        IGraphics g = new SDLGraphics(Renderer);
+        Draw(ref g);
+        g.Dispose();
+        g.ForceRender();
+    }
 
     public void SuspendLayout() { }
 
@@ -46,6 +62,8 @@ partial class FormSDL : IFormSDL
         // if (Services.GetSingleton<IApplication>().DevelopersMode)
         //     DrawDevelopersBorders(_g!);
     }
+
+    public IForm GetForm() => this;
 
     public void Close()
     {

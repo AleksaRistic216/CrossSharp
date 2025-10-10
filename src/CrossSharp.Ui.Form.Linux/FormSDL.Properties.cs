@@ -9,8 +9,9 @@ namespace CrossSharp.Ui.Linux;
 
 partial class FormSDL
 {
-    public IntPtr Handle { get; private set; } = CreateWindow();
+    public IntPtr Handle { get; private set; }
 
+    public IntPtr Renderer { get; }
     uint _windowId;
     public uint WindowId
     {
@@ -21,8 +22,7 @@ partial class FormSDL
             return _windowId;
         }
     }
-    public IControlsContainer Controls { get; } =
-        Services.GetSingleton<IStaticLayoutFactory>().Create();
+    public IControlsContainer Controls { get; }
     public ColorRgba BackgroundColor { get; set; } =
         Services.GetSingleton<ITheme>().BackgroundColor;
     public int Column { get; set; }

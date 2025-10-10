@@ -17,4 +17,7 @@
       <Link>lib/libSDL2-2.0.so.0</Link>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj" />
+  </ItemGroup>
 </Project>

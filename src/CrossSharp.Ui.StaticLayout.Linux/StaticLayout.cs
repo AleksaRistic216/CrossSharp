@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -17,6 +18,7 @@ class StaticLayout : IStaticLayout
     public int Width { get; set; }
     public int Height { get; set; }
     public EventHandler<Size>? OnSizeChanged { get; set; }
+    public object Parent { get; set; }
     public bool Visible { get; set; }
 
     public void LimitClip(ref IGraphics g) { }
@@ -33,7 +35,12 @@ class StaticLayout : IStaticLayout
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public void Add(params IControl[] controls) => _controls.AddRange(controls);
+    public void Add(params IControl[] controls)
+    {
+        foreach (var c in controls)
+            c.Parent = this;
+        _controls.AddRange(controls);
+    }
 
     public void Remove(params IControl[] controls) => _controls.RemoveAll(controls.Contains);
 
@@ -42,6 +49,8 @@ class StaticLayout : IStaticLayout
         foreach (var c in _controls)
             c.Draw(ref graphics);
     }
+
+    public IForm? GetForm() => ControlsHelpers.GetForm(this);
 
     public void Dispose()
     {

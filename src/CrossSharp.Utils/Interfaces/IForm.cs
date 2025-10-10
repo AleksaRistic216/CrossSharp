@@ -17,5 +17,6 @@ public interface IForm : IControl, ITitleBarProvider, IBackgroundColorProvider
     void Maximize();
     void Restore();
     void Show();
+    void Redraw();
     WindowState State { get; set; }
 }

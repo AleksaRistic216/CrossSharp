@@ -64,6 +64,7 @@ public class StackedLayout : IStackedLayout
         get => _impl.OnSizeChanged;
         set => _impl.OnSizeChanged = value;
     }
+    public object Parent { get; set; }
     public bool Visible
     {
         get => _impl.Visible;
@@ -79,4 +80,9 @@ public class StackedLayout : IStackedLayout
     public void ResumeLayout() => _impl.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
+
+    public IForm GetForm()
+    {
+        throw new NotImplementedException();
+    }
 }

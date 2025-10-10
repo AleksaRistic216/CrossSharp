@@ -19,6 +19,7 @@ class StackedLayout : IStackedLayout
     public int Width { get; set; }
     public int Height { get; set; }
     public EventHandler<Size>? OnSizeChanged { get; set; }
+    public object Parent { get; set; }
     public bool Visible { get; set; }
 
     public void LimitClip(ref IGraphics g) { }
@@ -63,7 +64,12 @@ class StackedLayout : IStackedLayout
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public void Add(params IControl[] controls) => _controls.AddRange(controls);
+    public void Add(params IControl[] controls)
+    {
+        foreach (IControl control in controls)
+            control.Parent = this;
+        _controls.AddRange(controls);
+    }
 
     public void Remove(params IControl[] controls) => _controls.RemoveAll(controls.Contains);
 
@@ -72,6 +78,11 @@ class StackedLayout : IStackedLayout
         Invalidate();
         foreach (var c in _controls)
             c.Draw(ref graphics);
+    }
+
+    public IForm GetForm()
+    {
+        throw new NotImplementedException();
     }
 
     public void Dispose()
