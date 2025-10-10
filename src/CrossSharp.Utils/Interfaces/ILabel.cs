@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ILabel : IControl, ICenterPanelChild, IForegroundColorProvider
+public interface ILabel : IControl, IForegroundColorProvider
 {
     EventHandler<EventArgs>? OnTextChanged { get; set; }
     string Text { get; set; }

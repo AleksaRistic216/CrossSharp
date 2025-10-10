@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
-using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
@@ -11,47 +11,14 @@ public abstract class FormBase : IForm
 {
     readonly IForm _formImpl = Services.GetSingleton<IFormFactory>().Create();
     public object Parent { get; set; } = null!;
-    public ITitleBar TitleBar => _formImpl.TitleBar;
+    public IControlsContainer Controls => _formImpl.Controls;
+    public IntPtr Handle => _formImpl.Handle;
+    public ITitleBar? TitleBar => _formImpl.TitleBar;
     public IApplication AppInstance => _formImpl.AppInstance;
-    public int Column
-    {
-        get => _formImpl.Column;
-        set { _formImpl.Column = value; }
-    }
-    public int Row
-    {
-        get => _formImpl.Row;
-        set { _formImpl.Row = value; }
-    }
-    public IWindowContainer Controls => _formImpl.Controls;
     public bool UseNativeTitleBar
     {
         get => _formImpl.UseNativeTitleBar;
         set { _formImpl.UseNativeTitleBar = value; }
-    }
-    public IntPtr DisplayHandle
-    {
-        get => _formImpl.DisplayHandle;
-        set { _formImpl.DisplayHandle = value; }
-    }
-    public IntPtr WindowSurfaceHandle
-    {
-        get => _formImpl.WindowSurfaceHandle;
-        set { _formImpl.WindowSurfaceHandle = value; }
-    }
-    public IntPtr Handle
-    {
-        get => ((IControl)_formImpl).Handle;
-    }
-    public IntPtr ParentHandle
-    {
-        get => _formImpl.ParentHandle;
-        set { _formImpl.ParentHandle = value; }
-    }
-    public int ZIndex
-    {
-        get => _formImpl.ZIndex;
-        set { _formImpl.ZIndex = value; }
     }
     public bool Visible
     {
@@ -70,13 +37,13 @@ public abstract class FormBase : IForm
         set { _formImpl.OnClose = value; }
     }
 
-    int _minimumWidth = 300;
+    readonly int _minimumWidth = 300;
     public int Width
     {
         get => _formImpl.Width;
         set { _formImpl.Width = Math.Max(_minimumWidth, value); }
     }
-    int _minimumHeight = 250;
+    readonly int _minimumHeight = 250;
     public int Height
     {
         get => _formImpl.Height;
@@ -111,6 +78,8 @@ public abstract class FormBase : IForm
 
     public void Restore() => _formImpl.Restore();
 
+    public void Show() => _formImpl.Show();
+
     public WindowState State
     {
         get => _formImpl.State;
@@ -125,21 +94,11 @@ public abstract class FormBase : IForm
 
     public void Invalidate() => _formImpl.Invalidate();
 
-    public void Show() => _formImpl.Show();
-
-    public void Redraw() => _formImpl.Redraw();
-
     public void SuspendLayout() => _formImpl.SuspendLayout();
 
     public void ResumeLayout() => _formImpl.ResumeLayout();
 
-    public void DrawShadows(ref Graphics g) => _formImpl.DrawShadows(ref g);
-
-    public void DrawBackground(ref Graphics g) => _formImpl.DrawBackground(ref g);
-
-    public void DrawBorders(ref Graphics g) => _formImpl.DrawBorders(ref g);
-
-    public void DrawContent(ref Graphics g) => _formImpl.DrawContent(ref g);
+    public void Draw(ref IGraphics graphics) => _formImpl.Draw(ref graphics);
 
     public int BorderWidth
     {
@@ -158,5 +117,5 @@ public abstract class FormBase : IForm
         set { _formImpl.BackgroundColor = value; }
     }
 
-    public void LimitClip(ref Graphics g) => _formImpl.LimitClip(ref g);
+    public void LimitClip(ref IGraphics g) => _formImpl.LimitClip(ref g);
 }

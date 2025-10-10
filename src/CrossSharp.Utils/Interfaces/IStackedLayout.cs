@@ -2,8 +2,7 @@ using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IStackedLayout : IControl, IBackgroundColorProvider, IControlsContainer
+public interface IStackedLayout : IControlsContainer
 {
-    Direction ItemsDirection { get; set; }
-    void SetItemSizing(IControl control, ControlSizing sizing);
+    Direction Direction { get; set; }
 }

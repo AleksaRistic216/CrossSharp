@@ -24,4 +24,31 @@ static class X11Helpers
         uint window,
         out XWindowAttributes attributes
     );
+
+    [DllImport(Libx11)]
+    internal static extern void XChangeWindowAttributes(
+        IntPtr display,
+        IntPtr window,
+        ulong valuemask,
+        ref XSetWindowAttributes attributes
+    );
+
+    [DllImport(Libx11)]
+    internal static extern IntPtr XInternAtom(
+        IntPtr display,
+        string atom_name,
+        bool only_if_exists
+    );
+
+    [DllImport(Libx11)]
+    internal static extern void XChangeProperty(
+        IntPtr display,
+        IntPtr w,
+        IntPtr property,
+        IntPtr type,
+        int format,
+        int mode,
+        ref IntPtr data,
+        int nelements
+    );
 }

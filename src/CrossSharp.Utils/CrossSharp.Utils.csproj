@@ -4,4 +4,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <!-- This should be only if ran on linux, how will we know? IDK, just saying it may be optimized to not output on other platforms -->
+  <ItemGroup>
+    <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2_ttf-2.0.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lib/libSDL2_ttf-2.0.so.0</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lib/libSDL2-2.0.so.0</Link>
+    </None>
+  </ItemGroup>
 </Project>

@@ -7,17 +7,16 @@
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Desktop.Notifications\CrossSharp.Desktop.Notifications.csproj" />
     <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.CenterPanel.Linux\CrossSharp.Ui.CenterPanel.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.CenterPanel\CrossSharp.Ui.CenterPanel.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.ControlsContainer.Linux\CrossSharp.Ui.ControlsContainer.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FormTitleBar.Linux\CrossSharp.Ui.FormTitleBar.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Label.Linux\CrossSharp.Ui.Label.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Linux\CrossSharp.Ui.StackedLayout.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Linux\CrossSharp.Ui.StaticLayout.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>

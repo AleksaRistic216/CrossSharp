@@ -1,7 +1,3 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IPanel
-    : IControl,
-        IBackgroundColorProvider,
-        ICenterPanelChild,
-        IForegroundColorProvider;
+public interface IPanel : IControl, IBackgroundColorProvider, IForegroundColorProvider;

@@ -2,24 +2,20 @@ using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IForm
-    : IControl,
-        ITitleBarProvider,
-        IBackgroundColorProvider,
-        IWindowContainerProvider
+public interface IForm : IControl, ITitleBarProvider, IBackgroundColorProvider
 {
+    IControlsContainer Controls { get; }
+    IntPtr Handle { get; }
     bool UseNativeTitleBar { get; set; }
-    IntPtr DisplayHandle { get; set; }
-    IntPtr WindowSurfaceHandle { get; set; }
     string Title { get; set; }
     IApplication AppInstance { get; }
     void Close();
-    IWindowContainer Controls { get; }
     EventHandler? OnShow { get; set; }
     EventHandler? OnClose { get; set; }
     void PerformLayout();
     void Minimize();
     void Maximize();
     void Restore();
+    void Show();
     WindowState State { get; set; }
 }

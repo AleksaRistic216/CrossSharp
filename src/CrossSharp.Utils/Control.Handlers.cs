@@ -13,10 +13,7 @@ public partial class ControlBase
         InputHandler.MouseMoved += OnMouseMoved;
     }
 
-    internal virtual void OnMouseMoved(object? sender, MouseInputArgs e)
-    {
-        IsMouseOver = GetScreenBounds().Contains(e.X, e.Y);
-    }
+    internal virtual void OnMouseMoved(object? sender, MouseInputArgs e) { }
 
     protected virtual void RaiseOnSizeChanged(Size newSize)
     {

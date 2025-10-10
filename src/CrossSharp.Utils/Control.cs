@@ -1,5 +1,4 @@
 using System.Drawing;
-using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
@@ -7,29 +6,10 @@ namespace CrossSharp.Utils;
 public abstract class Control<T>(T impl) : IControl
     where T : IControl // TODO: This should implementUtils.Linux.ControlBase, not gtkUtils.Linux.ControlBase
 {
-    protected T _impl = impl;
+    T _impl = impl;
 
     public void Dispose() => _impl.Dispose();
 
-    public IntPtr Handle
-    {
-        get => _impl.Handle;
-    }
-    public IntPtr ParentHandle
-    {
-        get => _impl.ParentHandle;
-        set => _impl.ParentHandle = value;
-    }
-    public object Parent
-    {
-        get => _impl.Parent;
-        set => _impl.Parent = value;
-    }
-    public int ZIndex
-    {
-        get => _impl.ZIndex;
-        set => _impl.ZIndex = value;
-    }
     public bool Visible
     {
         get => _impl.Visible;
@@ -39,10 +19,6 @@ public abstract class Control<T>(T impl) : IControl
     public void Initialize() => _impl.Initialize();
 
     public void Invalidate() => _impl.Invalidate();
-
-    public void Show() => _impl.Show();
-
-    public void Redraw() => _impl.Redraw();
 
     public void SuspendLayout() => _impl.SuspendLayout();
 
@@ -69,15 +45,9 @@ public abstract class Control<T>(T impl) : IControl
         set => _impl.OnLocationChanged = value;
     }
 
-    public void DrawShadows(ref Graphics g) => _impl.DrawShadows(ref g);
+    public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
-    public void DrawBackground(ref Graphics g) => _impl.DrawBackground(ref g);
-
-    public void DrawBorders(ref Graphics g) => _impl.DrawBorders(ref g);
-
-    public void DrawContent(ref Graphics g) => _impl.DrawContent(ref g);
-
-    public void LimitClip(ref Graphics g) => _impl.LimitClip(ref g);
+    public void LimitClip(ref IGraphics g) => _impl.LimitClip(ref g);
 
     public int Width
     {

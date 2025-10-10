@@ -7,6 +7,5 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
-    <ProjectReference Include="..\CrossSharp.Utils.Linux\CrossSharp.Utils.Linux.csproj" />
   </ItemGroup>
 </Project>

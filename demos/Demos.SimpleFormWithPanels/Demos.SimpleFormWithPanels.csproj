@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
+    <ProjectReference Include="..\..\src\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
+  </ItemGroup>
+</Project>

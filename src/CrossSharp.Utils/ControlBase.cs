@@ -1,113 +1,30 @@
 ﻿using System.Drawing;
 using CrossSharp.Utils.DI;
-using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
 public abstract partial class ControlBase : IControl
 {
-    public abstract void Initialize();
-    public abstract void Invalidate();
-    public abstract void Show();
-    public EventHandler? OnShow { get; set; }
-
     protected ControlBase()
     {
         InputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputEvents();
     }
 
+    public abstract void Initialize();
+    public abstract void Invalidate();
+
+    public Size GetSize() => new(Width, Height);
+
     public virtual void Dispose()
     {
-        Handle = IntPtr.Zero;
         OnSizeChanged = null;
-        OnShow = null;
         OnLocationChanged = null;
         InputHandler.MouseMoved -= OnMouseMoved;
     }
 
     public abstract void Redraw();
-
-    protected IForm? GetForm()
-    {
-        IRelativeHandle obj = this;
-        while (true)
-        {
-            var p = obj.Parent;
-            switch (p)
-            {
-                case IForm form:
-                    return form;
-                case IRelativeHandle rh:
-                    obj = rh;
-                    continue;
-            }
-            return null;
-        }
-    }
-
-    protected Stack<IClipLimiter> GetClipLimiters()
-    {
-        Stack<IClipLimiter> stack = new();
-        IRelativeHandle obj = this;
-        while (true)
-        {
-            if (obj != this && obj is IClipLimiter cl)
-                stack.Push(cl);
-            var p = obj.Parent;
-            switch (p)
-            {
-                case IRelativeHandle rh:
-                    obj = rh;
-                    continue;
-            }
-            break;
-        }
-        return stack;
-    }
-
-    internal Rectangle GetFormRelativeBounds()
-    {
-        Rectangle rect = Rectangle.Empty;
-        rect.Width = Width;
-        rect.Height = Height;
-        IRelativeHandle obj = this;
-        while (obj is IRelativeHandle)
-        {
-            if (obj is IForm f)
-                break;
-            if (obj is ILocationProvider parent)
-            {
-                rect.X += parent.Location.X;
-                rect.Y += parent.Location.Y;
-            }
-            if (obj.Parent is IRelativeHandle rh)
-            {
-                obj = rh;
-                continue;
-            }
-            break;
-        }
-        return rect;
-    }
-
-    internal Rectangle GetScreenBounds()
-    {
-        IForm? form = GetForm();
-        if (form == null)
-            return Rectangle.Empty;
-        var formRelativeBounds = GetFormRelativeBounds();
-        var bounds = new Rectangle(
-            form.Location.X + formRelativeBounds.X,
-            form.Location.Y + formRelativeBounds.Y,
-            _width,
-            _height
-        );
-        if (form.Controls.Items.Any(x => x.Handle == Handle))
-            bounds.Y += form.TitleBar?.Height ?? 0;
-        return bounds;
-    }
 
     public void SuspendLayout()
     {
@@ -121,11 +38,14 @@ public abstract partial class ControlBase : IControl
         Redraw();
     }
 
-    public virtual void DrawShadows(ref Graphics g) { }
+    public virtual void DrawShadows(ref IGraphics g) { }
 
-    public virtual void DrawBackground(ref Graphics g) { }
+    public virtual void DrawBackground(ref IGraphics g)
+    {
+        g.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
+    }
 
-    public virtual void DrawBorders(ref Graphics g)
+    public virtual void DrawBorders(ref IGraphics g)
     {
         if (BorderWidth <= 0)
             return;
@@ -143,9 +63,20 @@ public abstract partial class ControlBase : IControl
         );
     }
 
-    public virtual void DrawContent(ref Graphics graphics) { }
+    public virtual void DrawContent(ref IGraphics g) { }
 
-    public virtual void LimitClip(ref Graphics g)
+    public void Draw(ref IGraphics graphics)
+    {
+        if (!Visible)
+            return;
+        LimitClip(ref graphics);
+        DrawShadows(ref graphics);
+        DrawBackground(ref graphics);
+        DrawBorders(ref graphics);
+        DrawContent(ref graphics);
+    }
+
+    public virtual void LimitClip(ref IGraphics g)
     {
         g.SetClip(new Rectangle(Location.X, Location.Y, Width, Height));
     }

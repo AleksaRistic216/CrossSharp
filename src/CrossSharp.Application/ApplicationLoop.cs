@@ -1,4 +1,5 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Configurations;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -31,19 +32,38 @@ class ApplicationLoop : IApplicationLoop
         }
     }
 
-    static void RunMacOsApp<T>()
+    void RunMacOsApp<T>()
         where T : IForm
     {
         throw new NotImplementedException();
     }
 
-    static void RunLinuxApp<T>()
+    void RunLinuxApp<T>()
         where T : IForm
     {
-        GtkApplicationRunner.Run<T>();
+        ILinuxConfiguration? linuxConfiguration;
+        if (Services.IsRegistered<ILinuxConfiguration>())
+            linuxConfiguration = Services.GetSingleton<ILinuxConfiguration>();
+        else
+        {
+            linuxConfiguration = new DefaultLinuxConfiguration();
+            Services.AddSingleton(linuxConfiguration);
+        }
+
+        switch (linuxConfiguration.WidgetLibrary)
+        {
+            case LinuxWidgetLibrary.CrossSharpSDK:
+                CrossSharpApplicationRunner.Run<T>();
+                break;
+            default:
+                throw new NotSupportedException(
+                    "The selected Linux widget library is not supported."
+                );
+        }
+        Dispose();
     }
 
-    static void RunWindowsApp<T>()
+    void RunWindowsApp<T>()
         where T : IForm
     {
         throw new NotImplementedException();

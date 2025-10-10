@@ -7,6 +7,8 @@ class Application : IApplication
 {
     bool _developersMode;
     IForm? _mainForm;
+    public IForm MainForm =>
+        _mainForm ?? throw new InvalidOperationException("Application not started");
     public Type? MainFormType { get; set; }
     public IntPtr MainWindowHandle { get; set; }
     public bool DevelopersMode
@@ -21,6 +23,8 @@ class Application : IApplication
         }
     }
     public EventHandler? DevelopersModeChanged { get; set; }
+
+    public HashSet<IForm> Forms { get; } = [];
 
     public void SetTheme(ITheme theme)
     {

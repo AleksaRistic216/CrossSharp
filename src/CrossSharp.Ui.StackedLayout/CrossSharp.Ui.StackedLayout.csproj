@@ -6,6 +6,7 @@
     <RootNamespace>CrossSharp.Ui</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
 </Project>

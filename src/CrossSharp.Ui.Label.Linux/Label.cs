@@ -1,45 +1,25 @@
-﻿using System.Drawing;
-using System.Runtime.InteropServices;
 using CrossSharp.Utils;
-using CrossSharp.Utils.Drawing;
-using CrossSharp.Utils.Gtk;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
-using CrossSharp.Utils.Pango;
 
 namespace CrossSharp.Ui.Linux;
 
-public partial class Label : Utils.Linux.ControlBase, ILabel
+class Label : ControlBase, ILabel
 {
-    public override void Show()
-    {
-        Invalidate();
-        base.Show();
-    }
+    public EventHandler<EventArgs>? OnTextChanged { get; set; }
+    public string Text { get; set; }
+    public string FontFamily { get; set; }
+    public int FontSize { get; set; }
 
-    public override void Invalidate()
-    {
-        base.Invalidate();
-        var renderRect = GtkHelpers.GetTextRenderRect(Handle, Text, FontFamily, FontSize);
-        Width = renderRect.Width;
-        Height = renderRect.Height;
-    }
+    public override void Initialize() { }
 
-    public override void DrawContent(ref Graphics g)
-    {
-        g.DrawText(
-            Text,
-            Location.X,
-            Location.Y,
-            ForegroundColor,
-            FontFamily,
-            FontSize,
-            PangoWeight.Normal,
-            PangoStyle.Normal
-        );
-    }
+    public override void Invalidate() { }
 
-    Size ICenterPanelChild.GetSize()
+    public override void Redraw() { }
+
+    public override void DrawContent(ref IGraphics g)
     {
-        return new Size(Width, Height);
+        base.DrawContent(ref g);
+        g.DrawText("Hello", 0, 0, Utils.Enums.FontFamily.Default, 12, ColorRgba.White);
     }
 }

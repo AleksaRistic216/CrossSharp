@@ -1,6 +1,7 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControlsContainer : ICollection<IControl>
+public interface IControlsContainer : IControl, IEnumerable<IControl>
 {
-    List<IControl> Items { get; }
+    void Add(params IControl[] controls);
+    void Remove(params IControl[] controls);
 };

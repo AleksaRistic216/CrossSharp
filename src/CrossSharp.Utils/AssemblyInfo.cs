@@ -3,6 +3,10 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Utils.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.SimpleContainer")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
+    "CrossSharp.Ui.SimpleContainer.Linux"
+)]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ControlsContainer")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
     "CrossSharp.Ui.ControlsContainer.Linux"

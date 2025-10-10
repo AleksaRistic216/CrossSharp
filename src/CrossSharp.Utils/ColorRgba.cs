@@ -1,5 +1,3 @@
-using CrossSharp.Utils.Gtk;
-
 namespace CrossSharp.Utils;
 
 public class ColorRgba
@@ -7,6 +5,10 @@ public class ColorRgba
     public static readonly ColorRgba Transparent = new(0, 0, 0, 0);
     public static readonly ColorRgba Red = new(1, 0, 0, 1);
     public static readonly ColorRgba Green = new(0, 1, 0, 1);
+    public static readonly ColorRgba LightGreen = new(0.5f, 1, 0.5f, 1);
+    public static readonly ColorRgba DarkGreen = new(0, 0.5f, 0, 1);
+    public static readonly ColorRgba LightBlue = new(0.5f, 0.5f, 1, 1);
+    public static readonly ColorRgba DarkBlue = new(0, 0, 0.5f, 1);
     public static readonly ColorRgba Blue = new(0, 0, 1, 1);
     public static readonly ColorRgba Purple = new(0.5f, 0, 0.5f, 1);
     public static readonly ColorRgba Gray = new(0.5f, 0.5f, 0.5f, 1);
@@ -30,6 +32,10 @@ public class ColorRgba
     public float G { get; set; }
     public float B { get; set; }
     public float A { get; set; }
+    public byte RByte => (byte)(R * 255);
+    public byte GByte => (byte)(G * 255);
+    public byte BByte => (byte)(B * 255);
+    public byte AByte => (byte)(A * 255);
 
     const float HIGHLIGHT_FACTOR = 0.5f;
     public ColorRgba Highlighted =>
@@ -46,16 +52,5 @@ public class ColorRgba
         G = g;
         B = b;
         A = a;
-    }
-
-    internal GtkRgba ToGtkRgba()
-    {
-        return new GtkRgba
-        {
-            red = R,
-            green = G,
-            blue = B,
-            alpha = A,
-        };
     }
 }
