@@ -22,5 +22,6 @@ partial class Button
             OnTextChangedInternal();
         }
     }
-    public ColorRgba BackgroundColor { get; set; }
+    public ColorRgba BackgroundColor { get; set; } =
+        Services.GetSingleton<ITheme>().ButtonBackgroundColor;
 }

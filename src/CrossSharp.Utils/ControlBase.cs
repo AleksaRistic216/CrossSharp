@@ -61,14 +61,7 @@ public abstract partial class ControlBase : IControl
             return;
         if (Width <= 0 || Height <= 0)
             return;
-        g.DrawRectangle(
-            BorderWidth / 2,
-            BorderWidth / 2,
-            Width - BorderWidth,
-            Height - BorderWidth,
-            BorderColor,
-            BorderWidth
-        );
+        g.DrawRectangle(BorderWidth / 2, BorderWidth / 2, Width, Height, BorderColor, BorderWidth);
     }
 
     public virtual void DrawContent(ref IGraphics g) { }

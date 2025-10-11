@@ -14,7 +14,7 @@ public partial class ControlBase
     public ColorRgba ForegroundColor { get; set; } = ColorRgba.Black;
     public EventHandler? LayoutChanged { get; set; }
 
-    IInputHandler InputHandler { get; set; }
+    protected IInputHandler InputHandler { get; set; }
 
     protected bool IsMouseOver { get; set; }
     int _borderWidth { get; set; }

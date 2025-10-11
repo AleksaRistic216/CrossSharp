@@ -8,6 +8,7 @@ public interface ITheme
     FontFamily DefaultFontFamily { get; set; }
     ColorRgba BackgroundColor { get; set; }
     ColorRgba ButtonBackgroundColor { get; set; }
+    ColorRgba InputBackgroundColor { get; set; }
     bool UseNativeTitleBar { get; set; }
     int RoundedCornersRadius { get; set; }
     int FormBorderWidth { get; set; }

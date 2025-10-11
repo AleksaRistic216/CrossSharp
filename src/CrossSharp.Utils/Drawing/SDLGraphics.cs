@@ -20,7 +20,13 @@ public class SDLGraphics : IGraphics
     static extern int SDL_RenderClear(IntPtr renderer);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern int SDL_RenderSetClipRect(IntPtr renderer, ref SDLRect rect);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_RenderFillRect(IntPtr renderer, ref SDLRect rect);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern int SDL_RenderDrawRect(IntPtr renderer, ref SDLRect rect);
 
     [DllImport(SDLHelpers.TTF_LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int TTF_Init();
@@ -77,7 +83,30 @@ public class SDLGraphics : IGraphics
         int height,
         ColorRgba borderColor,
         float borderWidth
-    ) { }
+    )
+    {
+        if (_renderer == IntPtr.Zero)
+            throw new NullReferenceException(nameof(_renderer));
+        if (width <= 0 || height <= 0)
+            return;
+        x += offsetX;
+        y += offsetY;
+        SDL_SetRenderDrawColor(
+            _renderer,
+            borderColor.RByte,
+            borderColor.GByte,
+            borderColor.BByte,
+            borderColor.AByte
+        );
+        var rect = new SDLRect
+        {
+            x = x,
+            y = y,
+            w = width,
+            h = height,
+        };
+        SDL_RenderDrawRect(_renderer, ref rect);
+    }
 
     public void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor)
     {
@@ -194,7 +223,17 @@ public class SDLGraphics : IGraphics
         return new Size(w / FONT_SCALE, h / FONT_SCALE);
     }
 
-    public void SetClip(Rectangle rectangle) { }
+    public void SetClip(Rectangle rectangle)
+    {
+        var rect = new SDLRect
+        {
+            x = rectangle.X,
+            y = rectangle.Y,
+            w = rectangle.Width,
+            h = rectangle.Height,
+        };
+        SDL_RenderSetClipRect(_renderer, ref rect);
+    }
 
     int offsetX = 0;
     int offsetY = 0;

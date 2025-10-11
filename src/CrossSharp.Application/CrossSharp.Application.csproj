@@ -11,6 +11,8 @@
     <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Input.Linux\CrossSharp.Ui.Input.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Label.Linux\CrossSharp.Ui.Label.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />

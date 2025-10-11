@@ -11,6 +11,7 @@ public class DefaultTheme : ITheme
     public FontFamily DefaultFontFamily { get; set; } = FontFamily.Default;
     public virtual ColorRgba BackgroundColor { get; set; } = ColorRgba.WhiteSmoke;
     public virtual ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.LightGray;
+    public ColorRgba InputBackgroundColor { get; set; } = ColorRgba.White;
     public virtual bool UseNativeTitleBar
     {
         get => _useNativeTitleBar;

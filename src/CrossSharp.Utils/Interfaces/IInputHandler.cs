@@ -5,7 +5,7 @@ namespace CrossSharp.Utils.Interfaces;
 public interface IInputHandler
 {
     void StartListeningAsync(CancellationToken cancellationToken);
-    event EventHandler<object>? KeyPressed;
+    event EventHandler<KeyInputArgs>? KeyPressed;
     event EventHandler<MouseInputArgs>? MousePressed;
     event EventHandler<MouseInputArgs>? MouseReleased;
     event EventHandler<MouseInputArgs>? MouseMoved;
