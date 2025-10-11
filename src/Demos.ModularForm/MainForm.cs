@@ -16,8 +16,9 @@ class FirstPage : StackedLayout
 {
     public FirstPage(MainForm mainForm)
     {
-        Width = mainForm.Width;
-        Height = mainForm.ContentHeight;
+        Dock = CrossSharp.Utils.Enums.DockPosition.Fill;
+        // Width = 500;
+        // Height = 500;
         Add(
             new Label()
             {

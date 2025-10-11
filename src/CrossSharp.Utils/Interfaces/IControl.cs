@@ -1,8 +1,13 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IControl : IDisposable, IBorder, IClipLimiter, ILocationProvider, ISizeProvider
+public interface IControl
+    : IDisposable,
+        IBorder,
+        IClipLimiter,
+        ILocationProvider,
+        ISizeProvider,
+        IChild
 {
-    object Parent { get; set; }
     bool Visible { get; set; }
     void Initialize();
     void Invalidate();

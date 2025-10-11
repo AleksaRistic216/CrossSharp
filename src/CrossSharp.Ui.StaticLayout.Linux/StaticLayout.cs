@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
@@ -10,6 +11,7 @@ class StaticLayout : IStaticLayout
 {
     readonly List<IControl> _controls = [];
 
+    public DockPosition Dock { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
 

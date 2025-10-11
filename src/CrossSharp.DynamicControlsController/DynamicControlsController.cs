@@ -6,7 +6,7 @@ public class DynamicControlsController(ref IControlsContainer container)
 {
     readonly Dictionary<Type, object> _services = new();
     readonly Dictionary<object, Type> _pages = new();
-    readonly Dictionary<Type, object> _pageInstances = new();
+    readonly Dictionary<Type, IControl> _pageInstances = new();
     readonly IControlsContainer _container = container;
 
     public void Set(object identifier, Type control)
@@ -38,11 +38,11 @@ public class DynamicControlsController(ref IControlsContainer container)
     {
         if (!_pages.TryGetValue(identifier, out Type? type))
             throw new ArgumentException("Not found", nameof(identifier));
-        if (!_pageInstances.TryGetValue(type, out object? value))
+        if (!_pageInstances.TryGetValue(type, out IControl? value))
         {
             var ctor = type.GetConstructors().FirstOrDefault();
             var parameters = ctor?.GetParameters();
-            object? instance;
+            IControl? instance;
             if (parameters != null && parameters.Length > 0)
             {
                 // You need to provide appropriate parameter values here
@@ -56,20 +56,17 @@ public class DynamicControlsController(ref IControlsContainer container)
                             )
                     )
                     .ToArray();
-                instance = Activator.CreateInstance(type, args);
+                instance = (IControl?)Activator.CreateInstance(type, args);
             }
             else
             {
-                instance = Activator.CreateInstance(type);
+                instance = (IControl?)Activator.CreateInstance(type);
             }
-            value =
-                instance ?? throw new Exception("Failed to create instance of " + type.FullName);
             value =
                 instance ?? throw new Exception("Failed to create instance of " + type.FullName);
             _pageInstances[type] = value;
         }
         _container.Remove(_container.ToArray());
-        _container.Add((IControl)value);
-        _container.Invalidate();
+        _container.Add(value);
     }
 }

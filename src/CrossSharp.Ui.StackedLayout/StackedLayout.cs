@@ -3,17 +3,26 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class StackedLayout : IStackedLayout
+public class StackedLayout()
+    : CrossWrapper<IStackedLayout>(Services.GetSingleton<IStackedLayoutFactory>().Create()),
+        IStackedLayout
 {
-    readonly IStackedLayout _impl = Services.GetSingleton<IStackedLayoutFactory>().Create();
+    IStackedLayout _impl => GetImplementation();
     public Direction Direction
     {
         get => _impl.Direction;
         set => _impl.Direction = value;
+    }
+
+    public DockPosition Dock
+    {
+        get => _impl.Dock;
+        set => _impl.Dock = value;
     }
 
     public IEnumerator<IControl> GetEnumerator() => _impl.GetEnumerator();
@@ -85,8 +94,5 @@ public class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
-    public IForm GetForm()
-    {
-        throw new NotImplementedException();
-    }
+    public IForm? GetForm() => ControlsHelpers.GetForm(this);
 }

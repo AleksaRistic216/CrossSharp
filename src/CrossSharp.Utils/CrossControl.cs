@@ -3,10 +3,14 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
-public abstract class CrossControl<T>(T implementation) : IControl
+public abstract class CrossControl<T>(T implementation)
+    : CrossWrapper<IControl>(implementation),
+        IControl
     where T : IControl
 {
     protected T Implementation = implementation;
+
+    public override int GetHashCode() => Implementation?.GetHashCode() ?? 0;
 
     public void Dispose() => Implementation.Dispose();
 

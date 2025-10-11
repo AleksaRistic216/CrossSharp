@@ -11,6 +11,7 @@ class StackedLayout : IStackedLayout
 {
     readonly List<IControl> _controls = [];
 
+    public DockPosition Dock { get; set; }
     public Direction Direction { get; set; } = Direction.Vertical;
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
@@ -29,6 +30,7 @@ class StackedLayout : IStackedLayout
 
     public void Invalidate()
     {
+        this.PerformDocking();
         foreach (IControl control in _controls)
             control.Invalidate();
         if (Direction == Direction.Vertical)
@@ -79,7 +81,7 @@ class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        Invalidate();
+        // Invalidate();
         foreach (var c in _controls)
             c.Draw(ref graphics);
     }

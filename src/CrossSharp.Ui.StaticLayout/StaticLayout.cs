@@ -2,13 +2,22 @@ using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class StaticLayout : IControlsContainer
+public class StaticLayout()
+    : CrossWrapper<IStaticLayout>(Services.GetSingleton<IStaticLayoutFactory>().Create()),
+        IControlsContainer
 {
-    readonly IStaticLayout _impl = Services.GetSingleton<IStaticLayoutFactory>().Create();
+    IStaticLayout _impl => GetImplementation();
+
+    public DockPosition Dock
+    {
+        get => _impl.Dock;
+        set => _impl.Dock = value;
+    }
 
     public IEnumerator<IControl> GetEnumerator() => _impl.GetEnumerator();
 
