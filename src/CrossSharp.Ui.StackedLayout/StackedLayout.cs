@@ -19,6 +19,11 @@ public class StackedLayout()
         set => _impl.Direction = value;
     }
 
+    public int DockIndex
+    {
+        get => _impl.DockIndex;
+        set => _impl.DockIndex = value;
+    }
     public DockPosition Dock
     {
         get => _impl.Dock;
@@ -95,4 +100,15 @@ public class StackedLayout()
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
     public IForm? GetForm() => ControlsHelpers.GetForm(this);
+
+    public ColorRgba BackgroundColor
+    {
+        get => _impl.BackgroundColor;
+        set => _impl.BackgroundColor = value;
+    }
+    public EventHandler? OnBackgroundColorChange
+    {
+        get => _impl.OnBackgroundColorChange;
+        set => _impl.OnBackgroundColorChange = value;
+    }
 }

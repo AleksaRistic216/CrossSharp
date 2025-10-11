@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using Omu.ValueInjecter;
 
 namespace CrossSharp.Utils.Helpers;
 
@@ -49,13 +50,19 @@ public static class ControlsHelpers
         if (control.Parent is not IControlsContainer parent)
             return;
         var parentBounds = new Rectangle(Point.Empty, parent.Size);
+        HashSet<int> recordedDockIndexes = [];
         foreach (var sibling in parent)
         {
-            if (
-                Equals(sibling, control)
-                || sibling is not IDockable dockedSibling
-                || dockedSibling.Dock == DockPosition.None
-            )
+            if (sibling is not IDockable dockedSibling || dockedSibling.Dock == DockPosition.None)
+                continue;
+            if (recordedDockIndexes.Contains(dockedSibling.DockIndex))
+                throw new Exception(
+                    "Duplicate DockIndex detected within the same container. Each docked control must have a unique DockIndex."
+                );
+            recordedDockIndexes.Add(dockedSibling.DockIndex);
+            if (Equals(sibling, control))
+                continue;
+            if (dockedSibling.DockIndex > control.DockIndex)
                 continue;
             var siblingBounds = new Rectangle(dockedSibling.Location, dockedSibling.Size);
             switch (dockedSibling.Dock)
@@ -109,5 +116,13 @@ public static class ControlsHelpers
                 control.Height = parentBounds.Height;
                 break;
         }
+    }
+
+    public static IControl Clone(this IControl control)
+    {
+        var type = control.GetType();
+        var clone = (IControl)Activator.CreateInstance(type)!;
+        clone.InjectFrom(control);
+        return clone;
     }
 }

@@ -17,6 +17,7 @@ partial class FormSDL : IFormSDL
         Renderer = SDLHelpers.SDL_CreateRenderer(Handle, -1, 0);
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
+        Invalidate();
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ partial class FormSDL : IFormSDL
 
     public virtual void DrawContent(ref IGraphics g)
     {
-        foreach (var control in Controls)
+        foreach (var control in Controls.ToArray())
         {
             g.SetOffset(control.Location.X, control.Location.Y);
             control.Draw(ref g);

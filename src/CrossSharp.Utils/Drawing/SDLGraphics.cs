@@ -114,6 +114,8 @@ public class SDLGraphics : IGraphics
             throw new NullReferenceException(nameof(_renderer));
         if (width <= 0 || height <= 0)
             return;
+        if (fillColor.A == 0)
+            return;
         x += offsetX;
         y += offsetY;
         SDL_SetRenderDrawColor(

@@ -11,6 +11,7 @@ class StackedLayout : IStackedLayout
 {
     readonly List<IControl> _controls = [];
 
+    public int DockIndex { get; set; }
     public DockPosition Dock { get; set; }
     public Direction Direction { get; set; } = Direction.Vertical;
     public int BorderWidth { get; set; }
@@ -41,7 +42,7 @@ class StackedLayout : IStackedLayout
 
     void InvalidateStackVertical()
     {
-        var currentY = Location.Y;
+        var currentY = 0;
         foreach (var c in _controls)
         {
             c.Location = new Point(Location.X, currentY);
@@ -52,7 +53,7 @@ class StackedLayout : IStackedLayout
 
     void InvalidateStackHorizontal()
     {
-        var currentX = Location.X;
+        var currentX = 0;
         foreach (var c in _controls)
         {
             c.Location = new Point(currentX, Location.Y);
@@ -81,9 +82,15 @@ class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        // Invalidate();
+        graphics.SetOffset(0, 0);
+        DrawBackground(ref graphics);
         foreach (var c in _controls)
             c.Draw(ref graphics);
+    }
+
+    void DrawBackground(ref IGraphics graphics)
+    {
+        graphics.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
     }
 
     public IForm? GetForm() => ControlsHelpers.GetForm(this);
@@ -94,4 +101,7 @@ class StackedLayout : IStackedLayout
             c.Dispose();
         _controls.Clear();
     }
+
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
+    public EventHandler? OnBackgroundColorChange { get; set; }
 }

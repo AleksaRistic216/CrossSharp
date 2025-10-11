@@ -13,6 +13,11 @@ public class StaticLayout()
 {
     IStaticLayout _impl => GetImplementation();
 
+    public int DockIndex
+    {
+        get => _impl.DockIndex;
+        set => _impl.DockIndex = value;
+    }
     public DockPosition Dock
     {
         get => _impl.Dock;
@@ -89,4 +94,15 @@ public class StaticLayout()
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
     public IForm? GetForm() => _impl.GetForm();
+
+    public ColorRgba BackgroundColor
+    {
+        get => _impl.BackgroundColor;
+        set => _impl.BackgroundColor = value;
+    }
+    public EventHandler? OnBackgroundColorChange
+    {
+        get => _impl.OnBackgroundColorChange;
+        set => _impl.OnBackgroundColorChange = value;
+    }
 }

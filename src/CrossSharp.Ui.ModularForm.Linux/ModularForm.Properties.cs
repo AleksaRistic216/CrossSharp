@@ -9,5 +9,5 @@ partial class ModularForm
     DynamicControlsController _viewer;
     IControlsContainer _contentPane;
     public StackedLayout TopNavigationPane { get; private set; }
-    public int ContentHeight { get; private set; }
+    public StackedLayout LeftNavigationPane { get; private set; }
 }

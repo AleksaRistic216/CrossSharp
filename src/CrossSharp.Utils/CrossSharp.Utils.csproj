@@ -20,4 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ValueInjecter" Version="3.2.0" />
+  </ItemGroup>
 </Project>

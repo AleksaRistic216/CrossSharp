@@ -11,6 +11,7 @@ class StaticLayout : IStaticLayout
 {
     readonly List<IControl> _controls = [];
 
+    public int DockIndex { get; set; }
     public DockPosition Dock { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
@@ -29,6 +30,7 @@ class StaticLayout : IStaticLayout
 
     public void Invalidate()
     {
+        this.PerformDocking();
         foreach (IControl control in _controls)
             control.Invalidate();
     }
@@ -53,7 +55,7 @@ class StaticLayout : IStaticLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        foreach (var c in _controls)
+        foreach (var c in _controls.ToArray())
             c.Draw(ref graphics);
     }
 
@@ -65,4 +67,7 @@ class StaticLayout : IStaticLayout
             c.Dispose();
         _controls.Clear();
     }
+
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
+    public EventHandler? OnBackgroundColorChange { get; set; }
 }

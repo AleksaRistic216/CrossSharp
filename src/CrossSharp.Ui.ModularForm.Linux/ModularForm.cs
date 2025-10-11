@@ -1,6 +1,8 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -9,15 +11,28 @@ partial class ModularForm : FormSDL, IModularForm
 {
     public ModularForm()
     {
+        InitializeLeftNavigationPane();
         InitializeTopNavigationPane();
         InitializeContentPane();
+    }
+
+    void InitializeLeftNavigationPane()
+    {
+        LeftNavigationPane = new StackedLayout();
+        LeftNavigationPane.BackgroundColor = ColorRgba.Blue;
+        LeftNavigationPane.Direction = Direction.Vertical;
+        LeftNavigationPane.Dock = DockPosition.Left;
+        LeftNavigationPane.DockIndex = 0;
+        LeftNavigationPane.Width = 150;
+        Controls.Add(LeftNavigationPane);
     }
 
     void InitializeTopNavigationPane()
     {
         TopNavigationPane = new StackedLayout();
         TopNavigationPane.Direction = Direction.Horizontal;
-        TopNavigationPane.Width = Width;
+        TopNavigationPane.Dock = DockPosition.Top;
+        TopNavigationPane.DockIndex = 1;
         TopNavigationPane.Height = 28;
         Controls.Add(TopNavigationPane);
     }
@@ -37,15 +52,13 @@ partial class ModularForm : FormSDL, IModularForm
         _contentPane = new StaticLayout();
         _contentPane.Location = new Point(0, TopNavigationPane.Height);
         _contentPane.Width = Width;
-        _contentPane.Height = Height - TopNavigationPane.Height;
-        ContentHeight = _contentPane.Height;
+        _contentPane.Dock = DockPosition.Fill;
+        _contentPane.DockIndex = 2;
         Controls.Add(_contentPane);
-        this.OnSizeChanged += (s, e) =>
+        OnSizeChanged += (s, e) =>
         {
-            TopNavigationPane.Width = Width;
             _contentPane.Width = Width;
             _contentPane.Height = Height - TopNavigationPane.Height;
-            ContentHeight = _contentPane.Height;
             _contentPane.Invalidate();
         };
         _viewer = new DynamicControlsController(ref _contentPane);
@@ -85,7 +98,7 @@ partial class ModularForm : FormSDL, IModularForm
     }
 
     /// <summary>
-    /// Adds a page with a button to the top navigation pane.
+    /// Adds a page with a button to all navigation panes.
     /// </summary>
     /// <param name="name"></param>
     /// <param name="pageType"></param>
@@ -94,7 +107,7 @@ partial class ModularForm : FormSDL, IModularForm
     {
         string id = Guid.NewGuid().ToString("N");
         AddPage(id, pageType);
-        var btn = new Button();
+        using var btn = new Button();
         btn.Text = name;
         using var g = new SDLGraphics(Renderer);
         var textSize = g.MeasureText(name, _theme.DefaultFontFamily, _theme.DefaultFontSize);
@@ -102,7 +115,8 @@ partial class ModularForm : FormSDL, IModularForm
         btn.Height = textSize.Height + 8;
         btn.OnClick += OnClick;
         btn.Tag = id;
-        TopNavigationPane.Add(btn);
+        TopNavigationPane.Add(btn.Clone());
+        LeftNavigationPane.Add(btn.Clone());
         return id;
     }
 }

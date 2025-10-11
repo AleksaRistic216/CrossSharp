@@ -5,8 +5,6 @@ namespace CrossSharp.Ui;
 
 public class ModularForm : FormBase<IModularFormFactory>, IModularForm
 {
-    public int ContentHeight => ((IModularForm)Implementation).ContentHeight;
-
     public void AddPage(object identifier, Type pageType) =>
         ((IModularForm)Implementation).AddPage(identifier, pageType);
 
