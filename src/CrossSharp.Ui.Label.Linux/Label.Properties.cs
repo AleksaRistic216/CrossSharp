@@ -6,6 +6,7 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Label
 {
+    ITheme _theme = Services.GetSingleton<ITheme>();
     string _text = string.Empty;
     public string Text
     {

@@ -34,7 +34,7 @@ partial class ModularForm : FormSDL, IModularForm
         TopNavigationPane.Direction = Direction.Horizontal;
         TopNavigationPane.Dock = DockPosition.Top;
         TopNavigationPane.DockIndex = 1;
-        TopNavigationPane.Height = 28;
+        TopNavigationPane.Height = TopNavigationPaneHeight;
         Controls.Add(TopNavigationPane);
     }
 
@@ -112,8 +112,8 @@ partial class ModularForm : FormSDL, IModularForm
         btn.Text = name;
         using var g = new SDLGraphics(Renderer);
         var textSize = g.MeasureText(name, _theme.DefaultFontFamily, _theme.DefaultFontSize);
-        btn.Width = textSize.Width + 16;
-        btn.Height = textSize.Height + 8;
+        btn.Width = textSize.Width + _navigationButtonsPadding * 2;
+        btn.Height = textSize.Height + _navigationButtonsPadding * 2;
         btn.OnClick += OnClick;
         btn.Tag = id;
         TopNavigationPane.Add(btn.Clone());

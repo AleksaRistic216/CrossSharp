@@ -5,6 +5,12 @@ namespace CrossSharp.Ui;
 
 public class ModularForm : FormBase<IModularFormFactory>, IModularForm
 {
+    public int TopNavigationPaneHeight
+    {
+        get => ((IModularForm)Implementation).TopNavigationPaneHeight;
+        set => ((IModularForm)Implementation).TopNavigationPaneHeight = value;
+    }
+
     public void AddPage(object identifier, Type pageType) =>
         ((IModularForm)Implementation).AddPage(identifier, pageType);
 

@@ -10,7 +10,6 @@ partial class Button
 {
     ITheme _theme = Services.GetSingleton<ITheme>();
     Point _textLocation = Point.Empty;
-
     string _text = "Button";
     public string Text
     {

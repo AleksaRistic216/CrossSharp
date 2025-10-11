@@ -32,12 +32,12 @@ class StackedLayout : IStackedLayout
     public void Invalidate()
     {
         this.PerformDocking();
-        foreach (IControl control in _controls)
-            control.Invalidate();
         if (Direction == Direction.Vertical)
             InvalidateStackVertical();
         else
             InvalidateStackHorizontal();
+        foreach (IControl control in _controls)
+            control.Invalidate();
     }
 
     void InvalidateStackVertical()

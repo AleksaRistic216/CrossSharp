@@ -23,11 +23,12 @@ class FirstPage : StackedLayout
     public FirstPage(MainForm mainForm)
     {
         _mainForm = mainForm;
-        Dock = CrossSharp.Utils.Enums.DockPosition.Fill;
+        Dock = DockPosition.Fill;
         _label = new Label() { Text = "This is the first page" };
         Add(_label);
         _button = new Button()
         {
+            Style = RenderStyle.Contained,
             Text = "Button on first page",
             Location = new Point(0, 205),
             Width = mainForm.Width,
@@ -52,7 +53,7 @@ class SecondPage : StackedLayout
     public SecondPage(MainForm mainForm)
     {
         _mainForm = mainForm;
-        Dock = CrossSharp.Utils.Enums.DockPosition.Fill;
+        Dock = DockPosition.Fill;
         _label = new Label() { Text = "This is the second page" };
         Add(_label);
         _button = new Button()

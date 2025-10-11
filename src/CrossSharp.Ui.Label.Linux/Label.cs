@@ -16,6 +16,8 @@ partial class Label : ControlBase, ILabel
         var size = graphics.MeasureText(Text, FontFamily, FontSize);
         Width = size.Width;
         Height = size.Height;
+        if (ForegroundColor == ColorRgba.Transparent)
+            ForegroundColor = _theme.BackgroundColor.Contrasted;
     }
 
     public override void Redraw()
