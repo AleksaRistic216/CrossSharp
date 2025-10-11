@@ -46,7 +46,11 @@ public abstract partial class ControlBase : IControl
     {
         if (this is not IBackgroundColorProvider bgProvider)
             return;
-        g.FillRectangle(0, 0, Width, Height, bgProvider.BackgroundColor);
+        var color =
+            this is IHighlightable && IsMouseOver
+                ? bgProvider.BackgroundColor.Highlighted
+                : bgProvider.BackgroundColor;
+        g.FillRectangle(0, 0, Width, Height, color);
     }
 
     public virtual void DrawBorders(ref IGraphics g)

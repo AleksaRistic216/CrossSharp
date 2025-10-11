@@ -26,8 +26,14 @@ static class CrossSharpApplicationRunner
             Diagnostics.Ui.FrameCount++;
             while (SDLHelpers.SDL_PollEvent(out SDL_Event e))
                 HandleEvents(e);
-            foreach (IForm f in Services.GetSingleton<IApplication>().Forms)
+            foreach (var form1 in Services.GetSingleton<IApplication>().Forms)
+            {
+                if (form1 is not IFormSDL f)
+                    continue;
+                f.RecordLocation();
+                f.RecordSize();
                 f.Redraw();
+            }
         }
         SDLHelpers.SDL_DestroyWindow(Services.GetSingleton<IApplication>().MainWindowHandle);
         SDLHelpers.SDL_Quit();

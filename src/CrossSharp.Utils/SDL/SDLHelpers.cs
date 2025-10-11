@@ -21,6 +21,12 @@ static class SDLHelpers
     );
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_GetWindowPosition(IntPtr window, out int x, out int y);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_GetWindowSize(IntPtr window, out int w, out int h);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_RenderPresent(IntPtr renderer);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]

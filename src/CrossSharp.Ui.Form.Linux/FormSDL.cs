@@ -9,13 +9,29 @@ partial class FormSDL : IFormSDL
 {
     public FormSDL()
     {
-        Width = 800;
-        Height = 600;
         Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
+        ((IFormSDL)this).RecordLocation();
+        ((IFormSDL)this).RecordSize();
         Services.GetSingleton<IApplication>().Forms.Add(this);
         Renderer = SDLHelpers.SDL_CreateRenderer(Handle, -1, 0);
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
+    }
+
+    /// <summary>
+    /// Gets the current location of the window from the OS and updates the Location property.
+    /// </summary>
+    void IFormSDL.RecordLocation()
+    {
+        SDLHelpers.SDL_GetWindowPosition(Handle, out int x, out int y);
+        Location = new System.Drawing.Point(x, y);
+    }
+
+    public void RecordSize()
+    {
+        SDLHelpers.SDL_GetWindowSize(Handle, out int w, out int h);
+        Width = w;
+        Height = h;
     }
 
     public void Initialize() { }
