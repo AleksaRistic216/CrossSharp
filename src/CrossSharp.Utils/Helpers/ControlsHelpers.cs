@@ -1,4 +1,5 @@
 using System.Drawing;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using Omu.ValueInjecter;
@@ -124,5 +125,24 @@ public static class ControlsHelpers
         var clone = (IControl)Activator.CreateInstance(type)!;
         clone.InjectFrom(control);
         return clone;
+    }
+
+    public static ColorRgba GetThemedBackgroundColor(this IControl control)
+    {
+        if (control is not IBackgroundColorProvider bgProvider)
+            return ColorRgba.Transparent;
+        var isMouseOver = control is IIsMouseOverProvider { IsMouseOver: true };
+        return isMouseOver ? bgProvider.BackgroundColor.Highlighted
+            : GetRenderStyle(control) == RenderStyle.Flat ? ColorRgba.Transparent
+            : bgProvider.BackgroundColor;
+    }
+
+    public static RenderStyle GetRenderStyle(this IControl control)
+    {
+        var theme = Services.GetSingleton<ITheme>();
+        if (control is not IRenderStyleProvider rsp)
+            return theme.Style;
+
+        return rsp.Style == RenderStyle.Default ? theme.Style : rsp.Style;
     }
 }

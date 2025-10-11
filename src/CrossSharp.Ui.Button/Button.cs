@@ -1,5 +1,6 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -22,6 +23,11 @@ public class Button()
     {
         get => Implementation.OnBackgroundColorChange;
         set => Implementation.OnBackgroundColorChange = value;
+    }
+    public RenderStyle Style
+    {
+        get => Implementation.Style;
+        set => Implementation.Style = value;
     }
     public string Text
     {

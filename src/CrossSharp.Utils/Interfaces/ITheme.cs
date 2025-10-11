@@ -4,9 +4,11 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface ITheme
 {
+    RenderStyle Style { get; set; }
     int DefaultFontSize { get; set; }
     FontFamily DefaultFontFamily { get; set; }
     ColorRgba BackgroundColor { get; set; }
+    ColorRgba SecondaryBackgroundColor { get; set; }
     ColorRgba ButtonBackgroundColor { get; set; }
     ColorRgba InputBackgroundColor { get; set; }
     bool UseNativeTitleBar { get; set; }

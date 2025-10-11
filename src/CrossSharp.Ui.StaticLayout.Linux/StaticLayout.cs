@@ -70,4 +70,5 @@ class StaticLayout : IStaticLayout
 
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? OnBackgroundColorChange { get; set; }
+    public bool IsMouseOver { get; set; } = false;
 }

@@ -130,4 +130,10 @@ public abstract class FormBase<T> : IForm
     }
 
     public void LimitClip(ref IGraphics g) => Implementation.LimitClip(ref g);
+
+    public bool IsMouseOver
+    {
+        get => Implementation.IsMouseOver;
+        set { Implementation.IsMouseOver = value; }
+    }
 }

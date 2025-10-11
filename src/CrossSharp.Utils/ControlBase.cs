@@ -44,12 +44,7 @@ public abstract partial class ControlBase : IControl
 
     public virtual void DrawBackground(ref IGraphics g)
     {
-        if (this is not IBackgroundColorProvider bgProvider)
-            return;
-        var color =
-            this is IHighlightable && IsMouseOver
-                ? bgProvider.BackgroundColor.Highlighted
-                : bgProvider.BackgroundColor;
+        var color = this.GetThemedBackgroundColor();
         g.FillRectangle(0, 0, Width, Height, color);
     }
 

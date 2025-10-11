@@ -11,12 +11,12 @@ public partial class ControlBase
     bool _visible = true;
 
     bool _suspendLayout = false;
-    public ColorRgba ForegroundColor { get; set; } = ColorRgba.Black;
+    public ColorRgba ForegroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? LayoutChanged { get; set; }
 
     protected IInputHandler InputHandler { get; set; }
 
-    protected bool IsMouseOver { get; set; }
+    public bool IsMouseOver { get; set; }
     int _borderWidth { get; set; }
     public int BorderWidth
     {

@@ -82,6 +82,7 @@ class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics)
     {
+        graphics.SetClip(new Rectangle(Location, new Size(Width, Height)));
         graphics.SetOffset(0, 0);
         DrawBackground(ref graphics);
         foreach (var c in _controls)
@@ -104,4 +105,5 @@ class StackedLayout : IStackedLayout
 
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? OnBackgroundColorChange { get; set; }
+    public bool IsMouseOver { get; set; }
 }

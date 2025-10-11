@@ -19,7 +19,7 @@ partial class ModularForm : FormSDL, IModularForm
     void InitializeLeftNavigationPane()
     {
         LeftNavigationPane = new StackedLayout();
-        LeftNavigationPane.BackgroundColor = ColorRgba.Blue;
+        LeftNavigationPane.BackgroundColor = _theme.SecondaryBackgroundColor;
         LeftNavigationPane.Direction = Direction.Vertical;
         LeftNavigationPane.Dock = DockPosition.Left;
         LeftNavigationPane.DockIndex = 0;
@@ -30,6 +30,7 @@ partial class ModularForm : FormSDL, IModularForm
     void InitializeTopNavigationPane()
     {
         TopNavigationPane = new StackedLayout();
+        TopNavigationPane.BackgroundColor = _theme.SecondaryBackgroundColor;
         TopNavigationPane.Direction = Direction.Horizontal;
         TopNavigationPane.Dock = DockPosition.Top;
         TopNavigationPane.DockIndex = 1;
@@ -111,7 +112,7 @@ partial class ModularForm : FormSDL, IModularForm
         btn.Text = name;
         using var g = new SDLGraphics(Renderer);
         var textSize = g.MeasureText(name, _theme.DefaultFontFamily, _theme.DefaultFontSize);
-        btn.Width = 100;
+        btn.Width = textSize.Width + 16;
         btn.Height = textSize.Height + 8;
         btn.OnClick += OnClick;
         btn.Tag = id;

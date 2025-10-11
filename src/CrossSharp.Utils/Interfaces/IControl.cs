@@ -6,7 +6,8 @@ public interface IControl
         IClipLimiter,
         ILocationProvider,
         ISizeProvider,
-        IChild
+        IChild,
+        IIsMouseOverProvider
 {
     bool Visible { get; set; }
     void Initialize();

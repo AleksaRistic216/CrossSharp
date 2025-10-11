@@ -1,6 +1,8 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -13,7 +15,9 @@ partial class Button : ControlBase, IButton
     {
         if (GetForm() is not IFormSDL form)
             return;
-        var graphics = new SDLGraphics(form.Renderer);
+        if (ForegroundColor == ColorRgba.Transparent)
+            ForegroundColor = BackgroundColor.Contrasted;
+        using var graphics = new SDLGraphics(form.Renderer);
         var textSize = graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
         _textLocation = new Point((Width - textSize.Width) / 2, (Height - textSize.Height) / 2);
     }

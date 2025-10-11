@@ -1,6 +1,11 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IButton : IControl, IClickable, IBackgroundColorProvider, IHighlightable
+public interface IButton
+    : IControl,
+        IClickable,
+        IBackgroundColorProvider,
+        IHighlightable,
+        IRenderStyleProvider
 {
     string Text { get; set; }
     EventHandler? OnTextChange { get; set; }

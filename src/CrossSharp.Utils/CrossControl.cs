@@ -74,4 +74,10 @@ public abstract class CrossControl<T>(T implementation)
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
     public IForm? GetForm() => Implementation.GetForm();
+
+    public bool IsMouseOver
+    {
+        get => Implementation.IsMouseOver;
+        set => Implementation.IsMouseOver = value;
+    }
 }

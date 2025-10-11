@@ -146,6 +146,12 @@ public class SDLGraphics : IGraphics
     {
         if (_renderer == IntPtr.Zero)
             throw new NullReferenceException(nameof(_renderer));
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+        if (fontSize <= 0)
+            return;
+        if (textColor.A == 0)
+            return;
         x += offsetX;
         y += offsetY;
         TTF_Init();
@@ -210,6 +216,7 @@ public class SDLGraphics : IGraphics
         };
 
         IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
+        TTF_CloseFont(font);
         if (surface == IntPtr.Zero)
             return Size.Empty;
 
@@ -256,8 +263,5 @@ public class SDLGraphics : IGraphics
 
     public void SetClip(Rectangle rectangle, int roundedCornersRadius) { }
 
-    public void Dispose()
-    {
-        _renderer = IntPtr.Zero;
-    }
+    public void Dispose() { }
 }

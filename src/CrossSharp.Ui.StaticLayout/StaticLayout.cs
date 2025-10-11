@@ -105,4 +105,9 @@ public class StaticLayout()
         get => _impl.OnBackgroundColorChange;
         set => _impl.OnBackgroundColorChange = value;
     }
+    public bool IsMouseOver
+    {
+        get => _impl.IsMouseOver;
+        set => _impl.IsMouseOver = value;
+    }
 }

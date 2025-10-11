@@ -1,3 +1,3 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IHighlightable;
+public interface IHighlightable : IIsMouseOverProvider;

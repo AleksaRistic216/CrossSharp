@@ -4,6 +4,19 @@ namespace CrossSharp.Utils;
 
 public class ColorRgba
 {
+    public static readonly ColorRgba LimitlessPrimary = new(
+        0x47 / 255f,
+        0x77 / 255f,
+        0xBB / 255f,
+        1.0f
+    );
+    public static readonly ColorRgba LimitlessSecondary = new(
+        0x2A / 255f,
+        0x4A / 255f,
+        0x8E / 255f,
+        1.0f
+    );
+    public static readonly ColorRgba LimitlessBackground = new(0.9f, 0.9f, 0.9f, 1);
     public static readonly ColorRgba Transparent = new(0, 0, 0, 0);
     public static readonly ColorRgba Red = new(1, 0, 0, 1);
     public static readonly ColorRgba Green = new(0, 1, 0, 1);
@@ -47,6 +60,8 @@ public class ColorRgba
             Math.Min(B + HIGHLIGHT_FACTOR, 1),
             A
         );
+
+    public ColorRgba Contrasted => (R + G + B) / 3 < 0.5f ? White : Black;
 
     public ColorRgba(float r, float g, float b, float a)
     {
