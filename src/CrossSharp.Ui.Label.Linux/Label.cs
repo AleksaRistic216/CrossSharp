@@ -12,7 +12,7 @@ partial class Label : ControlBase, ILabel
     {
         if (GetForm() is not IFormSDL form)
             return;
-        var graphics = new SDLGraphics(form.Renderer);
+        using var graphics = new SDLGraphics(form.Renderer);
         var size = graphics.MeasureText(Text, FontFamily, FontSize);
         Width = size.Width;
         Height = size.Height;

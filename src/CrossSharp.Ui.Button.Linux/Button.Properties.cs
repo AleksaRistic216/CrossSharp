@@ -22,6 +22,18 @@ partial class Button
             OnTextChangedInternal();
         }
     }
+    object? _tag;
+    public object? Tag
+    {
+        get => _tag;
+        set
+        {
+            if (Equals(_tag, value))
+                return;
+            _tag = value;
+            OnTagChangedInternal();
+        }
+    }
     public ColorRgba BackgroundColor { get; set; } =
         Services.GetSingleton<ITheme>().ButtonBackgroundColor;
 }

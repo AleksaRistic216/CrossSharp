@@ -5,7 +5,6 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Button
 {
-    IInputHandler InputHandler { get; } = Services.GetSingleton<IInputHandler>();
     public EventHandler? OnTextChange { get; set; }
 
     void OnTextChangedInternal()
@@ -31,4 +30,13 @@ partial class Button
     public EventHandler? OnClick { get; set; }
 
     void RaiseOnClick() => OnClick?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? OnTagChange { get; set; }
+
+    void OnTagChangedInternal()
+    {
+        RaiseOnTagChange();
+    }
+
+    void RaiseOnTagChange() => OnTagChange?.Invoke(this, EventArgs.Empty);
 }

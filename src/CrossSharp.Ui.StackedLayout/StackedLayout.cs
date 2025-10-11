@@ -64,7 +64,11 @@ public class StackedLayout : IStackedLayout
         get => _impl.OnSizeChanged;
         set => _impl.OnSizeChanged = value;
     }
-    public object Parent { get; set; }
+    public object Parent
+    {
+        get => _impl.Parent;
+        set => _impl.Parent = value;
+    }
     public bool Visible
     {
         get => _impl.Visible;

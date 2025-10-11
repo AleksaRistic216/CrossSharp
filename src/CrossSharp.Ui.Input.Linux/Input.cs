@@ -1,4 +1,3 @@
-using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Input;

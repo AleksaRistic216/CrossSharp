@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -83,10 +84,7 @@ class StackedLayout : IStackedLayout
             c.Draw(ref graphics);
     }
 
-    public IForm GetForm()
-    {
-        throw new NotImplementedException();
-    }
+    public IForm? GetForm() => ControlsHelpers.GetForm(this);
 
     public void Dispose()
     {

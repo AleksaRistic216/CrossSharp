@@ -70,6 +70,8 @@ public abstract partial class ControlBase : IControl
     {
         if (!Visible)
             return;
+        var clientBounds = this.GetClientBounds();
+        graphics.SetOffset(clientBounds.X, clientBounds.Y);
         LimitClip(ref graphics);
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
@@ -81,6 +83,6 @@ public abstract partial class ControlBase : IControl
 
     public virtual void LimitClip(ref IGraphics g)
     {
-        g.SetClip(new Rectangle(Location.X, Location.Y, Width, Height));
+        g.SetClip(this.GetClientBounds());
     }
 }

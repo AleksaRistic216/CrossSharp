@@ -15,6 +15,20 @@ public static class ControlsHelpers
         };
     }
 
+    public static Rectangle GetClientBounds(this IControl control)
+    {
+        var location = control.Location;
+        var parent = control.Parent;
+        while (parent is IControl parentControl)
+        {
+            if (parent is IForm)
+                break;
+            location.Offset(parentControl.Location);
+            parent = parentControl.Parent;
+        }
+        return new Rectangle(location, control.Size);
+    }
+
     public static Rectangle GetScreenBounds(this IControl control)
     {
         var location = control.Location;

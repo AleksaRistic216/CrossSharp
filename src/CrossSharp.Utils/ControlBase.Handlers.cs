@@ -18,9 +18,11 @@ public partial class ControlBase
 
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
-        if (this is not IFocusable f)
-            return;
-        f.IsFocused = IsMouseOver;
+        if (IsMouseOver && this is IFocusable f)
+            f.IsFocused = IsMouseOver;
+
+        if (IsMouseOver && this is IClickable c)
+            c.OnClick?.Invoke(this, e);
     }
 
     internal virtual void OnMouseMoved(object? sender, MouseInputArgs e)

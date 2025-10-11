@@ -238,7 +238,7 @@ public class SDLGraphics : IGraphics
     int offsetX = 0;
     int offsetY = 0;
 
-    public void SetOffset(int y, int x)
+    public void SetOffset(int x, int y)
     {
         if (x == offsetX && y == offsetY)
             return;

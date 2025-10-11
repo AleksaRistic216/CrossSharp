@@ -46,6 +46,7 @@ public class ApplicationBuilder
     void RegisterLinuxServices()
     {
         AddSingleton<IFormFactory, Ui.Linux.FormFactory>();
+        AddSingleton<IModularFormFactory, Ui.Linux.ModularFormFactory>();
         AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
         AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
@@ -66,14 +67,15 @@ public class ApplicationBuilder
     }
 
     public void Run<T>()
-        where T : Form
+        where T : IForm
     {
         // Catch all exceptions
-        AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
-        {
-            Console.WriteLine(e.Exception);
-            Debugger.Break();
-        };
+        // Commented for not because it catches them good
+        // AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
+        // {
+        //     Console.WriteLine(e.Exception);
+        //     Debugger.Break();
+        // };
         // ===
 
         ConfirmTheme();

@@ -3,12 +3,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CrossSharp.Ui</RootNamespace>
+    <RootNamespace>CrossSharp</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Base\" />
   </ItemGroup>
 </Project>

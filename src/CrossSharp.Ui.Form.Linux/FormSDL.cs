@@ -53,16 +53,16 @@ partial class FormSDL : IFormSDL
 
     public void ResumeLayout() { }
 
-    public void DrawShadows(ref IGraphics g) { }
+    public virtual void DrawShadows(ref IGraphics g) { }
 
-    public void DrawBackground(ref IGraphics g)
+    public virtual void DrawBackground(ref IGraphics g)
     {
         g.FillRectangle(0, 0, Width, Height, BackgroundColor);
     }
 
-    public void DrawBorders(ref IGraphics g) { }
+    public virtual void DrawBorders(ref IGraphics g) { }
 
-    public void DrawContent(ref IGraphics g)
+    public virtual void DrawContent(ref IGraphics g)
     {
         foreach (var control in Controls)
         {

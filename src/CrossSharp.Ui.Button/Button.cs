@@ -33,4 +33,14 @@ public class Button()
         get => Implementation.OnTextChange;
         set => Implementation.OnTextChange = value;
     }
+    public object? Tag
+    {
+        get => Implementation.Tag;
+        set => Implementation.Tag = value;
+    }
+    public EventHandler? OnTagChange
+    {
+        get => Implementation.OnTagChange;
+        set => Implementation.OnTagChange = value;
+    }
 }
