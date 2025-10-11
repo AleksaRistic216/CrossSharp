@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Drawing;
+using System.Numerics;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -13,6 +15,7 @@ class StackedLayout : IStackedLayout
 
     public int DockIndex { get; set; }
     public DockPosition Dock { get; set; }
+    public int ItemsSpacing { get; set; } = 0;
     public Direction Direction { get; set; } = Direction.Vertical;
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
@@ -42,23 +45,23 @@ class StackedLayout : IStackedLayout
 
     void InvalidateStackVertical()
     {
-        var currentY = 0;
+        var currentY = Padding.Top;
         foreach (var c in _controls)
         {
-            c.Location = new Point(Location.X, currentY);
-            c.Width = Width;
-            currentY += c.Height;
+            c.Location = new Point(Location.X + Padding.Left, currentY);
+            c.Width = Width - Padding.Horizontal;
+            currentY += c.Height + ItemsSpacing;
         }
     }
 
     void InvalidateStackHorizontal()
     {
-        var currentX = 0;
+        var currentX = Padding.Left;
         foreach (var c in _controls)
         {
-            c.Location = new Point(currentX, Location.Y);
-            c.Height = Height;
-            currentX += c.Width;
+            c.Location = new Point(currentX, Location.Y + Padding.Top);
+            c.Height = Height - Padding.Vertical;
+            currentX += c.Width + ItemsSpacing;
         }
     }
 
@@ -106,4 +109,5 @@ class StackedLayout : IStackedLayout
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? OnBackgroundColorChange { get; set; }
     public bool IsMouseOver { get; set; }
+    public Padding Padding { get; set; } = Padding.Zero;
 }

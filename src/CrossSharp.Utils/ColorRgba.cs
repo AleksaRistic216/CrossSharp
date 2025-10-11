@@ -61,7 +61,10 @@ public class ColorRgba
             A
         );
 
-    public ColorRgba Contrasted => (R + G + B) / 3 < 0.5f ? White : Black;
+    public ColorRgba Contrasted =>
+        A < 0.01f ? Black
+        : (R + G + B) / 3 < 0.5f ? White
+        : Black;
 
     public ColorRgba(float r, float g, float b, float a)
     {

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Drawing;
+using System.Numerics;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
@@ -13,6 +15,11 @@ public class StackedLayout()
         IStackedLayout
 {
     IStackedLayout _impl => GetImplementation();
+    public int ItemsSpacing
+    {
+        get => _impl.ItemsSpacing;
+        set => _impl.ItemsSpacing = value;
+    }
     public Direction Direction
     {
         get => _impl.Direction;
@@ -115,5 +122,10 @@ public class StackedLayout()
     {
         get => _impl.IsMouseOver;
         set => _impl.IsMouseOver = value;
+    }
+    public Padding Padding
+    {
+        get => _impl.Padding;
+        set => _impl.Padding = value;
     }
 }

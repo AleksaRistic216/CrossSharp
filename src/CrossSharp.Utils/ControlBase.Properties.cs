@@ -30,7 +30,7 @@ public partial class ControlBase
             Redraw();
         }
     }
-    ColorRgba _borderColor { get; set; } = ColorRgba.Black;
+    ColorRgba _borderColor { get; set; } = ColorRgba.Transparent;
     public ColorRgba BorderColor
     {
         get => _borderColor;

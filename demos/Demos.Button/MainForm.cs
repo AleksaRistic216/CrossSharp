@@ -1,19 +1,66 @@
 using System.Drawing;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Structs;
 
 namespace Demos.Button;
 
 public class MainForm : Form
 {
+    StackedLayout _stackedLayout = new StackedLayout();
+    int _buttonHeight = 50;
+
     public MainForm()
     {
+        InitializeStackedLayout();
+        InitializeContainedButton();
+        InitializeFlatButton();
+        InitializeOutlinedButton();
+        InitializeDefaultButton();
+    }
+
+    void InitializeStackedLayout()
+    {
+        _stackedLayout.Dock = DockPosition.Fill;
+        _stackedLayout.ItemsSpacing = 10;
+        _stackedLayout.Padding = new Padding(10);
+        Controls.Add(_stackedLayout);
+    }
+
+    void InitializeFlatButton()
+    {
         var button = new CrossSharp.Ui.Button();
-        button.Width = 100;
-        button.Height = 50;
-        button.Location = new Point(50, 50);
-        button.BackgroundColor = ColorRgba.Gray;
-        button.Text = "Click Me";
-        Controls.Add(button);
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Flat;
+        button.Text = "I am flat button";
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeContainedButton()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Text = "I am contained button";
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeOutlinedButton()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Outlined;
+        button.Text = "I am outlined button";
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeDefaultButton()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Default;
+        button.Text = "I am default button (I follow theme style - flat)";
+        _stackedLayout.Add(button);
     }
 }
