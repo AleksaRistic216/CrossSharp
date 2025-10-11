@@ -131,6 +131,8 @@ public static class ControlsHelpers
     {
         if (control is not IBackgroundColorProvider bgProvider)
             return ColorRgba.Transparent;
+        if (control is not IHighlightable)
+            return bgProvider.BackgroundColor;
         var isMouseOver = control is IIsMouseOverProvider { IsMouseOver: true };
         var renderStyle = GetRenderStyle(control);
         return isMouseOver ? bgProvider.BackgroundColor.Highlighted
