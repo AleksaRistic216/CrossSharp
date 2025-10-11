@@ -71,7 +71,6 @@ partial class Input : ControlBase, IInput
 
     void DrawText(ref IGraphics g)
     {
-        g.SetClip(new Rectangle(Location, new Size(Width, Height)));
         var padding = 2;
         g.DrawText(Text, padding, padding, FontFamily.Default, FontSize, ColorRgba.Black);
     }

@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
@@ -73,6 +74,7 @@ partial class FormSDL : IFormSDL
 
     public void Draw(ref IGraphics graphics)
     {
+        graphics.SetClip(new Rectangle(0, 0, Width, Height));
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);
