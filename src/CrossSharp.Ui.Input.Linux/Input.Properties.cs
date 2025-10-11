@@ -25,4 +25,7 @@ partial class Input
             OnTextChangedInternal();
         }
     }
+
+    bool _isFocused = false;
+    public bool IsFocused { get; set; }
 }

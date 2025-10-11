@@ -35,4 +35,14 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
     {
         get => Implementation.FontSize;
     }
+    public bool IsFocused
+    {
+        get => Implementation.IsFocused;
+        set => Implementation.IsFocused = value;
+    }
+    public EventHandler? OnFocusChanged
+    {
+        get => Implementation.OnFocusChanged;
+        set => Implementation.OnFocusChanged = value;
+    }
 }

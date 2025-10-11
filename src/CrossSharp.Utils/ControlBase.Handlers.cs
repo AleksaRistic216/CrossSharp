@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
@@ -12,6 +13,14 @@ public partial class ControlBase
     void SubscribeToInputEvents()
     {
         InputHandler.MouseMoved += OnMouseMoved;
+        InputHandler.MousePressed += OnMousePressed;
+    }
+
+    void OnMousePressed(object? sender, MouseInputArgs e)
+    {
+        if (this is not IFocusable f)
+            return;
+        f.IsFocused = IsMouseOver;
     }
 
     internal virtual void OnMouseMoved(object? sender, MouseInputArgs e)

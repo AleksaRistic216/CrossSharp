@@ -17,6 +17,8 @@ partial class Input : ControlBase, IInput
 
     void InputHandlerOnKeyPressed(object? sender, KeyInputArgs e)
     {
+        if (!IsFocused)
+            return;
         if (e.KeyCode == KeyCode.VcBackspace)
         {
             if (Text.Length > 0)
@@ -50,8 +52,8 @@ partial class Input : ControlBase, IInput
 
     void DrawCaret(ref IGraphics g)
     {
-        // if (!Focused)
-        //     return;
+        if (!IsFocused)
+            return;
         var now = DateTime.Now;
         if ((now - _lastCaretStateUpdate).TotalMilliseconds >= 500)
         {
