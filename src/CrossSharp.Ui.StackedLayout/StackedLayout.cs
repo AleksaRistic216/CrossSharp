@@ -84,13 +84,13 @@ public class StackedLayout()
         set => _impl.Visible = value;
     }
 
-    public void Initialize() => _impl.Initialize();
+    public virtual void Initialize() => _impl.Initialize();
 
-    public void Invalidate() => _impl.Invalidate();
+    public virtual void Invalidate() => _impl.Invalidate();
 
-    public void SuspendLayout() => _impl.SuspendLayout();
+    public virtual void SuspendLayout() => _impl.SuspendLayout();
 
-    public void ResumeLayout() => _impl.ResumeLayout();
+    public virtual void ResumeLayout() => _impl.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 

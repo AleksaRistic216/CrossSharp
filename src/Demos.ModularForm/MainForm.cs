@@ -14,27 +14,33 @@ public class MainForm : CrossSharp.Ui.ModularForm
 
 class FirstPage : StackedLayout
 {
+    Label _label;
+    Button _button;
+    MainForm _mainForm;
+
     public FirstPage(MainForm mainForm)
     {
+        _mainForm = mainForm;
+        // mainForm.OnSizeChanged += (s, e) =>
+        // {
+        //     Invalidate();
+        // };
         Dock = CrossSharp.Utils.Enums.DockPosition.Fill;
-        // Width = 500;
-        // Height = 500;
-        Add(
-            new Label()
-            {
-                Text = "This is the first page",
-                Height = 200,
-                Width = 200,
-            }
-        );
-        Add(
-            new Button()
-            {
-                Text = "Button on first page",
-                Location = new Point(0, 205),
-                Width = 200,
-                Height = 50,
-            }
-        );
+        _label = new Label() { Text = "This is the first page" };
+        Add(_label);
+        _button = new Button()
+        {
+            Text = "Button on first page",
+            Location = new Point(0, 205),
+            Width = mainForm.Width,
+            Height = 50,
+        };
+        Add(_button);
+    }
+
+    public override void Invalidate()
+    {
+        Width = _mainForm.Width;
+        base.Invalidate();
     }
 }

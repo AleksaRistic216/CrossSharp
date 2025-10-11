@@ -37,7 +37,13 @@ partial class FormSDL : IFormSDL
 
     public void Initialize() { }
 
-    public void Invalidate() { }
+    public void Invalidate()
+    {
+        Controls.Width = Width;
+        Controls.Height = Height;
+        foreach (var control in Controls)
+            control.Invalidate();
+    }
 
     public void Show() { }
 

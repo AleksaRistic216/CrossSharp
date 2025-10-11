@@ -40,6 +40,14 @@ partial class ModularForm : FormSDL, IModularForm
         _contentPane.Height = Height - TopNavigationPane.Height;
         ContentHeight = _contentPane.Height;
         Controls.Add(_contentPane);
+        this.OnSizeChanged += (s, e) =>
+        {
+            TopNavigationPane.Width = Width;
+            _contentPane.Width = Width;
+            _contentPane.Height = Height - TopNavigationPane.Height;
+            ContentHeight = _contentPane.Height;
+            _contentPane.Invalidate();
+        };
         _viewer = new DynamicControlsController(ref _contentPane);
     }
 

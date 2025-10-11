@@ -39,13 +39,30 @@ partial class FormSDL
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
     public Point Location { get; set; }
-    public int Width { get; set; } = 800;
-    public int Height { get; set; } = 600;
+    int _width = 800;
+    public int Width
+    {
+        get => _width;
+        set
+        {
+            if (_width == value)
+                return;
+            _width = value;
+            OnSizeChangedInternal();
+        }
+    }
+    int _height = 600;
+    public int Height
+    {
+        get => _height;
+        set
+        {
+            if (_height == value)
+                return;
+            _height = value;
+            OnSizeChangedInternal();
+        }
+    }
     public int ZIndex { get; set; }
     public bool Visible { get; set; }
-    public EventHandler<Point>? OnLocationChanged { get; set; }
-    public EventHandler<Size>? OnSizeChanged { get; set; }
-    public EventHandler? OnShow { get; set; }
-    public EventHandler? OnClose { get; set; }
-    public EventHandler? OnBackgroundColorChange { get; set; }
 }
