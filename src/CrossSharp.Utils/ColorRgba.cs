@@ -1,3 +1,5 @@
+using CrossSharp.Utils.SDL;
+
 namespace CrossSharp.Utils;
 
 public class ColorRgba
@@ -53,4 +55,15 @@ public class ColorRgba
         B = b;
         A = a;
     }
+
+    public override string ToString() => $"RGBA({RByte}, {GByte}, {BByte}, {AByte})";
+
+    public SDLColor ToSDLColor() =>
+        new()
+        {
+            r = RByte,
+            g = GByte,
+            b = BByte,
+            a = AByte,
+        };
 }

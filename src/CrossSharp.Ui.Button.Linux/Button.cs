@@ -7,8 +7,6 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Button : ControlBase, IButton
 {
-    public EventHandler? OnClick { get; set; }
-
     public override void Initialize() { }
 
     public override void Invalidate()
