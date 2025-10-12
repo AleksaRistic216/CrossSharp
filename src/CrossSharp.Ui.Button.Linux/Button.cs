@@ -1,4 +1,6 @@
+using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
@@ -53,13 +55,13 @@ partial class Button : ControlBase, IButton
                 : ForegroundColor
         );
 
-        var imagePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            "Downloads",
-            "happy.png"
-        );
-        // var image = Image.Load<Rgba32>(imagePath);
-        // g.DrawImage(image, new Rectangle(0, 0, 32, 32));
+        // var imagePath = Path.Combine(
+        //     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+        //     "Downloads",
+        //     "happy.png"
+        // );
+        // Services.GetSingleton<IEfficientImagesCache>().AddImage("happy", imagePath, true);
+        // g.DrawImage(EfficientImage.Get("happy").ImageData, new Rectangle(0, 0, 32, 32));
     }
 
     public override void Redraw()

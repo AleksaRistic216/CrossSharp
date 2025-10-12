@@ -3,6 +3,7 @@ using CrossSharp.Themes;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
@@ -22,6 +23,7 @@ public class ApplicationBuilder
         AddSingleton<IInputHandler, InputHandler>();
         AddSingleton<IApplication, Utils.Application>();
         AddSingleton<IApplicationLoop, ApplicationLoop>();
+        AddSingleton<IEfficientImagesCache, EfficientImageCache>();
     }
 
     void RegisterPlatformSpecificServices()
