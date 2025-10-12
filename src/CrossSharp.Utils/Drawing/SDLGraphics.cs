@@ -1,9 +1,12 @@
-using System.Drawing;
 using System.Runtime.InteropServices;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Rectangle = System.Drawing.Rectangle;
+using Size = System.Drawing.Size;
 
 namespace CrossSharp.Utils.Drawing;
 
@@ -12,6 +15,26 @@ public class SDLGraphics : IGraphics
     const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
     static IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern IntPtr SDL_CreateRGBSurfaceWithFormatFrom(
+        IntPtr pixels,
+        int width,
+        int height,
+        int depth,
+        int pitch,
+        SDLPixelFormat format
+    );
+
+    //  This doesn't exist in SDL2
+    // [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    // static extern IntPtr SDL_CreateSurfaceFrom(
+    //     int width,
+    //     int height,
+    //     SDLPixelFormat format,
+    //     IntPtr pixels,
+    //     int pitch
+    // );
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_SetRenderDrawColor(IntPtr renderer, byte r, byte g, byte b, byte a);
@@ -133,6 +156,54 @@ public class SDLGraphics : IGraphics
             h = height,
         };
         SDL_RenderFillRect(_renderer, ref rect);
+    }
+
+    public void DrawImage(Image<Rgba32> image, Rectangle rect)
+    {
+        int width = image.Width;
+        int height = image.Height;
+
+        // Get raw pixel memory
+        if (!image.DangerousTryGetSinglePixelMemory(out var pixelMemory))
+            throw new InvalidOperationException("Unable to access pixel memory.");
+
+        // Convert to byte span
+        var byteSpan = MemoryMarshal.AsBytes(pixelMemory.Span);
+        int byteCount = byteSpan.Length;
+
+        // Allocate unmanaged buffer
+        IntPtr unmanagedBuffer = Marshal.AllocHGlobal(byteCount);
+        Marshal.Copy(byteSpan.ToArray(), 0, unmanagedBuffer, byteCount);
+
+        // Create SDL surface from raw RGBA32 bytes
+        IntPtr surface = SDL_CreateRGBSurfaceWithFormatFrom(
+            unmanagedBuffer,
+            width,
+            height,
+            32,
+            width * 4,
+            SDLPixelFormat.ABGR8888
+        );
+        if (surface == IntPtr.Zero)
+        {
+            Marshal.FreeHGlobal(unmanagedBuffer);
+            throw new InvalidOperationException("Unable to create SDL surface from image.");
+        }
+
+        // Create texture and render
+        IntPtr texture = SDL_CreateTextureFromSurface(_renderer, surface);
+        SDL_FreeSurface(surface);
+        Marshal.FreeHGlobal(unmanagedBuffer);
+
+        SDLRect dstRect = new SDLRect
+        {
+            x = rect.X + offsetX,
+            y = rect.Y + offsetY,
+            w = rect.Width,
+            h = rect.Height,
+        };
+        SDL_RenderCopy(_renderer, texture, IntPtr.Zero, ref dstRect);
+        SDL_DestroyTexture(texture);
     }
 
     public void DrawText(

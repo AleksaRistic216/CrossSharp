@@ -1,9 +1,13 @@
-using System.Drawing;
+using System.Net.Mime;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -36,6 +40,14 @@ partial class Button : ControlBase, IButton
                 ? this.GetThemedBackgroundColor().Contrasted
                 : ForegroundColor
         );
+
+        var imagePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Downloads",
+            "happy.png"
+        );
+        // var image = Image.Load<Rgba32>(imagePath);
+        // g.DrawImage(image, new Rectangle(0, 0, 32, 32));
     }
 
     public override void Redraw()

@@ -1,10 +1,14 @@
-using System.Drawing;
 using CrossSharp.Utils.Enums;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Rectangle = System.Drawing.Rectangle;
+using Size = System.Drawing.Size;
 
 namespace CrossSharp.Utils.Interfaces;
 
 public interface IGraphics : IDisposable
 {
+    void DrawImage(Image<Rgba32> image, Rectangle rect);
     void ForceRender();
     void DrawRectangle(
         int x,

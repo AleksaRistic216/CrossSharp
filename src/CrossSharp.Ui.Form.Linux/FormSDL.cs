@@ -1,8 +1,11 @@
-using System.Drawing;
+using System.Net.Mime;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace CrossSharp.Ui.Linux;
 
