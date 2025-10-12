@@ -8,4 +8,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\happy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

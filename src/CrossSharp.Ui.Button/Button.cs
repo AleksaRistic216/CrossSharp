@@ -29,6 +29,26 @@ public class Button()
         get => Implementation.Style;
         set => Implementation.Style = value;
     }
+    public ButtonImagePlacement ImagePlacement
+    {
+        get => Implementation.ImagePlacement;
+        set => Implementation.ImagePlacement = value;
+    }
+    public EventHandler? OnImagePlacementChange
+    {
+        get => Implementation.OnImagePlacementChange;
+        set => Implementation.OnImagePlacementChange = value;
+    }
+    public IEfficientImage? Image
+    {
+        get => Implementation.Image;
+        set => Implementation.Image = value;
+    }
+    public EventHandler? OnImageChange
+    {
+        get => Implementation.OnImageChange;
+        set => Implementation.OnImageChange = value;
+    }
     public Alignment TextAlignment
     {
         get => Implementation.TextAlignment;
@@ -39,7 +59,7 @@ public class Button()
         get => Implementation.OnTextAlignmentChange;
         set => Implementation.OnTextAlignmentChange = value;
     }
-    public string Text
+    public string? Text
     {
         get => Implementation.Text;
         set => Implementation.Text = value;

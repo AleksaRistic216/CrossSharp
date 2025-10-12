@@ -9,9 +9,9 @@ namespace CrossSharp.Ui.Linux;
 partial class Button
 {
     ITheme _theme = Services.GetSingleton<ITheme>();
-    Point _textLocation = Point.Empty;
-    string _text = "Button";
-    public string Text
+    Rectangle? _textBounds;
+    string? _text;
+    public string? Text
     {
         get => _text;
         set
@@ -49,6 +49,33 @@ partial class Button
                 return;
             _alignment = value;
             OnTextAlignmentChangedInternal();
+        }
+    }
+    IEfficientImage? _scaledToFitImage;
+    IEfficientImage? _image;
+    public IEfficientImage? Image
+    {
+        get => _image;
+        set
+        {
+            if (Equals(_image, value))
+                return;
+            _image = value;
+            OnImageChangedInternal();
+        }
+    }
+    Rectangle? _imageBounds;
+    const int _padding = 4;
+    ButtonImagePlacement _imagePlacement = ButtonImagePlacement.BeforeText;
+    public ButtonImagePlacement ImagePlacement
+    {
+        get => _imagePlacement;
+        set
+        {
+            if (_imagePlacement == value)
+                return;
+            _imagePlacement = value;
+            OnImagePlacementChangedInternal();
         }
     }
 }

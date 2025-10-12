@@ -50,4 +50,26 @@ partial class Button
     }
 
     void RaiseOnTextAlignmentChange() => OnTextAlignmentChange?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? OnImageChange { get; set; }
+
+    void OnImageChangedInternal()
+    {
+        Invalidate();
+        Redraw();
+        RaiseOnImageChange();
+    }
+
+    void RaiseOnImageChange() => OnImageChange?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? OnImagePlacementChange { get; set; }
+
+    void OnImagePlacementChangedInternal()
+    {
+        Invalidate();
+        Redraw();
+        RaiseOnImagePlacementChange();
+    }
+
+    void RaiseOnImagePlacementChange() => OnImagePlacementChange?.Invoke(this, EventArgs.Empty);
 }

@@ -1,11 +1,9 @@
 using System.Drawing;
 using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
-using Point = System.Drawing.Point;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -15,53 +13,111 @@ partial class Button : ControlBase, IButton
 
     public override void Invalidate()
     {
-        CalcTextLocation();
+        InvalidateImage();
+        CalcTextBounds();
+        CalcImageBounds();
         if (BorderWidth == 0 && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderWidth = 2;
         if (BorderColor == ColorRgba.Transparent && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderColor = BackgroundColor;
     }
 
-    void CalcTextLocation()
+    void InvalidateImage()
+    {
+        int scaleToFitSize = Height < Width ? Height - _padding : Width - _padding;
+        if (scaleToFitSize > 2)
+            _scaledToFitImage = Image?.ScaledToFit(scaleToFitSize);
+    }
+
+    void CalcTextBounds()
     {
         if (GetForm() is not IFormSDL form)
             return;
+        if (string.IsNullOrWhiteSpace(Text))
+        {
+            _textBounds = null;
+            return;
+        }
         using var graphics = new SDLGraphics(form.Renderer);
         var textSize = graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
-        _textLocation = TextAlignment switch
+        var bounds = TextAlignment switch
         {
-            Alignment.Center => new Point(
+            Alignment.Center => new Rectangle(
                 (Width - textSize.Width) / 2,
-                (Height - textSize.Height) / 2
+                (Height - textSize.Height) / 2,
+                textSize.Width,
+                textSize.Height
             ),
-            Alignment.Left => new Point(5, (Height - textSize.Height) / 2),
-            Alignment.Right => new Point(
-                Width - textSize.Width - 5,
-                (Height - textSize.Height) / 2
+            Alignment.Left => new Rectangle(
+                _padding,
+                (Height - textSize.Height) / 2,
+                textSize.Width,
+                textSize.Height
             ),
+            Alignment.Right => new Rectangle(
+                Width - textSize.Width - _padding,
+                (Height - textSize.Height) / 2,
+                textSize.Width,
+                textSize.Height
+            ),
+            _ => throw new ArgumentOutOfRangeException(),
         };
+        if (_scaledToFitImage != null && ImagePlacement == ButtonImagePlacement.BeforeText)
+            bounds.X += _scaledToFitImage.Size.Width + _padding; // image width + padding
+        _textBounds = bounds;
+    }
+
+    void CalcImageBounds()
+    {
+        // Ensure to call CalcTextBounds before this
+        if (_scaledToFitImage == null)
+            return;
+        var imageY = (Height - _scaledToFitImage.Size.Height) / 2;
+        var imageX = 0;
+        if (_textBounds != null)
+        {
+            imageX = ImagePlacement switch
+            {
+                ButtonImagePlacement.BeforeText => _textBounds.Value.X
+                    - _scaledToFitImage.Size.Width
+                    - _padding,
+                ButtonImagePlacement.AfterText => _textBounds.Value.Right + _padding,
+                _ => (Width - _scaledToFitImage.Size.Width) / 2,
+            };
+        }
+        else
+        {
+            imageX = TextAlignment switch
+            {
+                Alignment.Center => (Width - _scaledToFitImage.Size.Width) / 2,
+                Alignment.Left => _padding,
+                Alignment.Right => Width - _scaledToFitImage.Size.Width - _padding,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+        }
+        _imageBounds = new Rectangle(
+            imageX,
+            imageY,
+            _scaledToFitImage.Size.Width,
+            _scaledToFitImage.Size.Height
+        );
     }
 
     public override void DrawContent(ref IGraphics g)
     {
-        g.DrawText(
-            Text,
-            _textLocation.X,
-            _textLocation.Y,
-            _theme.DefaultFontFamily,
-            _theme.DefaultFontSize,
-            ForegroundColor == ColorRgba.Transparent
-                ? this.GetThemedBackgroundColor().Contrasted
-                : ForegroundColor
-        );
-
-        // var imagePath = Path.Combine(
-        //     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-        //     "Downloads",
-        //     "happy.png"
-        // );
-        // Services.GetSingleton<IEfficientImagesCache>().AddImage("happy", imagePath, true);
-        // g.DrawImage(EfficientImage.Get("happy").ImageData, new Rectangle(0, 0, 32, 32));
+        if (!string.IsNullOrEmpty(Text) && _textBounds.HasValue)
+            g.DrawText(
+                Text,
+                _textBounds.Value.X,
+                _textBounds.Value.Y,
+                _theme.DefaultFontFamily,
+                _theme.DefaultFontSize,
+                ForegroundColor == ColorRgba.Transparent
+                    ? this.GetThemedBackgroundColor().Contrasted
+                    : ForegroundColor
+            );
+        if (Image != null && _imageBounds.HasValue)
+            g.DrawImage(Image.Data, _imageBounds.Value);
     }
 
     public override void Redraw()

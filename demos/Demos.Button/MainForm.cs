@@ -1,7 +1,10 @@
 using System.Drawing;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
 
 namespace Demos.Button;
@@ -10,6 +13,7 @@ public class MainForm : Form
 {
     StackedLayout _stackedLayout = new StackedLayout();
     int _buttonHeight = 50;
+    string _imageId = "smiley";
 
     public MainForm()
     {
@@ -20,6 +24,67 @@ public class MainForm : Form
         InitializeDefaultButton();
         InitializeLeftAlignedButton();
         InitializeRightAlignedButton();
+
+        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
+        imagesCache.AddImage(_imageId, "Assets/happy.png");
+
+        InitializeButtonWithBeforeImage();
+        InitializeButtonWithAfterImage();
+        InitializeButtonWithImageWithoutText();
+        InitializeButtonLeftAlignedWithImage();
+        InitializeButtonRightAlignedWithImage();
+    }
+
+    void InitializeButtonRightAlignedWithImage()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        button.Text = "I am right aligned button with image";
+        button.TextAlignment = Alignment.Right;
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeButtonLeftAlignedWithImage()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        button.Text = "I am left aligned button with image";
+        button.TextAlignment = Alignment.Left;
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeButtonWithImageWithoutText()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeButtonWithBeforeImage()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        button.Text = "I have image";
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeButtonWithAfterImage()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        button.ImagePlacement = ButtonImagePlacement.AfterText;
+        button.Text = "I have image too";
+        _stackedLayout.Add(button);
     }
 
     void InitializeRightAlignedButton()
