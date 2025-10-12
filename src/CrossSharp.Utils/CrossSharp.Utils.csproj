@@ -21,6 +21,7 @@
     <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
     <PackageReference Include="ValueInjecter" Version="3.2.0" />
   </ItemGroup>
 </Project>

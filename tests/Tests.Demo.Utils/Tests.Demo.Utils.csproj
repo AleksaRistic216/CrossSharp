@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\demos\Demos.Button\Demos.Button.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.Input\Demos.Input.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.Label\Demos.Label.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.SimpleFormWithPanels\Demos.SimpleFormWithPanels.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.SimpleForm\Demos.SimpleForm.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.StackedLayout\Demos.StackedLayout.csproj" />
+    <ProjectReference Include="..\..\src\Demos.ModularForm\Demos.ModularForm.csproj" />
+  </ItemGroup>
+</Project>

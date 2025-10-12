@@ -1,3 +1,5 @@
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Tests.Demo")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Tests.Demo.ScreenShots")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Application")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Desktop.Notifications")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Utils.Linux")]

@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace CrossSharp.Utils.SDL;
 
-static class SDLHelpers
+internal static class SDLHelpers
 {
     internal const string LIB = "libSDL2-2.0.so.0";
     public const string TTF_LIB = "lib/libSDL2_ttf-2.0.so.0";

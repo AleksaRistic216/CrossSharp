@@ -65,6 +65,7 @@ public class ColorRgba
         A < 0.01f ? Black
         : (R + G + B) / 3 < 0.5f ? White
         : Black;
+    public static ColorRgba Empty { get; } = new(0, 0, 0, 0);
 
     public ColorRgba(float r, float g, float b, float a)
     {
@@ -73,6 +74,9 @@ public class ColorRgba
         B = b;
         A = a;
     }
+
+    public static ColorRgba FromBytes(byte r, byte g, byte b, byte a) =>
+        new(r / 255f, g / 255f, b / 255f, a / 255f);
 
     public override string ToString() => $"RGBA({RByte}, {GByte}, {BByte}, {AByte})";
 
@@ -84,4 +88,15 @@ public class ColorRgba
             b = BByte,
             a = AByte,
         };
+
+    public override bool Equals(object? obj)
+    {
+        const float TOLERANCE = 0.01f;
+        if (obj is not ColorRgba other)
+            return false;
+        return Math.Abs(R - other.R) < TOLERANCE
+            && Math.Abs(G - other.G) < TOLERANCE
+            && Math.Abs(B - other.B) < TOLERANCE
+            && Math.Abs(A - other.A) < TOLERANCE;
+    }
 }
