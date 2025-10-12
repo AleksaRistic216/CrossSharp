@@ -48,7 +48,11 @@ internal static class SDLHelpers
     internal static extern void SDL_Delay(uint ms);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateRenderer(IntPtr window, int index, uint flags);
+    internal static extern IntPtr SDL_CreateRenderer(
+        IntPtr window,
+        int index,
+        SDLRenderFlags flags
+    );
 
     internal const uint SDL_INIT_VIDEO = 0x00000020;
 }

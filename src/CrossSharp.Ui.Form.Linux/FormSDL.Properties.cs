@@ -11,7 +11,7 @@ partial class FormSDL
 {
     public IntPtr Handle { get; private set; }
 
-    public IntPtr Renderer { get; }
+    public IntPtr Renderer { get; private set; }
     uint _windowId;
     public uint WindowId
     {

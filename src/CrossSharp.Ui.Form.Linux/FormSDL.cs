@@ -14,10 +14,25 @@ partial class FormSDL : IFormSDL
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
         Services.GetSingleton<IApplication>().Forms.Add(this);
-        Renderer = SDLHelpers.SDL_CreateRenderer(Handle, -1, 0);
+        CreateRenderer();
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
         Invalidate();
+    }
+
+    void CreateRenderer()
+    {
+        Renderer = SDLHelpers.SDL_CreateRenderer(
+            Handle,
+            -1,
+            SDLRenderFlags.SDL_RENDERER_ACCELERATED
+        );
+        if (Renderer == IntPtr.Zero) // Try again without acceleration
+            Renderer = SDLHelpers.SDL_CreateRenderer(
+                Handle,
+                -1,
+                SDLRenderFlags.SDL_RENDERER_ACCELERATED
+            );
     }
 
     /// <summary>
