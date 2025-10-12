@@ -38,4 +38,17 @@ partial class Button
         Services.GetSingleton<ITheme>().ButtonBackgroundColor;
 
     public RenderStyle Style { get; set; }
+
+    Alignment _alignment = Alignment.Center;
+    public Alignment TextAlignment
+    {
+        get => _alignment;
+        set
+        {
+            if (_alignment == value)
+                return;
+            _alignment = value;
+            OnTextAlignmentChangedInternal();
+        }
+    }
 }

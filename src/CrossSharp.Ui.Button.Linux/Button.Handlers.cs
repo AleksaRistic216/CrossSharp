@@ -39,4 +39,15 @@ partial class Button
     }
 
     void RaiseOnTagChange() => OnTagChange?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? OnTextAlignmentChange { get; set; }
+
+    void OnTextAlignmentChangedInternal()
+    {
+        Invalidate();
+        Redraw();
+        RaiseOnTextAlignmentChange();
+    }
+
+    void RaiseOnTextAlignmentChange() => OnTextAlignmentChange?.Invoke(this, EventArgs.Empty);
 }

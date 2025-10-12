@@ -14,10 +14,32 @@ public class MainForm : Form
     public MainForm()
     {
         InitializeStackedLayout();
-        InitializeContainedButton();
+        InitializeContainedButtons();
         InitializeFlatButton();
         InitializeOutlinedButton();
         InitializeDefaultButton();
+        InitializeLeftAlignedButton();
+        InitializeRightAlignedButton();
+    }
+
+    void InitializeRightAlignedButton()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Text = "I am right aligned button";
+        button.TextAlignment = Alignment.Right;
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeLeftAlignedButton()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Text = "I am left aligned button";
+        button.TextAlignment = Alignment.Left;
+        _stackedLayout.Add(button);
     }
 
     void InitializeStackedLayout()
@@ -37,7 +59,7 @@ public class MainForm : Form
         _stackedLayout.Add(button);
     }
 
-    void InitializeContainedButton()
+    void InitializeContainedButtons()
     {
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;

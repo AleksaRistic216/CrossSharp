@@ -1,13 +1,9 @@
-using System.Net.Mime;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Point = System.Drawing.Point;
-using Rectangle = System.Drawing.Rectangle;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -17,15 +13,31 @@ partial class Button : ControlBase, IButton
 
     public override void Invalidate()
     {
-        if (GetForm() is not IFormSDL form)
-            return;
-        using var graphics = new SDLGraphics(form.Renderer);
-        var textSize = graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
-        _textLocation = new Point((Width - textSize.Width) / 2, (Height - textSize.Height) / 2);
+        CalcTextLocation();
         if (BorderWidth == 0 && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderWidth = 2;
         if (BorderColor == ColorRgba.Transparent && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderColor = BackgroundColor;
+    }
+
+    void CalcTextLocation()
+    {
+        if (GetForm() is not IFormSDL form)
+            return;
+        using var graphics = new SDLGraphics(form.Renderer);
+        var textSize = graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
+        _textLocation = TextAlignment switch
+        {
+            Alignment.Center => new Point(
+                (Width - textSize.Width) / 2,
+                (Height - textSize.Height) / 2
+            ),
+            Alignment.Left => new Point(5, (Height - textSize.Height) / 2),
+            Alignment.Right => new Point(
+                Width - textSize.Width - 5,
+                (Height - textSize.Height) / 2
+            ),
+        };
     }
 
     public override void DrawContent(ref IGraphics g)

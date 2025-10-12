@@ -29,6 +29,16 @@ public class Button()
         get => Implementation.Style;
         set => Implementation.Style = value;
     }
+    public Alignment TextAlignment
+    {
+        get => Implementation.TextAlignment;
+        set => Implementation.TextAlignment = value;
+    }
+    public EventHandler? OnTextAlignmentChange
+    {
+        get => Implementation.OnTextAlignmentChange;
+        set => Implementation.OnTextAlignmentChange = value;
+    }
     public string Text
     {
         get => Implementation.Text;
