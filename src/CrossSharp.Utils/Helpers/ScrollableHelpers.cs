@@ -7,11 +7,21 @@ namespace CrossSharp.Utils.Helpers;
 
 static class ScrollableHelpers
 {
-    static float GetScrolledPercentX(Rectangle viewPort, IScrollable scrollable) =>
-        (float)viewPort.X / ((float)scrollable.ContentBounds.Width - (float)scrollable.Width);
+    static float GetScrolledPercentX(Rectangle viewPort, IScrollable scrollable)
+    {
+        if (viewPort.X == 0 || scrollable.ContentBounds.Width <= scrollable.Width)
+            return 0.0f;
+        return (float)viewPort.X
+            / ((float)scrollable.ContentBounds.Width - (float)scrollable.Width);
+    }
 
-    static float GetScrolledPercentY(Rectangle viewPort, IScrollable scrollable) =>
-        (float)viewPort.Y / ((float)scrollable.ContentBounds.Height - (float)scrollable.Height);
+    static float GetScrolledPercentY(Rectangle viewPort, IScrollable scrollable)
+    {
+        if (viewPort.Y == 0 || scrollable.ContentBounds.Height <= scrollable.Height)
+            return 0.0f;
+        return (float)viewPort.Y
+            / ((float)scrollable.ContentBounds.Height - (float)scrollable.Height);
+    }
 
     internal static void Scroll(
         Direction direction,
@@ -42,8 +52,26 @@ static class ScrollableHelpers
         }
     }
 
-    internal static void DrawScrollBar(ref IGraphics g, IScrollable scrollable)
+    internal static void DrawScrollBar<T>(ref IGraphics g, T scrollable)
+        where T : IScrollable, ISizeProvider, ILocationProvider, IChild
     {
+        if (scrollable.Scrollable == ScrollableMode.None)
+            return;
+        if (
+            scrollable.ContentBounds.Width <= scrollable.Width
+            && scrollable.ContentBounds.Height <= scrollable.Height
+        )
+            return;
+        if (
+            scrollable.Scrollable == ScrollableMode.Vertical
+            && scrollable.ContentBounds.Height <= scrollable.Height
+        )
+            return;
+        if (
+            scrollable.Scrollable == ScrollableMode.Horizontal
+            && scrollable.ContentBounds.Width <= scrollable.Width
+        )
+            return;
         const int barThickness = 20;
         const int barSizeK = 5;
         ColorRgba barColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor;
@@ -51,8 +79,13 @@ static class ScrollableHelpers
         if (scrollable.Scrollable == ScrollableMode.None)
             return;
         var viewPort = scrollable.Viewport;
-        g.SetClip(new Rectangle(0, 0, scrollable.Width, scrollable.Height));
-        g.SetOffset(0, 0);
+        var clientBounds = scrollable.GetClientBounds();
+        var offsetX = clientBounds.X;
+        var offsetY = clientBounds.Y;
+        g.SetClip(
+            new Rectangle(clientBounds.X, clientBounds.Y, clientBounds.Width, clientBounds.Height)
+        );
+        g.SetOffset(offsetX, offsetY);
         var scrolledPercentX = GetScrolledPercentX(viewPort, scrollable);
         var scrolledPercentY = GetScrolledPercentY(viewPort, scrollable);
         if (

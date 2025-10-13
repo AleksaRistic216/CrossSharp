@@ -18,7 +18,8 @@ public static class ControlsHelpers
         };
     }
 
-    public static Rectangle GetClientBounds(this IControl control)
+    public static Rectangle GetClientBounds<T>(this T control)
+        where T : IChild, ISizeProvider, ILocationProvider
     {
         var location = control.Location;
         var parent = control.Parent;
