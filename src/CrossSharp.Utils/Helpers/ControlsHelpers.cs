@@ -8,7 +8,8 @@ namespace CrossSharp.Utils.Helpers;
 
 public static class ControlsHelpers
 {
-    public static IForm? GetForm(this IControl control)
+    public static IForm? GetForm<T>(this T control)
+        where T : IChild
     {
         return control.Parent switch
         {
