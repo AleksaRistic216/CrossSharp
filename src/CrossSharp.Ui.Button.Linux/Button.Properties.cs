@@ -51,6 +51,18 @@ partial class Button
             OnTextAlignmentChangedInternal();
         }
     }
+    SizeF _imageScale = new(1, 1);
+    public SizeF ImageScale
+    {
+        get => _imageScale;
+        set
+        {
+            if (_imageScale == value)
+                return;
+            _imageScale = value;
+            OnImageScaleChangedInternal();
+        }
+    }
     IEfficientImage? _scaledToFitImage;
     IEfficientImage? _image;
     public IEfficientImage? Image

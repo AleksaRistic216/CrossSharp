@@ -1,6 +1,3 @@
-using CrossSharp.Utils.DI;
-using CrossSharp.Utils.Interfaces;
-
 namespace CrossSharp.Ui.Linux;
 
 partial class Button
@@ -72,4 +69,15 @@ partial class Button
     }
 
     void RaiseOnImagePlacementChange() => OnImagePlacementChange?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? OnImageScaleChange { get; set; }
+
+    void OnImageScaleChangedInternal()
+    {
+        Invalidate();
+        Redraw();
+        RaiseOnImageScaleChange();
+    }
+
+    void RaiseOnImageScaleChange() => OnImageScaleChange?.Invoke(this, EventArgs.Empty);
 }

@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
@@ -9,6 +10,8 @@ public interface IButton
         IHighlightable,
         IRenderStyleProvider
 {
+    SizeF ImageScale { get; set; }
+    EventHandler? OnImageScaleChange { get; set; }
     ButtonImagePlacement ImagePlacement { get; set; }
     EventHandler? OnImagePlacementChange { get; set; }
     IEfficientImage? Image { get; set; }

@@ -15,7 +15,7 @@ public class MainForm : Form
 {
     StackedLayout _stackedLayout = new StackedLayout();
     int _buttonHeight = 50;
-    string _imageId = "smiley";
+    int imageSize = 128;
 
     public MainForm()
     {
@@ -27,9 +27,7 @@ public class MainForm : Form
         InitializeLeftAlignedButton();
         InitializeRightAlignedButton();
 
-        var data = MaterialIconDataProvider.GetData(MaterialIconKind.About);
-        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
-        imagesCache.AddImage(_imageId, ImageHelpers.FromSvgPath(data, 512, 512));
+        LoadImages();
 
         InitializeButtonWithBeforeImage();
         InitializeButtonWithAfterImage();
@@ -40,12 +38,57 @@ public class MainForm : Form
         InitializeButtonRightAlignedWithImageAfter();
     }
 
+    void LoadImages()
+    {
+        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
+        imagesCache.AddImage(
+            nameof(MaterialIconKind.About),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(MaterialIconKind.About),
+                imageSize,
+                imageSize
+            )
+        );
+        imagesCache.AddImage(
+            nameof(MaterialIconKind.Home),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(MaterialIconKind.Home),
+                imageSize,
+                imageSize
+            )
+        );
+        imagesCache.AddImage(
+            nameof(MaterialIconKind.Person),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(MaterialIconKind.Person),
+                imageSize,
+                imageSize
+            )
+        );
+        imagesCache.AddImage(
+            nameof(MaterialIconKind.Money),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(MaterialIconKind.Money),
+                imageSize,
+                imageSize
+            )
+        );
+        imagesCache.AddImage(
+            nameof(MaterialIconKind.City),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(MaterialIconKind.City),
+                imageSize,
+                imageSize
+            )
+        );
+    }
+
     void InitializeButtonLeftAlignedWithImageAfter()
     {
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.City));
         button.ImagePlacement = ButtonImagePlacement.AfterText;
         button.Text = "I am left aligned button with image";
         button.TextAlignment = Alignment.Left;
@@ -57,7 +100,7 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.About));
         button.ImagePlacement = ButtonImagePlacement.AfterText;
         button.Text = "I am right aligned button with image";
         button.TextAlignment = Alignment.Right;
@@ -69,7 +112,7 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.Money));
         button.Text = "I am right aligned button with image";
         button.TextAlignment = Alignment.Right;
         _stackedLayout.Add(button);
@@ -80,8 +123,9 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
-        button.Text = "I am left aligned button with image";
+        button.ImageScale = new SizeF(0.4f, 0.4f);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.Person));
+        button.Text = "I am left aligned button with image (scaled one)";
         button.TextAlignment = Alignment.Left;
         _stackedLayout.Add(button);
     }
@@ -91,7 +135,7 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.Home));
         _stackedLayout.Add(button);
     }
 
@@ -100,8 +144,9 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
-        button.Text = "I have image";
+        button.ImageScale = new SizeF(0.5f, 0.5f);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.Person));
+        button.Text = "I have image (scaled one)";
         _stackedLayout.Add(button);
     }
 
@@ -110,7 +155,7 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Contained;
-        button.Image = EfficientImage.Get(_imageId);
+        button.Image = EfficientImage.Get(nameof(MaterialIconKind.About));
         button.ImagePlacement = ButtonImagePlacement.AfterText;
         button.Text = "I have image too";
         _stackedLayout.Add(button);

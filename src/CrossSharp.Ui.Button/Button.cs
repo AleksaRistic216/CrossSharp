@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
@@ -28,6 +29,16 @@ public class Button()
     {
         get => Implementation.Style;
         set => Implementation.Style = value;
+    }
+    public SizeF ImageScale
+    {
+        get => Implementation.ImageScale;
+        set => Implementation.ImageScale = value;
+    }
+    public EventHandler? OnImageScaleChange
+    {
+        get => Implementation.OnImageScaleChange;
+        set => Implementation.OnImageScaleChange = value;
     }
     public ButtonImagePlacement ImagePlacement
     {

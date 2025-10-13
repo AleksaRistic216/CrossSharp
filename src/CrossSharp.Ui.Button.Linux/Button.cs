@@ -25,8 +25,14 @@ partial class Button : ControlBase, IButton
     void InvalidateImage()
     {
         int scaleToFitSize = Height < Width ? Height - _padding : Width - _padding;
-        if (scaleToFitSize > 2)
-            _scaledToFitImage = Image?.ScaledToFit(scaleToFitSize);
+        if (scaleToFitSize < 2)
+            return;
+        scaleToFitSize = (int)(
+            scaleToFitSize * (Height < Width ? ImageScale.Height : ImageScale.Width)
+        );
+        if (scaleToFitSize < 2)
+            return;
+        _scaledToFitImage = Image?.ScaledToFit(scaleToFitSize);
     }
 
     void CalcTextBounds()
