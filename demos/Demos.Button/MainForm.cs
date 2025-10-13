@@ -31,11 +31,37 @@ public class MainForm : Form
         InitializeButtonWithBeforeImage();
         InitializeButtonWithAfterImage();
         InitializeButtonWithImageWithoutText();
-        InitializeButtonLeftAlignedWithImage();
-        InitializeButtonRightAlignedWithImage();
+        InitializeButtonLeftAlignedWithImageBefore();
+        InitializeButtonRightAlignedWithImageBefore();
+        InitializeButtonLeftAlignedWithImageAfter();
+        InitializeButtonRightAlignedWithImageAfter();
     }
 
-    void InitializeButtonRightAlignedWithImage()
+    void InitializeButtonLeftAlignedWithImageAfter()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        button.ImagePlacement = ButtonImagePlacement.AfterText;
+        button.Text = "I am left aligned button with image";
+        button.TextAlignment = Alignment.Left;
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeButtonRightAlignedWithImageAfter()
+    {
+        var button = new CrossSharp.Ui.Button();
+        button.Height = _buttonHeight;
+        button.Style = RenderStyle.Contained;
+        button.Image = EfficientImage.Get(_imageId);
+        button.ImagePlacement = ButtonImagePlacement.AfterText;
+        button.Text = "I am right aligned button with image";
+        button.TextAlignment = Alignment.Right;
+        _stackedLayout.Add(button);
+    }
+
+    void InitializeButtonRightAlignedWithImageBefore()
     {
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
@@ -46,7 +72,7 @@ public class MainForm : Form
         _stackedLayout.Add(button);
     }
 
-    void InitializeButtonLeftAlignedWithImage()
+    void InitializeButtonLeftAlignedWithImageBefore()
     {
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
