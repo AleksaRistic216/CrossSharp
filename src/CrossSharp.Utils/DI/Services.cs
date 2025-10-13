@@ -7,6 +7,8 @@ public static class Services
     public static void AddSingleton<T>(T instance, bool overrideExisting = false)
         where T : class
     {
+        if (instance is null)
+            throw new ArgumentNullException(nameof(instance));
         Type implementationType = typeof(T);
         if (overrideExisting && _services.ContainsKey(implementationType))
         {
