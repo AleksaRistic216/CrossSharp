@@ -37,7 +37,7 @@ public static class ControlsHelpers
         var clientBounds = control.GetClientBounds();
         var form = control.GetForm();
         if (form is null)
-            throw new Exception("Control is not contained within a form.");
+            return Rectangle.Empty;
         clientBounds.Offset(form.Location);
         var parent = control.Parent;
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract

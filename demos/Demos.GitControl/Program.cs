@@ -1,5 +1,6 @@
 using CrossSharp.Application;
 using Demos.GitControl;
+using Demos.GitControl.Forms;
 
 var configuration = new BaseConfiguration()
 {

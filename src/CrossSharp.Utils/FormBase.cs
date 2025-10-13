@@ -102,7 +102,7 @@ public abstract class FormBase<T> : IForm
 
     public void Initialize() => Implementation.Initialize();
 
-    public void Invalidate() => Implementation.Invalidate();
+    public virtual void Invalidate() => Implementation.Invalidate();
 
     public void SuspendLayout() => Implementation.SuspendLayout();
 
