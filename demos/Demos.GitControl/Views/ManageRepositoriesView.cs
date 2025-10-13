@@ -1,5 +1,6 @@
 using CrossSharp.Ui;
 using CrossSharp.Utils.Enums;
+using Demos.GitControl.Controls;
 
 namespace Demos.GitControl.Views;
 
@@ -10,10 +11,6 @@ public class ManageRepositoriesView : StackedLayout
         Scrollable = ScrollableMode.Vertical;
         Dock = DockPosition.Fill;
 
-        var button = new Button { Text = "Add Repository" };
-        button.Width = 200;
-        button.Height = 30;
-        button.OnClick += (s, e) => { };
-        Add(button);
+        Add(new ManageRepositoriesItemControl());
     }
 }
