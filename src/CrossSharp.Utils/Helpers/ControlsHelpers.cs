@@ -46,9 +46,9 @@ public static class ControlsHelpers
             if (parent is IScrollable s)
             {
                 if (s.Viewport.X > 0)
-                    clientBounds.X -= s.Viewport.X;
+                    clientBounds.X -= (s.Viewport.X - s.Location.X);
                 if (s.Viewport.Y > 0)
-                    clientBounds.Y -= s.Viewport.Y;
+                    clientBounds.Y -= (s.Viewport.Y - s.Location.Y);
             }
             if (parent is IChild c)
                 parent = c.Parent;
