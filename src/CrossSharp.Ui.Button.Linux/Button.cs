@@ -62,8 +62,18 @@ partial class Button : ControlBase, IButton
             ),
             _ => throw new ArgumentOutOfRangeException(),
         };
-        if (_scaledToFitImage != null && ImagePlacement == ButtonImagePlacement.BeforeText)
+        if (
+            _scaledToFitImage != null
+            && ImagePlacement == ButtonImagePlacement.BeforeText
+            && TextAlignment == Alignment.Left
+        )
             bounds.X += _scaledToFitImage.Size.Width + _padding; // image width + padding
+        if (
+            _scaledToFitImage != null
+            && ImagePlacement == ButtonImagePlacement.AfterText
+            && TextAlignment == Alignment.Right
+        )
+            bounds.X -= _scaledToFitImage.Size.Width + _padding; // image width + padding
         _textBounds = bounds;
     }
 
