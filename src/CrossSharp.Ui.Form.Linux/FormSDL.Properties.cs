@@ -30,7 +30,18 @@ partial class FormSDL
     public bool UseNativeTitleBar { get; set; }
     public IntPtr DisplayHandle { get; set; }
     public IntPtr WindowSurfaceHandle { get; set; }
-    public string Title { get; set; }
+    string _title = string.Empty;
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            if (_title == value)
+                return;
+            _title = value;
+            OnTitleChangedInternal();
+        }
+    }
     public IApplication AppInstance { get; }
     public WindowState State { get; set; }
     public ITitleBar? TitleBar { get; }

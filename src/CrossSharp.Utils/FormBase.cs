@@ -17,6 +17,11 @@ public abstract class FormBase<T> : IForm
     public IControlsContainer Controls => Implementation.Controls;
     public IntPtr Handle => Implementation.Handle;
     public ITitleBar? TitleBar => Implementation.TitleBar;
+    public EventHandler? OnTitleChanged
+    {
+        get => Implementation.OnTitleChanged;
+        set { Implementation.OnTitleChanged = value; }
+    }
     public IApplication AppInstance => Implementation.AppInstance;
     public bool UseNativeTitleBar
     {

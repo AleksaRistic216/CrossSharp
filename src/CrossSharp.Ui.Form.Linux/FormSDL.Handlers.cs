@@ -18,4 +18,15 @@ partial class FormSDL
     }
 
     void RaiseSizeChanged() => OnSizeChanged?.Invoke(this, new Size(Width, Height));
+
+    public EventHandler? OnTitleChanged { get; set; }
+
+    void OnTitleChangedInternal()
+    {
+        InvalidateTitle();
+        OnTitleChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    void RaiseLocationChanged() =>
+        OnLocationChanged?.Invoke(this, new Point(Location.X, Location.Y));
 }

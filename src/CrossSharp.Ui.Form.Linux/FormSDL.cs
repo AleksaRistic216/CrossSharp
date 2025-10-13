@@ -64,6 +64,11 @@ partial class FormSDL : IFormSDL
             control.Invalidate();
     }
 
+    void InvalidateTitle()
+    {
+        SDLHelpers.SDL_SetWindowTitle(Handle, _title);
+    }
+
     public void Show() { }
 
     public void Redraw()

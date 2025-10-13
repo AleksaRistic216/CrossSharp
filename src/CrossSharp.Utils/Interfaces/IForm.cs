@@ -8,6 +8,7 @@ public interface IForm : IControl, ITitleBarProvider, IBackgroundColorProvider
     IntPtr Handle { get; }
     bool UseNativeTitleBar { get; set; }
     string Title { get; set; }
+    EventHandler? OnTitleChanged { get; set; }
     IApplication AppInstance { get; }
     void Close();
     EventHandler? OnShow { get; set; }
