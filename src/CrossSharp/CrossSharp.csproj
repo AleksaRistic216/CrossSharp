@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>9.0.0-preview001</Version>
+    <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Application\CrossSharp.Application.csproj" />
+  </ItemGroup>
+</Project>
