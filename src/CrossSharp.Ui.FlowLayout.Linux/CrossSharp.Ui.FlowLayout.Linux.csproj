@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>CrossSharp.Ui.Linux</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Linux\CrossSharp.Ui.StaticLayout.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
+  </ItemGroup>
+</Project>

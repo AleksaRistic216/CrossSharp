@@ -51,6 +51,7 @@ public class ApplicationBuilder
         AddSingleton<IModularFormFactory, Ui.Linux.ModularFormFactory>();
         AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
         AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
+        AddSingleton<IFlowLayoutFactory, Ui.Linux.FlowLayoutFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
         AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
         AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
