@@ -4,8 +4,10 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
+using Material.Icons;
 
 namespace Demos.Button;
 
@@ -25,8 +27,9 @@ public class MainForm : Form
         InitializeLeftAlignedButton();
         InitializeRightAlignedButton();
 
+        var data = MaterialIconDataProvider.GetData(MaterialIconKind.About);
         var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
-        imagesCache.AddImage(_imageId, "Assets/happy.png");
+        imagesCache.AddImage(_imageId, ImageHelpers.FromSvgPath(data, 512, 512));
 
         InitializeButtonWithBeforeImage();
         InitializeButtonWithAfterImage();

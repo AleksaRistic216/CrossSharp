@@ -13,4 +13,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Material.Icons" Version="2.4.1" />
+  </ItemGroup>
 </Project>
