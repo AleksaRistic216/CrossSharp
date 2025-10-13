@@ -64,9 +64,9 @@ class StackedLayout : IStackedLayout
         if (Math.Abs(rotation) <= 0)
             return;
         if (Scrollable == ScrollableMode.Vertical)
-            ScrollableHelpers.Scroll(Direction.Vertical, rotation, ref _viewPort);
+            ScrollableHelpers.Scroll(Direction.Vertical, rotation, this, ref _viewPort);
         else if (Scrollable == ScrollableMode.Horizontal)
-            ScrollableHelpers.Scroll(Direction.Horizontal, rotation, ref _viewPort);
+            ScrollableHelpers.Scroll(Direction.Horizontal, rotation, this, ref _viewPort);
         else if (Scrollable == ScrollableMode.Both)
         {
             // TODO: implement both direction scrolling using mouse and shift key
@@ -86,7 +86,22 @@ class StackedLayout : IStackedLayout
             InvalidateStackHorizontal();
         foreach (IControl control in _controls)
             control.Invalidate();
+        InvalidateContentBounds();
         InvalidateViewport();
+    }
+
+    void InvalidateContentBounds()
+    {
+        if (_controls.Count == 0)
+        {
+            ContentBounds = Rectangle.Empty;
+            return;
+        }
+        var x = 0;
+        var y = 0;
+        var width = _controls.Max(c => c.Location.X + c.Width);
+        var height = _controls.Max(c => c.Location.Y + c.Height);
+        ContentBounds = new Rectangle(x, y, width, height);
     }
 
     void InvalidateViewport()
@@ -143,6 +158,7 @@ class StackedLayout : IStackedLayout
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);
+        ScrollableHelpers.DrawScrollBar(ref graphics, this);
     }
 
     bool ShouldControlBeDrawn(IControl control)
@@ -191,4 +207,5 @@ class StackedLayout : IStackedLayout
             // OnViewportChanged?.Invoke(this, EventArgs.Empty);
         }
     }
+    public Rectangle ContentBounds { get; set; }
 }

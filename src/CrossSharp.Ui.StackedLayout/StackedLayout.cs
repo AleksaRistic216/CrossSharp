@@ -138,4 +138,9 @@ public class StackedLayout()
         get => _impl.Viewport;
         set => _impl.Viewport = value;
     }
+    public Rectangle ContentBounds
+    {
+        get => _impl.ContentBounds;
+        set => _impl.ContentBounds = value;
+    }
 }
