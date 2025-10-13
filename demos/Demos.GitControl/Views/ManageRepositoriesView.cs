@@ -1,4 +1,5 @@
 using CrossSharp.Ui;
+using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using Demos.GitControl.Controls;
 

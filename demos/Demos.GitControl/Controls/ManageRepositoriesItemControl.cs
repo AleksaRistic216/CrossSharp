@@ -1,12 +1,21 @@
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Enums;
 
 namespace Demos.GitControl.Controls;
 
-public class ManageRepositoriesItemControl : StaticLayout
+public class ManageRepositoriesItemControl : StackedLayout
 {
     public ManageRepositoriesItemControl()
     {
-        Add(new Panel { Height = 50, BackgroundColor = ColorRgba.Blue });
+        Dock = DockPosition.Fill;
+        Add(
+            new Button
+            {
+                Height = 50,
+                BackgroundColor = ColorRgba.Blue,
+                Text = "asd",
+            }
+        );
     }
 }
