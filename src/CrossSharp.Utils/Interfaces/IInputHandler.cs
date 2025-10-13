@@ -9,6 +9,6 @@ public interface IInputHandler
     event EventHandler<MouseInputArgs>? MousePressed;
     event EventHandler<MouseInputArgs>? MouseReleased;
     event EventHandler<MouseInputArgs>? MouseMoved;
-    event EventHandler<MouseInputArgs>? MouseWheel;
+    event EventHandler<MouseWheelInputArgs>? MouseWheel;
     event EventHandler<MouseInputArgs>? MouseDragged;
 }

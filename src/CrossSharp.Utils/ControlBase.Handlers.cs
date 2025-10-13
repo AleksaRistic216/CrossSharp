@@ -27,8 +27,7 @@ public partial class ControlBase
 
     internal virtual void OnMouseMoved(object? sender, MouseInputArgs e)
     {
-        var screenBounds = this.GetScreenBounds();
-        IsMouseOver = screenBounds.Contains(e.X, e.Y);
+        IsMouseOver = MouseHelpers.IsMouseOver(this.GetScreenBounds(), new Point(e.X, e.Y));
     }
 
     protected virtual void RaiseOnSizeChanged(Size newSize)

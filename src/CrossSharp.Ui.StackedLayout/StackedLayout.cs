@@ -128,4 +128,14 @@ public class StackedLayout()
         get => _impl.Padding;
         set => _impl.Padding = value;
     }
+    public ScrollableMode Scrollable
+    {
+        get => _impl.Scrollable;
+        set => _impl.Scrollable = value;
+    }
+    public Rectangle Viewport
+    {
+        get => _impl.Viewport;
+        set => _impl.Viewport = value;
+    }
 }

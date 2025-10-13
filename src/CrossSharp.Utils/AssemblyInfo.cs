@@ -5,6 +5,8 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Utils.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.SimpleContainer")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
     "CrossSharp.Ui.SimpleContainer.Linux"

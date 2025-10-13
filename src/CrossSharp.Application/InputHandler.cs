@@ -13,7 +13,7 @@ class InputHandler : IInputHandler
     public event EventHandler<MouseInputArgs>? MousePressed;
     public event EventHandler<MouseInputArgs>? MouseReleased;
     public event EventHandler<MouseInputArgs>? MouseMoved;
-    public event EventHandler<MouseInputArgs>? MouseWheel;
+    public event EventHandler<MouseWheelInputArgs>? MouseWheel;
     public event EventHandler<MouseInputArgs>? MouseDragged;
 
     public void StartListeningAsync(CancellationToken token)
@@ -182,7 +182,9 @@ class InputHandler : IInputHandler
 
     void OnMouseWheel(object? sender, HookEventArgs e)
     {
-        MouseWheel?.Invoke(sender, null);
+        var castedE = e as MouseWheelHookEventArgs;
+        var args = new MouseWheelInputArgs() { Rotation = castedE!.Data.Rotation };
+        MouseWheel?.Invoke(sender, args);
     }
 
     void OnMouseDragged(object? sender, HookEventArgs e)

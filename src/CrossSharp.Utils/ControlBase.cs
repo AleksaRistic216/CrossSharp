@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
@@ -69,7 +70,18 @@ public abstract partial class ControlBase : IControl
         if (!Visible)
             return;
         var clientBounds = this.GetClientBounds();
-        graphics.SetOffset(clientBounds.X, clientBounds.Y);
+        var offsetX = clientBounds.X;
+        var offsetY = clientBounds.Y;
+
+        if (
+            Parent is IScrollable scrollableParent
+            && scrollableParent.Scrollable != ScrollableMode.None
+        )
+        {
+            offsetX -= scrollableParent.Viewport.X;
+            offsetY -= scrollableParent.Viewport.Y;
+        }
+        graphics.SetOffset(offsetX, offsetY);
         LimitClip(ref graphics);
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
@@ -81,6 +93,15 @@ public abstract partial class ControlBase : IControl
 
     public virtual void LimitClip(ref IGraphics g)
     {
-        g.SetClip(this.GetClientBounds());
+        var clipBounds = this.GetClientBounds();
+        if (
+            Parent is IScrollable scrollableParent
+            && scrollableParent.Scrollable != ScrollableMode.None
+        )
+        {
+            clipBounds.X -= scrollableParent.Viewport.X;
+            clipBounds.Y -= scrollableParent.Viewport.Y;
+        }
+        g.SetClip(clipBounds);
     }
 }

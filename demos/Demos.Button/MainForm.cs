@@ -110,6 +110,7 @@ public class MainForm : Form
     void InitializeStackedLayout()
     {
         _stackedLayout.Dock = DockPosition.Fill;
+        _stackedLayout.Scrollable = ScrollableMode.Vertical;
         _stackedLayout.ItemsSpacing = 10;
         _stackedLayout.Padding = new Padding(10);
         Controls.Add(_stackedLayout);
