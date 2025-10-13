@@ -34,14 +34,27 @@ public static class ControlsHelpers
 
     public static Rectangle GetScreenBounds(this IControl control)
     {
-        var location = control.Location;
+        var clientBounds = control.GetClientBounds();
+        var form = control.GetForm();
+        if (form is null)
+            throw new Exception("Control is not contained within a form.");
+        clientBounds.Offset(form.Location);
         var parent = control.Parent;
-        while (parent is IControl parentControl)
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        while (parent is not null)
         {
-            location.Offset(parentControl.Location);
-            parent = parentControl.Parent;
+            if (parent is IScrollable s)
+            {
+                if (s.Viewport.X > 0)
+                    clientBounds.X -= s.Viewport.X;
+                if (s.Viewport.Y > 0)
+                    clientBounds.Y -= s.Viewport.Y;
+            }
+            if (parent is IChild c)
+                parent = c.Parent;
         }
-        return new Rectangle(location, control.Size);
+
+        return clientBounds;
     }
 
     public static void PerformDocking(this IDockable control)
