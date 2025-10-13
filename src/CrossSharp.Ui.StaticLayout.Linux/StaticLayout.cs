@@ -17,10 +17,10 @@ class StaticLayout : IStaticLayout
     public ColorRgba BorderColor { get; set; }
 
     public Point Location { get; set; }
-    public EventHandler<Point>? OnLocationChanged { get; set; }
+    public EventHandler<Point>? LocationChanged { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
-    public EventHandler<Size>? OnSizeChanged { get; set; }
+    public EventHandler<Size>? SizeChanged { get; set; }
     public object Parent { get; set; }
     public bool Visible { get; set; }
 
@@ -59,8 +59,6 @@ class StaticLayout : IStaticLayout
             c.Draw(ref graphics);
     }
 
-    public IForm? GetForm() => ControlsHelpers.GetForm(this);
-
     public void Dispose()
     {
         foreach (var c in _controls)
@@ -69,6 +67,6 @@ class StaticLayout : IStaticLayout
     }
 
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
-    public EventHandler? OnBackgroundColorChange { get; set; }
+    public EventHandler? BackgroundColorChanged { get; set; }
     public bool IsMouseOver { get; set; } = false;
 }

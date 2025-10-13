@@ -1,5 +1,6 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -10,7 +11,7 @@ partial class Label : ControlBase, ILabel
 
     public override void Invalidate()
     {
-        if (GetForm() is not IFormSDL form)
+        if (this.GetForm() is not IFormSDL form)
             return;
         using var graphics = new SDLGraphics(form.Renderer);
         var size = graphics.MeasureText(Text, FontFamily, FontSize);

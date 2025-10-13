@@ -6,7 +6,7 @@ namespace CrossSharp.Ui.Linux;
 class Panel : ControlBase, IPanel
 {
     public ColorRgba BackgroundColor { get; set; }
-    public EventHandler? OnBackgroundColorChange { get; set; }
+    public EventHandler? BackgroundColorChanged { get; set; }
 
     public override void Initialize() { }
 

@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class FlowLayout(IFlowLayout implementation)
-    : CrossWrapper<IFlowLayout>(implementation),
+public class FlowLayout()
+    : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlowLayoutFactory>().Create()),
         IFlowLayout
 {
     IFlowLayout _impl => GetImplementation();
@@ -32,10 +33,10 @@ public class FlowLayout(IFlowLayout implementation)
         get => _impl.Location;
         set => _impl.Location = value;
     }
-    public EventHandler<Point>? OnLocationChanged
+    public EventHandler<Point>? LocationChanged
     {
-        get => _impl.OnLocationChanged;
-        set => _impl.OnLocationChanged = value;
+        get => _impl.LocationChanged;
+        set => _impl.LocationChanged = value;
     }
     public int Width
     {
@@ -47,10 +48,10 @@ public class FlowLayout(IFlowLayout implementation)
         get => _impl.Height;
         set => _impl.Height = value;
     }
-    public EventHandler<Size>? OnSizeChanged
+    public EventHandler<Size>? SizeChanged
     {
-        get => _impl.OnSizeChanged;
-        set => _impl.OnSizeChanged = value;
+        get => _impl.SizeChanged;
+        set => _impl.SizeChanged = value;
     }
     public object Parent
     {
@@ -78,8 +79,6 @@ public class FlowLayout(IFlowLayout implementation)
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
-    public IForm? GetForm() => _impl.GetForm();
-
     public IEnumerator<IControl> GetEnumerator() => _impl.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => _impl.GetEnumerator();
@@ -99,13 +98,54 @@ public class FlowLayout(IFlowLayout implementation)
         get => _impl.BackgroundColor;
         set => _impl.BackgroundColor = value;
     }
-    public EventHandler? OnBackgroundColorChange
+    public EventHandler? BackgroundColorChanged
     {
-        get => _impl.OnBackgroundColorChange;
-        set => _impl.OnBackgroundColorChange = value;
+        get => _impl.BackgroundColorChanged;
+        set => _impl.BackgroundColorChanged = value;
     }
 
     public void Add(params IControl[] controls) => _impl.Add(controls);
 
     public void Remove(params IControl[] controls) => _impl.Remove(controls);
+
+    public int ItemsSpacing
+    {
+        get => _impl.ItemsSpacing;
+        set => _impl.ItemsSpacing = value;
+    }
+    public EventHandler? ItemsSpacingChanged
+    {
+        get => _impl.ItemsSpacingChanged;
+        set => _impl.ItemsSpacingChanged = value;
+    }
+    public FlowAlignment JustifyContentHorizontal
+    {
+        get => _impl.JustifyContentHorizontal;
+        set => _impl.JustifyContentHorizontal = value;
+    }
+    public FlowAlignment JustifyContentVertical
+    {
+        get => _impl.JustifyContentVertical;
+        set => _impl.JustifyContentVertical = value;
+    }
+    public EventHandler? JustifyContentChanged
+    {
+        get => _impl.JustifyContentChanged;
+        set => _impl.JustifyContentChanged = value;
+    }
+    public ScrollableMode Scrollable
+    {
+        get => _impl.Scrollable;
+        set => _impl.Scrollable = value;
+    }
+    public Rectangle Viewport
+    {
+        get => _impl.Viewport;
+        set => _impl.Viewport = value;
+    }
+    public Rectangle ContentBounds
+    {
+        get => _impl.ContentBounds;
+        set => _impl.ContentBounds = value;
+    }
 }

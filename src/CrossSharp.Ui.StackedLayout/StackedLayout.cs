@@ -65,10 +65,10 @@ public class StackedLayout()
         get => _impl.Location;
         set => _impl.Location = value;
     }
-    public EventHandler<Point>? OnLocationChanged
+    public EventHandler<Point>? LocationChanged
     {
-        get => _impl.OnLocationChanged;
-        set => _impl.OnLocationChanged = value;
+        get => _impl.LocationChanged;
+        set => _impl.LocationChanged = value;
     }
     public int Width
     {
@@ -80,10 +80,10 @@ public class StackedLayout()
         get => _impl.Height;
         set => _impl.Height = value;
     }
-    public EventHandler<Size>? OnSizeChanged
+    public EventHandler<Size>? SizeChanged
     {
-        get => _impl.OnSizeChanged;
-        set => _impl.OnSizeChanged = value;
+        get => _impl.SizeChanged;
+        set => _impl.SizeChanged = value;
     }
     public object Parent
     {
@@ -106,17 +106,15 @@ public class StackedLayout()
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
-    public IForm? GetForm() => ControlsHelpers.GetForm(this);
-
     public ColorRgba BackgroundColor
     {
         get => _impl.BackgroundColor;
         set => _impl.BackgroundColor = value;
     }
-    public EventHandler? OnBackgroundColorChange
+    public EventHandler? BackgroundColorChanged
     {
-        get => _impl.OnBackgroundColorChange;
-        set => _impl.OnBackgroundColorChange = value;
+        get => _impl.BackgroundColorChanged;
+        set => _impl.BackgroundColorChanged = value;
     }
     public bool IsMouseOver
     {

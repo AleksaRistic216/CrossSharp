@@ -13,7 +13,7 @@ partial class Button
 
     void RaiseOnTextChange() => OnTextChange?.Invoke(this, EventArgs.Empty);
 
-    public EventHandler? OnBackgroundColorChange { get; set; }
+    public EventHandler? BackgroundColorChanged { get; set; }
 
     void OnBackgroundColorChangedInternal()
     {
@@ -22,7 +22,7 @@ partial class Button
         RaiseOnBackgroundColorChange();
     }
 
-    void RaiseOnBackgroundColorChange() => OnBackgroundColorChange?.Invoke(this, EventArgs.Empty);
+    void RaiseOnBackgroundColorChange() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
 
     public EventHandler? OnClick { get; set; }
 

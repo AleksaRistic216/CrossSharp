@@ -11,10 +11,10 @@ public class Panel() : CrossControl<IPanel>(Services.GetSingleton<IPanelFactory>
         get => Implementation.BackgroundColor;
         set => Implementation.BackgroundColor = value;
     }
-    public EventHandler? OnBackgroundColorChange
+    public EventHandler? BackgroundColorChanged
     {
-        get => Implementation.OnBackgroundColorChange;
-        set => Implementation.OnBackgroundColorChange = value;
+        get => Implementation.BackgroundColorChanged;
+        set => Implementation.BackgroundColorChanged = value;
     }
     public ColorRgba ForegroundColor
     {

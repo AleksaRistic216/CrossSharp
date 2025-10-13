@@ -32,10 +32,10 @@ public abstract class CrossControl<T>(T implementation)
         get => Implementation.Location;
         set => Implementation.Location = value;
     }
-    public EventHandler<Point>? OnLocationChanged
+    public EventHandler<Point>? LocationChanged
     {
-        get => Implementation.OnLocationChanged;
-        set => Implementation.OnLocationChanged = value;
+        get => Implementation.LocationChanged;
+        set => Implementation.LocationChanged = value;
     }
     public int Width
     {
@@ -47,10 +47,10 @@ public abstract class CrossControl<T>(T implementation)
         get => Implementation.Height;
         set => Implementation.Height = value;
     }
-    public EventHandler<Size>? OnSizeChanged
+    public EventHandler<Size>? SizeChanged
     {
-        get => Implementation.OnSizeChanged;
-        set => Implementation.OnSizeChanged = value;
+        get => Implementation.SizeChanged;
+        set => Implementation.SizeChanged = value;
     }
     public object Parent
     {
@@ -72,8 +72,6 @@ public abstract class CrossControl<T>(T implementation)
     public void ResumeLayout() => Implementation.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
-
-    public IForm? GetForm() => Implementation.GetForm();
 
     public bool IsMouseOver
     {

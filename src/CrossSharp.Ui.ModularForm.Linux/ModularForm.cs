@@ -56,7 +56,7 @@ partial class ModularForm : FormSDL, IModularForm
         _contentPane.Dock = DockPosition.Fill;
         _contentPane.DockIndex = 2;
         Controls.Add(_contentPane);
-        OnSizeChanged += (s, e) =>
+        SizeChanged += (s, e) =>
         {
             _contentPane.Width = Width;
             _contentPane.Height = Height - TopNavigationPane.Height;

@@ -113,8 +113,6 @@ partial class FormSDL : IFormSDL
         //     DrawDevelopersBorders(_g!);
     }
 
-    public IForm GetForm() => this;
-
     public void Close()
     {
         Dispose();

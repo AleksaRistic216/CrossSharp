@@ -22,8 +22,8 @@ public abstract partial class ControlBase : IControl
 
     public virtual void Dispose()
     {
-        OnSizeChanged = null;
-        OnLocationChanged = null;
+        SizeChanged = null;
+        LocationChanged = null;
         InputHandler.MouseMoved -= OnMouseMoved;
     }
 
@@ -88,8 +88,6 @@ public abstract partial class ControlBase : IControl
         DrawBorders(ref graphics);
         DrawContent(ref graphics);
     }
-
-    public IForm? GetForm() => ControlsHelpers.GetForm(this);
 
     public virtual void LimitClip(ref IGraphics g)
     {

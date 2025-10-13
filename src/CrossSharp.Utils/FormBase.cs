@@ -57,20 +57,20 @@ public abstract class FormBase<T> : IForm
         get => Implementation.Height;
         set { Implementation.Height = Math.Max(_minimumHeight, value); }
     }
-    public EventHandler<Size>? OnSizeChanged
+    public EventHandler<Size>? SizeChanged
     {
-        get => Implementation.OnSizeChanged;
-        set { Implementation.OnSizeChanged = value; }
+        get => Implementation.SizeChanged;
+        set { Implementation.SizeChanged = value; }
     }
     public Point Location
     {
         get => Implementation.Location;
         set { Implementation.Location = value; }
     }
-    public EventHandler<Point>? OnLocationChanged
+    public EventHandler<Point>? LocationChanged
     {
-        get => Implementation.OnLocationChanged;
-        set { Implementation.OnLocationChanged = value; }
+        get => Implementation.LocationChanged;
+        set { Implementation.LocationChanged = value; }
     }
     public string Title
     {
@@ -110,8 +110,6 @@ public abstract class FormBase<T> : IForm
 
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
-    public IForm? GetForm() => Implementation.GetForm();
-
     public int BorderWidth
     {
         get => Implementation.BorderWidth;
@@ -128,10 +126,10 @@ public abstract class FormBase<T> : IForm
         get => Implementation.BackgroundColor;
         set { Implementation.BackgroundColor = value; }
     }
-    public EventHandler? OnBackgroundColorChange
+    public EventHandler? BackgroundColorChanged
     {
-        get => Implementation.OnBackgroundColorChange;
-        set { Implementation.OnBackgroundColorChange = value; }
+        get => Implementation.BackgroundColorChanged;
+        set { Implementation.BackgroundColorChanged = value; }
     }
 
     public void LimitClip(ref IGraphics g) => Implementation.LimitClip(ref g);

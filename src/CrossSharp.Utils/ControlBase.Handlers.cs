@@ -7,8 +7,8 @@ namespace CrossSharp.Utils;
 
 public partial class ControlBase
 {
-    public EventHandler<Size>? OnSizeChanged { get; set; }
-    public EventHandler<Point>? OnLocationChanged { get; set; }
+    public EventHandler<Size>? SizeChanged { get; set; }
+    public EventHandler<Point>? LocationChanged { get; set; }
 
     void SubscribeToInputEvents()
     {
@@ -32,11 +32,11 @@ public partial class ControlBase
 
     protected virtual void RaiseOnSizeChanged(Size newSize)
     {
-        OnSizeChanged?.Invoke(this, newSize);
+        SizeChanged?.Invoke(this, newSize);
     }
 
     protected virtual void RaiseOnLocationChanged(Point newLocation)
     {
-        OnLocationChanged?.Invoke(this, newLocation);
+        LocationChanged?.Invoke(this, newLocation);
     }
 }

@@ -37,7 +37,7 @@ partial class Button : ControlBase, IButton
 
     void CalcTextBounds()
     {
-        if (GetForm() is not IFormSDL form)
+        if (this.GetForm() is not IFormSDL form)
             return;
         if (string.IsNullOrWhiteSpace(Text))
         {

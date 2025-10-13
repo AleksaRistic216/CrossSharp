@@ -1,7 +1,9 @@
 using System.Drawing;
+
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ILocationProvider {
+public interface ILocationProvider
+{
     Point Location { get; set; }
-    EventHandler<Point>? OnLocationChanged { get; set; }
+    EventHandler<Point>? LocationChanged { get; set; }
 }
