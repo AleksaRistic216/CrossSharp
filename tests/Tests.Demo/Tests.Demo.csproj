@@ -13,6 +13,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\demos\Demos.FlowLayout\Demos.FlowLayout.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.GitControl\Demos.GitControl.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.TabbedLayout\Demos.TabbedLayout.csproj" />
+    <ProjectReference Include="..\..\demos\Demos.TextEditor\Demos.TextEditor.csproj" />
     <ProjectReference Include="..\Tests.Demo.Utils\Tests.Demo.Utils.csproj" />
   </ItemGroup>
 </Project>
