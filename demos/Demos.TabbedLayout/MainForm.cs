@@ -1,4 +1,3 @@
-using System.Drawing;
 using CrossSharp.Ui;
 using CrossSharp.Utils.Enums;
 using Demos.TabbedLayout.Tabs;

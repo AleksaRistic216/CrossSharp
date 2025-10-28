@@ -18,8 +18,33 @@ class StaticLayout : IStaticLayout
 
     public Point Location { get; set; }
     public EventHandler<Point>? LocationChanged { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    int _width;
+
+    public int Width
+    {
+        get => _width;
+        set
+        {
+            if (_width == value)
+                return;
+            _width = value;
+            SizeChanged?.Invoke(this, new Size(_width, _height));
+            Invalidate();
+        }
+    }
+    int _height;
+    public int Height
+    {
+        get => _height;
+        set
+        {
+            if (_height == value)
+                return;
+            _height = value;
+            SizeChanged?.Invoke(this, new Size(_width, _height));
+            Invalidate();
+        }
+    }
     public EventHandler<Size>? SizeChanged { get; set; }
     public object Parent { get; set; }
     public bool Visible { get; set; }
