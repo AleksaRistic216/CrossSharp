@@ -13,6 +13,7 @@ partial class Button : ControlBase, IButton
 
     public override void Invalidate()
     {
+        InvalidateSize();
         InvalidateImage();
         CalcTextBounds();
         CalcImageBounds();
@@ -20,6 +21,15 @@ partial class Button : ControlBase, IButton
             BorderWidth = 2;
         if (BorderColor == ColorRgba.Transparent && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderColor = BackgroundColor;
+    }
+
+    void InvalidateSize()
+    {
+        if (!AutoSize)
+            return;
+        var textSize = GetTextSize();
+        Width = Math.Max(textSize.Width + _padding * 2, MaxWidth ?? 0);
+        Height = Math.Max(textSize.Height + _padding * 2, MaxHeight ?? 0);
     }
 
     void InvalidateImage()
@@ -35,17 +45,25 @@ partial class Button : ControlBase, IButton
         _scaledToFitImage = Image?.ScaledToFit(scaleToFitSize);
     }
 
-    void CalcTextBounds()
+    Size GetTextSize()
     {
         if (this.GetForm() is not IFormSDL form)
-            return;
+            return Size.Empty;
         if (string.IsNullOrWhiteSpace(Text))
+            return Size.Empty;
+        using var graphics = new SDLGraphics(form.Renderer);
+        return graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
+    }
+
+    void CalcTextBounds()
+    {
+        var textSize = GetTextSize();
+        if (textSize == Size.Empty)
         {
             _textBounds = null;
             return;
         }
-        using var graphics = new SDLGraphics(form.Renderer);
-        var textSize = graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
+
         var bounds = TextAlignment switch
         {
             Alignment.Center => new Rectangle(
@@ -129,7 +147,7 @@ partial class Button : ControlBase, IButton
                 _theme.DefaultFontFamily,
                 _theme.DefaultFontSize,
                 ForegroundColor == ColorRgba.Transparent
-                    ? this.GetThemedBackgroundColor().Contrasted
+                    ? this.GetBackgroundColor().Contrasted
                     : ForegroundColor
             );
         if (Image != null && _imageBounds.HasValue)

@@ -90,4 +90,9 @@ partial class Button
             OnImagePlacementChangedInternal();
         }
     }
+
+    public bool AutoSize { get; set; }
+    public int? MaxWidth { get; set; }
+    public int? MaxHeight { get; set; }
+    public bool IsSelected { get; set; }
 }

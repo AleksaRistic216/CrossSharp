@@ -90,4 +90,27 @@ public class Button()
         get => Implementation.OnTagChange;
         set => Implementation.OnTagChange = value;
     }
+
+    public bool AutoSize
+    {
+        get => Implementation.AutoSize;
+        set => Implementation.AutoSize = value;
+    }
+
+    public int? MaxWidth
+    {
+        get => Implementation.MaxWidth;
+        set => Implementation.MaxWidth = value;
+    }
+    public int? MaxHeight
+    {
+        get => Implementation.MaxHeight;
+        set => Implementation.MaxHeight = value;
+    }
+
+    public bool IsSelected
+    {
+        get => Implementation.IsSelected;
+        set => Implementation.IsSelected = value;
+    }
 }

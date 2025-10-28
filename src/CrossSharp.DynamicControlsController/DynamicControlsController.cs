@@ -8,7 +8,7 @@ public class DynamicControlsController(ref IControlsContainer container)
     readonly Dictionary<object, Type> _pages = new();
     readonly Dictionary<Type, IControl> _pageInstances = new();
     readonly IControlsContainer _container = container;
-    object? _currentPage;
+    public object? CurrentPage { get; private set; }
 
     public void Set(object identifier, Type control)
     {
@@ -37,7 +37,7 @@ public class DynamicControlsController(ref IControlsContainer container)
 
     public void Show(object identifier)
     {
-        if (Equals(_currentPage, identifier))
+        if (Equals(CurrentPage, identifier))
             return;
         if (!_pages.TryGetValue(identifier, out Type? type))
             throw new ArgumentException("Not found", nameof(identifier));
@@ -72,6 +72,6 @@ public class DynamicControlsController(ref IControlsContainer container)
         _container.Remove(_container.ToArray());
         _container.Add(value);
         value.Invalidate();
-        _currentPage = identifier;
+        CurrentPage = identifier;
     }
 }

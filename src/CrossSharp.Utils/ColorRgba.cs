@@ -61,6 +61,15 @@ public class ColorRgba
             A
         );
 
+    const float SELECTED_FACTOR = 0.3f;
+    public ColorRgba Selected =>
+        new(
+            Math.Min(R + SELECTED_FACTOR, 1),
+            Math.Min(G + SELECTED_FACTOR, 1),
+            Math.Min(B + SELECTED_FACTOR, 1),
+            A
+        );
+
     public ColorRgba Contrasted =>
         A < 0.01f ? Black
         : (R + G + B) / 3 < 0.5f ? White

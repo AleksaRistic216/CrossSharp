@@ -142,12 +142,14 @@ public static class ControlsHelpers
         return clone;
     }
 
-    public static ColorRgba GetThemedBackgroundColor(this IControl control)
+    public static ColorRgba GetBackgroundColor(this IControl control)
     {
         if (control is not IBackgroundColorProvider bgProvider)
             return ColorRgba.Transparent;
         if (control is not IHighlightable)
             return bgProvider.BackgroundColor;
+        if (control is ISelectable && ((ISelectable)control).IsSelected)
+            return bgProvider.BackgroundColor.Selected;
         var isMouseOver = control is IIsMouseOverProvider { IsMouseOver: true };
         var renderStyle = GetRenderStyle(control);
         return isMouseOver ? bgProvider.BackgroundColor.Highlighted

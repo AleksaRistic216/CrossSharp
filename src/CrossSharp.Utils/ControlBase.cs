@@ -45,7 +45,7 @@ public abstract partial class ControlBase : IControl
 
     public virtual void DrawBackground(ref IGraphics g)
     {
-        var color = this.GetThemedBackgroundColor();
+        var color = this.GetBackgroundColor();
         g.FillRectangle(0, 0, Width, Height, color);
     }
 

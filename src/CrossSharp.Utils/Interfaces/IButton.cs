@@ -8,7 +8,9 @@ public interface IButton
         IClickable,
         IBackgroundColorProvider,
         IHighlightable,
-        IRenderStyleProvider
+        IRenderStyleProvider,
+        IAutoSize,
+        ISelectable
 {
     SizeF ImageScale { get; set; }
     EventHandler? OnImageScaleChange { get; set; }
