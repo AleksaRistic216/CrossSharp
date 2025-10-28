@@ -21,6 +21,13 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
         get => Implementation.BackgroundColorChanged;
         set => Implementation.BackgroundColorChanged = value;
     }
+
+    public bool MultiLine
+    {
+        get => Implementation.MultiLine;
+        set => Implementation.MultiLine = value;
+    }
+
     public string Text
     {
         get => Implementation.Text;
@@ -34,6 +41,7 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
     public int FontSize
     {
         get => Implementation.FontSize;
+        set => Implementation.FontSize = value;
     }
     public bool IsFocused
     {

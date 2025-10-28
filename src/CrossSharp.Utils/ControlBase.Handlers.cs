@@ -18,7 +18,7 @@ public partial class ControlBase
 
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
-        if (IsMouseOver && this is IFocusable f)
+        if (this is IFocusable f)
             f.IsFocused = IsMouseOver;
 
         if (IsMouseOver && this is IClickable c)
