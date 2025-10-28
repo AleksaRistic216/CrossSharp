@@ -25,6 +25,8 @@
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Linux\CrossSharp.Ui.StaticLayout.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Linux\CrossSharp.Ui.TabbedLayout.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout\CrossSharp.Ui.TabbedLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,7 @@ class StaticLayout : IStaticLayout
     public void Invalidate()
     {
         this.PerformDocking();
-        foreach (IControl control in _controls)
+        foreach (var control in _controls)
             control.Invalidate();
     }
 
