@@ -34,6 +34,7 @@ static class CrossSharpApplicationRunner
                 f.RecordSize();
                 f.Redraw();
             }
+            Services.GetSingleton<IApplication>().Tick?.Invoke(null, EventArgs.Empty);
         }
         SDLHelpers.SDL_DestroyWindow(Services.GetSingleton<IApplication>().MainWindowHandle);
         SDLHelpers.SDL_Quit();

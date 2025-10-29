@@ -40,6 +40,8 @@ class Application : IApplication
         _mainForm.Show();
     }
 
+    public EventHandler? Tick { get; set; }
+
     void OnMainFormClose(object? sender, EventArgs e)
     {
         Services.GetSingleton<IApplicationLoop>().Dispose();

@@ -126,10 +126,17 @@ partial class FormSDL : IFormSDL
 
     public void Dispose()
     {
+        Services.GetSingleton<IApplication>().Tick += OnTickDispose;
+    }
+
+    void OnTickDispose(object? sender, EventArgs e)
+    {
         Controls.Dispose();
         DestroyWindow();
         Handle = IntPtr.Zero;
-        // Renderer = IntPtr.Zero;
+        Renderer = IntPtr.Zero;
+        Services.GetSingleton<IApplication>().Forms.Remove(this);
+        Services.GetSingleton<IApplication>().Tick -= OnTickDispose;
     }
 
     public void LimitClip(ref IGraphics g) { }

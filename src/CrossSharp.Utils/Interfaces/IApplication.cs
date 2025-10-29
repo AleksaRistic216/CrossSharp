@@ -10,4 +10,5 @@ public interface IApplication
     HashSet<IForm> Forms { get; }
     void SetTheme(ITheme theme);
     void Start();
+    EventHandler? Tick { get; set; }
 }
