@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>CrossSharp</RootNamespace>
-    <Version>9.0.0</Version>
+    <Version>9.0.1</Version>
     <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
     <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -12,9 +12,9 @@
   </PropertyGroup>
   <Target Name="CopyPackage" AfterTargets="Pack">
     <ItemGroup>
-      <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
+      <PackedFiles Include="$(PackageOutputPath)\*.nupkg"></PackedFiles>
     </ItemGroup>
-    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
+    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin"></Copy>
   </Target>
   <ItemGroup>
     <None Include="..\..\LICENSE">
@@ -31,6 +31,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj"/>
   </ItemGroup>
 </Project>

@@ -61,7 +61,7 @@ fs.exists('./version-upgrade.config', (exists) => {
 
     const projects = fs
       .readdirSync(srcPath)
-      .filter((x) => x.indexOf('LSCore') >= 0);
+      .filter((x) => x.indexOf('CrossSharp') >= 0);
 
     console.log();
     console.log('Starting projects versions upgrade...');
@@ -103,7 +103,7 @@ fs.exists('./version-upgrade.config', (exists) => {
 
     const { execFile } = require('child_process');
     const child = execFile(
-      `./version-upgrade.sh`,
+      `./version-upgrade-commit.sh`,
       [config.nextVersion],
       (error, stdout, stderror) => {
         if (error) {
