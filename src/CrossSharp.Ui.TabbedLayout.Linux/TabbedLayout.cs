@@ -100,7 +100,7 @@ class TabbedLayout : ITabbedLayout
         var tabButton = new Button();
         tabButton.Text = title;
         tabButton.AutoSize = true;
-        tabButton.MaxHeight = headerHeight;
+        tabButton.MinHeight = headerHeight;
         tabButton.OnClick += OnTabButtonClicked;
         _header.Add(tabButton);
         _controlsController.Set(title, content);
