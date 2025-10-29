@@ -1,12 +1,16 @@
 using CrossSharp.Desktop;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
 
 namespace Demos.TextEditor;
 
 public class MainForm : Form
 {
+    ITheme Theme => Services.GetSingleton<ITheme>();
+
     public MainForm()
     {
         InitializeMenuBar();
@@ -30,7 +34,7 @@ public class MainForm : Form
         var menuBarHeight = 30;
         var menuBar = new StackedLayout();
         menuBar.Height = menuBarHeight;
-        menuBar.BackgroundColor = ColorRgba.RandomColor;
+        menuBar.BackgroundColor = Theme.SecondaryBackgroundColor.Darkened;
         menuBar.Direction = Direction.Horizontal;
         menuBar.Dock = DockPosition.Top;
         menuBar.DockIndex = 0;
@@ -41,5 +45,11 @@ public class MainForm : Form
         button1.AutoSize = true;
         button1.MinHeight = menuBarHeight;
         menuBar.Add(button1);
+
+        var button2 = new Button();
+        button2.Text = "Open File";
+        button2.AutoSize = true;
+        button2.MinHeight = menuBarHeight;
+        menuBar.Add(button2);
     }
 }

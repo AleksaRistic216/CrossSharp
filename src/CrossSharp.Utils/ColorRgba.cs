@@ -70,6 +70,19 @@ public class ColorRgba
             A
         );
 
+    const float DARKEN_FACTOR = 0.15f;
+    public ColorRgba Darkened =>
+        new(
+            Math.Max(R - DARKEN_FACTOR, 0),
+            Math.Max(G - DARKEN_FACTOR, 0),
+            Math.Max(B - DARKEN_FACTOR, 0),
+            A
+        );
+
+    const float DISABLED_FACTOR = 0.5f;
+    public ColorRgba Disabled =>
+        new(R * DISABLED_FACTOR, G * DISABLED_FACTOR, B * DISABLED_FACTOR, A);
+
     public ColorRgba Contrasted =>
         A < 0.01f ? Black
         : (R + G + B) / 3 < 0.5f ? White
