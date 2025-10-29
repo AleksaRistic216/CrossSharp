@@ -1,3 +1,4 @@
+using CrossSharp.Desktop;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
@@ -13,8 +14,15 @@ public class MainForm : Form
         var tabbedLayout = new TabbedLayout();
         tabbedLayout.Dock = DockPosition.Fill;
         tabbedLayout.DockIndex = 2;
-        tabbedLayout.AddTab("Text Editor", typeof(TextEditTab));
         Controls.Add(tabbedLayout);
+        tabbedLayout.AddTab("First Tab", typeof(TextEditTab));
+        tabbedLayout.AddTabButton(
+            "+",
+            () =>
+            {
+                Notifications.Show("New Tab Clicked", "You clicked the new tab button.");
+            }
+        );
     }
 
     void InitializeMenuBar()

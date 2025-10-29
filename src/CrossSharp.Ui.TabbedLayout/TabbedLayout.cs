@@ -102,6 +102,8 @@ public class TabbedLayout()
 
     public void AddTab(string title, Type content) => _impl.AddTab(title, content);
 
+    public void AddTabButton(string text, Action onClick) => _impl.AddTabButton(text, onClick);
+
     public void RemoveTab(string title) => _impl.RemoveTab(title);
 
     public void SelectTab(string title) => _impl.SelectTab(title);

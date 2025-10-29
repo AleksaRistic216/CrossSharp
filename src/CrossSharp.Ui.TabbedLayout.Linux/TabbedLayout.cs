@@ -107,6 +107,17 @@ class TabbedLayout : ITabbedLayout
         Invalidate();
     }
 
+    public void AddTabButton(string text, Action onClick)
+    {
+        var tabButton = new Button();
+        tabButton.Text = text;
+        tabButton.AutoSize = true;
+        tabButton.MinHeight = headerHeight;
+        tabButton.OnClick += (s, e) => onClick();
+        _header.Add(tabButton);
+        Invalidate();
+    }
+
     void OnTabButtonClicked(object? sender, EventArgs e)
     {
         if (sender is not IButton button)
