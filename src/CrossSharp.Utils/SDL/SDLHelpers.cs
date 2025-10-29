@@ -11,6 +11,9 @@ internal static class SDLHelpers
     internal static extern int SDL_Init(uint flags);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern IntPtr SDL_GetError();
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern IntPtr SDL_CreateWindow(
         string title,
         int x,
@@ -56,6 +59,9 @@ internal static class SDLHelpers
         int index,
         SDLRenderFlags flags
     );
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern int SDL_GetRendererInfo(IntPtr renderer, ref SDLRendererInfo info);
 
     internal const uint SDL_INIT_VIDEO = 0x00000020;
 }
