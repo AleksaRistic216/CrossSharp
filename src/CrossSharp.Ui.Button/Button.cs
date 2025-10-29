@@ -113,4 +113,14 @@ public class Button()
         get => Implementation.IsSelected;
         set => Implementation.IsSelected = value;
     }
+    public int? MinWidth
+    {
+        get => Implementation.MinWidth;
+        set => Implementation.MinWidth = value;
+    }
+    public int? MinHeight
+    {
+        get => Implementation.MinHeight;
+        set => Implementation.MinHeight = value;
+    }
 }

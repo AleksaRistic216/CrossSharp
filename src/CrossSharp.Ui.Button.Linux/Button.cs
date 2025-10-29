@@ -27,9 +27,17 @@ partial class Button : ControlBase, IButton
     {
         if (!AutoSize)
             return;
+        if (MaxWidth < MinWidth)
+            throw new InvalidOperationException("MaxWidth cannot be less than MinWidth.");
+        if (MaxHeight < MinHeight)
+            throw new InvalidOperationException("MaxHeight cannot be less than MinHeight.");
         var textSize = GetTextSize();
-        Width = Math.Max(textSize.Width + _padding * 2, MaxWidth ?? 0);
-        Height = Math.Max(textSize.Height + _padding * 2, MaxHeight ?? 0);
+        // Apply max constraints first
+        Width = Math.Min(textSize.Width + _padding * 2, MaxWidth ?? int.MaxValue);
+        Height = Math.Min(textSize.Height + _padding * 2, MaxHeight ?? int.MaxValue);
+        // Then apply min constraints
+        Width = Math.Max(Width, MinWidth ?? 0);
+        Height = Math.Max(Height, MinHeight ?? 0);
     }
 
     void InvalidateImage()
