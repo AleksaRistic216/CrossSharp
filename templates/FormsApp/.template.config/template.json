@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "CrossSharp",
+  "classifications": ["CrossPlatform", "UI", "Forms", "Linux", "Windows", "macOS"],
+  "name": "Basic Cross Platform Form Application Template",
+  "identity": "crosssharp.formsapp",
+  "groupIdentity": "crosssharp",
+  "shortName": "cs-formsapp",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FormsApp",
+  "preferNameDirectory": true
+}

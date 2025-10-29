@@ -1,5 +1,5 @@
-// using CrossSharp.Ui;
-//
-// namespace Demos.SimpleForm;
-//
-// public class MainForm : Form { }
+using CrossSharp.Ui;
+
+namespace FormsApp;
+
+public class MainForm : Form { }

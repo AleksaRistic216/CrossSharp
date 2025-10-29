@@ -1,11 +1,10 @@
-// using CrossSharp.Application;
-// using Demos.SimpleForm;
-//
-// var configuration = new BaseConfiguration()
-// {
-//     ApplicationName = "Demos.SimpleForm",
-//     CompanyName = "CrossSharp",
-// };
-// var builder = new ApplicationBuilder(configuration);
-// builder.Run<MainForm>();
-Console.WriteLine("hi");
+using CrossSharp.Application;
+using FormsApp;
+
+var configuration = new BaseConfiguration
+{
+    ApplicationName = "FormsApp",
+    CompanyName = "YourCompany",
+};
+var builder = new ApplicationBuilder(configuration);
+builder.Run<MainForm>();

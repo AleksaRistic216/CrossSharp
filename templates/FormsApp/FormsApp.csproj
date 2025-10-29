@@ -5,4 +5,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CrossSharp" Version="9.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None
+      Include="**/*"
+      Exclude="bin/**/*;obj/**/*;.template.config/**/*"
+      Pack="true"
+      PackagePath="contentFiles/any/net9.0/"
+    />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Include all project files except bin, obj, and .template.config in the generated output -->
+    <None
+      Include="**/*"
+      Exclude="bin/**/*;obj/**/*;.template.config/**/*"
+      Pack="true"
+      PackagePath="contentFiles/any/net9.0/"
+    />
+    <!-- Include .template.config in the NuGet package so the template engine can find it -->
+    <None Include=".template.config/**" Pack="true" PackagePath="content/.template.config/" />
+  </ItemGroup>
 </Project>
