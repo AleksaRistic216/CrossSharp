@@ -13,7 +13,6 @@ public interface IForm : IControl, ITitleBarProvider, IBackgroundColorProvider
     void Close();
     EventHandler? OnShow { get; set; }
     EventHandler? OnClose { get; set; }
-    void PerformLayout();
     void Minimize();
     void Maximize();
     void Restore();

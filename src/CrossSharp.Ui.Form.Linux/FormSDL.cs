@@ -118,8 +118,6 @@ partial class FormSDL : IFormSDL
         Dispose();
     }
 
-    public void PerformLayout() { }
-
     public void Minimize() { }
 
     public void Maximize() { }

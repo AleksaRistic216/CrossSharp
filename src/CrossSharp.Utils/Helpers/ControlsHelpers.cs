@@ -65,7 +65,7 @@ public static class ControlsHelpers
             return;
         if (control.Parent is not IControlsContainer parent)
             return;
-        var parentBounds = new Rectangle(parent.Location, parent.Size);
+        var parentBounds = new Rectangle(Point.Empty, parent.Size);
         HashSet<int> recordedDockIndexes = [];
         foreach (var sibling in parent)
         {

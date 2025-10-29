@@ -1,5 +1,5 @@
 using CrossSharp.Ui;
 
-namespace Tests.Base;
+namespace Tests.Common;
 
 public class UiTestForm : Form { }

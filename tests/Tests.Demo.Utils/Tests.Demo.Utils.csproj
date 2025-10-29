@@ -12,5 +12,6 @@
     <ProjectReference Include="..\..\demos\Demos.SimpleForm\Demos.SimpleForm.csproj" />
     <ProjectReference Include="..\..\demos\Demos.StackedLayout\Demos.StackedLayout.csproj" />
     <ProjectReference Include="..\..\src\Demos.ModularForm\Demos.ModularForm.csproj" />
+    <ProjectReference Include="..\Tests.Common\Tests.Common.csproj" />
   </ItemGroup>
 </Project>

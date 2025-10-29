@@ -116,7 +116,7 @@ class StackedLayout : IStackedLayout
         var currentY = Padding.Top;
         foreach (var c in _controls)
         {
-            c.Location = new Point(Location.X + Padding.Left, currentY);
+            c.Location = new Point(Padding.Left, currentY);
             c.Width = Width - Padding.Horizontal;
             currentY += c.Height + ItemsSpacing;
         }
@@ -127,7 +127,7 @@ class StackedLayout : IStackedLayout
         var currentX = Padding.Left;
         foreach (var c in _controls)
         {
-            c.Location = new Point(currentX, Location.Y + Padding.Top);
+            c.Location = new Point(currentX, Padding.Top);
             c.Height = Height - Padding.Vertical;
             currentX += c.Width + ItemsSpacing;
         }
@@ -153,8 +153,9 @@ class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        graphics.SetClip(new Rectangle(Location, new Size(Width, Height)));
-        graphics.SetOffset(0, 0);
+        var clientBounds = this.GetClientBounds();
+        graphics.SetOffset(clientBounds.X, clientBounds.Y);
+        graphics.SetClip(clientBounds);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);
@@ -172,7 +173,7 @@ class StackedLayout : IStackedLayout
 
     void DrawBackground(ref IGraphics graphics)
     {
-        graphics.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
+        graphics.FillRectangle(0, 0, Width, Height, BackgroundColor);
     }
 
     public void Dispose()

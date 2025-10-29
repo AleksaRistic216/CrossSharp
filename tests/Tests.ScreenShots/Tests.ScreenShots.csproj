@@ -13,8 +13,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
-    <ProjectReference Include="..\..\src\CrossSharp.Utils\CrossSharp.Utils.csproj" />
-    <ProjectReference Include="..\Tests.Base\Tests.Base.csproj" />
+    <ProjectReference Include="..\Tests.Common\Tests.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
   </ItemGroup>
 </Project>

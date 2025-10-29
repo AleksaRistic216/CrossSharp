@@ -78,8 +78,6 @@ public abstract class FormBase<T> : IForm
         set { Implementation.Title = value; }
     }
 
-    public void PerformLayout() => Implementation.PerformLayout();
-
     public void Minimize() => Implementation.Minimize();
 
     public void Maximize() => Implementation.Maximize();
