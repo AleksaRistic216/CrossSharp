@@ -11,41 +11,43 @@ using Xunit;
 
 namespace Tests.ScreenShots.Docking;
 
-public class DockingScreenshotTest : ApplicationTestBase<UiTestForm>
+public class TestForm : Form
 {
-    [Fact]
-    public void NestedDockingTest()
+    public StackedLayout NestedLayoutItem1 = new StackedLayout();
+    public StackedLayout NestedLayout = new StackedLayout();
+
+    public TestForm()
     {
         IStackedLayout stackedLayout = new StackedLayout();
         stackedLayout.Dock = DockPosition.Fill;
         stackedLayout.BackgroundColor = ColorRgba.Blue;
-        Form.Controls.Add(stackedLayout);
+        Controls.Add(stackedLayout);
 
-        var nestedLayout = new StackedLayout();
-        nestedLayout.Direction = Direction.Horizontal;
-        nestedLayout.Dock = DockPosition.Bottom;
-        nestedLayout.Height = 105;
-        nestedLayout.BackgroundColor = ColorRgba.Green;
-        stackedLayout.Add(nestedLayout);
+        NestedLayout.Direction = Direction.Horizontal;
+        NestedLayout.Dock = DockPosition.Bottom;
+        NestedLayout.Height = 105;
+        NestedLayout.BackgroundColor = ColorRgba.Green;
+        stackedLayout.Add(NestedLayout);
 
-        var nestedLayoutItem1 = new StackedLayout();
-        nestedLayoutItem1.Direction = Direction.Vertical;
-        nestedLayoutItem1.Dock = DockPosition.Left;
-        nestedLayoutItem1.Width = 100;
-        nestedLayoutItem1.BackgroundColor = ColorRgba.Yellow;
-        nestedLayout.Add(nestedLayoutItem1);
+        NestedLayoutItem1.Direction = Direction.Vertical;
+        NestedLayoutItem1.Dock = DockPosition.Left;
+        NestedLayoutItem1.Width = 100;
+        NestedLayoutItem1.BackgroundColor = ColorRgba.Yellow;
+        NestedLayout.Add(NestedLayoutItem1);
+    }
+}
 
-        Form.Invalidate();
-        Form.Redraw();
-
-        Thread.Sleep(2000); // should do application.DoEvents() but I do not have it yet
-
-        var nestedLayoutClientBounds = nestedLayout.GetClientBounds();
+public class DockingScreenshotTest : ApplicationTestBase<TestForm>
+{
+    [Fact]
+    public void NestedDockingTest()
+    {
+        var nestedLayoutClientBounds = Form.NestedLayoutItem1.GetClientBounds();
         var expectedNestedLayoutItem1ClientBounds = new Rectangle(
             nestedLayoutClientBounds.X,
             nestedLayoutClientBounds.Y,
-            nestedLayoutItem1.Width,
-            nestedLayout.Height
+            Form.NestedLayoutItem1.Width,
+            Form.NestedLayout.Height
         );
         var formBounds = new Rectangle(Form.Location.X, Form.Location.Y, Form.Width, Form.Height);
         var ss = DesktopHelpers.TakeScreenshot();
@@ -55,8 +57,8 @@ public class DockingScreenshotTest : ApplicationTestBase<UiTestForm>
                 new Rectangle(
                     (formBounds.X + expectedNestedLayoutItem1ClientBounds.X),
                     (formBounds.Y + expectedNestedLayoutItem1ClientBounds.Y),
-                    nestedLayoutItem1.Width,
-                    nestedLayout.Height
+                    Form.NestedLayoutItem1.Width,
+                    Form.NestedLayout.Height
                 )
             )
         );
@@ -67,6 +69,6 @@ public class DockingScreenshotTest : ApplicationTestBase<UiTestForm>
             topLeftPixel.B,
             topLeftPixel.A
         );
-        Assert.Equal(nestedLayoutItem1.BackgroundColor, topLeftColor);
+        Assert.Equal(Form.NestedLayoutItem1.BackgroundColor, topLeftColor);
     }
 }
