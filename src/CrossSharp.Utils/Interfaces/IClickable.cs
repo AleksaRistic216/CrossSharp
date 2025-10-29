@@ -2,5 +2,5 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface IClickable : IIsMouseOverProvider
 {
-    EventHandler? OnClick { get; set; }
+    EventHandler? Click { get; set; }
 }

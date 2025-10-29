@@ -6,10 +6,10 @@ namespace CrossSharp.Ui;
 
 public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>().Create()), IInput
 {
-    public EventHandler? OnClick
+    public EventHandler? Click
     {
-        get => Implementation.OnClick;
-        set => Implementation.OnClick = value;
+        get => Implementation.Click;
+        set => Implementation.Click = value;
     }
     public ColorRgba BackgroundColor
     {

@@ -26,7 +26,7 @@ static class CrossSharpApplicationRunner
             Diagnostics.Ui.FrameCount++;
             while (SDLHelpers.SDL_PollEvent(out SDL_Event e))
                 HandleEvents(e);
-            foreach (var form1 in Services.GetSingleton<IApplication>().Forms)
+            foreach (var form1 in Services.GetSingleton<IApplication>().Forms.ToArray())
             {
                 if (form1 is not IFormSDL f)
                     continue;
@@ -67,8 +67,8 @@ static class CrossSharpApplicationRunner
                     var form = Services
                         .GetSingleton<IApplication>()
                         .Forms.OfType<IFormSDL>()
-                        .First(x => x.WindowId == e.window.windowID);
-                    form.Close();
+                        .FirstOrDefault(x => x.WindowId == e.window.windowID);
+                    form?.Close();
                 }
                 break;
         }

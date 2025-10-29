@@ -16,10 +16,10 @@ partial class FormSDL : IFormSDL
         Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
-        Services.GetSingleton<IApplication>().Forms.Add(this);
         CreateRenderer();
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
+        Services.GetSingleton<IApplication>().Forms.Add(this);
         Invalidate();
     }
 
@@ -126,7 +126,10 @@ partial class FormSDL : IFormSDL
 
     public void Dispose()
     {
+        Controls.Dispose();
+        DestroyWindow();
         Handle = IntPtr.Zero;
+        // Renderer = IntPtr.Zero;
     }
 
     public void LimitClip(ref IGraphics g) { }

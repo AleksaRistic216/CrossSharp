@@ -26,4 +26,11 @@ partial class FormSDL
         );
         return window;
     }
+
+    void DestroyWindow()
+    {
+        if (Handle == IntPtr.Zero)
+            return;
+        SDLHelpers.SDL_DestroyWindow(Handle);
+    }
 }

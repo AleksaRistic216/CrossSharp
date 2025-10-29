@@ -13,7 +13,7 @@ namespace CrossSharp.Utils.Drawing;
 public class SDLGraphics : IGraphics
 {
     const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
-    static IntPtr _renderer;
+    IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]

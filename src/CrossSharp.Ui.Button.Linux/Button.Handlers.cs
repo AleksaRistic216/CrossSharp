@@ -24,9 +24,9 @@ partial class Button
 
     void RaiseOnBackgroundColorChange() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
 
-    public EventHandler? OnClick { get; set; }
+    public EventHandler? Click { get; set; }
 
-    void RaiseOnClick() => OnClick?.Invoke(this, EventArgs.Empty);
+    void RaiseOnClick() => Click?.Invoke(this, EventArgs.Empty);
 
     public EventHandler? OnTagChange { get; set; }
 

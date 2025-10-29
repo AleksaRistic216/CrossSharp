@@ -61,6 +61,8 @@
     <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Linux\CrossSharp.Ui.FilesPicker.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.FilesPicker\CrossSharp.Ui.FilesPicker.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.FlowLayout.Linux\CrossSharp.Ui.FlowLayout.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.FlowLayout\CrossSharp.Ui.FlowLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />

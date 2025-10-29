@@ -10,10 +10,10 @@ public class Button()
     : CrossControl<IButton>(Services.GetSingleton<IButtonFactory>().Create()),
         IButton
 {
-    public EventHandler? OnClick
+    public EventHandler? Click
     {
-        get => Implementation.OnClick;
-        set => Implementation.OnClick = value;
+        get => Implementation.Click;
+        set => Implementation.Click = value;
     }
     public ColorRgba BackgroundColor
     {

@@ -114,7 +114,7 @@ partial class ModularForm : FormSDL, IModularForm
         var textSize = g.MeasureText(name, _theme.DefaultFontFamily, _theme.DefaultFontSize);
         btn.Width = textSize.Width + _navigationButtonsPadding * 2;
         btn.Height = textSize.Height + _navigationButtonsPadding * 2;
-        btn.OnClick += OnClick;
+        btn.Click += OnClick;
         btn.Tag = id;
         TopNavigationPane.Add(btn.Clone());
         LeftNavigationPane.Add(btn.Clone());

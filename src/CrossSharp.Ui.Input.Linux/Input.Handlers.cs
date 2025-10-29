@@ -2,7 +2,7 @@ namespace CrossSharp.Ui.Linux;
 
 partial class Input
 {
-    public EventHandler? OnClick { get; set; }
+    public EventHandler? Click { get; set; }
     public EventHandler? BackgroundColorChanged { get; set; }
     public EventHandler? OnTextChanged { get; set; }
     public EventHandler? OnFocusChanged { get; set; }
@@ -15,7 +15,7 @@ partial class Input
 
     void RaiseOnBackgroundColorChange() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
 
-    void RaiseOnClick() => OnClick?.Invoke(this, EventArgs.Empty);
+    void RaiseOnClick() => Click?.Invoke(this, EventArgs.Empty);
 
     void OnFocusChangedInternal()
     {
