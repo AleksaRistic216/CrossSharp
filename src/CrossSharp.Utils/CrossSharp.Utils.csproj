@@ -11,9 +11,9 @@
   </PropertyGroup>
   <Target Name="CopyPackage" AfterTargets="Pack">
     <ItemGroup>
-      <PackedFiles Include="$(PackageOutputPath)\*.nupkg"></PackedFiles>
+      <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
     </ItemGroup>
-    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin"></Copy>
+    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
   </Target>
   <ItemGroup>
     <None Include="..\..\LICENSE">
@@ -42,12 +42,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj"/>
+    <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11"/>
-    <PackageReference Include="SkiaSharp" Version="3.119.1"/>
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1"/>
-    <PackageReference Include="ValueInjecter" Version="3.2.0"/>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
+    <PackageReference Include="ValueInjecter" Version="3.2.0" />
   </ItemGroup>
 </Project>

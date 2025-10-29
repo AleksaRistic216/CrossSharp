@@ -12,9 +12,9 @@
   </PropertyGroup>
   <Target Name="CopyPackage" AfterTargets="Pack">
     <ItemGroup>
-      <PackedFiles Include="$(PackageOutputPath)\*.nupkg"></PackedFiles>
+      <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
     </ItemGroup>
-    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin"></Copy>
+    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
   </Target>
   <ItemGroup>
     <None Include="..\..\LICENSE">
@@ -31,9 +31,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj"/>
+    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DesktopNotifications.FreeDesktop" Version="1.3.1"/>
+    <PackageReference Include="DesktopNotifications.FreeDesktop" Version="1.3.1" />
   </ItemGroup>
 </Project>

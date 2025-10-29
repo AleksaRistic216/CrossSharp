@@ -12,9 +12,9 @@
   </PropertyGroup>
   <Target Name="CopyPackage" AfterTargets="Pack">
     <ItemGroup>
-      <PackedFiles Include="$(PackageOutputPath)\*.nupkg"></PackedFiles>
+      <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
     </ItemGroup>
-    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin"></Copy>
+    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
   </Target>
   <ItemGroup>
     <None Include="..\..\LICENSE">
@@ -31,12 +31,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.DynamicControlsController\CrossSharp.DynamicControlsController.csproj"/>
-    <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj"/>
-    <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj"/>
-    <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj"/>
-    <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj"/>
-    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj"/>
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj"/>
+    <ProjectReference Include="..\CrossSharp.DynamicControlsController\CrossSharp.DynamicControlsController.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
 </Project>
