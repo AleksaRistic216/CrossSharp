@@ -1,4 +1,5 @@
 using CrossSharp.Desktop;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -184,16 +185,31 @@ public class FilesPicker : Form, IFilesPicker
         try
         {
             var entries = Directory.GetFileSystemEntries(path);
+            Dictionary<string, int> entriesList = [];
             foreach (var entry in entries)
             {
                 var isFile = File.Exists(entry);
                 var isDir = Directory.Exists(entry);
                 if (!isFile && !isDir)
                     continue;
+                entriesList.Add(entry, isDir ? 0 : 1);
+            }
+            entriesList = entriesList
+                .OrderBy(kv => kv.Value) // directories first
+                .ThenBy(kv => kv.Key, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
+            foreach (var kv in entriesList)
+            {
+                var entry = kv.Key;
+                var isDir = kv.Value == 0;
                 var entryButton = new Button();
                 entryButton.Text = Path.GetFileName(entry);
                 entryButton.TextAlignment = Alignment.Left;
-                entryButton.Height = 30;
+                entryButton.Height = _blockHeight;
+                entryButton.BackgroundColor = isDir
+                    ? ColorRgba.Orange.Darkened
+                    : Theme.BackgroundColor;
+                entryButton.Style = RenderStyle.Contained;
                 entryButton.Click = (s, e) =>
                 {
                     if (isDir)
