@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Numerics;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
@@ -57,4 +58,6 @@ partial class Input
 
     bool _isFocused = false;
     public bool IsFocused { get; set; }
+    public int DockIndex { get; set; }
+    public DockStyle Dock { get; set; }
 }

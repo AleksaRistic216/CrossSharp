@@ -1,5 +1,6 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -52,5 +53,15 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
     {
         get => Implementation.OnFocusChanged;
         set => Implementation.OnFocusChanged = value;
+    }
+    public int DockIndex
+    {
+        get => Implementation.DockIndex;
+        set => Implementation.DockIndex = value;
+    }
+    public DockStyle Dock
+    {
+        get => Implementation.Dock;
+        set => Implementation.Dock = value;
     }
 }

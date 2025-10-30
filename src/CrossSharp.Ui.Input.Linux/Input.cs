@@ -1,6 +1,7 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 
@@ -76,6 +77,7 @@ partial class Input : ControlBase, IInput
 
     public override void Invalidate()
     {
+        this.PerformDocking();
         CalcFontSize();
     }
 
