@@ -1,3 +1,4 @@
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
@@ -7,6 +8,11 @@ namespace CrossSharp.Ui.Linux;
 partial class FormSDL
 {
     static IntPtr CreateWindow(string title, int width, int height)
+    {
+        return CreateWindowCore(title, width, height); // Idea is to somehow handle creation from different thread
+    }
+
+    static IntPtr CreateWindowCore(string title, int width, int height)
     {
         var appConfig = Services.GetSingleton<IApplicationConfiguration>();
         uint flags = SDLWindowFlags.HIDDEN | SDLWindowFlags.RESIZABLE;

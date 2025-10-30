@@ -1,3 +1,4 @@
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
@@ -36,6 +37,7 @@ static class CrossSharpApplicationRunner
                 f.Redraw();
             }
             Services.GetSingleton<IApplication>().Tick?.Invoke(null, EventArgs.Empty);
+            MainThreadDispatcher.RunPending();
         }
         SDLHelpers.SDL_DestroyWindow(Services.GetSingleton<IApplication>().MainWindowHandle);
         SDLHelpers.SDL_Quit();

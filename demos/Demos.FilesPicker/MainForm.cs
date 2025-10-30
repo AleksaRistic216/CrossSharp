@@ -1,10 +1,11 @@
 using CrossSharp.Ui;
+using CrossSharp.Utils;
 
 namespace Demos.FilesPicker;
 
 public class MainForm : Form
 {
-    CrossSharp.Ui.FilesPicker filesPicker = new();
+    CrossSharp.Ui.FilesPicker filesPicker;
 
     public MainForm()
     {
@@ -13,7 +14,11 @@ public class MainForm : Form
         button.AutoSize = true;
         button.Click += (s, e) =>
         {
-            filesPicker.Show();
+            MainThreadDispatcher.Invoke(() =>
+            {
+                filesPicker = new CrossSharp.Ui.FilesPicker();
+                filesPicker.Show();
+            });
         };
         Controls.Add(button);
     }
