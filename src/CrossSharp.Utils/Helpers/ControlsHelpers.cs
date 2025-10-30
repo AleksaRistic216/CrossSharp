@@ -47,7 +47,8 @@ public static class ControlsHelpers
         {
             if (parent is IScrollable s)
             {
-                var parentClientBounds = (parent as IControl)?.GetClientBounds() ?? Rectangle.Empty;
+                if (s.Scrollable == ScrollableMode.None)
+                    break;
                 if (s.Viewport.X > 0)
                     clientBounds.X -= s.Viewport.X;
                 if (s.Viewport.Y > 0)
