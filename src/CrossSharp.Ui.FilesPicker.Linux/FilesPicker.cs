@@ -9,6 +9,8 @@ public class FilesPicker : Form, IFilesPicker
 {
     StackedLayout _leftRow;
     StackedLayout _rightRow;
+    StackedLayout _actionBar;
+    Input _locationInput;
     ITheme Theme => Services.GetSingleton<ITheme>();
     HashSet<string> _drives = [];
 
@@ -159,5 +161,22 @@ public class FilesPicker : Form, IFilesPicker
         _rightRow.BackgroundColor = Theme.BackgroundColor;
         _rightRow.DockIndex = 1;
         Controls.Add(_rightRow);
+
+        _actionBar = new StackedLayout();
+        _actionBar.Height = 40;
+        _actionBar.Dock = DockStyle.Top;
+        _actionBar.Direction = Direction.Horizontal;
+        _rightRow.Add(_actionBar);
+
+        InitializeLocationInput();
+    }
+
+    void InitializeLocationInput()
+    {
+        _locationInput = new Input();
+        // _locationInput.PlaceholderText = "Location";
+        _locationInput.Width = 200;
+        _locationInput.Height = 40;
+        _actionBar.Add(_locationInput);
     }
 }
