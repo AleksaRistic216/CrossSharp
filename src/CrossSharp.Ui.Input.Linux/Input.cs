@@ -110,8 +110,14 @@ partial class Input : ControlBase, IInput
             return;
         if (string.IsNullOrEmpty(Placeholder))
             return;
-        var padding = 2;
-        g.DrawText(Placeholder!, padding, padding, FontFamily.Default, FontSize, ColorRgba.Gray);
+        g.DrawText(
+            Placeholder!,
+            _lineGap,
+            _lineGap / 2,
+            FontFamily.Default,
+            FontSize,
+            ColorRgba.Gray
+        );
     }
 
     void DrawCaret(ref IGraphics g)
