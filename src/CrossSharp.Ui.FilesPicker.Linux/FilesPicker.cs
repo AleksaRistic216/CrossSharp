@@ -182,13 +182,24 @@ public class FilesPicker : Form, IFilesPicker
             var entries = Directory.GetFileSystemEntries(path);
             foreach (var entry in entries)
             {
+                var isFile = File.Exists(entry);
+                var isDir = Directory.Exists(entry);
+                if (!isFile && !isDir)
+                    continue;
                 var entryButton = new Button();
                 entryButton.Text = Path.GetFileName(entry);
                 entryButton.TextAlignment = Alignment.Left;
                 entryButton.Height = 30;
                 entryButton.Click = (s, e) =>
                 {
-                    Notifications.Show("Clicked on", entry);
+                    if (isDir)
+                    {
+                        LoadDirectoryContents(entry);
+                    }
+                    else
+                    {
+                        Notifications.Show("File selected", entry);
+                    }
                 };
                 _contentsList.Add(entryButton);
             }
