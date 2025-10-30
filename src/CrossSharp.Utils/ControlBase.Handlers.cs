@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Utils;
 
@@ -18,9 +19,10 @@ public partial class ControlBase
 
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
+        if (!MouseHelpers.IsEventForThisForm(this))
+            return;
         if (this is IFocusable f)
             f.IsFocused = IsMouseOver;
-
         if (IsMouseOver && this is IClickable c)
         {
             MainThreadDispatcher.Invoke(() =>
@@ -32,7 +34,7 @@ public partial class ControlBase
 
     internal virtual void OnMouseMoved(object? sender, MouseInputArgs e)
     {
-        IsMouseOver = MouseHelpers.IsMouseOver(this.GetScreenBounds(), new Point(e.X, e.Y));
+        IsMouseOver = MouseHelpers.IsMouseOver(this, new Point(e.X, e.Y));
     }
 
     protected virtual void RaiseOnSizeChanged(Size newSize)

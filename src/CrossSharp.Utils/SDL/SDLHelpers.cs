@@ -48,6 +48,9 @@ internal static class SDLHelpers
     internal static extern bool SDL_GetWindowWMInfo(IntPtr window, ref SDL_SysWMinfo info);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern uint SDL_GetWindowFlags(IntPtr window);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern uint SDL_GetWindowID(IntPtr window);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]

@@ -50,7 +50,7 @@ class StackedLayout : IStackedLayout
 
     void OnMouseMoved(object? sender, MouseInputArgs e)
     {
-        IsMouseOver = MouseHelpers.IsMouseOver(this.GetScreenBounds(), new Point(e.X, e.Y));
+        IsMouseOver = MouseHelpers.IsMouseOver(this, new Point(e.X, e.Y));
     }
 
     void InputHandlerOnMouseWheel(object? sender, MouseWheelInputArgs e)
