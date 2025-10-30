@@ -16,6 +16,7 @@ public class FilesPicker : Form, IFilesPicker
     string _currentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
     const int _leftRowWidth = 150;
+    const int _blockHeight = 28;
 
     public FilesPicker()
     {
@@ -52,7 +53,7 @@ public class FilesPicker : Form, IFilesPicker
         var rootButton = new Button();
         rootButton.Text = "Root (/)";
         rootButton.TextAlignment = Alignment.Left;
-        rootButton.Height = 40;
+        rootButton.Height = _blockHeight;
         rootButton.Tag = "/";
         rootButton.Click = OnLocationButtonClicked;
         _leftRow.Add(rootButton);
@@ -63,7 +64,7 @@ public class FilesPicker : Form, IFilesPicker
         var homeButton = new Button();
         homeButton.Text = "Home (~)";
         homeButton.TextAlignment = Alignment.Left;
-        homeButton.Height = 40;
+        homeButton.Height = _blockHeight;
         homeButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         homeButton.Click = OnLocationButtonClicked;
         _leftRow.Add(homeButton);
@@ -74,7 +75,7 @@ public class FilesPicker : Form, IFilesPicker
         var documentsButton = new Button();
         documentsButton.Text = "Documents";
         documentsButton.TextAlignment = Alignment.Left;
-        documentsButton.Height = 40;
+        documentsButton.Height = _blockHeight;
         documentsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         documentsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(documentsButton);
@@ -85,7 +86,7 @@ public class FilesPicker : Form, IFilesPicker
         var musicButton = new Button();
         musicButton.Text = "Music";
         musicButton.TextAlignment = Alignment.Left;
-        musicButton.Height = 40;
+        musicButton.Height = _blockHeight;
         musicButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         musicButton.Click = OnLocationButtonClicked;
         _leftRow.Add(musicButton);
@@ -96,7 +97,7 @@ public class FilesPicker : Form, IFilesPicker
         var picturesButton = new Button();
         picturesButton.Text = "Pictures";
         picturesButton.TextAlignment = Alignment.Left;
-        picturesButton.Height = 40;
+        picturesButton.Height = _blockHeight;
         picturesButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         picturesButton.Click = OnLocationButtonClicked;
         _leftRow.Add(picturesButton);
@@ -107,7 +108,7 @@ public class FilesPicker : Form, IFilesPicker
         var videosButton = new Button();
         videosButton.Text = "Videos";
         videosButton.TextAlignment = Alignment.Left;
-        videosButton.Height = 40;
+        videosButton.Height = _blockHeight;
         videosButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         videosButton.Click = OnLocationButtonClicked;
         _leftRow.Add(videosButton);
@@ -118,7 +119,7 @@ public class FilesPicker : Form, IFilesPicker
         var downloadsButton = new Button();
         downloadsButton.Text = "Downloads";
         downloadsButton.TextAlignment = Alignment.Left;
-        downloadsButton.Height = 40;
+        downloadsButton.Height = _blockHeight;
         downloadsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         downloadsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(downloadsButton);
@@ -138,7 +139,7 @@ public class FilesPicker : Form, IFilesPicker
     void InitializeActionBar()
     {
         _actionBar = new StackedLayout();
-        _actionBar.Height = 40;
+        _actionBar.Height = _blockHeight;
         _actionBar.Dock = DockStyle.Top;
         _actionBar.DockIndex = 0;
         _actionBar.Direction = Direction.Horizontal;
@@ -152,7 +153,7 @@ public class FilesPicker : Form, IFilesPicker
         _locationInput = new Input();
         // _locationInput.PlaceholderText = "Location";
         _locationInput.Dock = DockStyle.Fill;
-        _locationInput.Height = 40;
+        _locationInput.Height = _blockHeight;
         _actionBar.Add(_locationInput);
     }
 
