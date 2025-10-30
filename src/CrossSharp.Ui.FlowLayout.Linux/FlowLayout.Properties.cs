@@ -50,7 +50,7 @@ partial class FlowLayout
         }
     }
     public int DockIndex { get; set; }
-    public DockPosition Dock { get; set; }
+    public DockStyle Dock { get; set; }
     ColorRgba _backgroundColor = ColorRgba.Transparent;
     public ColorRgba BackgroundColor
     {

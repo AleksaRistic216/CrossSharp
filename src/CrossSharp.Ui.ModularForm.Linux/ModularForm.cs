@@ -21,7 +21,7 @@ partial class ModularForm : FormSDL, IModularForm
         LeftNavigationPane = new StackedLayout();
         LeftNavigationPane.BackgroundColor = _theme.SecondaryBackgroundColor;
         LeftNavigationPane.Direction = Direction.Vertical;
-        LeftNavigationPane.Dock = DockPosition.Left;
+        LeftNavigationPane.Dock = DockStyle.Left;
         LeftNavigationPane.DockIndex = 0;
         LeftNavigationPane.Width = 150;
         Controls.Add(LeftNavigationPane);
@@ -32,7 +32,7 @@ partial class ModularForm : FormSDL, IModularForm
         TopNavigationPane = new StackedLayout();
         TopNavigationPane.BackgroundColor = _theme.SecondaryBackgroundColor;
         TopNavigationPane.Direction = Direction.Horizontal;
-        TopNavigationPane.Dock = DockPosition.Top;
+        TopNavigationPane.Dock = DockStyle.Top;
         TopNavigationPane.DockIndex = 1;
         TopNavigationPane.Height = TopNavigationPaneHeight;
         Controls.Add(TopNavigationPane);
@@ -53,7 +53,7 @@ partial class ModularForm : FormSDL, IModularForm
         _contentPane = new StaticLayout();
         _contentPane.Location = new Point(0, TopNavigationPane.Height);
         _contentPane.Width = Width;
-        _contentPane.Dock = DockPosition.Fill;
+        _contentPane.Dock = DockStyle.Fill;
         _contentPane.DockIndex = 2;
         Controls.Add(_contentPane);
         SizeChanged += (s, e) =>

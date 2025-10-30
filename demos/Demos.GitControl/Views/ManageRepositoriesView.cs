@@ -10,7 +10,7 @@ public class ManageRepositoriesView : StackedLayout
     public ManageRepositoriesView()
     {
         Scrollable = ScrollableMode.Vertical;
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
 
         Add(new ManageRepositoriesItemControl());
     }

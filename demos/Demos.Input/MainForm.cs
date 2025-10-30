@@ -8,7 +8,7 @@ public class MainForm : Form
     public MainForm()
     {
         var flowLayout = new FlowLayout();
-        flowLayout.Dock = DockPosition.Fill;
+        flowLayout.Dock = DockStyle.Fill;
         flowLayout.ItemsSpacing = 10;
         Controls.Add(flowLayout);
 

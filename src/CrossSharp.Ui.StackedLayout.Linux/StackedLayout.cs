@@ -15,7 +15,7 @@ class StackedLayout : IStackedLayout
     readonly List<IControl> _controls = [];
 
     public int DockIndex { get; set; }
-    public DockPosition Dock { get; set; }
+    public DockStyle Dock { get; set; }
     public int ItemsSpacing { get; set; } = 0;
     public Direction Direction { get; set; } = Direction.Vertical;
     public int BorderWidth { get; set; }

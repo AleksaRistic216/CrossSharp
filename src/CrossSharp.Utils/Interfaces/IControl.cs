@@ -10,7 +10,6 @@ public interface IControl
         IIsMouseOverProvider
 {
     bool Visible { get; set; }
-    void Initialize();
     void Invalidate();
     void SuspendLayout();
     void ResumeLayout();

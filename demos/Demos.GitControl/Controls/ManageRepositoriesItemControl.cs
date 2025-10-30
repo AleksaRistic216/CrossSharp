@@ -8,7 +8,7 @@ public class ManageRepositoriesItemControl : StackedLayout
 {
     public ManageRepositoriesItemControl()
     {
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
         Add(
             new Button
             {

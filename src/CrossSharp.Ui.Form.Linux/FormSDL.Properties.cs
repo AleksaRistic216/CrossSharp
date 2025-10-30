@@ -22,7 +22,7 @@ partial class FormSDL
             return _windowId;
         }
     }
-    public IControlsContainer Controls { get; }
+    public IControlsContainer Controls { get; private set; }
     public ColorRgba BackgroundColor { get; set; } =
         Services.GetSingleton<ITheme>().BackgroundColor;
     public int Column { get; set; }

@@ -11,7 +11,7 @@ public class MainForm : Form
         Width = 800;
         Height = 600;
         var flowLayout = new CrossSharp.Ui.FlowLayout();
-        flowLayout.Dock = DockPosition.Fill;
+        flowLayout.Dock = DockStyle.Fill;
         flowLayout.BackgroundColor = ColorRgba.DarkGreen;
         Controls.Add(flowLayout);
 

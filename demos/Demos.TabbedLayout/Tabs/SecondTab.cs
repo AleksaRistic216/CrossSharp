@@ -11,7 +11,7 @@ public class SecondTab : StackedLayout
 
     public SecondTab()
     {
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
         _label = new Label() { Text = "This is the second page" };
         Add(_label);
         _button = new Button()

@@ -9,7 +9,7 @@ public class MainForm : Form
     public MainForm()
     {
         var tabbedLayout = new CrossSharp.Ui.TabbedLayout();
-        tabbedLayout.Dock = DockPosition.Fill;
+        tabbedLayout.Dock = DockStyle.Fill;
         tabbedLayout.AddTab("First Tab", typeof(FirstTab));
         tabbedLayout.AddTab("Second Tab", typeof(SecondTab));
         Controls.Add(tabbedLayout);

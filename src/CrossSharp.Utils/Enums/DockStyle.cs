@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Enums;
 
-public enum DockPosition
+public enum DockStyle
 {
     None,
     Top,

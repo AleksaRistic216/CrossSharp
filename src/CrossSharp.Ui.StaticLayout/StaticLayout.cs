@@ -18,7 +18,7 @@ public class StaticLayout()
         get => _impl.DockIndex;
         set => _impl.DockIndex = value;
     }
-    public DockPosition Dock
+    public DockStyle Dock
     {
         get => _impl.Dock;
         set => _impl.Dock = value;
@@ -82,8 +82,6 @@ public class StaticLayout()
         get => _impl.Visible;
         set => _impl.Visible = value;
     }
-
-    public void Initialize() => _impl.Initialize();
 
     public void Invalidate() => _impl.Invalidate();
 

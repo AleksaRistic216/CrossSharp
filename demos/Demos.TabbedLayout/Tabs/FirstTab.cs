@@ -13,7 +13,7 @@ public class FirstTab : StackedLayout
     public FirstTab()
     {
         ItemsSpacing = 10;
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
         _label = new Label() { Text = "This is the first page" };
         Add(_label);
         _button = new Button()

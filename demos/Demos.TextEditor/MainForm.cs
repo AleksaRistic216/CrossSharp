@@ -16,7 +16,7 @@ public class MainForm : Form
         InitializeMenuBar();
 
         var tabbedLayout = new TabbedLayout();
-        tabbedLayout.Dock = DockPosition.Fill;
+        tabbedLayout.Dock = DockStyle.Fill;
         tabbedLayout.DockIndex = 2;
         Controls.Add(tabbedLayout);
         tabbedLayout.AddTab("First Tab", typeof(TextEditTab));
@@ -36,7 +36,7 @@ public class MainForm : Form
         menuBar.Height = menuBarHeight;
         menuBar.BackgroundColor = Theme.SecondaryBackgroundColor.Darkened;
         menuBar.Direction = Direction.Horizontal;
-        menuBar.Dock = DockPosition.Top;
+        menuBar.Dock = DockStyle.Top;
         menuBar.DockIndex = 0;
         Controls.Add(menuBar);
 

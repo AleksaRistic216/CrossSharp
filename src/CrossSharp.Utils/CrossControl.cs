@@ -63,8 +63,6 @@ public abstract class CrossControl<T>(T implementation)
         set => Implementation.Visible = value;
     }
 
-    public void Initialize() => Implementation.Initialize();
-
     public void Invalidate() => Implementation.Invalidate();
 
     public void SuspendLayout() => Implementation.SuspendLayout();

@@ -33,7 +33,7 @@ class TabbedLayout : ITabbedLayout
         _tabs = new StaticLayout();
         _tabs.Parent = this;
         _tabs.DockIndex = 1;
-        _tabs.Dock = DockPosition.Fill;
+        _tabs.Dock = DockStyle.Fill;
         _controls.Add(_tabs);
         _controlsController = new DynamicControlsController(ref _tabs);
     }
@@ -45,7 +45,7 @@ class TabbedLayout : ITabbedLayout
         _header.BackgroundColor = _theme.SecondaryBackgroundColor;
         _header.Parent = this;
         _header.DockIndex = 0;
-        _header.Dock = DockPosition.Top;
+        _header.Dock = DockStyle.Top;
         _header.Height = headerHeight;
         _controls.Add(_header);
     }
@@ -91,7 +91,7 @@ class TabbedLayout : ITabbedLayout
     }
 
     public int DockIndex { get; set; }
-    public DockPosition Dock { get; set; }
+    public DockStyle Dock { get; set; }
     public ColorRgba BackgroundColor { get; set; }
     public EventHandler? BackgroundColorChanged { get; set; }
 

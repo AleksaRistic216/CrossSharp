@@ -23,7 +23,7 @@ class FirstPage : StackedLayout
     public FirstPage(MainForm mainForm)
     {
         _mainForm = mainForm;
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
         _label = new Label() { Text = "This is the first page" };
         Add(_label);
         _button = new Button()
@@ -53,7 +53,7 @@ class SecondPage : StackedLayout
     public SecondPage(MainForm mainForm)
     {
         _mainForm = mainForm;
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
         _label = new Label() { Text = "This is the second page" };
         Add(_label);
         _button = new Button()

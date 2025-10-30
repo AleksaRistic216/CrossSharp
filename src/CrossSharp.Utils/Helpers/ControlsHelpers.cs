@@ -61,7 +61,7 @@ public static class ControlsHelpers
 
     public static void PerformDocking(this IDockable control)
     {
-        if (control.Dock == DockPosition.None)
+        if (control.Dock == DockStyle.None)
             return;
         if (control.Parent is not IControlsContainer parent)
             return;
@@ -69,7 +69,7 @@ public static class ControlsHelpers
         HashSet<int> recordedDockIndexes = [];
         foreach (var sibling in parent)
         {
-            if (sibling is not IDockable dockedSibling || dockedSibling.Dock == DockPosition.None)
+            if (sibling is not IDockable dockedSibling || dockedSibling.Dock == DockStyle.None)
                 continue;
             if (recordedDockIndexes.Contains(dockedSibling.DockIndex))
                 throw new Exception(
@@ -83,50 +83,50 @@ public static class ControlsHelpers
             var siblingBounds = new Rectangle(dockedSibling.Location, dockedSibling.Size);
             switch (dockedSibling.Dock)
             {
-                case DockPosition.Top:
+                case DockStyle.Top:
                     parentBounds.Y += siblingBounds.Height;
                     parentBounds.Height -= siblingBounds.Height;
                     break;
-                case DockPosition.Bottom:
+                case DockStyle.Bottom:
                     parentBounds.Height -= siblingBounds.Height;
                     break;
-                case DockPosition.Left:
+                case DockStyle.Left:
                     parentBounds.X += siblingBounds.Width;
                     parentBounds.Width -= siblingBounds.Width;
                     break;
-                case DockPosition.Right:
+                case DockStyle.Right:
                     parentBounds.Width -= siblingBounds.Width;
                     break;
-                case DockPosition.Fill:
+                case DockStyle.Fill:
                     parentBounds = Rectangle.Empty;
                     break;
             }
         }
         switch (control.Dock)
         {
-            case DockPosition.Top:
+            case DockStyle.Top:
                 control.Location = new Point(parentBounds.X, parentBounds.Y);
                 control.Width = parentBounds.Width;
                 break;
-            case DockPosition.Bottom:
+            case DockStyle.Bottom:
                 control.Location = new Point(
                     parentBounds.X,
                     parentBounds.Y + parentBounds.Height - control.Height
                 );
                 control.Width = parentBounds.Width;
                 break;
-            case DockPosition.Left:
+            case DockStyle.Left:
                 control.Location = new Point(parentBounds.X, parentBounds.Y);
                 control.Height = parentBounds.Height;
                 break;
-            case DockPosition.Right:
+            case DockStyle.Right:
                 control.Location = new Point(
                     parentBounds.X + parentBounds.Width - control.Width,
                     parentBounds.Y
                 );
                 control.Height = parentBounds.Height;
                 break;
-            case DockPosition.Fill:
+            case DockStyle.Fill:
                 control.Location = new Point(parentBounds.X, parentBounds.Y);
                 control.Width = parentBounds.Width;
                 control.Height = parentBounds.Height;

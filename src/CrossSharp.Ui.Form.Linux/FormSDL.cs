@@ -1,10 +1,8 @@
-using System.Net.Mime;
+using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Rectangle = System.Drawing.Rectangle;
 
 namespace CrossSharp.Ui.Linux;
@@ -13,14 +11,7 @@ partial class FormSDL : IFormSDL
 {
     public FormSDL()
     {
-        Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
-        ((IFormSDL)this).RecordLocation();
-        ((IFormSDL)this).RecordSize();
-        CreateRenderer();
-        Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
-        Controls.Parent = this;
-        Services.GetSingleton<IApplication>().Forms.Add(this);
-        Invalidate();
+        Initialize();
     }
 
     void CreateRenderer()
@@ -44,7 +35,7 @@ partial class FormSDL : IFormSDL
     void IFormSDL.RecordLocation()
     {
         SDLHelpers.SDL_GetWindowPosition(Handle, out int x, out int y);
-        Location = new System.Drawing.Point(x, y);
+        Location = new Point(x, y);
     }
 
     public void RecordSize()
@@ -54,7 +45,17 @@ partial class FormSDL : IFormSDL
         Height = h;
     }
 
-    public void Initialize() { }
+    public void Initialize()
+    {
+        Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
+        ((IFormSDL)this).RecordLocation();
+        ((IFormSDL)this).RecordSize();
+        CreateRenderer();
+        Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
+        Controls.Parent = this;
+        Services.GetSingleton<IApplication>().Forms.Add(this);
+        Invalidate();
+    }
 
     public void Invalidate()
     {

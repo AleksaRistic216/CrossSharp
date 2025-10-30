@@ -7,7 +7,7 @@ public class TextEditTab : StaticLayout
 {
     public TextEditTab()
     {
-        Dock = DockPosition.Fill;
+        Dock = DockStyle.Fill;
 
         var input = new Input();
         input.Width = Width;

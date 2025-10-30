@@ -19,18 +19,18 @@ public class TestForm : Form
     public TestForm()
     {
         IStackedLayout stackedLayout = new StackedLayout();
-        stackedLayout.Dock = DockPosition.Fill;
+        stackedLayout.Dock = DockStyle.Fill;
         stackedLayout.BackgroundColor = ColorRgba.Blue;
         Controls.Add(stackedLayout);
 
         NestedLayout.Direction = Direction.Horizontal;
-        NestedLayout.Dock = DockPosition.Bottom;
+        NestedLayout.Dock = DockStyle.Bottom;
         NestedLayout.Height = 105;
         NestedLayout.BackgroundColor = ColorRgba.Green;
         stackedLayout.Add(NestedLayout);
 
         NestedLayoutItem1.Direction = Direction.Vertical;
-        NestedLayoutItem1.Dock = DockPosition.Left;
+        NestedLayoutItem1.Dock = DockStyle.Left;
         NestedLayoutItem1.Width = 100;
         NestedLayoutItem1.BackgroundColor = ColorRgba.Yellow;
         NestedLayout.Add(NestedLayoutItem1);

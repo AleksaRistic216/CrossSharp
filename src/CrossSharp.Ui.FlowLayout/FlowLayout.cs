@@ -69,8 +69,6 @@ public class FlowLayout()
         set => _impl.Visible = value;
     }
 
-    public void Initialize() => _impl.Initialize();
-
     public void Invalidate() => _impl.Invalidate();
 
     public void SuspendLayout() => _impl.SuspendLayout();
@@ -88,7 +86,7 @@ public class FlowLayout()
         get => _impl.DockIndex;
         set => _impl.DockIndex = value;
     }
-    public DockPosition Dock
+    public DockStyle Dock
     {
         get => _impl.Dock;
         set => _impl.Dock = value;
