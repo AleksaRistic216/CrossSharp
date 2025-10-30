@@ -69,7 +69,10 @@ partial class FormSDL : IFormSDL
         SDLHelpers.SDL_SetWindowTitle(Handle, _title);
     }
 
-    public void Show() { }
+    public void Show()
+    {
+        SDLHelpers.SDL_ShowWindow(Handle);
+    }
 
     public void Redraw()
     {

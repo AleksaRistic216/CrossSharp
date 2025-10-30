@@ -4,7 +4,7 @@ namespace Demos.FilesPicker;
 
 public class MainForm : Form
 {
-    CrossSharp.Ui.FilesPicker filesPicker;
+    CrossSharp.Ui.FilesPicker filesPicker = new();
 
     public MainForm()
     {
@@ -13,7 +13,7 @@ public class MainForm : Form
         button.AutoSize = true;
         button.Click += (s, e) =>
         {
-            filesPicker = new CrossSharp.Ui.FilesPicker();
+            filesPicker.Show();
         };
         Controls.Add(button);
     }

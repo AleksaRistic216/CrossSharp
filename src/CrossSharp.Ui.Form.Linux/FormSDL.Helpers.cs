@@ -9,7 +9,7 @@ partial class FormSDL
     static IntPtr CreateWindow(string title, int width, int height)
     {
         var appConfig = Services.GetSingleton<IApplicationConfiguration>();
-        var flags = SDLWindowFlags.SHOWN | SDLWindowFlags.RESIZABLE;
+        uint flags = SDLWindowFlags.HIDDEN | SDLWindowFlags.RESIZABLE;
         if (appConfig.HighDpi)
             flags |= SDLWindowFlags.ALLOW_HIGHDPI;
 
@@ -31,6 +31,7 @@ partial class FormSDL
     {
         if (Handle == IntPtr.Zero)
             return;
+        SDLHelpers.SDL_DestroyRenderer(Renderer);
         SDLHelpers.SDL_DestroyWindow(Handle);
     }
 }

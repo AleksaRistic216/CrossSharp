@@ -27,6 +27,9 @@ internal static class SDLHelpers
     internal static extern void SDL_SetWindowTitle(IntPtr window, string title);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_ShowWindow(IntPtr window);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_GetWindowPosition(IntPtr window, out int x, out int y);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
@@ -37,6 +40,9 @@ internal static class SDLHelpers
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_DestroyWindow(IntPtr window);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_DestroyRenderer(IntPtr renderer);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern bool SDL_GetWindowWMInfo(IntPtr window, ref SDL_SysWMinfo info);

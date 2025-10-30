@@ -8,5 +8,5 @@ public class FilesPicker()
     : CrossControl<IFilesPicker>(Services.GetSingleton<IFilesPickerFactory>().Create()),
         IFilesPicker
 {
-    public void ShowDialog() => Implementation.ShowDialog();
+    public void Show() => Implementation.Show();
 }
