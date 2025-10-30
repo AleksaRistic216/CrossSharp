@@ -106,6 +106,8 @@ public class FlowLayout()
 
     public void Remove(params IControl[] controls) => _impl.Remove(controls);
 
+    public void Clear() => _impl.Clear();
+
     public int ItemsSpacing
     {
         get => _impl.ItemsSpacing;

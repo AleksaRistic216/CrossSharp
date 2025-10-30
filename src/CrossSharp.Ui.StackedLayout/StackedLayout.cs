@@ -45,6 +45,8 @@ public class StackedLayout()
 
     public void Remove(params IControl[] controls) => _impl.Remove(controls);
 
+    public void Clear() => _impl.Clear();
+
     public void Dispose() => _impl.Dispose();
 
     public int BorderWidth

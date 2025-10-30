@@ -196,4 +196,6 @@ partial class FlowLayout : IFlowLayout
     }
 
     public void Remove(params IControl[] controls) => _controls.RemoveAll(controls.Contains);
+
+    public void Clear() => _controls.Clear();
 }

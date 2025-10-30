@@ -8,4 +8,5 @@ public interface IControlsContainer
 {
     void Add(params IControl[] controls);
     void Remove(params IControl[] controls);
+    void Clear();
 };

@@ -149,4 +149,6 @@ class TabbedLayout : ITabbedLayout
     {
         throw new NotSupportedException("Use RemoveTab method to remove tabs.");
     }
+
+    public void Clear() => throw new NotImplementedException(); // IDk if I should have it here, think abt it later
 }

@@ -78,6 +78,8 @@ class StaticLayout : IStaticLayout
 
     public void Remove(params IControl[] controls) => _controls.RemoveAll(controls.Contains);
 
+    public void Clear() => _controls.Clear();
+
     public void Draw(ref IGraphics graphics)
     {
         foreach (var c in _controls.ToArray())

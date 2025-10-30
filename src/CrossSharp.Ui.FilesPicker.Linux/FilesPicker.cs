@@ -10,9 +10,9 @@ public class FilesPicker : Form, IFilesPicker
     StackedLayout _leftRow;
     StackedLayout _rightRow;
     StackedLayout _actionBar;
+    StackedLayout _contentsList;
     Input _locationInput;
     ITheme Theme => Services.GetSingleton<ITheme>();
-    HashSet<string> _drives = [];
 
     const int _leftRowWidth = 150;
 
@@ -51,10 +51,8 @@ public class FilesPicker : Form, IFilesPicker
         rootButton.Text = "Root (/)";
         rootButton.TextAlignment = Alignment.Left;
         rootButton.Height = 40;
-        rootButton.Click = (s, e) =>
-        {
-            Notifications.Show("Going to location", "/");
-        };
+        rootButton.Tag = "/";
+        rootButton.Click = OnLocationButtonClicked;
         _leftRow.Add(rootButton);
     }
 
@@ -64,13 +62,8 @@ public class FilesPicker : Form, IFilesPicker
         homeButton.Text = "Home (~)";
         homeButton.TextAlignment = Alignment.Left;
         homeButton.Height = 40;
-        homeButton.Click = (s, e) =>
-        {
-            Notifications.Show(
-                "Going to location",
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
-            );
-        };
+        homeButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        homeButton.Click = OnLocationButtonClicked;
         _leftRow.Add(homeButton);
     }
 
@@ -80,13 +73,8 @@ public class FilesPicker : Form, IFilesPicker
         documentsButton.Text = "Documents";
         documentsButton.TextAlignment = Alignment.Left;
         documentsButton.Height = 40;
-        documentsButton.Click = (s, e) =>
-        {
-            Notifications.Show(
-                "Going to location",
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            );
-        };
+        documentsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        documentsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(documentsButton);
     }
 
@@ -96,13 +84,8 @@ public class FilesPicker : Form, IFilesPicker
         musicButton.Text = "Music";
         musicButton.TextAlignment = Alignment.Left;
         musicButton.Height = 40;
-        musicButton.Click = (s, e) =>
-        {
-            Notifications.Show(
-                "Going to location",
-                Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
-            );
-        };
+        musicButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        musicButton.Click = OnLocationButtonClicked;
         _leftRow.Add(musicButton);
     }
 
@@ -112,13 +95,8 @@ public class FilesPicker : Form, IFilesPicker
         picturesButton.Text = "Pictures";
         picturesButton.TextAlignment = Alignment.Left;
         picturesButton.Height = 40;
-        picturesButton.Click = (s, e) =>
-        {
-            Notifications.Show(
-                "Going to location",
-                Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
-            );
-        };
+        picturesButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        picturesButton.Click = OnLocationButtonClicked;
         _leftRow.Add(picturesButton);
     }
 
@@ -128,13 +106,8 @@ public class FilesPicker : Form, IFilesPicker
         videosButton.Text = "Videos";
         videosButton.TextAlignment = Alignment.Left;
         videosButton.Height = 40;
-        videosButton.Click = (s, e) =>
-        {
-            Notifications.Show(
-                "Going to location",
-                Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)
-            );
-        };
+        videosButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        videosButton.Click = OnLocationButtonClicked;
         _leftRow.Add(videosButton);
     }
 
@@ -144,13 +117,8 @@ public class FilesPicker : Form, IFilesPicker
         downloadsButton.Text = "Downloads";
         downloadsButton.TextAlignment = Alignment.Left;
         downloadsButton.Height = 40;
-        downloadsButton.Click = (s, e) =>
-        {
-            Notifications.Show(
-                "Going to location",
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads"
-            );
-        };
+        downloadsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        downloadsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(downloadsButton);
     }
 
@@ -161,10 +129,16 @@ public class FilesPicker : Form, IFilesPicker
         _rightRow.BackgroundColor = Theme.BackgroundColor;
         _rightRow.DockIndex = 1;
         Controls.Add(_rightRow);
+        InitializeActionBar();
+        InitializeContentsList();
+    }
 
+    void InitializeActionBar()
+    {
         _actionBar = new StackedLayout();
         _actionBar.Height = 40;
         _actionBar.Dock = DockStyle.Top;
+        _actionBar.DockIndex = 0;
         _actionBar.Direction = Direction.Horizontal;
         _rightRow.Add(_actionBar);
 
@@ -178,5 +152,50 @@ public class FilesPicker : Form, IFilesPicker
         _locationInput.Dock = DockStyle.Fill;
         _locationInput.Height = 40;
         _actionBar.Add(_locationInput);
+    }
+
+    void InitializeContentsList()
+    {
+        _contentsList = new StackedLayout();
+        _contentsList.DockIndex = 1;
+        _contentsList.Dock = DockStyle.Fill;
+        _contentsList.Scrollable = ScrollableMode.Vertical;
+        _rightRow.Add(_contentsList);
+    }
+
+    void OnLocationButtonClicked(object? sender, EventArgs e)
+    {
+        if (sender is not IButton button)
+            return;
+        var path = button.Tag as string;
+        if (string.IsNullOrEmpty(path))
+            return;
+        LoadDirectoryContents(path);
+    }
+
+    void LoadDirectoryContents(string path)
+    {
+        _contentsList.Clear();
+
+        try
+        {
+            var entries = Directory.GetFileSystemEntries(path);
+            foreach (var entry in entries)
+            {
+                var entryButton = new Button();
+                entryButton.Text = Path.GetFileName(entry);
+                entryButton.TextAlignment = Alignment.Left;
+                entryButton.Height = 30;
+                entryButton.Click = (s, e) =>
+                {
+                    Notifications.Show("Clicked on", entry);
+                };
+                _contentsList.Add(entryButton);
+            }
+        }
+        catch (Exception ex)
+        {
+            Notifications.Show("Error loading directory", ex.Message);
+        }
     }
 }

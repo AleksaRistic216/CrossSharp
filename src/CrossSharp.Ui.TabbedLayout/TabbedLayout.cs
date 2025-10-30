@@ -113,4 +113,6 @@ public class TabbedLayout()
     public void Add(params IControl[] controls) => _impl.Add(controls);
 
     public void Remove(params IControl[] controls) => _impl.Remove(controls);
+
+    public void Clear() => _impl.Clear();
 }
