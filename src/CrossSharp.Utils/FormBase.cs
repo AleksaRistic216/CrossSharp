@@ -17,10 +17,10 @@ public abstract class FormBase<T> : IForm
     public IControlsContainer Controls => Implementation.Controls;
     public IntPtr Handle => Implementation.Handle;
     public ITitleBar? TitleBar => Implementation.TitleBar;
-    public EventHandler? OnTitleChanged
+    public EventHandler? TitleChanged
     {
-        get => Implementation.OnTitleChanged;
-        set { Implementation.OnTitleChanged = value; }
+        get => Implementation.TitleChanged;
+        set { Implementation.TitleChanged = value; }
     }
     public IApplication AppInstance => Implementation.AppInstance;
     public bool UseNativeTitleBar
@@ -34,10 +34,10 @@ public abstract class FormBase<T> : IForm
         set { Implementation.Visible = value; }
     }
 
-    public EventHandler? OnShow
+    public EventHandler? Shown
     {
-        get => Implementation.OnShow;
-        set { Implementation.OnShow = value; }
+        get => Implementation.Shown;
+        set { Implementation.Shown = value; }
     }
     public EventHandler? OnClose
     {

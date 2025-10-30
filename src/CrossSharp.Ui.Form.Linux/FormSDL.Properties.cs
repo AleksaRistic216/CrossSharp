@@ -75,7 +75,18 @@ partial class FormSDL
         }
     }
     public int ZIndex { get; set; }
-    public bool Visible { get; set; }
+    bool _visible = false;
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            OnVisibleChangedInternal();
+        }
+    }
 
     public bool IsMouseOver { get; set; }
 }

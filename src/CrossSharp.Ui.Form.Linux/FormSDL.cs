@@ -71,7 +71,7 @@ partial class FormSDL : IFormSDL
 
     public void Show()
     {
-        SDLHelpers.SDL_ShowWindow(Handle);
+        Visible = true;
     }
 
     public void Redraw()
