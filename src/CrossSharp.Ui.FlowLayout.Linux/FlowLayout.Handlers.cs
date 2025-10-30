@@ -54,4 +54,10 @@ partial class FlowLayout
     }
 
     void RaiseJustifyContentChanged() => JustifyContentChanged?.Invoke(this, EventArgs.Empty);
+
+    public EventHandler? MarginChanged { get; set; }
+
+    void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnMarginChangedInternal() => RaiseMarginChanged();
 }

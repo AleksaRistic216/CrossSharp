@@ -108,4 +108,29 @@ public class StaticLayout()
         get => _impl.IsMouseOver;
         set => _impl.IsMouseOver = value;
     }
+    public int MarginTop
+    {
+        get => _impl.MarginTop;
+        set => _impl.MarginTop = value;
+    }
+    public int MarginBottom
+    {
+        get => _impl.MarginBottom;
+        set => _impl.MarginBottom = value;
+    }
+    public int MarginLeft
+    {
+        get => _impl.MarginLeft;
+        set => _impl.MarginLeft = value;
+    }
+    public int MarginRight
+    {
+        get => _impl.MarginRight;
+        set => _impl.MarginRight = value;
+    }
+    public EventHandler? MarginChanged
+    {
+        get => _impl.MarginChanged;
+        set => _impl.MarginChanged = value;
+    }
 }

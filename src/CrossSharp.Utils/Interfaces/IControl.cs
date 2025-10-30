@@ -7,7 +7,8 @@ public interface IControl
         ILocationProvider,
         ISizeProvider,
         IChild,
-        IIsMouseOverProvider
+        IIsMouseOverProvider,
+        IMarginProvider
 {
     bool Visible { get; set; }
     void Invalidate();

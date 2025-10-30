@@ -98,4 +98,9 @@ public partial class ControlBase
         }
     }
     public int ZIndex { get; set; } = 0;
+
+    public int MarginTop { get; set; }
+    public int MarginBottom { get; set; }
+    public int MarginLeft { get; set; }
+    public int MarginRight { get; set; }
 }

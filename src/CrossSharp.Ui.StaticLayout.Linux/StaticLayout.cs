@@ -96,4 +96,9 @@ class StaticLayout : IStaticLayout
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? BackgroundColorChanged { get; set; }
     public bool IsMouseOver { get; set; } = false;
+    public int MarginTop { get; set; }
+    public int MarginBottom { get; set; }
+    public int MarginLeft { get; set; }
+    public int MarginRight { get; set; }
+    public EventHandler? MarginChanged { get; set; }
 }

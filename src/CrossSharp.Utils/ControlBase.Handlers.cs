@@ -46,4 +46,16 @@ public partial class ControlBase
     {
         LocationChanged?.Invoke(this, newLocation);
     }
+
+    public EventHandler? MarginChanged { get; set; }
+
+    void RaiseMarginChanged()
+    {
+        MarginChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    void OnMarginChangedInternal(object? sender, EventArgs e)
+    {
+        RaiseMarginChanged();
+    }
 }

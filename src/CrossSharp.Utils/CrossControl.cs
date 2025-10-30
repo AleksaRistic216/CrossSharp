@@ -76,4 +76,29 @@ public abstract class CrossControl<T>(T implementation)
         get => Implementation.IsMouseOver;
         set => Implementation.IsMouseOver = value;
     }
+    public int MarginTop
+    {
+        get => Implementation.MarginTop;
+        set => Implementation.MarginTop = value;
+    }
+    public int MarginBottom
+    {
+        get => Implementation.MarginBottom;
+        set => Implementation.MarginBottom = value;
+    }
+    public int MarginLeft
+    {
+        get => Implementation.MarginLeft;
+        set => Implementation.MarginLeft = value;
+    }
+    public int MarginRight
+    {
+        get => Implementation.MarginRight;
+        set => Implementation.MarginRight = value;
+    }
+    public EventHandler? MarginChanged
+    {
+        get => Implementation.MarginChanged;
+        set => Implementation.MarginChanged = value;
+    }
 }

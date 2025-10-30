@@ -1,80 +1,21 @@
 using System.Collections;
 using System.Drawing;
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
-using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
-using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Linux;
 
-class StackedLayout : IStackedLayout
+partial class StackedLayout : IStackedLayout
 {
-    readonly List<IControl> _controls = [];
-
-    public int DockIndex { get; set; }
-    public DockStyle Dock { get; set; }
-    public int ItemsSpacing { get; set; } = 0;
-    public Direction Direction { get; set; } = Direction.Vertical;
-    public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
-
-    public Point Location { get; set; }
-    public EventHandler<Point>? LocationChanged { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public EventHandler<Size>? SizeChanged { get; set; }
-    public object Parent { get; set; }
-    public bool Visible { get; set; }
-    IInputHandler _inputHandler;
-
     public StackedLayout()
     {
         _inputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputHandlerEvents();
     }
 
-    void SubscribeToInputHandlerEvents()
-    {
-        _inputHandler.MouseWheel += InputHandlerOnMouseWheel;
-        _inputHandler.MouseMoved += OnMouseMoved;
-    }
-
-    void UnsubscribeFromInputHandlerEvents()
-    {
-        _inputHandler.MouseWheel -= InputHandlerOnMouseWheel;
-        _inputHandler.MouseMoved -= OnMouseMoved;
-    }
-
-    void OnMouseMoved(object? sender, MouseInputArgs e)
-    {
-        IsMouseOver = MouseHelpers.IsMouseOver(this, new Point(e.X, e.Y));
-    }
-
-    void InputHandlerOnMouseWheel(object? sender, MouseWheelInputArgs e)
-    {
-        if (!IsMouseOver)
-            return;
-
-        var rotation = e.Rotation;
-        rotation /= 10;
-        if (Math.Abs(rotation) <= 0)
-            return;
-        if (Scrollable == ScrollableMode.Vertical)
-            ScrollableHelpers.Scroll(Direction.Vertical, rotation, this, ref _viewPort);
-        else if (Scrollable == ScrollableMode.Horizontal)
-            ScrollableHelpers.Scroll(Direction.Horizontal, rotation, this, ref _viewPort);
-        else if (Scrollable == ScrollableMode.Both)
-        {
-            // TODO: implement both direction scrolling using mouse and shift key
-        }
-    }
-
     public void LimitClip(ref IGraphics g) { }
-
-    public void Initialize() { }
 
     public void Invalidate()
     {
@@ -184,28 +125,4 @@ class StackedLayout : IStackedLayout
         _controls.Clear();
         UnsubscribeFromInputHandlerEvents();
     }
-
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
-    public EventHandler? BackgroundColorChanged { get; set; }
-    public bool IsMouseOver { get; set; }
-    public Padding Padding { get; set; } = Padding.Zero;
-    public ScrollableMode Scrollable { get; set; } = ScrollableMode.None;
-    Rectangle _viewPort = Rectangle.Empty;
-    public Rectangle Viewport
-    {
-        get
-        {
-            return Scrollable == ScrollableMode.None
-                ? new Rectangle(Location.X, Location.Y, Width, Height)
-                : _viewPort;
-        }
-        set
-        {
-            if (_viewPort.Equals(value))
-                return;
-            _viewPort = value;
-            // OnViewportChanged?.Invoke(this, EventArgs.Empty);
-        }
-    }
-    public Rectangle ContentBounds { get; set; }
 }

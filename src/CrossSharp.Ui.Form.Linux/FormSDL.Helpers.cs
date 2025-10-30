@@ -40,4 +40,9 @@ partial class FormSDL
         SDLHelpers.SDL_DestroyRenderer(Renderer);
         SDLHelpers.SDL_DestroyWindow(Handle);
     }
+
+    public int MarginTop { get; set; }
+    public int MarginBottom { get; set; }
+    public int MarginLeft { get; set; }
+    public int MarginRight { get; set; }
 }

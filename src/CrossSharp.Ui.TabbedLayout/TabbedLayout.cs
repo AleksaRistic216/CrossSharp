@@ -115,4 +115,30 @@ public class TabbedLayout()
     public void Remove(params IControl[] controls) => _impl.Remove(controls);
 
     public void Clear() => _impl.Clear();
+
+    public int MarginTop
+    {
+        get => _impl.MarginTop;
+        set => _impl.MarginTop = value;
+    }
+    public int MarginBottom
+    {
+        get => _impl.MarginBottom;
+        set => _impl.MarginBottom = value;
+    }
+    public int MarginLeft
+    {
+        get => _impl.MarginLeft;
+        set => _impl.MarginLeft = value;
+    }
+    public int MarginRight
+    {
+        get => _impl.MarginRight;
+        set => _impl.MarginRight = value;
+    }
+    public EventHandler? MarginChanged
+    {
+        get => _impl.MarginChanged;
+        set => _impl.MarginChanged = value;
+    }
 }

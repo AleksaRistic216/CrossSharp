@@ -151,4 +151,10 @@ class TabbedLayout : ITabbedLayout
     }
 
     public void Clear() => throw new NotImplementedException(); // IDk if I should have it here, think abt it later
+
+    public int MarginTop { get; set; }
+    public int MarginBottom { get; set; }
+    public int MarginLeft { get; set; }
+    public int MarginRight { get; set; }
+    public EventHandler? MarginChanged { get; set; }
 }

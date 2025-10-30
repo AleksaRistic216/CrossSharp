@@ -36,4 +36,10 @@ partial class FormSDL
         if (Visible)
             Shown?.Invoke(this, EventArgs.Empty);
     }
+
+    public EventHandler? MarginChanged { get; set; }
+
+    void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnMarginChangedInternal() => RaiseMarginChanged();
 }
