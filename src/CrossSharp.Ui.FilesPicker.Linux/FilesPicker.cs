@@ -13,6 +13,7 @@ public class FilesPicker : Form, IFilesPicker
     StackedLayout _contentsList;
     Input _locationInput;
     ITheme Theme => Services.GetSingleton<ITheme>();
+    string _currentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
     const int _leftRowWidth = 150;
 
@@ -25,6 +26,7 @@ public class FilesPicker : Form, IFilesPicker
     {
         InitializeLeftRow();
         InitializeRightRow();
+        LoadDirectoryContents(_currentDirectory);
     }
 
     void InitializeLeftRow()
@@ -175,6 +177,7 @@ public class FilesPicker : Form, IFilesPicker
 
     void LoadDirectoryContents(string path)
     {
+        _locationInput.Placeholder = path;
         _contentsList.Clear();
 
         try

@@ -23,6 +23,16 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
         set => Implementation.BackgroundColorChanged = value;
     }
 
+    public string? Placeholder
+    {
+        get => Implementation.Placeholder;
+        set => Implementation.Placeholder = value;
+    }
+    public EventHandler? PlaceholderChanged
+    {
+        get => Implementation.PlaceholderChanged;
+        set => Implementation.PlaceholderChanged = value;
+    }
     public bool MultiLine
     {
         get => Implementation.MultiLine;
@@ -34,10 +44,10 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
         get => Implementation.Text;
         set => Implementation.Text = value;
     }
-    public EventHandler? OnTextChanged
+    public EventHandler? TextChanged
     {
-        get => Implementation.OnTextChanged;
-        set => Implementation.OnTextChanged = value;
+        get => Implementation.TextChanged;
+        set => Implementation.TextChanged = value;
     }
     public int FontSize
     {

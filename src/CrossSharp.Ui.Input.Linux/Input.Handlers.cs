@@ -4,7 +4,17 @@ partial class Input
 {
     public EventHandler? Click { get; set; }
     public EventHandler? BackgroundColorChanged { get; set; }
-    public EventHandler? OnTextChanged { get; set; }
+    public EventHandler? PlaceholderChanged { get; set; }
+
+    void RaisePlaceholderChanged() => PlaceholderChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnPlaceholderChangedInternal()
+    {
+        Invalidate();
+        RaisePlaceholderChanged();
+    }
+
+    public EventHandler? TextChanged { get; set; }
     public EventHandler? OnFocusChanged { get; set; }
 
     void OnBackgroundColorChangedInternal()
@@ -33,6 +43,6 @@ partial class Input
 
     void RaiseTextChanged()
     {
-        OnTextChanged?.Invoke(this, EventArgs.Empty);
+        TextChanged?.Invoke(this, EventArgs.Empty);
     }
 }

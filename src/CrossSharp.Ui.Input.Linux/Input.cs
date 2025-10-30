@@ -99,8 +99,19 @@ partial class Input : ControlBase, IInput
 
     public override void DrawContent(ref IGraphics g)
     {
-        DrawCaret(ref g);
+        DrawPlaceholder(ref g);
         DrawText(ref g);
+        DrawCaret(ref g);
+    }
+
+    void DrawPlaceholder(ref IGraphics g)
+    {
+        if (!string.IsNullOrEmpty(Text))
+            return;
+        if (string.IsNullOrEmpty(Placeholder))
+            return;
+        var padding = 2;
+        g.DrawText(Placeholder!, padding, padding, FontFamily.Default, FontSize, ColorRgba.Gray);
     }
 
     void DrawCaret(ref IGraphics g)

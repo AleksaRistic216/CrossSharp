@@ -60,4 +60,16 @@ partial class Input
     public bool IsFocused { get; set; }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
+    string? _placeholder = null;
+    public string? Placeholder
+    {
+        get => _placeholder;
+        set
+        {
+            if (_placeholder == value)
+                return;
+            _placeholder = value;
+            OnPlaceholderChangedInternal();
+        }
+    }
 }
