@@ -104,6 +104,21 @@ public static class ControlsHelpers
                     break;
             }
         }
+        var marginTop = 0;
+        var marginBottom = 0;
+        var marginLeft = 0;
+        var marginRight = 0;
+        if (control is IMarginProvider mp)
+        {
+            marginTop = mp.MarginTop;
+            marginBottom = mp.MarginBottom;
+            marginLeft = mp.MarginLeft;
+            marginRight = mp.MarginRight;
+        }
+        parentBounds.X += marginLeft;
+        parentBounds.Y += marginTop;
+        parentBounds.Width -= marginLeft + marginRight;
+        parentBounds.Height -= marginTop + marginBottom;
         switch (control.Dock)
         {
             case DockStyle.Top:

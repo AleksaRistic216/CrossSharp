@@ -12,7 +12,7 @@ partial class StackedLayout
     readonly List<IControl> _controls = [];
     Rectangle _viewPort = Rectangle.Empty;
 
-    public object Parent { get; set; }
+    public object? Parent { get; set; }
     public bool Visible { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }

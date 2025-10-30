@@ -2,7 +2,9 @@ using CrossSharp.Desktop;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -17,7 +19,7 @@ public class FilesPicker : Form, IFilesPicker
     string _currentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
     const int _leftRowWidth = 150;
-    const int _blockHeight = 28;
+    const int _blockHeight = 40;
 
     public FilesPicker()
     {
@@ -145,16 +147,15 @@ public class FilesPicker : Form, IFilesPicker
         _actionBar.DockIndex = 0;
         _actionBar.Direction = Direction.Horizontal;
         _rightRow.Add(_actionBar);
-
         InitializeLocationInput();
     }
 
     void InitializeLocationInput()
     {
         _locationInput = new Input();
-        // _locationInput.PlaceholderText = "Location";
         _locationInput.Dock = DockStyle.Fill;
         _locationInput.Height = _blockHeight;
+        _locationInput.SetMargin(4);
         _actionBar.Add(_locationInput);
     }
 
