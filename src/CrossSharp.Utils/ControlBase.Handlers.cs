@@ -22,7 +22,12 @@ public partial class ControlBase
             f.IsFocused = IsMouseOver;
 
         if (IsMouseOver && this is IClickable c)
-            c.Click?.Invoke(this, e);
+        {
+            MainThreadDispatcher.Invoke(() =>
+            {
+                c.Click?.Invoke(this, e);
+            });
+        }
     }
 
     internal virtual void OnMouseMoved(object? sender, MouseInputArgs e)

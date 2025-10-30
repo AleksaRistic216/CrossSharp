@@ -14,11 +14,8 @@ public class MainForm : Form
         button.AutoSize = true;
         button.Click += (s, e) =>
         {
-            MainThreadDispatcher.Invoke(() =>
-            {
-                filesPicker = new CrossSharp.Ui.FilesPicker();
-                filesPicker.Show();
-            });
+            filesPicker = new CrossSharp.Ui.FilesPicker();
+            filesPicker.Show();
         };
         Controls.Add(button);
     }
