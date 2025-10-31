@@ -10,8 +10,12 @@ using Size = System.Drawing.Size;
 
 namespace CrossSharp.Utils.Drawing;
 
-public class SDLGraphics : IGraphics
+class SDLGraphics : IGraphics
 {
+    IntPtr ContentTexture { get; set; } = IntPtr.Zero;
+    IntPtr MaskTexture { get; set; } = IntPtr.Zero;
+    int TextureWidth { get; set; }
+    int TextureHeight { get; set; }
     const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
     IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
@@ -38,6 +42,12 @@ public class SDLGraphics : IGraphics
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_SetRenderDrawColor(IntPtr renderer, byte r, byte g, byte b, byte a);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern int SDL_RenderDrawPoint(IntPtr renderer, int x, int y);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern int SDL_RenderDrawLine(IntPtr renderer, int x1, int y1, int x2, int y2);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_RenderClear(IntPtr renderer);
@@ -84,6 +94,14 @@ public class SDLGraphics : IGraphics
     );
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern int SDL_RenderCopy(
+        IntPtr renderer,
+        IntPtr texture,
+        IntPtr srcRect,
+        IntPtr dstRect
+    );
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern void SDL_FreeSurface(IntPtr surface);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +112,7 @@ public class SDLGraphics : IGraphics
         _renderer = renderer;
     }
 
-    public void ForceRender()
+    public void Render()
     {
         SDLHelpers.SDL_RenderPresent(_renderer);
     }
@@ -303,18 +321,6 @@ public class SDLGraphics : IGraphics
         return new Size(w / FONT_SCALE, h / FONT_SCALE);
     }
 
-    public void SetClip(Rectangle rectangle)
-    {
-        var rect = new SDLRect
-        {
-            x = rectangle.X,
-            y = rectangle.Y,
-            w = rectangle.Width,
-            h = rectangle.Height,
-        };
-        SDL_RenderSetClipRect(_renderer, ref rect);
-    }
-
     int offsetX = 0;
     int offsetY = 0;
 
@@ -330,6 +336,18 @@ public class SDLGraphics : IGraphics
     {
         offsetX = 0;
         offsetY = 0;
+    }
+
+    public void SetClip(Rectangle rectangle)
+    {
+        var rect = new SDLRect
+        {
+            x = rectangle.X,
+            y = rectangle.Y,
+            w = rectangle.Width,
+            h = rectangle.Height,
+        };
+        SDL_RenderSetClipRect(_renderer, ref rect);
     }
 
     public void SetClip(Rectangle rectangle, int roundedCornersRadius) { }

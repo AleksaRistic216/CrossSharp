@@ -9,7 +9,7 @@ namespace CrossSharp.Utils.Interfaces;
 public interface IGraphics : IDisposable
 {
     void DrawImage(Image<Rgba32> image, Rectangle rect);
-    void ForceRender();
+    void Render();
     void DrawRectangle(
         int x,
         int y,

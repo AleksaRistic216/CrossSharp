@@ -74,4 +74,9 @@ public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>
         get => Implementation.Dock;
         set => Implementation.Dock = value;
     }
+    public int CornerRadius
+    {
+        get => Implementation.CornerRadius;
+        set => Implementation.CornerRadius = value;
+    }
 }

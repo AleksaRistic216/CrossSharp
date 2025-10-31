@@ -28,9 +28,9 @@ partial class Input
             Invalidate();
         }
     }
-    bool _multiLine = false;
-
+    public int CornerRadius { get; set; }
     int LineHeight => MultiLine ? FontSize + _lineGap : Height - _lineGap;
+    bool _multiLine;
     public bool MultiLine
     {
         get => _multiLine;

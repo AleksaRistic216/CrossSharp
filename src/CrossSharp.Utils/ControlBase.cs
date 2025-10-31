@@ -46,6 +46,11 @@ public abstract partial class ControlBase : IControl
     public virtual void DrawBackground(ref IGraphics g)
     {
         var color = this.GetBackgroundColor();
+        int cornerRadius = 0;
+        if (this is IRoundedCorners rc)
+            cornerRadius = rc.CornerRadius;
+        var clientBounds = this.GetClientBounds();
+        g.SetClip(clientBounds with { Width = Width, Height = Height }, cornerRadius);
         g.FillRectangle(0, 0, Width, Height, color);
     }
 
@@ -53,7 +58,7 @@ public abstract partial class ControlBase : IControl
     {
         if (BorderWidth <= 0)
             return;
-        if (BorderColor == ColorRgba.Transparent)
+        if (Equals(BorderColor, ColorRgba.Transparent))
             return;
         if (Width <= 0 || Height <= 0)
             return;

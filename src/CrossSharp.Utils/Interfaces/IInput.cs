@@ -1,6 +1,12 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IInput : IControl, IClickable, IBackgroundColorProvider, IFocusable, IDockable
+public interface IInput
+    : IControl,
+        IClickable,
+        IBackgroundColorProvider,
+        IFocusable,
+        IDockable,
+        IRoundedCorners
 {
     string? Placeholder { get; set; }
     EventHandler? PlaceholderChanged { get; set; }

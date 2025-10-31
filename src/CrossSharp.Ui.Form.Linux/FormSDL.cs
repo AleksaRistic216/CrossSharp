@@ -79,7 +79,7 @@ partial class FormSDL : IFormSDL
     {
         IGraphics g = new SDLGraphics(Renderer);
         Draw(ref g);
-        g.ForceRender();
+        g.Render();
         g.Dispose();
     }
 
