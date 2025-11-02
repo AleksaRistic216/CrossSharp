@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Desktop;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -185,6 +186,11 @@ public class FilesPicker : Form, IFilesPicker
     {
         _locationInput.Placeholder = path;
         _contentsList.Clear();
+        _contentsList.Viewport = Rectangle.Empty with
+        {
+            Width = _contentsList.Viewport.Width,
+            Height = _contentsList.Viewport.Height,
+        };
 
         try
         {
