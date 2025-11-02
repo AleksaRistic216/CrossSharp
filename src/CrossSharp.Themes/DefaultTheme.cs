@@ -7,7 +7,7 @@ namespace CrossSharp.Themes;
 public class DefaultTheme : ITheme
 {
     bool _useNativeTitleBar;
-    public int AntiAliasingLevel { get; set; } = 8;
+    public int AntiAliasingLevel { get; set; } = 16;
     public RenderStyle Style { get; set; } = RenderStyle.Flat;
     public int DefaultFontSize { get; set; } = 16;
     public FontFamily DefaultFontFamily { get; set; } = FontFamily.Default;
