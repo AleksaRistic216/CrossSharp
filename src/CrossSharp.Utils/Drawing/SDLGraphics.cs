@@ -289,41 +289,37 @@ class SDLGraphics : IGraphics
     void DrawQuarterCircle(int cx, int cy, int radius, Corner corner)
     {
         int samples = 32; // Increase for smoother edges
-        float step = 1f / samples;
-        float r = radius;
-        float r2 = r * r;
+        double startAngle,
+            endAngle;
 
-        for (float dx = -r; dx <= r; dx += step)
+        switch (corner)
         {
-            for (float dy = -r; dy <= r; dy += step)
-            {
-                float dist2 = dx * dx + dy * dy;
-                if (dist2 >= r2 - 1f && dist2 <= r2 + 1f)
-                {
-                    int px = (int)Math.Round(cx + dx);
-                    int py = (int)Math.Round(cy + dy);
+            case Corner.TopLeft:
+                startAngle = Math.PI;
+                endAngle = 1.5 * Math.PI;
+                break;
+            case Corner.TopRight:
+                startAngle = 1.5 * Math.PI;
+                endAngle = 2.0 * Math.PI;
+                break;
+            case Corner.BottomLeft:
+                startAngle = 0.5 * Math.PI;
+                endAngle = Math.PI;
+                break;
+            case Corner.BottomRight:
+                startAngle = 0;
+                endAngle = 0.5 * Math.PI;
+                break;
+            default:
+                return;
+        }
 
-                    switch (corner)
-                    {
-                        case Corner.TopLeft:
-                            if (dx <= 0 && dy <= 0)
-                                SDL_RenderDrawPoint(_renderer, px, py);
-                            break;
-                        case Corner.TopRight:
-                            if (dx >= 0 && dy <= 0)
-                                SDL_RenderDrawPoint(_renderer, px, py);
-                            break;
-                        case Corner.BottomLeft:
-                            if (dx <= 0 && dy >= 0)
-                                SDL_RenderDrawPoint(_renderer, px, py);
-                            break;
-                        case Corner.BottomRight:
-                            if (dx >= 0 && dy >= 0)
-                                SDL_RenderDrawPoint(_renderer, px, py);
-                            break;
-                    }
-                }
-            }
+        for (int i = 0; i <= samples; i++)
+        {
+            double angle = startAngle + (endAngle - startAngle) * i / samples;
+            int px = cx + (int)Math.Round(radius * Math.Cos(angle));
+            int py = cy + (int)Math.Round(radius * Math.Sin(angle));
+            SDL_RenderDrawPoint(_renderer, px, py);
         }
     }
 
