@@ -46,22 +46,6 @@ public abstract partial class ControlBase : IControl
     public virtual void DrawBackground(ref IGraphics g)
     {
         var color = this.GetBackgroundColor();
-        int cornerRadius = 0;
-        if (this is IRoundedCorners rc)
-            cornerRadius = rc.CornerRadius;
-        var clientBounds = this.GetClientBounds();
-        var parent = Parent;
-        if (parent is IScrollable s)
-        {
-            if (s.Scrollable != ScrollableMode.None)
-            {
-                if (s.Viewport.X > 0)
-                    clientBounds.X -= s.Viewport.X;
-                if (s.Viewport.Y > 0)
-                    clientBounds.Y -= s.Viewport.Y;
-            }
-        }
-        g.SetClip(clientBounds, cornerRadius);
         g.FillRectangle(0, 0, Width, Height, color);
     }
 
@@ -74,9 +58,7 @@ public abstract partial class ControlBase : IControl
         if (Width <= 0 || Height <= 0)
             return;
 
-        var cornersRadius = 0;
-        if (this is IRoundedCorners rc)
-            cornersRadius = rc.CornerRadius;
+        var cornersRadius = (this as IRoundedCorners)?.CornerRadius ?? 0;
         g.DrawRectangle(0, 0, Width, Height, BorderColor, BorderWidth, cornersRadius);
     }
 
@@ -108,15 +90,23 @@ public abstract partial class ControlBase : IControl
 
     public virtual void LimitClip(ref IGraphics g)
     {
-        var clipBounds = this.GetClientBounds();
-        if (
-            Parent is IScrollable scrollableParent
-            && scrollableParent.Scrollable != ScrollableMode.None
-        )
+        int cornerRadius = 0;
+        if (this is IRoundedCorners rc)
+            cornerRadius = rc.CornerRadius;
+        var clientBounds = this.GetClientBounds();
+        var parent = Parent;
+        if (parent is IScrollable s)
         {
-            clipBounds.X -= scrollableParent.Viewport.X;
-            clipBounds.Y -= scrollableParent.Viewport.Y;
+            if (s.Scrollable != ScrollableMode.None)
+            {
+                if (s.Viewport.X > 0)
+                    clientBounds.X -= s.Viewport.X;
+                if (s.Viewport.Y > 0)
+                    clientBounds.Y -= s.Viewport.Y;
+                var parentControl = parent as IControl;
+                clientBounds.Intersect(parentControl!.GetClientBounds());
+            }
         }
-        g.SetClip(clipBounds);
+        g.SetClip(clientBounds, cornerRadius);
     }
 }
