@@ -123,7 +123,8 @@ public class FilesPicker : Form, IFilesPicker
         downloadsButton.Text = "Downloads";
         downloadsButton.TextAlignment = Alignment.Left;
         downloadsButton.Height = _blockHeight;
-        downloadsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        downloadsButton.Tag =
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
         downloadsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(downloadsButton);
     }

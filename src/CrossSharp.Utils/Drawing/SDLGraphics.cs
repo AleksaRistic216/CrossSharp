@@ -257,41 +257,6 @@ class SDLGraphics : IGraphics
         }
     }
 
-    [Obsolete("Still works but I find it less efficient than FillQuarterCircle")]
-    void DrawQuarterCircleArc(int cx, int cy, int radius, Corner corner)
-    {
-        if (radius <= 0)
-            return;
-
-        double step = Math.PI / (2 * radius);
-
-        for (double angle = 0; angle <= Math.PI / 2; angle += step)
-        {
-            int x = (int)(radius * Math.Cos(angle));
-            int y = (int)(radius * Math.Sin(angle));
-
-            int drawX = corner switch
-            {
-                Corner.TopLeft => cx - x,
-                Corner.TopRight => cx + x,
-                Corner.BottomLeft => cx - x,
-                Corner.BottomRight => cx + x,
-                _ => cx,
-            };
-
-            int drawY = corner switch
-            {
-                Corner.TopLeft => cy - y,
-                Corner.TopRight => cy - y,
-                Corner.BottomLeft => cy + y,
-                Corner.BottomRight => cy + y,
-                _ => cy,
-            };
-
-            SDL_RenderDrawPoint(_renderer, drawX, drawY);
-        }
-    }
-
     void DrawRoundedRectBorder(int x, int y, int width, int height, int radius, int borderWidth)
     {
         if (_renderer == IntPtr.Zero)
