@@ -583,6 +583,24 @@ class SDLGraphics : IGraphics
     #endregion
 
     #region Draw text
+    // fontPath, fontSize, pointer to TTF_Font
+    static Dictionary<string, Dictionary<int, IntPtr>> _fontCache = new();
+
+    IntPtr GetFont(string fontPath, int fontSize)
+    {
+        if (!_fontCache.TryGetValue(fontPath, out var fSizeMap))
+        {
+            fSizeMap = new Dictionary<int, IntPtr>();
+            _fontCache[fontPath] = fSizeMap;
+        }
+        if (!fSizeMap.TryGetValue(fontSize, out var font))
+        {
+            font = TTF_OpenFont(fontPath, fontSize * FONT_SCALE);
+            fSizeMap[fontSize] = font;
+        }
+        return font;
+    }
+
     public void DrawText(
         string text,
         int x,
@@ -600,8 +618,7 @@ class SDLGraphics : IGraphics
         x += _offsetX;
         y += _offsetY;
 
-        var fontPath = _fontFamilyMap.GetFontFamilyPath(fontFamily);
-        IntPtr font = TTF_OpenFont(fontPath, fontSize * FONT_SCALE);
+        var font = GetFont(_fontFamilyMap.GetFontFamilyPath(fontFamily), fontSize);
         if (font == IntPtr.Zero)
             return;
 
@@ -614,7 +631,7 @@ class SDLGraphics : IGraphics
         };
 
         IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
-        TTF_CloseFont(font);
+        // TTF_CloseFont(font); // I cache fonts, don't close here, do somewhere else (on app level is laziest but for performance should consider something else)
         if (surface == IntPtr.Zero)
             return;
 
@@ -694,7 +711,7 @@ class SDLGraphics : IGraphics
             throw new NullReferenceException(nameof(_renderer));
 
         var fontPath = _fontFamilyMap.GetFontFamilyPath(fontFamily);
-        IntPtr font = TTF_OpenFont(fontPath, fontSize * FONT_SCALE);
+        IntPtr font = GetFont(fontPath, fontSize);
         if (font == IntPtr.Zero)
             return Size.Empty;
 
@@ -707,7 +724,7 @@ class SDLGraphics : IGraphics
         };
 
         IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
-        TTF_CloseFont(font);
+        // TTF_CloseFont(font); // I cache fonts, don't close here, do somewhere else (on app level is laziest but for performance should consider something else)
         if (surface == IntPtr.Zero)
             return Size.Empty;
 
