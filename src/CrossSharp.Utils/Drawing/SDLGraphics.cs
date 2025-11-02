@@ -152,14 +152,14 @@ class SDLGraphics : IGraphics
         if (width <= 0 || height <= 0 || borderWidth <= 0 || borderColor.A == 0)
             return;
 
-        x += _offsetX;
-        y += _offsetY;
-
         if (_clipRoundedCornerRadius <= 0)
         {
             DrawRectangleWithoutMask(x, y, width, height, borderColor, borderWidth);
             return;
         }
+
+        x += _offsetX;
+        y += _offsetY;
 
         // Step 1: Create transparent target texture for border
         IntPtr targetTexture = SDL_CreateTexture(
