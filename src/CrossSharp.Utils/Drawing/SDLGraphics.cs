@@ -17,6 +17,8 @@ class SDLGraphics : IGraphics
         TTF_Init();
     }
 
+    readonly ITheme _theme;
+
     const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
     IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
@@ -130,6 +132,7 @@ class SDLGraphics : IGraphics
     public SDLGraphics(IntPtr renderer)
     {
         _renderer = renderer;
+        _theme = Services.GetSingleton<ITheme>();
     }
 
     public void Render()
@@ -288,7 +291,7 @@ class SDLGraphics : IGraphics
 
     void DrawQuarterCircle(int cx, int cy, int radius, Corner corner)
     {
-        int samples = 32; // Increase for smoother edges
+        int samples = _theme.AntiAliasingLevel;
         double startAngle,
             endAngle;
 
