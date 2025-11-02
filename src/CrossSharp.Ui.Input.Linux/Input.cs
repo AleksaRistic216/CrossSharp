@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
@@ -49,6 +50,7 @@ partial class Input : ControlBase, IInput
                 _caretPosition.X = 0;
             if (_caretPosition.X > Text.Length)
                 _caretPosition.X = Text.Length;
+            InvalidateCaretBounds();
             return;
         }
 
@@ -72,6 +74,7 @@ partial class Input : ControlBase, IInput
             _caretPosition.Y++;
             _caretPosition.X = 0;
         }
+        InvalidateCaretBounds();
     }
 
     public override void Initialize() { }
@@ -80,6 +83,43 @@ partial class Input : ControlBase, IInput
     {
         this.PerformDocking();
         CalcFontSize();
+        InvalidatePlaceholderBounds();
+        InvalidateCaretBounds();
+        InvalidateContentBounds();
+    }
+
+    void InvalidateContentBounds()
+    {
+        _contentBounds = new Rectangle(
+            _lineGap + CornerRadius / 2 + BorderWidth,
+            _lineGap / 2 + BorderWidth,
+            Width - CornerRadius - _lineGap * 2,
+            Height - _lineGap - BorderWidth * 2
+        );
+    }
+
+    void InvalidateCaretBounds()
+    {
+        var form = this.GetForm() as IFormSDL;
+        if (form is null)
+            return;
+        using var g = new SDLGraphics(form.Renderer);
+        var text = MultiLine ? Text.Split(Environment.NewLine)[_caretPosition.Y] : Text;
+        text = text[..Math.Min(_caretPosition.X, text.Length)];
+        var textSize = g.MeasureText(text, FontFamily.Default, FontSize);
+        var caretX = _lineGap + textSize.Width + CornerRadius / 2 + BorderWidth;
+        var caretY = _lineGap / 2 + _caretPosition.Y * LineHeight + BorderWidth;
+        _caretBounds = new Rectangle(caretX, caretY, 2, LineHeight);
+    }
+
+    void InvalidatePlaceholderBounds()
+    {
+        _placeholderBounds = new Rectangle(
+            _lineGap + CornerRadius / 2 + BorderWidth,
+            _lineGap / 2 + BorderWidth,
+            Width - CornerRadius - _lineGap * 2,
+            LineHeight
+        );
     }
 
     void CalcFontSize()
@@ -93,7 +133,7 @@ partial class Input : ControlBase, IInput
         }
 
         // If single liner, override font size to fit height
-        FontSize = Height - _lineGap * 2;
+        FontSize = Height - _lineGap * 2 - BorderWidth * 2;
     }
 
     public override void Redraw() { }
@@ -113,8 +153,8 @@ partial class Input : ControlBase, IInput
             return;
         g.DrawText(
             Placeholder!,
-            _lineGap + CornerRadius / 2,
-            _lineGap / 2,
+            _placeholderBounds.X,
+            _placeholderBounds.Y,
             FontFamily.Default,
             FontSize,
             ColorRgba.Gray
@@ -130,24 +170,16 @@ partial class Input : ControlBase, IInput
         {
             _caretVisible = !_caretVisible;
             _lastCaretStateUpdate = now;
-            Invalidate();
         }
         if (!_caretVisible)
             return;
-
-        var text = MultiLine ? Text.Split(Environment.NewLine)[_caretPosition.Y] : Text;
-        text = text[..Math.Min(_caretPosition.X, text.Length)];
-        var textSize = g.MeasureText(text, FontFamily.Default, FontSize);
-        var caretX = _lineGap + textSize.Width + CornerRadius / 2;
-        var caretY = _lineGap / 2 + _caretPosition.Y * LineHeight;
-        g.FillRectangle(caretX, caretY, 2, LineHeight, ColorRgba.Black);
+        g.FillRectangle(_caretBounds.X, _caretBounds.Y, 2, LineHeight, ColorRgba.Black);
     }
 
     void DrawText(ref IGraphics g)
     {
-        var padding = 2;
-        var x = padding + CornerRadius / 2;
-        var y = padding;
+        var x = _contentBounds.X;
+        var y = _contentBounds.Y;
         var clientBounds = this.GetClientBounds();
         foreach (var line in Text.Split(Environment.NewLine))
         {

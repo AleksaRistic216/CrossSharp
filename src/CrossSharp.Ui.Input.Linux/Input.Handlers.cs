@@ -37,8 +37,9 @@ partial class Input
 
     void OnTextChangedInternal()
     {
+        InvalidateCaretBounds();
+        InvalidateContentBounds();
         RaiseTextChanged();
-        Invalidate();
     }
 
     void RaiseTextChanged()

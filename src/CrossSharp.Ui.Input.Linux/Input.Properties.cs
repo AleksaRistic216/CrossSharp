@@ -16,6 +16,9 @@ partial class Input
         Services.GetSingleton<ITheme>().InputBackgroundColor;
 
     Point _caretPosition = Point.Empty;
+    Rectangle _placeholderBounds = Rectangle.Empty;
+    Rectangle _contentBounds = Rectangle.Empty;
+    Rectangle _caretBounds = Rectangle.Empty;
     int _fontSize = Services.GetSingleton<ITheme>().DefaultFontSize;
     public int FontSize
     {
@@ -29,7 +32,7 @@ partial class Input
         }
     }
     public int CornerRadius { get; set; }
-    int LineHeight => MultiLine ? FontSize + _lineGap : Height - _lineGap;
+    int LineHeight => MultiLine ? FontSize + _lineGap : Height - _lineGap - BorderWidth * 2;
     bool _multiLine;
     public bool MultiLine
     {
