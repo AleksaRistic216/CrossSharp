@@ -19,13 +19,13 @@ partial class FormSDL : IFormSDL
         Renderer = SDLHelpers.SDL_CreateRenderer(
             Handle,
             -1,
-            SDLRenderFlags.SDL_RENDERER_ACCELERATED
+            SDLRenderFlags.SDL_RENDERER_ACCELERATED | SDLRenderFlags.SDL_RENDERER_TARGETTEXTURE
         );
         if (Renderer == IntPtr.Zero) // Try again without acceleration
             Renderer = SDLHelpers.SDL_CreateRenderer(
                 Handle,
                 -1,
-                SDLRenderFlags.SDL_RENDERER_ACCELERATED
+                SDLRenderFlags.SDL_RENDERER_SOFTWARE | SDLRenderFlags.SDL_RENDERER_TARGETTEXTURE
             );
     }
 

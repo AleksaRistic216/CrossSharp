@@ -1,6 +1,7 @@
 namespace CrossSharp.Utils.SDL;
 
 // Docs: https://wiki.libsdl.org/SDL2/SDL_RendererFlags
+[Flags]
 enum SDLRenderFlags
 {
     /// <summary>

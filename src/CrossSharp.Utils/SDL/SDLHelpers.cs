@@ -39,15 +39,6 @@ internal static class SDLHelpers
     internal static extern void SDL_RenderPresent(IntPtr renderer);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateTexture(
-        IntPtr renderer,
-        uint format,
-        int access,
-        int w,
-        int h
-    );
-
-    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_UpdateTexture(
         IntPtr texture,
         IntPtr rect,
@@ -56,13 +47,7 @@ internal static class SDLHelpers
     );
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern int SDL_SetRenderTarget(IntPtr renderer, IntPtr texture);
-
-    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_SetRenderDrawBlendMode(IntPtr renderer, SDLBlendMode blendMode);
-
-    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern int SDL_SetTextureBlendMode(IntPtr texture, SDLBlendMode blendMode);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_DestroyWindow(IntPtr window);
