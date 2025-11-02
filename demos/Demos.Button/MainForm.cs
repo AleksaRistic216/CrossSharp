@@ -222,7 +222,7 @@ public class MainForm : Form
         var button = new CrossSharp.Ui.Button();
         button.Height = _buttonHeight;
         button.Style = RenderStyle.Default;
-        button.Text = "I am default button (I follow theme style - flat)";
+        button.Text = "I am default button (I follow theme style)";
         _stackedLayout.Add(button);
     }
 }
