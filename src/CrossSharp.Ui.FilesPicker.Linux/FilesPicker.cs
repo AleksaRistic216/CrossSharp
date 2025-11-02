@@ -214,6 +214,7 @@ public class FilesPicker : Form, IFilesPicker
                 var isDir = kv.Value == 0;
                 var entryButton = new Button();
                 entryButton.Text = Path.GetFileName(entry);
+                entryButton.Tag = entry;
                 entryButton.TextAlignment = Alignment.Left;
                 entryButton.Height = _blockHeight;
                 entryButton.BackgroundColor = isDir
@@ -222,7 +223,8 @@ public class FilesPicker : Form, IFilesPicker
                 entryButton.Style = RenderStyle.Contained;
                 entryButton.Click = (s, e) =>
                 {
-                    if (isDir)
+                    var tag = (s as IButton)?.Tag as string;
+                    if (entriesList[tag!] == 0)
                     {
                         LoadDirectoryContents(entry);
                     }
