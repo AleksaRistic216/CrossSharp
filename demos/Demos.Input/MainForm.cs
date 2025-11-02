@@ -5,6 +5,8 @@ namespace Demos.Input;
 
 public class MainForm : Form
 {
+    const int _roundedCornerRadius = 16;
+
     public MainForm()
     {
         var flowLayout = new FlowLayout();
@@ -26,14 +28,14 @@ public class MainForm : Form
         var singleLineInputWithRoundedCorners = new CrossSharp.Ui.Input();
         singleLineInputWithRoundedCorners.Width = 200;
         singleLineInputWithRoundedCorners.Height = 30;
-        singleLineInputWithRoundedCorners.CornerRadius = 10;
+        singleLineInputWithRoundedCorners.CornerRadius = _roundedCornerRadius;
         flowLayout.Add(singleLineInputWithRoundedCorners);
 
         var multiLineInputWithRoundedCorners = new CrossSharp.Ui.Input();
         multiLineInputWithRoundedCorners.Width = 200;
         multiLineInputWithRoundedCorners.Height = 100;
         multiLineInputWithRoundedCorners.MultiLine = true;
-        multiLineInputWithRoundedCorners.CornerRadius = 10;
+        multiLineInputWithRoundedCorners.CornerRadius = _roundedCornerRadius;
         flowLayout.Add(multiLineInputWithRoundedCorners);
 
         var singleLineInputWithPlaceholder = new CrossSharp.Ui.Input();
@@ -66,7 +68,7 @@ public class MainForm : Form
         singleLineWithIncreasedBorderWidthAndRoundedCorners.Width = 200;
         singleLineWithIncreasedBorderWidthAndRoundedCorners.Height = 30;
         singleLineWithIncreasedBorderWidthAndRoundedCorners.BorderWidth = 5;
-        singleLineWithIncreasedBorderWidthAndRoundedCorners.CornerRadius = 11;
+        singleLineWithIncreasedBorderWidthAndRoundedCorners.CornerRadius = _roundedCornerRadius;
         flowLayout.Add(singleLineWithIncreasedBorderWidthAndRoundedCorners);
     }
 }

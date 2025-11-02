@@ -257,6 +257,7 @@ class SDLGraphics : IGraphics
         }
     }
 
+    [Obsolete("Still works but I find it less efficient than FillQuarterCircle")]
     void DrawQuarterCircleArc(int cx, int cy, int radius, Corner corner)
     {
         if (radius <= 0)
@@ -313,32 +314,10 @@ class SDLGraphics : IGraphics
             SDL_RenderDrawLine(_renderer, px, py + r, px, py + h - r - 1); // Left
             SDL_RenderDrawLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
 
-            if (borderWidth == 1)
-            {
-                DrawQuarterCircleArc(px + r, py + r, r, Corner.TopLeft);
-                DrawQuarterCircleArc(px + w - r - 1, py + r, r, Corner.TopRight);
-                DrawQuarterCircleArc(px + r, py + h - r - 1, r, Corner.BottomLeft);
-                DrawQuarterCircleArc(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight);
-            }
-            else
-            {
-                FillQuarterCircle(px + r, py + r, r, Corner.TopLeft, radius - borderWidth);
-                FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight, radius - borderWidth);
-                FillQuarterCircle(
-                    px + r,
-                    py + h - r - 1,
-                    r,
-                    Corner.BottomLeft,
-                    radius - borderWidth
-                );
-                FillQuarterCircle(
-                    px + w - r - 1,
-                    py + h - r - 1,
-                    r,
-                    Corner.BottomRight,
-                    radius - borderWidth
-                );
-            }
+            FillQuarterCircle(px + r - 1, py + r, r, Corner.TopLeft, radius - borderWidth);
+            FillQuarterCircle(px + w - r, py + r, r, Corner.TopRight, radius - borderWidth);
+            FillQuarterCircle(px + r - 1, py + h - r, r, Corner.BottomLeft, radius - borderWidth);
+            FillQuarterCircle(px + w - r, py + h - r, r, Corner.BottomRight, radius - borderWidth);
         }
     }
 
@@ -347,53 +326,47 @@ class SDLGraphics : IGraphics
         if (radius <= 0 || skipFirst >= radius)
             return;
 
-        switch (corner)
-        {
-            case Corner.TopLeft:
-            case Corner.TopRight:
-            case Corner.BottomLeft:
-            case Corner.BottomRight:
-                break;
-            default:
-                return;
-        }
-
         for (int y = 0; y <= radius; y++)
         {
-            double x = Math.Sqrt(radius * radius - y * y);
-            double innerX = Math.Sqrt(skipFirst * skipFirst - y * y);
+            int ySq = y * y;
+            if (ySq > radius * radius)
+                continue;
 
-            if (y >= skipFirst || innerX < x) // Only draw if outside inner radius
+            int outerX = (int)Math.Floor(Math.Sqrt(radius * radius - ySq));
+            int innerX =
+                (skipFirst > 0 && ySq < skipFirst * skipFirst)
+                    ? (int)Math.Ceiling(Math.Sqrt(skipFirst * skipFirst - ySq))
+                    : 0;
+
+            int drawY = corner switch
             {
-                int drawY = corner switch
-                {
-                    Corner.TopLeft => cy - y,
-                    Corner.TopRight => cy - y,
-                    Corner.BottomLeft => cy + y,
-                    Corner.BottomRight => cy + y,
-                    _ => cy,
-                };
+                Corner.TopLeft => cy - y,
+                Corner.TopRight => cy - y,
+                Corner.BottomLeft => cy + y,
+                Corner.BottomRight => cy + y,
+                _ => cy,
+            };
 
-                int startX = corner switch
-                {
-                    Corner.TopLeft => cx - (int)x,
-                    Corner.TopRight => cx + (int)innerX,
-                    Corner.BottomLeft => cx - (int)x,
-                    Corner.BottomRight => cx + (int)innerX,
-                    _ => cx,
-                };
+            int startX = corner switch
+            {
+                Corner.TopLeft => cx - outerX,
+                Corner.TopRight => cx + innerX,
+                Corner.BottomLeft => cx - outerX,
+                Corner.BottomRight => cx + innerX,
+                _ => cx,
+            };
 
-                int endX = corner switch
-                {
-                    Corner.TopLeft => cx - (int)innerX,
-                    Corner.TopRight => cx + (int)x,
-                    Corner.BottomLeft => cx - (int)innerX,
-                    Corner.BottomRight => cx + (int)x,
-                    _ => cx,
-                };
+            int endX = corner switch
+            {
+                Corner.TopLeft => cx - innerX,
+                Corner.TopRight => cx + outerX,
+                Corner.BottomLeft => cx - innerX,
+                Corner.BottomRight => cx + outerX,
+                _ => cx,
+            };
 
+            if (startX <= endX)
                 SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
-            }
         }
     }
 
@@ -508,27 +481,10 @@ class SDLGraphics : IGraphics
         };
         SDL_RenderFillRect(_renderer, ref rect2);
 
-        // Fill corners as circles
-        FillCircle(x + r, y + r, r); // Top-left
-        FillCircle(x + w - r - 1, y + r, r); // Top-right
-        FillCircle(x + r, y + h - r - 1, r); // Bottom-left
-        FillCircle(x + w - r - 1, y + h - r - 1, r); // Bottom-right
-    }
-
-    void FillCircle(int cx, int cy, int radius)
-    {
-        for (int w = 0; w < radius * 2; w++)
-        {
-            for (int h = 0; h < radius * 2; h++)
-            {
-                int dx = radius - w;
-                int dy = radius - h;
-                if ((dx * dx + dy * dy) <= (radius * radius))
-                {
-                    SDL_RenderDrawPoint(_renderer, cx + dx, cy + dy);
-                }
-            }
-        }
+        FillQuarterCircle(x + r - 1, y + r, r, Corner.TopLeft);
+        FillQuarterCircle(x + w - r, y + r, r, Corner.TopRight);
+        FillQuarterCircle(x + r - 1, y + h - r, r, Corner.BottomLeft);
+        FillQuarterCircle(x + w - r, y + h - r, r, Corner.BottomRight);
     }
     #endregion
 
