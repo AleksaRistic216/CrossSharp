@@ -16,7 +16,7 @@ public interface IGraphics : IDisposable
         int width,
         int height,
         ColorRgba borderColor,
-        float borderWidth,
+        int borderWidth,
         int roundedCornersRadius
     );
     void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor);

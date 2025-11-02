@@ -146,7 +146,7 @@ class SDLGraphics : IGraphics
         int width,
         int height,
         ColorRgba borderColor,
-        float borderWidth,
+        int borderWidth,
         int roundedCornersRadius
     )
     {
@@ -160,6 +160,10 @@ class SDLGraphics : IGraphics
             DrawRectangleWithoutMask(x, y, width, height, borderColor, borderWidth);
             return;
         }
+
+        // Ensure border width is at least as large as corner radius to avoid artifacts
+        // if (borderWidth > 1 && borderWidth < roundedCornersRadius)
+        //     borderWidth = roundedCornersRadius;
 
         x += _offsetX;
         y += _offsetY;
@@ -240,24 +244,60 @@ class SDLGraphics : IGraphics
             borderColor.BByte,
             borderColor.AByte
         );
-        var rect = new SDLRect
+        for (int i = 0; i < (int)borderWidth; i++)
         {
-            x = x,
-            y = y,
-            w = width,
-            h = height,
-        };
-        SDL_RenderDrawRect(_renderer, ref rect);
+            var rect = new SDLRect
+            {
+                x = x + i,
+                y = y + i,
+                w = width - 2 * i,
+                h = height - 2 * i,
+            };
+            SDL_RenderDrawRect(_renderer, ref rect);
+        }
     }
 
-    void DrawRoundedRectBorder(int x, int y, int width, int height, int radius, float borderWidth)
+    void DrawQuarterCircleArc(int cx, int cy, int radius, Corner corner)
+    {
+        if (radius <= 0)
+            return;
+
+        double step = Math.PI / (2 * radius);
+
+        for (double angle = 0; angle <= Math.PI / 2; angle += step)
+        {
+            int x = (int)(radius * Math.Cos(angle));
+            int y = (int)(radius * Math.Sin(angle));
+
+            int drawX = corner switch
+            {
+                Corner.TopLeft => cx - x,
+                Corner.TopRight => cx + x,
+                Corner.BottomLeft => cx - x,
+                Corner.BottomRight => cx + x,
+                _ => cx,
+            };
+
+            int drawY = corner switch
+            {
+                Corner.TopLeft => cy - y,
+                Corner.TopRight => cy - y,
+                Corner.BottomLeft => cy + y,
+                Corner.BottomRight => cy + y,
+                _ => cy,
+            };
+
+            SDL_RenderDrawPoint(_renderer, drawX, drawY);
+        }
+    }
+
+    void DrawRoundedRectBorder(int x, int y, int width, int height, int radius, int borderWidth)
     {
         if (_renderer == IntPtr.Zero)
             throw new NullReferenceException(nameof(_renderer));
         if (width <= 0 || height <= 0 || borderWidth <= 0 || radius < 0)
             return;
-
-        int layers = Math.Max(1, (int)Math.Round(borderWidth));
+        int layers = Math.Max(1, borderWidth);
         for (int i = 0; i < layers; i++)
         {
             int inset = i;
@@ -273,17 +313,38 @@ class SDLGraphics : IGraphics
             SDL_RenderDrawLine(_renderer, px, py + r, px, py + h - r - 1); // Left
             SDL_RenderDrawLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
 
-            // Rounded corners
-            FillQuarterCircle(px + r, py + r, r, Corner.TopLeft);
-            FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight);
-            FillQuarterCircle(px + r, py + h - r - 1, r, Corner.BottomLeft);
-            FillQuarterCircle(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight);
+            if (borderWidth == 1)
+            {
+                DrawQuarterCircleArc(px + r, py + r, r, Corner.TopLeft);
+                DrawQuarterCircleArc(px + w - r - 1, py + r, r, Corner.TopRight);
+                DrawQuarterCircleArc(px + r, py + h - r - 1, r, Corner.BottomLeft);
+                DrawQuarterCircleArc(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight);
+            }
+            else
+            {
+                FillQuarterCircle(px + r, py + r, r, Corner.TopLeft, radius - borderWidth);
+                FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight, radius - borderWidth);
+                FillQuarterCircle(
+                    px + r,
+                    py + h - r - 1,
+                    r,
+                    Corner.BottomLeft,
+                    radius - borderWidth
+                );
+                FillQuarterCircle(
+                    px + w - r - 1,
+                    py + h - r - 1,
+                    r,
+                    Corner.BottomRight,
+                    radius - borderWidth
+                );
+            }
         }
     }
 
-    void FillQuarterCircle(int cx, int cy, int radius, Corner corner)
+    void FillQuarterCircle(int cx, int cy, int radius, Corner corner, int skipFirst = 0)
     {
-        if (radius <= 0)
+        if (radius <= 0 || skipFirst >= radius)
             return;
 
         switch (corner)
@@ -300,35 +361,39 @@ class SDLGraphics : IGraphics
         for (int y = 0; y <= radius; y++)
         {
             double x = Math.Sqrt(radius * radius - y * y);
+            double innerX = Math.Sqrt(skipFirst * skipFirst - y * y);
 
-            int drawY = corner switch
+            if (y >= skipFirst || innerX < x) // Only draw if outside inner radius
             {
-                Corner.TopLeft => cy - y,
-                Corner.TopRight => cy - y,
-                Corner.BottomLeft => cy + y,
-                Corner.BottomRight => cy + y,
-                _ => cy,
-            };
+                int drawY = corner switch
+                {
+                    Corner.TopLeft => cy - y,
+                    Corner.TopRight => cy - y,
+                    Corner.BottomLeft => cy + y,
+                    Corner.BottomRight => cy + y,
+                    _ => cy,
+                };
 
-            int startX = corner switch
-            {
-                Corner.TopLeft => cx - (int)x,
-                Corner.TopRight => cx,
-                Corner.BottomLeft => cx - (int)x,
-                Corner.BottomRight => cx,
-                _ => cx,
-            };
+                int startX = corner switch
+                {
+                    Corner.TopLeft => cx - (int)x,
+                    Corner.TopRight => cx + (int)innerX,
+                    Corner.BottomLeft => cx - (int)x,
+                    Corner.BottomRight => cx + (int)innerX,
+                    _ => cx,
+                };
 
-            int endX = corner switch
-            {
-                Corner.TopLeft => cx,
-                Corner.TopRight => cx + (int)x,
-                Corner.BottomLeft => cx,
-                Corner.BottomRight => cx + (int)x,
-                _ => cx,
-            };
+                int endX = corner switch
+                {
+                    Corner.TopLeft => cx - (int)innerX,
+                    Corner.TopRight => cx + (int)x,
+                    Corner.BottomLeft => cx - (int)innerX,
+                    Corner.BottomRight => cx + (int)x,
+                    _ => cx,
+                };
 
-            SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
+                SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
+            }
         }
     }
 

@@ -48,5 +48,25 @@ public class MainForm : Form
         multiLineInputWithPlaceholder.MultiLine = true;
         multiLineInputWithPlaceholder.Placeholder = "Enter text here...";
         flowLayout.Add(multiLineInputWithPlaceholder);
+
+        var singleLineWithIncreasedBorderWidth = new CrossSharp.Ui.Input();
+        singleLineWithIncreasedBorderWidth.Width = 200;
+        singleLineWithIncreasedBorderWidth.Height = 30;
+        singleLineWithIncreasedBorderWidth.BorderWidth = 5;
+        flowLayout.Add(singleLineWithIncreasedBorderWidth);
+
+        var multiLineWithIncreasedBorderWidth = new CrossSharp.Ui.Input();
+        multiLineWithIncreasedBorderWidth.Width = 200;
+        multiLineWithIncreasedBorderWidth.Height = 100;
+        multiLineWithIncreasedBorderWidth.MultiLine = true;
+        multiLineWithIncreasedBorderWidth.BorderWidth = 5;
+        flowLayout.Add(multiLineWithIncreasedBorderWidth);
+
+        var singleLineWithIncreasedBorderWidthAndRoundedCorners = new CrossSharp.Ui.Input();
+        singleLineWithIncreasedBorderWidthAndRoundedCorners.Width = 200;
+        singleLineWithIncreasedBorderWidthAndRoundedCorners.Height = 30;
+        singleLineWithIncreasedBorderWidthAndRoundedCorners.BorderWidth = 5;
+        singleLineWithIncreasedBorderWidthAndRoundedCorners.CornerRadius = 11;
+        flowLayout.Add(singleLineWithIncreasedBorderWidthAndRoundedCorners);
     }
 }
