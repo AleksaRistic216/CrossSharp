@@ -274,47 +274,61 @@ class SDLGraphics : IGraphics
             SDL_RenderDrawLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
 
             // Rounded corners
-            DrawQuarterCircle(px + r, py + r, r, Corner.TopLeft);
-            DrawQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight);
-            DrawQuarterCircle(px + r, py + h - r - 1, r, Corner.BottomLeft);
-            DrawQuarterCircle(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight);
+            FillQuarterCircle(px + r, py + r, r, Corner.TopLeft);
+            FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight);
+            FillQuarterCircle(px + r, py + h - r - 1, r, Corner.BottomLeft);
+            FillQuarterCircle(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight);
         }
     }
 
-    void DrawQuarterCircle(int cx, int cy, int radius, Corner corner)
+    void FillQuarterCircle(int cx, int cy, int radius, Corner corner)
     {
-        int samples = _theme.AntiAliasingLevel;
-        double startAngle,
-            endAngle;
+        if (radius <= 0)
+            return;
 
         switch (corner)
         {
             case Corner.TopLeft:
-                startAngle = Math.PI;
-                endAngle = 1.5 * Math.PI;
-                break;
             case Corner.TopRight:
-                startAngle = 1.5 * Math.PI;
-                endAngle = 2.0 * Math.PI;
-                break;
             case Corner.BottomLeft:
-                startAngle = 0.5 * Math.PI;
-                endAngle = Math.PI;
-                break;
             case Corner.BottomRight:
-                startAngle = 0;
-                endAngle = 0.5 * Math.PI;
                 break;
             default:
                 return;
         }
 
-        for (int i = 0; i <= samples; i++)
+        for (int y = 0; y <= radius; y++)
         {
-            double angle = startAngle + (endAngle - startAngle) * i / samples;
-            int px = cx + (int)Math.Round(radius * Math.Cos(angle));
-            int py = cy + (int)Math.Round(radius * Math.Sin(angle));
-            SDL_RenderDrawPoint(_renderer, px, py);
+            double x = Math.Sqrt(radius * radius - y * y);
+
+            int drawY = corner switch
+            {
+                Corner.TopLeft => cy - y,
+                Corner.TopRight => cy - y,
+                Corner.BottomLeft => cy + y,
+                Corner.BottomRight => cy + y,
+                _ => cy,
+            };
+
+            int startX = corner switch
+            {
+                Corner.TopLeft => cx - (int)x,
+                Corner.TopRight => cx,
+                Corner.BottomLeft => cx - (int)x,
+                Corner.BottomRight => cx,
+                _ => cx,
+            };
+
+            int endX = corner switch
+            {
+                Corner.TopLeft => cx,
+                Corner.TopRight => cx + (int)x,
+                Corner.BottomLeft => cx,
+                Corner.BottomRight => cx + (int)x,
+                _ => cx,
+            };
+
+            SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
         }
     }
 
