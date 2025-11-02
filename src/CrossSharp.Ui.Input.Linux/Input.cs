@@ -113,7 +113,7 @@ partial class Input : ControlBase, IInput
             return;
         g.DrawText(
             Placeholder!,
-            _lineGap,
+            _lineGap + CornerRadius / 2,
             _lineGap / 2,
             FontFamily.Default,
             FontSize,
@@ -138,7 +138,7 @@ partial class Input : ControlBase, IInput
         var text = MultiLine ? Text.Split(Environment.NewLine)[_caretPosition.Y] : Text;
         text = text[..Math.Min(_caretPosition.X, text.Length)];
         var textSize = g.MeasureText(text, FontFamily.Default, FontSize);
-        var caretX = _lineGap + textSize.Width;
+        var caretX = _lineGap + textSize.Width + CornerRadius / 2;
         var caretY = _lineGap / 2 + _caretPosition.Y * LineHeight;
         g.FillRectangle(caretX, caretY, 2, LineHeight, ColorRgba.Black);
     }
@@ -146,10 +146,19 @@ partial class Input : ControlBase, IInput
     void DrawText(ref IGraphics g)
     {
         var padding = 2;
-        var x = padding;
+        var x = padding + CornerRadius / 2;
         var y = padding;
+        var clientBounds = this.GetClientBounds();
         foreach (var line in Text.Split(Environment.NewLine))
         {
+            g.SetClip(
+                clientBounds with
+                {
+                    Width = Width - CornerRadius,
+                    Height = Height,
+                },
+                CornerRadius
+            );
             g.DrawText(line, x, y, FontFamily.Default, FontSize, ColorRgba.Black);
             y += LineHeight;
         }

@@ -366,7 +366,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderTarget(_renderer, maskTexture);
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent background
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255); // Opaque mask
+        SDL_SetRenderDrawColor(_renderer, 255, 0, 255, 255); // Opaque mask
 
         // Fill rounded rectangle mask
         FillRoundedRectMask(x, y, width, height, _clipRoundedCornerRadius);
