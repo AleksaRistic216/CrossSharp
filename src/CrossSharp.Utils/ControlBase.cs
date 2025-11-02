@@ -50,7 +50,18 @@ public abstract partial class ControlBase : IControl
         if (this is IRoundedCorners rc)
             cornerRadius = rc.CornerRadius;
         var clientBounds = this.GetClientBounds();
-        g.SetClip(clientBounds with { Width = Width, Height = Height }, cornerRadius);
+        var parent = Parent;
+        if (parent is IScrollable s)
+        {
+            if (s.Scrollable != ScrollableMode.None)
+            {
+                if (s.Viewport.X > 0)
+                    clientBounds.X -= s.Viewport.X;
+                if (s.Viewport.Y > 0)
+                    clientBounds.Y -= s.Viewport.Y;
+            }
+        }
+        g.SetClip(clientBounds, cornerRadius);
         g.FillRectangle(0, 0, Width, Height, color);
     }
 
