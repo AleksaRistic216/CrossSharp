@@ -156,6 +156,7 @@ public class FilesPicker : Form, IFilesPicker
         _locationInput.Dock = DockStyle.Fill;
         _locationInput.Height = _blockHeight;
         _locationInput.CornerRadius = 16;
+        _locationInput.BorderWidth = 5;
         _locationInput.SetMargin(4);
         _actionBar.Add(_locationInput);
     }

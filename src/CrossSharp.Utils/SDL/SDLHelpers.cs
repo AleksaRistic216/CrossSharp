@@ -47,9 +47,6 @@ internal static class SDLHelpers
     );
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern int SDL_SetRenderDrawBlendMode(IntPtr renderer, SDLBlendMode blendMode);
-
-    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_DestroyWindow(IntPtr window);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]

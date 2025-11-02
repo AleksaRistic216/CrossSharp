@@ -281,14 +281,6 @@ class SDLGraphics : IGraphics
         }
     }
 
-    enum Corner
-    {
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight,
-    }
-
     void DrawQuarterCircle(int cx, int cy, int radius, Corner corner)
     {
         int samples = _theme.AntiAliasingLevel;
