@@ -45,7 +45,7 @@ partial class FormSDL : IFormSDL
         Height = h;
     }
 
-    public void Initialize()
+    void Initialize()
     {
         Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
         ((IFormSDL)this).RecordLocation();

@@ -50,7 +50,6 @@ partial class Input : ControlBase, IInput
                 _caretPosition.X = 0;
             if (_caretPosition.X > Text.Length)
                 _caretPosition.X = Text.Length;
-            InvalidateCaretBounds();
             return;
         }
 
@@ -74,7 +73,6 @@ partial class Input : ControlBase, IInput
             _caretPosition.Y++;
             _caretPosition.X = 0;
         }
-        InvalidateCaretBounds();
     }
 
     public override void Initialize() { }
@@ -84,7 +82,6 @@ partial class Input : ControlBase, IInput
         this.PerformDocking();
         CalcFontSize();
         InvalidatePlaceholderBounds();
-        InvalidateCaretBounds();
         InvalidateContentBounds();
     }
 
@@ -98,12 +95,12 @@ partial class Input : ControlBase, IInput
         );
     }
 
-    void InvalidateCaretBounds()
+    void InvalidateCaretBounds(IGraphics g)
     {
+        // Call this within draw because graphics gets fcked up when created here. Should fix it though
         var form = this.GetForm() as IFormSDL;
         if (form is null)
             return;
-        using var g = new SDLGraphics(form.Renderer);
         var text = MultiLine ? Text.Split(Environment.NewLine)[_caretPosition.Y] : Text;
         text = text[..Math.Min(_caretPosition.X, text.Length)];
         var textSize = g.MeasureText(text, FontFamily.Default, FontSize);
@@ -165,6 +162,7 @@ partial class Input : ControlBase, IInput
     {
         if (!IsFocused)
             return;
+        InvalidateCaretBounds(g);
         var now = DateTime.Now;
         if ((now - _lastCaretStateUpdate).TotalMilliseconds >= 500)
         {
