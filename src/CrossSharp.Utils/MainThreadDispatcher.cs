@@ -32,7 +32,6 @@ public static class MainThreadDispatcher
                 action();
                 done.Set();
             });
-            done.WaitOne();
         }
     }
 

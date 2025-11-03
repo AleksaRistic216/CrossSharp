@@ -62,24 +62,39 @@ partial class Input
         if (!IsFocused)
             return;
         if (HandleCaretMovement(e))
+        {
+            InvalidateCaretText();
             return;
+        }
         if (e.KeyCode == KeyCode.VcBackspace)
         {
-            if (Text.Length > 0)
-                Text = Text[..^1];
-            ShiftCaretPosition(-1);
+            if (_textBeforeCaret.Length <= 0)
+                return;
+            _textBeforeCaret = _textBeforeCaret[..^1];
+            Text = _textBeforeCaret + _textAfterCaret;
+            ShiftCaretPosition(-1, false);
+            return;
+        }
+        if (e.KeyCode == KeyCode.VcDelete)
+        {
+            if (_textAfterCaret.Length <= 0)
+                return;
+            _textAfterCaret = _textAfterCaret[1..];
+            Text = _textBeforeCaret + _textAfterCaret;
             return;
         }
         if (e.KeyCode == KeyCode.VcEnter && MultiLine)
         {
-            Text += Environment.NewLine;
+            _textBeforeCaret += Environment.NewLine;
+            Text = _textBeforeCaret + _textAfterCaret;
             _caretPosition.Y++;
             _caretPosition.X = 0;
             return;
         }
         if (e.Char is null)
             return;
-        Text += e.Char;
-        ShiftCaretPosition(1);
+        _textBeforeCaret += e.Char;
+        Text = _textBeforeCaret + _textAfterCaret;
+        ShiftCaretPosition(1, false);
     }
 }

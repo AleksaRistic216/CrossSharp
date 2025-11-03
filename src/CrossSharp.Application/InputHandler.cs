@@ -1,3 +1,4 @@
+using CrossSharp.Utils;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 using SharpHook;
@@ -46,7 +47,10 @@ class InputHandler : IInputHandler
             KeyCode = (CrossSharp.Utils.Input.KeyCode)castedE.Data.KeyCode,
             Char = ConvertKeyCodeToChar(keyCode, modifiers),
         };
-        KeyPressed?.Invoke(sender, args);
+        MainThreadDispatcher.Invoke(() =>
+        {
+            KeyPressed?.Invoke(sender, args);
+        });
     }
 
     char? ConvertKeyCodeToChar(KeyCode keyCode, EventMask modifiers)
@@ -148,7 +152,10 @@ class InputHandler : IInputHandler
             Clicks = clickCount,
         };
 
-        MousePressed?.Invoke(sender, args);
+        MainThreadDispatcher.Invoke(() =>
+        {
+            MousePressed?.Invoke(sender, args);
+        });
 
         lastClickTime = now;
         lastClickPosition = (castedE.Data.X, castedE.Data.Y);
@@ -164,7 +171,11 @@ class InputHandler : IInputHandler
             Y = castedE.Data.Y,
             Clicks = castedE.Data.Clicks,
         };
-        MouseReleased?.Invoke(sender, args);
+
+        MainThreadDispatcher.Invoke(() =>
+        {
+            MouseReleased?.Invoke(sender, args);
+        });
     }
 
     void OnMouseMoved(object? sender, HookEventArgs e)
@@ -177,14 +188,20 @@ class InputHandler : IInputHandler
             Y = castedE.Data.Y,
             Clicks = castedE.Data.Clicks,
         };
-        MouseMoved?.Invoke(sender, args);
+        MainThreadDispatcher.Invoke(() =>
+        {
+            MouseMoved?.Invoke(sender, args);
+        });
     }
 
     void OnMouseWheel(object? sender, HookEventArgs e)
     {
         var castedE = e as MouseWheelHookEventArgs;
         var args = new MouseWheelInputArgs() { Rotation = castedE!.Data.Rotation };
-        MouseWheel?.Invoke(sender, args);
+        MainThreadDispatcher.Invoke(() =>
+        {
+            MouseWheel?.Invoke(sender, args);
+        });
     }
 
     void OnMouseDragged(object? sender, HookEventArgs e)
@@ -197,7 +214,10 @@ class InputHandler : IInputHandler
             Y = castedE.Data.Y,
             Clicks = castedE.Data.Clicks,
         };
-        MouseDragged?.Invoke(sender, args);
+        MainThreadDispatcher.Invoke(() =>
+        {
+            MouseDragged?.Invoke(sender, args);
+        });
     }
 
     internal void StopListening()

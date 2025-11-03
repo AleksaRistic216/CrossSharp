@@ -39,7 +39,7 @@ partial class Input
         g.FillRectangle(_caretBounds.X, _caretBounds.Y, 2, LineHeight, ColorRgba.Black);
     }
 
-    void ShiftCaretPosition(int amount)
+    void ShiftCaretPosition(int amount, bool invalidateBeforeAndAfterText = true)
     {
         if (!MultiLine)
         {
@@ -48,6 +48,7 @@ partial class Input
                 _caretPosition.X = 0;
             if (_caretPosition.X > Text.Length)
                 _caretPosition.X = Text.Length;
+            InvalidateCaretText();
             return;
         }
 
@@ -56,7 +57,7 @@ partial class Input
         while (_caretPosition is { X: < 0, Y: > 0 })
         {
             _caretPosition.Y--;
-            _caretPosition.X += lines[_caretPosition.Y].Length;
+            _caretPosition.X = lines[_caretPosition.Y].Length;
         }
         if (_caretPosition.X < 0)
         {
@@ -71,6 +72,11 @@ partial class Input
             _caretPosition.Y++;
             _caretPosition.X = 0;
         }
+        if (_caretPosition.X > lines[_caretPosition.Y].Length)
+        {
+            _caretPosition.X = lines[_caretPosition.Y].Length;
+        }
+        InvalidateCaretText();
     }
 
     bool HandleCaretMovement(KeyInputArgs keyInputArgs)

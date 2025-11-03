@@ -55,6 +55,8 @@ partial class Input
             Invalidate();
         }
     }
+    string _textBeforeCaret = string.Empty;
+    string _textAfterCaret = string.Empty;
     string _text = string.Empty;
 
     public string Text
