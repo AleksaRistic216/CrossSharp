@@ -14,6 +14,7 @@ partial class Input : ControlBase, IInput
         BorderColor = ColorRgba.Gray;
         BorderWidth = 1;
         InputHandler.KeyPressed += InputHandlerOnKeyPressed;
+        InputHandler.MousePressed += InputHandlerOnMousePressed;
     }
 
     public override void Initialize() { }

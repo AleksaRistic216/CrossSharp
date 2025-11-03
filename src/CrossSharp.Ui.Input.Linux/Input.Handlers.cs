@@ -1,4 +1,9 @@
+using System.Drawing;
+using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -8,9 +13,64 @@ partial class Input
 
     void RaiseClick() => Click?.Invoke(this, EventArgs.Empty);
 
-    void OnClickInternal()
+    void OnClickInternal(MouseInputArgs e)
     {
+        if (!IsFocused)
+            return;
+        UpdateCaretPositionOnClick(new Point(e.X, e.Y));
         RaiseClick();
+    }
+
+    void UpdateCaretPositionOnClick(Point mousePos)
+    {
+        if (string.IsNullOrWhiteSpace(Text))
+        {
+            _caretPosition = new Point(0, 0);
+            return;
+        }
+
+        var screenBounds = this.GetScreenBounds();
+        if (!screenBounds.Contains(mousePos))
+            return;
+
+        var form = this.GetForm() as IFormSDL;
+        if (form is null)
+            return;
+
+        var contentScreenBounds = new Rectangle(
+            screenBounds.X + _contentBounds.X,
+            screenBounds.Y + _contentBounds.Y,
+            _contentBounds.Width,
+            _contentBounds.Height
+        );
+        if (!contentScreenBounds.Contains(mousePos))
+            return;
+
+        using var g = new SDLGraphics(form.Renderer);
+        var textSize = g.MeasureText(Text, FontFamily.Default, FontSize);
+        if (textSize.Width <= 0 || textSize.Height <= 0)
+            return;
+
+        var y = mousePos.Y - contentScreenBounds.Y;
+        var lineIndex = y / LineHeight;
+        if (lineIndex < 0)
+            lineIndex = 0;
+        var lines = Text.Split(Environment.NewLine);
+        if (lineIndex >= lines.Length)
+            lineIndex = lines.Length - 1;
+
+        var textWidthTillMousePosition = mousePos.X - contentScreenBounds.X;
+        var text = MultiLine ? Text.Split(Environment.NewLine)[lineIndex] : Text;
+        for (var i = 0; i <= text.Length; i++)
+        {
+            var subText = text[..i];
+            var subTextSize = g.MeasureText(subText, FontFamily.Default, FontSize);
+            if (subTextSize.Width < textWidthTillMousePosition)
+                continue;
+            _caretPosition = new Point(i, lineIndex);
+            InvalidateCaretText();
+            return;
+        }
     }
 
     public EventHandler? BackgroundColorChanged { get; set; }
@@ -96,5 +156,10 @@ partial class Input
         _textBeforeCaret += e.Char;
         Text = _textBeforeCaret + _textAfterCaret;
         ShiftCaretPosition(1, false);
+    }
+
+    void InputHandlerOnMousePressed(object? sender, MouseInputArgs e)
+    {
+        OnClickInternal(e);
     }
 }
