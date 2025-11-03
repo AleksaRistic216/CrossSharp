@@ -12,7 +12,7 @@ rm -rf ../bin/demos/*
   
 for dir in ../demos/*/; do
   if [ -f "$dir"/*.csproj ]; then
-    dotnet build "$dir"/*.csproj -c "${CONFIG:-Debug}"
+    dotnet build "$dir"/*.csproj -c Release
     all_runtimes=(
           linux-arm linux-arm64 linux-loongarch64 linux-musl-arm linux-musl-arm64 linux-musl-loongarch64
           linux-musl-riscv64 linux-musl-x64 linux-riscv64 linux-x64 linux-x86
@@ -26,10 +26,10 @@ for dir in ../demos/*/; do
     fi
     for rt in "${runtimes[@]}"; do
       mkdir -p ../bin/demos/$(basename "$dir")-$rt
+      
       cp -r "$dir"/bin/${CONFIG:-Debug}/* ../bin/demos/$(basename "$dir")-$rt/
-      if [ -d ./runtimes/$rt ]; then
-        cp -r ./runtimes/$rt/* ../bin/demos/$(basename "$dir")-$rt/
-      fi
+      find ../bin/demos/$(basename "$dir")-$rt/net9.0/runtimes/ -mindepth 1 -maxdepth 1 ! -name "$rt" -exec rm -rf {} +
+      
       zip -r ../bin/demos/$(basename "$dir")-$rt.zip ../bin/demos/$(basename "$dir")-$rt &
     done
   fi
