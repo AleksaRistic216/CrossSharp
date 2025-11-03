@@ -52,6 +52,7 @@ partial class FormSDL
     void OnDisposingInternal()
     {
         Services.GetSingleton<IApplication>().Tick += OnTickDispose;
+        Services.GetSingleton<IApplication>().Forms.Remove(this);
         RaiseDisposing();
     }
 }

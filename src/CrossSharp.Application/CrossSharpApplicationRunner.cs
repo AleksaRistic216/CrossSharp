@@ -24,20 +24,27 @@ static class CrossSharpApplicationRunner
             Services.GetSingleton<IApplication>().MainForm.Handle != IntPtr.Zero // Need to use this instead of application.MainWindowHandle because it can be changed when the main form is replaced
         )
         {
-            WaitForTargetFps();
-            Diagnostics.Ui.FrameCount++;
-            while (SDLHelpers.SDL_PollEvent(out SDL_Event e))
-                HandleEvents(e);
-            foreach (var form1 in Services.GetSingleton<IApplication>().Forms.ToArray())
+            try
             {
-                if (form1 is not IFormSDL f)
-                    continue;
-                f.RecordLocation();
-                f.RecordSize();
-                f.Redraw();
+                WaitForTargetFps();
+                Diagnostics.Ui.FrameCount++;
+                while (SDLHelpers.SDL_PollEvent(out SDL_Event e))
+                    HandleEvents(e);
+                foreach (var form1 in Services.GetSingleton<IApplication>().Forms.ToArray())
+                {
+                    if (form1 is not IFormSDL f)
+                        continue;
+                    f.RecordLocation();
+                    f.RecordSize();
+                    f.Redraw();
+                }
+                Services.GetSingleton<IApplication>().Tick?.Invoke(null, EventArgs.Empty);
+                MainThreadDispatcher.RunPending();
             }
-            Services.GetSingleton<IApplication>().Tick?.Invoke(null, EventArgs.Empty);
-            MainThreadDispatcher.RunPending();
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception in main loop: " + ex);
+            }
         }
         SDLHelpers.SDL_DestroyWindow(Services.GetSingleton<IApplication>().MainWindowHandle);
         SDLHelpers.SDL_Quit();

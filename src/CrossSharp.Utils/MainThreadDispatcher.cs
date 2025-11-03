@@ -26,11 +26,15 @@ public static class MainThreadDispatcher
         }
         else
         {
+            _queue.Enqueue(action);
+            return;
+            // Commented out bellow, I think I do not need it
             var done = new ManualResetEvent(false);
             _queue.Enqueue(() =>
             {
                 action();
                 done.Set();
+                done.WaitOne();
             });
         }
     }
