@@ -1,3 +1,5 @@
+using CrossSharp.Utils.Input;
+
 namespace CrossSharp.Ui.Linux;
 
 partial class Input
@@ -52,5 +54,32 @@ partial class Input
     {
         Invalidate();
         RaiseOnFocusChanged();
+    }
+
+    // ====
+    void InputHandlerOnKeyPressed(object? sender, KeyInputArgs e)
+    {
+        if (!IsFocused)
+            return;
+        if (HandleCaretMovement(e))
+            return;
+        if (e.KeyCode == KeyCode.VcBackspace)
+        {
+            if (Text.Length > 0)
+                Text = Text[..^1];
+            ShiftCaretPosition(-1);
+            return;
+        }
+        if (e.KeyCode == KeyCode.VcEnter && MultiLine)
+        {
+            Text += Environment.NewLine;
+            _caretPosition.Y++;
+            _caretPosition.X = 0;
+            return;
+        }
+        if (e.Char is null)
+            return;
+        Text += e.Char;
+        ShiftCaretPosition(1);
     }
 }
