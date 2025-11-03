@@ -57,10 +57,23 @@ public static class Services
         );
     }
 
+    public static object GetSingleton(Type interfaceType)
+    {
+        if (_services.TryGetValue(interfaceType, out object? service))
+        {
+            return service;
+        }
+        throw new KeyNotFoundException(
+            $"Service for type {interfaceType.FullName} is not registered."
+        );
+    }
+
     public static bool IsRegistered<TInterface>()
         where TInterface : class
     {
         Type interfaceType = typeof(TInterface);
         return _services.ContainsKey(interfaceType);
     }
+
+    public static bool IsRegistered(Type interfaceType) => _services.ContainsKey(interfaceType);
 }

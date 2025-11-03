@@ -16,9 +16,13 @@ public class MainForm : Form
 
     public MainForm()
     {
+        // Registers service which provides data for TextEditTab instances
+        Services.AddSingleton(new TextEditTabDataProvider());
         InitializeMenuBar();
         InitializeTabbedLayout();
     }
+
+    TextEditTabDataProvider GetDataProvider() => Services.GetSingleton<TextEditTabDataProvider>();
 
     void InitializeTabbedLayout()
     {
@@ -75,8 +79,19 @@ public class MainForm : Form
     {
         if (e.SelectedFiles.Length > 0)
         {
-            var filePath = e.SelectedFiles[0];
-            Notifications.Show("File Selected", $"You selected the file: {filePath}");
+            var dataProvider = GetDataProvider();
+            foreach (var file in e.SelectedFiles)
+            {
+                if (dataProvider.IsFileOpen(file))
+                {
+                    Notifications.Show("File Already Open", $"The file {file} is already open.");
+                    continue;
+                }
+                var fileName = Path.GetFileName(file);
+                dataProvider.LoadFile(file, fileName);
+                _tabbedLayout.AddTab(fileName, typeof(TextEditTab));
+                _tabbedLayout.SelectTab(fileName);
+            }
         }
         else
         {

@@ -103,6 +103,11 @@ class TabbedLayout : ITabbedLayout
 
     public void AddTab(string title, Type content)
     {
+        if (!typeof(ITabbedLayoutTab).IsAssignableFrom(content))
+            throw new ArgumentException(
+                "Content type must implement ITabbedLayoutTab interface.",
+                nameof(content)
+            );
         var tabButton = new Button();
         tabButton.Text = title;
         tabButton.AutoSize = true;
@@ -139,6 +144,8 @@ class TabbedLayout : ITabbedLayout
     public void SelectTab(string title)
     {
         _controlsController.Show(title);
+        var tab = _controlsController.GetCurrentControl() as ITabbedLayoutTab;
+        tab?.OnTabFocusGained(title);
         Invalidate();
     }
 

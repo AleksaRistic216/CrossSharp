@@ -1,3 +1,4 @@
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp;
@@ -12,11 +13,6 @@ public class DynamicControlsController(ref IControlsContainer container)
 
     public void Set(object identifier, Type control)
     {
-        if (!typeof(IControl).IsAssignableFrom(control))
-            throw new ArgumentException(
-                "Control must implement IControl interface",
-                nameof(control)
-            );
         _pages[identifier] = control;
     }
 
@@ -33,6 +29,25 @@ public class DynamicControlsController(ref IControlsContainer container)
             throw new InvalidOperationException(
                 $"Service for type {implementationType.FullName} is already registered."
             );
+    }
+
+    bool TryGetService(Type type, out object? service)
+    {
+        // First try getting it from local content
+        if (_services.TryGetValue(type, out var value))
+        {
+            service = value;
+            return true;
+        }
+
+        // try getting it from global services
+        if (Services.IsRegistered(type))
+        {
+            service = Services.GetSingleton(type);
+            return true;
+        }
+        service = null;
+        return false;
     }
 
     public void Show(object identifier)
@@ -52,7 +67,7 @@ public class DynamicControlsController(ref IControlsContainer container)
                 // For example, using default values or from a factory/service
                 var args = parameters
                     .Select(p =>
-                        _services.TryGetValue(p.ParameterType, out var v)
+                        TryGetService(p.ParameterType, out var v)
                             ? v
                             : throw new Exception(
                                 "No registered service for " + p.ParameterType.FullName
@@ -73,5 +88,16 @@ public class DynamicControlsController(ref IControlsContainer container)
         _container.Add(value);
         value.Invalidate();
         CurrentPage = identifier;
+    }
+
+    public object GetCurrentControl()
+    {
+        if (CurrentPage == null)
+            throw new InvalidOperationException("No current page is set.");
+        if (!_pages.TryGetValue(CurrentPage, out Type? type))
+            throw new ArgumentException("Not found", nameof(CurrentPage));
+        if (!_pageInstances.TryGetValue(type, out IControl? value))
+            throw new InvalidOperationException("Current page instance not found.");
+        return value;
     }
 }
