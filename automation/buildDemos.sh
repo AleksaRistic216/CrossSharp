@@ -18,9 +18,11 @@ for dir in ../demos/*/; do
           linux-musl-riscv64 linux-musl-x64 linux-riscv64 linux-x64 linux-x86
           maccatalyst-arm64 maccatalyst-x64 osx osx-arm64 osx-x64 win-arm64 win-x64 win-x86
         )
-    minimally_supported_runtimes=(linux-x64 win-x64)
+    minimally_supported_runtimes=(
+          linux-x64
+          win-x64)
     if [ "$minimal" = true ]; then
-      runtimes=($minimally_supported_runtimes)
+      runtimes=("${minimally_supported_runtimes[@]}")
     else
       runtimes=("${all_runtimes[@]}")
     fi
