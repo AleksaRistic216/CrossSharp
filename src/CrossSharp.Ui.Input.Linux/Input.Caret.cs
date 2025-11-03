@@ -119,6 +119,20 @@ partial class Input
             _caretPosition.X = lines[_caretPosition.Y].Length;
             return true;
         }
+        if (keyInputArgs.KeyCode == KeyCode.VcPageUp && MultiLine)
+        {
+            _caretPosition.Y = 0;
+            var lines = Text.Split(Environment.NewLine);
+            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            return true;
+        }
+        if (keyInputArgs.KeyCode == KeyCode.VcPageDown && MultiLine)
+        {
+            var lines = Text.Split(Environment.NewLine);
+            _caretPosition.Y = lines.Length - 1;
+            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            return true;
+        }
         return false;
     }
 }
