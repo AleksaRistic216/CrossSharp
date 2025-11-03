@@ -3,6 +3,7 @@ using CrossSharp.Desktop;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
@@ -21,6 +22,8 @@ public class FilesPicker : Form, IFilesPicker
 
     const int _leftRowWidth = 150;
     const int _blockHeight = 40;
+
+    public EventHandler<FilesSelectedEventArgs> FilesSelected { get; set; }
 
     public FilesPicker()
     {
@@ -230,7 +233,7 @@ public class FilesPicker : Form, IFilesPicker
                     }
                     else
                     {
-                        Notifications.Show("File selected", entry);
+                        OnFilesSelected([entry]);
                     }
                 };
                 _contentsList.Add(entryButton);
@@ -240,5 +243,10 @@ public class FilesPicker : Form, IFilesPicker
         {
             Notifications.Show("Error loading directory", ex.Message);
         }
+    }
+
+    void OnFilesSelected(string[] selectedFiles)
+    {
+        FilesSelected?.Invoke(this, new FilesSelectedEventArgs(selectedFiles));
     }
 }

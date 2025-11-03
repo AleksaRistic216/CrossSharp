@@ -10,7 +10,7 @@ public static class IMarginProviderExtensions
         marginProvider.MarginBottom = all;
         marginProvider.MarginLeft = all;
         marginProvider.MarginRight = all;
-        marginProvider.MarginChanged?.Invoke(marginProvider, EventArgs.Empty);
+        marginProvider.MarginChanged?.Invoke(marginProvider, System.EventArgs.Empty);
     }
 
     public static void SetMargin(this IMarginProvider marginProvider, int horizontal, int vertical)
@@ -19,7 +19,7 @@ public static class IMarginProviderExtensions
         marginProvider.MarginRight = horizontal;
         marginProvider.MarginTop = vertical;
         marginProvider.MarginBottom = vertical;
-        marginProvider.MarginChanged?.Invoke(marginProvider, EventArgs.Empty);
+        marginProvider.MarginChanged?.Invoke(marginProvider, System.EventArgs.Empty);
     }
 
     public static void SetMargin(
@@ -34,6 +34,6 @@ public static class IMarginProviderExtensions
         marginProvider.MarginTop = top;
         marginProvider.MarginRight = right;
         marginProvider.MarginBottom = bottom;
-        marginProvider.MarginChanged?.Invoke(marginProvider, EventArgs.Empty);
+        marginProvider.MarginChanged?.Invoke(marginProvider, System.EventArgs.Empty);
     }
 }

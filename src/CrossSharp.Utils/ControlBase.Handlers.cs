@@ -51,10 +51,10 @@ public partial class ControlBase
 
     void RaiseMarginChanged()
     {
-        MarginChanged?.Invoke(this, EventArgs.Empty);
+        MarginChanged?.Invoke(this, System.EventArgs.Empty);
     }
 
-    void OnMarginChangedInternal(object? sender, EventArgs e)
+    void OnMarginChangedInternal(object? sender, System.EventArgs e)
     {
         RaiseMarginChanged();
     }

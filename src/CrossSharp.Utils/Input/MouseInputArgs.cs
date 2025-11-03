@@ -2,7 +2,7 @@ using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Input;
 
-public class MouseInputArgs : EventArgs
+public class MouseInputArgs : System.EventArgs
 {
     public MouseButton Button { get; init; }
     public int Clicks { get; init; }

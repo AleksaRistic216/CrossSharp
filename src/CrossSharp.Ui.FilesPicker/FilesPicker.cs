@@ -1,5 +1,6 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -9,4 +10,10 @@ public class FilesPicker()
         IFilesPicker
 {
     public void Show() => Implementation.Show();
+
+    public EventHandler<FilesSelectedEventArgs> FilesSelected
+    {
+        get => Implementation.FilesSelected;
+        set => Implementation.FilesSelected = value;
+    }
 }

@@ -1,5 +1,7 @@
+using CrossSharp.Desktop;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.EventArgs;
 
 namespace Demos.FilesPicker;
 
@@ -15,8 +17,14 @@ public class MainForm : Form
         button.Click += (s, e) =>
         {
             filesPicker = new CrossSharp.Ui.FilesPicker();
+            filesPicker.FilesSelected += FilesPicker_OnFileSelected;
             filesPicker.Show();
         };
         Controls.Add(button);
+    }
+
+    void FilesPicker_OnFileSelected(object? sender, FilesSelectedEventArgs e)
+    {
+        Notifications.Show("Selected file", $"You selected: {e.SelectedFiles.Length} files.");
     }
 }

@@ -42,13 +42,13 @@ class Application : IApplication
 
     public EventHandler? Tick { get; set; }
 
-    void OnMainFormClose(object? sender, EventArgs e)
+    void OnMainFormClose(object? sender, System.EventArgs e)
     {
         Services.GetSingleton<IApplicationLoop>().Dispose();
     }
 
     void RaiseDevelopersModeChanged()
     {
-        DevelopersModeChanged?.Invoke(this, EventArgs.Empty);
+        DevelopersModeChanged?.Invoke(this, System.EventArgs.Empty);
     }
 }
