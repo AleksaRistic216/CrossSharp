@@ -129,11 +129,5 @@ partial class StackedLayout : IStackedLayout
         graphics.FillRectangle(0, 0, Width, Height, BackgroundColor);
     }
 
-    public void Dispose()
-    {
-        foreach (var c in _controls)
-            c.Dispose();
-        _controls.Clear();
-        UnsubscribeFromInputHandlerEvents();
-    }
+    public void Dispose() => OnDisposeInternal();
 }

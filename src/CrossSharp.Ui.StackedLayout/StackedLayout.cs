@@ -106,6 +106,12 @@ public class StackedLayout()
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
+    public EventHandler? Disposing
+    {
+        get => _impl.Disposing;
+        set => _impl.Disposing = value;
+    }
+
     public ColorRgba BackgroundColor
     {
         get => _impl.BackgroundColor;

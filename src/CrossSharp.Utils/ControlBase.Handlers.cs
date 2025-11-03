@@ -58,4 +58,19 @@ public partial class ControlBase
     {
         RaiseMarginChanged();
     }
+
+    public EventHandler? Disposing { get; set; }
+
+    void RaiseDisposing()
+    {
+        Disposing?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnDisposingInternal()
+    {
+        SizeChanged = null;
+        LocationChanged = null;
+        InputHandler.MouseMoved -= OnMouseMoved;
+        RaiseDisposing();
+    }
 }

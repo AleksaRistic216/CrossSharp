@@ -46,4 +46,19 @@ partial class StackedLayout
     public EventHandler<Point>? LocationChanged { get; set; }
     public EventHandler<Size>? SizeChanged { get; set; }
     public EventHandler? BackgroundColorChanged { get; set; }
+    public EventHandler? Disposing { get; set; }
+
+    void RaiseDisposing()
+    {
+        Disposing?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnDisposeInternal()
+    {
+        foreach (var c in _controls)
+            c.Dispose();
+        _controls.Clear();
+        UnsubscribeFromInputHandlerEvents();
+        RaiseDisposing();
+    }
 }

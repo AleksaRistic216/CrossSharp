@@ -1,4 +1,6 @@
 using System.Drawing;
+using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Ui.Linux;
@@ -42,4 +44,14 @@ partial class FormSDL
     void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
 
     void OnMarginChangedInternal() => RaiseMarginChanged();
+
+    public EventHandler? Disposing { get; set; }
+
+    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
+
+    void OnDisposingInternal()
+    {
+        Services.GetSingleton<IApplication>().Tick += OnTickDispose;
+        RaiseDisposing();
+    }
 }

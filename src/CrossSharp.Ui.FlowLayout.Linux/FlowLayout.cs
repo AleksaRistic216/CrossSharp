@@ -19,10 +19,7 @@ partial class FlowLayout : IFlowLayout
         SubscribeToInputHandlerEvents();
     }
 
-    public void Dispose()
-    {
-        UnsubscribeFromInputHandlerEvents();
-    }
+    public void Dispose() => OnDisposeInternal();
 
     public void LimitClip(ref IGraphics g) { }
 

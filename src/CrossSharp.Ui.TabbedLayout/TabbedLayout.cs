@@ -77,6 +77,12 @@ public class TabbedLayout()
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
+    public EventHandler? Disposing
+    {
+        get => _impl.Disposing;
+        set => _impl.Disposing = value;
+    }
+
     public int DockIndex
     {
         get => _impl.DockIndex;

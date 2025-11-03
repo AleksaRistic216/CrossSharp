@@ -12,6 +12,8 @@ class StaticLayout : IStaticLayout
     readonly List<IControl> _controls = [];
 
     public int DockIndex { get; set; }
+
+    public EventHandler? Disposing { get; set; }
     public DockStyle Dock { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
@@ -86,11 +88,16 @@ class StaticLayout : IStaticLayout
             c.Draw(ref graphics);
     }
 
-    public void Dispose()
+    public void Dispose() => OnDisposingInternal();
+
+    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
+
+    void OnDisposingInternal()
     {
         foreach (var c in _controls)
             c.Dispose();
         _controls.Clear();
+        RaiseDisposing();
     }
 
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;

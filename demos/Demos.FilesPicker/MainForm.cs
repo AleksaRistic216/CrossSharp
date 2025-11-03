@@ -7,7 +7,7 @@ namespace Demos.FilesPicker;
 
 public class MainForm : Form
 {
-    CrossSharp.Ui.FilesPicker filesPicker;
+    CrossSharp.Ui.FilesPicker? filesPicker;
 
     public MainForm()
     {
@@ -19,6 +19,7 @@ public class MainForm : Form
             filesPicker = new CrossSharp.Ui.FilesPicker();
             filesPicker.FilesSelected += FilesPicker_OnFileSelected;
             filesPicker.Show();
+            filesPicker.Disposing += FilesPicker_Disposing;
         };
         Controls.Add(button);
     }
@@ -26,5 +27,12 @@ public class MainForm : Form
     void FilesPicker_OnFileSelected(object? sender, FilesSelectedEventArgs e)
     {
         Notifications.Show("Selected file", $"You selected: {e.SelectedFiles.Length} files.");
+    }
+
+    void FilesPicker_Disposing(object? sender, EventArgs e)
+    {
+        filesPicker!.FilesSelected -= FilesPicker_OnFileSelected;
+        filesPicker!.Disposing -= FilesPicker_Disposing;
+        filesPicker = null;
     }
 }

@@ -107,6 +107,12 @@ public abstract class FormBase<T> : IForm
 
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
+    public EventHandler? Disposing
+    {
+        get => Implementation.Disposing;
+        set { Implementation.Disposing = value; }
+    }
+
     public int BorderWidth
     {
         get => Implementation.BorderWidth;

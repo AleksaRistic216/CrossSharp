@@ -128,10 +128,7 @@ partial class FormSDL : IFormSDL
 
     public void Restore() { }
 
-    public void Dispose()
-    {
-        Services.GetSingleton<IApplication>().Tick += OnTickDispose;
-    }
+    public void Dispose() => OnDisposingInternal();
 
     void OnTickDispose(object? sender, EventArgs e)
     {

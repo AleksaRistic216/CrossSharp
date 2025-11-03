@@ -64,7 +64,7 @@ class TabbedLayout : ITabbedLayout
             btn.IsSelected = btn.Text == (string?)_controlsController.CurrentPage;
     }
 
-    public void Dispose() { }
+    public void Dispose() => OnDisposeInternal();
 
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
@@ -89,6 +89,12 @@ class TabbedLayout : ITabbedLayout
         _header.Draw(ref graphics);
         _tabs.Draw(ref graphics);
     }
+
+    public EventHandler? Disposing { get; set; }
+
+    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
+
+    void OnDisposeInternal() => RaiseDisposing();
 
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }

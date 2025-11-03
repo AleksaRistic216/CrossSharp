@@ -20,12 +20,7 @@ public abstract partial class ControlBase : IControl
 
     public Size GetSize() => new(Width, Height);
 
-    public virtual void Dispose()
-    {
-        SizeChanged = null;
-        LocationChanged = null;
-        InputHandler.MouseMoved -= OnMouseMoved;
-    }
+    public virtual void Dispose() => OnDisposingInternal();
 
     public abstract void Redraw();
 

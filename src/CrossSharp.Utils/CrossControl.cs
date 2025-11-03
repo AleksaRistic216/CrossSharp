@@ -71,6 +71,12 @@ public abstract class CrossControl<T>(T implementation)
 
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
+    public EventHandler? Disposing
+    {
+        get => Implementation.Disposing;
+        set => Implementation.Disposing = value;
+    }
+
     public bool IsMouseOver
     {
         get => Implementation.IsMouseOver;

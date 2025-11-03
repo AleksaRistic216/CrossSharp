@@ -77,6 +77,12 @@ public class FlowLayout()
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
+    public EventHandler? Disposing
+    {
+        get => _impl.Disposing;
+        set => _impl.Disposing = value;
+    }
+
     public IEnumerator<IControl> GetEnumerator() => _impl.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => _impl.GetEnumerator();

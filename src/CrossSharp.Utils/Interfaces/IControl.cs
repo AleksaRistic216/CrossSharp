@@ -15,4 +15,5 @@ public interface IControl
     void SuspendLayout();
     void ResumeLayout();
     void Draw(ref IGraphics graphics);
+    EventHandler? Disposing { get; set; }
 }
