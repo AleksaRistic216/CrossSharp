@@ -12,8 +12,18 @@ partial class Input
     DateTime _lastCaretStateUpdate = DateTime.MinValue;
     int _lineGap = 4;
     bool _caretVisible = false;
-    public ColorRgba BackgroundColor { get; set; } =
-        Services.GetSingleton<ITheme>().InputBackgroundColor;
+    ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().InputBackgroundColor;
+    public ColorRgba BackgroundColor
+    {
+        get => _backgroundColor;
+        set
+        {
+            if (Equals(_backgroundColor, value))
+                return;
+            _backgroundColor = value;
+            OnBackgroundColorChangedInternal();
+        }
+    }
 
     Point _caretPosition = Point.Empty;
     Rectangle _placeholderBounds = Rectangle.Empty;

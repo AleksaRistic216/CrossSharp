@@ -3,7 +3,24 @@ namespace CrossSharp.Ui.Linux;
 partial class Input
 {
     public EventHandler? Click { get; set; }
+
+    void RaiseClick() => Click?.Invoke(this, EventArgs.Empty);
+
+    void OnClickInternal()
+    {
+        RaiseClick();
+    }
+
     public EventHandler? BackgroundColorChanged { get; set; }
+
+    void RaiseBackgroundColorChanged() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnBackgroundColorChangedInternal()
+    {
+        Invalidate();
+        RaiseBackgroundColorChanged();
+    }
+
     public EventHandler? PlaceholderChanged { get; set; }
 
     void RaisePlaceholderChanged() => PlaceholderChanged?.Invoke(this, EventArgs.Empty);
@@ -15,25 +32,11 @@ partial class Input
     }
 
     public EventHandler? TextChanged { get; set; }
-    public EventHandler? OnFocusChanged { get; set; }
 
-    void OnBackgroundColorChangedInternal()
+    void RaiseTextChanged()
     {
-        Invalidate();
-        RaiseOnBackgroundColorChange();
+        TextChanged?.Invoke(this, EventArgs.Empty);
     }
-
-    void RaiseOnBackgroundColorChange() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
-
-    void RaiseOnClick() => Click?.Invoke(this, EventArgs.Empty);
-
-    void OnFocusChangedInternal()
-    {
-        Invalidate();
-        RaiseOnFocusChanged();
-    }
-
-    void RaiseOnFocusChanged() => OnFocusChanged?.Invoke(this, EventArgs.Empty);
 
     void OnTextChangedInternal()
     {
@@ -41,8 +44,13 @@ partial class Input
         RaiseTextChanged();
     }
 
-    void RaiseTextChanged()
+    public EventHandler? OnFocusChanged { get; set; }
+
+    void RaiseOnFocusChanged() => OnFocusChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnFocusChangedInternal()
     {
-        TextChanged?.Invoke(this, EventArgs.Empty);
+        Invalidate();
+        RaiseOnFocusChanged();
     }
 }
