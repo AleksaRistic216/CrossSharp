@@ -87,22 +87,36 @@ partial class Input
         }
         if (keyInputArgs.KeyCode == KeyCode.VcUp && MultiLine)
         {
-            if (_caretPosition.Y > 0)
-            {
-                _caretPosition.Y--;
-                var lines = Text.Split(Environment.NewLine);
-                _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
-            }
+            if (_caretPosition.Y <= 0)
+                return true;
+            _caretPosition.Y--;
+            var lines = Text.Split(Environment.NewLine);
+            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
             return true;
         }
         if (keyInputArgs.KeyCode == KeyCode.VcDown && MultiLine)
         {
             var lines = Text.Split(Environment.NewLine);
-            if (_caretPosition.Y < lines.Length - 1)
+            if (_caretPosition.Y >= lines.Length - 1)
+                return true;
+            _caretPosition.Y++;
+            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            return true;
+        }
+        if (keyInputArgs.KeyCode == KeyCode.VcHome)
+        {
+            _caretPosition.X = 0;
+            return true;
+        }
+        if (keyInputArgs.KeyCode == KeyCode.VcEnd)
+        {
+            if (!MultiLine)
             {
-                _caretPosition.Y++;
-                _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+                _caretPosition.X = Text.Length;
+                return true;
             }
+            var lines = Text.Split(Environment.NewLine);
+            _caretPosition.X = lines[_caretPosition.Y].Length;
             return true;
         }
         return false;
