@@ -81,6 +81,7 @@
     <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Windows\CrossSharp.Ui.ModularForm.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.ModularForm\CrossSharp.Ui.ModularForm.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Panel.Windows\CrossSharp.Ui.Panel.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Linux\CrossSharp.Ui.StackedLayout.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Windows\CrossSharp.Ui.StackedLayout.Windows.csproj" />

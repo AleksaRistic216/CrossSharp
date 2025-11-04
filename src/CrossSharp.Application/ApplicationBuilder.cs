@@ -70,7 +70,7 @@ public class ApplicationBuilder
         AddSingleton<ITabbedLayoutFactory, Ui.Windows.TabbedLayoutFactory>();
         AddSingleton<IFlowLayoutFactory, Ui.Windows.FlowLayoutFactory>();
         AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
-        AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
+        AddSingleton<IPanelFactory, Ui.Windows.PanelFactory>();
         AddSingleton<ILabelFactory, Ui.Windows.LabelFactory>();
         AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
         AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
