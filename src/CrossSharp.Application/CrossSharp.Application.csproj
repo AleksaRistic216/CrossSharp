@@ -59,6 +59,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Desktop.Notifications\CrossSharp.Desktop.Notifications.csproj" />
     <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Accordion.Linux\CrossSharp.Ui.Accordion.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Accordion.Windows\CrossSharp.Ui.Accordion.Windows.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Accordion\CrossSharp.Ui.Accordion.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Button.Windows\CrossSharp.Ui.Button.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />

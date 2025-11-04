@@ -60,6 +60,7 @@ public class ApplicationBuilder
         AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
         AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
         AddSingleton<IInputFactory, Ui.Linux.InputFactory>();
+        AddSingleton<IAccordionFactory, Ui.Linux.AccordionFactory>();
     }
 
     void RegisterWindowsServices()
@@ -76,6 +77,7 @@ public class ApplicationBuilder
         AddSingleton<IFontFamilyMap, Utils.Windows.FontFamilyMap>();
         AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
         AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
+        AddSingleton<IAccordionFactory, Ui.Windows.AccordionFactory>();
     }
 
     void RegisterMacOsServices()
