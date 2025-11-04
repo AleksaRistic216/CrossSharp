@@ -72,7 +72,7 @@ public class ApplicationBuilder
         AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
         AddSingleton<IPanelFactory, Ui.Windows.PanelFactory>();
         AddSingleton<ILabelFactory, Ui.Windows.LabelFactory>();
-        AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
+        AddSingleton<IFontFamilyMap, Utils.Windows.FontFamilyMap>();
         AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
         AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
     }

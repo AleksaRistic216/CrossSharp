@@ -92,6 +92,7 @@
     <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Linux\CrossSharp.Ui.TabbedLayout.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Windows\CrossSharp.Ui.TabbedLayout.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout\CrossSharp.Ui.TabbedLayout.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils.Windows\CrossSharp.Utils.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
