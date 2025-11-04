@@ -18,6 +18,7 @@ public class MainForm : Form
         // Registers service which provides data for TextEditTab instances
         Services.AddSingleton(new TextEditTabDataProvider());
         InitializeMenuBar();
+        InitializeEditorBar();
         InitializeTabbedLayout();
         LoadInitialFiles();
     }
@@ -86,6 +87,18 @@ public class MainForm : Form
         btn1.MinHeight = menuBarHeight;
         btn1.Click += OpenFileButton_Click;
         menuBar.Add(btn1);
+    }
+
+    void InitializeEditorBar()
+    {
+        var editorBarHeight = 30;
+        var editorBar = new StackedLayout();
+        editorBar.Height = editorBarHeight;
+        editorBar.BackgroundColor = Theme.SecondaryBackgroundColor;
+        editorBar.Direction = Direction.Horizontal;
+        editorBar.Dock = DockStyle.Top;
+        editorBar.DockIndex = 1;
+        Controls.Add(editorBar);
     }
 
     void OpenFileButton_Click(object? sender, EventArgs e)
