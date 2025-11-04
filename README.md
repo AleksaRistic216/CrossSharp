@@ -1,7 +1,10 @@
 # Cross-Platform C# UI Deployment
 
-## Purpose
+## Issues tracking, reporting and idea suggestions
+ - Overview: https://limitlesssoft.youtrack.cloud/dashboard?id=170-3
+ - Report an issue / suggest idea: https://limitlesssoft.youtrack.cloud/issues
 
+## Purpose
 This project provides an easy way to develop C# UI applications across all major platforms — Linux, Windows, and macOS — using a single API.
 
 ## Features
