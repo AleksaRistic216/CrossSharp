@@ -3,7 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>9.0.3.1</Version>
+    <Version>9.0.3.2</Version>
     <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
     <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -57,31 +57,31 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <!-- Linux native libs -->
     <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2_ttf-2.0.so.0">
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/libSDL2_ttf-2.0.so.0</Link>
+      <PackagePath>runtimes/linux-x64/native/libSDL2_ttf-2.0.so.0</PackagePath>
+      <Link>runtimes/linux-x64/native/libSDL2_ttf-2.0.so.0</Link>
     </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0">
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/libSDL2-2.0.so.0</Link>
+      <PackagePath>runtimes/linux-x64/native/libSDL2-2.0.so.0</PackagePath>
+      <Link>runtimes/linux-x64/native/libSDL2-2.0.so.0</Link>
     </None>
-  </ItemGroup>
-  <ItemGroup>
+    <!-- Windows native libs -->
     <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2.dll">
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/SDL2.dll</Link>
+      <PackagePath>runtimes/win-x64/native/SDL2.dll</PackagePath>
+      <Link>runtimes/win-x64/native/SDL2.dll</Link>
     </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2_ttf.dll">
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/SDL2_ttf.dll</Link>
+      <PackagePath>runtimes/win-x64/native/SDL2_ttf.dll</PackagePath>
+      <Link>runtimes/win-x64/native/SDL2_ttf.dll</Link>
     </None>
   </ItemGroup>
   <ItemGroup>

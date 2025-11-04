@@ -4,12 +4,56 @@ namespace CrossSharp.Utils.SDL;
 
 static class SDLHelpers
 {
+    static SDLHelpers()
+    {
+#if !DEBUG
+        NativeLibrary.SetDllImportResolver(
+            typeof(SDLHelpers).Assembly,
+            (name, assembly, path) =>
+            {
+                string? rid =
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64"
+                    : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "linux-x64"
+                    : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? "osx-x64"
+                    : null;
+
+                if (rid == null)
+                    throw new PlatformNotSupportedException();
+
+                string libPath = Path.Combine(
+                    AppContext.BaseDirectory,
+                    "runtimes",
+                    rid,
+                    "native",
+                    name
+                );
+                if (!File.Exists(libPath))
+                    throw new DllNotFoundException($"Native library not found: {libPath}");
+
+                return NativeLibrary.Load(libPath);
+            }
+        );
+        NativeLibrary.Load(LIB);
+        NativeLibrary.Load(TTF_LIB);
+#endif
+    }
+
 #if WINDOWS
-    internal const string LIB = "lib/SDL2.dll";
-    public const string TTF_LIB = "lib/SDL2_ttf.dll";
+#if DEBUG
+    internal const string LIB = "runtimes/win-x64/native/SDL2";
+    public const string TTF_LIB = "runtimes/win-x64/native/SDL2_ttf";
+#else
+    internal const string LIB = "SDL2";
+    public const string TTF_LIB = "SDL2_ttf";
+#endif
+#else
+#if DEBUG
+    internal const string LIB = "runtimes/linux-x64/native/libSDL2-2.0.so.0";
+    public const string TTF_LIB = "runtimes/linux-x64/native/libSDL2_ttf-2.0.so.0";
 #else
     internal const string LIB = "libSDL2-2.0.so.0";
-    public const string TTF_LIB = "lib/libSDL2_ttf-2.0.so.0";
+    public const string TTF_LIB = "libSDL2_ttf-2.0.so.0";
+#endif
 #endif
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
