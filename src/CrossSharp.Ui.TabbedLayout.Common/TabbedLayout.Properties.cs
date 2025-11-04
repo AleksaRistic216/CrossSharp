@@ -3,6 +3,7 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -13,7 +14,6 @@ partial class TabbedLayout
     DynamicControlsController _controlsController;
     IControlsContainer _tabs;
     IStackedLayout _header;
-    int headerHeight = 30;
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
     Point _location;
@@ -128,6 +128,50 @@ partial class TabbedLayout
                 return;
             _visible = value;
             Invalidate();
+        }
+    }
+    int _headerItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
+    public int HeaderItemsSpacing
+    {
+        get => _headerItemsSpacing;
+        set
+        {
+            if (_headerItemsSpacing == value)
+                return;
+            _headerItemsSpacing = value;
+            OnHeaderItemsSpacingChanged();
+        }
+    }
+    Padding _headerPadding =
+        Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
+            ? new Padding(8, 4)
+            : new Padding(0);
+    public Padding HeaderPadding
+    {
+        get => _headerPadding;
+        set
+        {
+            if (
+                _headerPadding.Left == value.Left
+                && _headerPadding.Right == value.Right
+                && _headerPadding.Top == value.Top
+                && _headerPadding.Bottom == value.Bottom
+            )
+                return;
+            _headerPadding = value;
+            OnHeaderPaddingChanged();
+        }
+    }
+    int _headerHeight = 30;
+    public int HeaderHeight
+    {
+        get => _headerHeight;
+        set
+        {
+            if (_headerHeight == value)
+                return;
+            _headerHeight = value;
+            OnHeaderHeightChanged();
         }
     }
 }

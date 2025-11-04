@@ -7,4 +7,5 @@ var configuration = new BaseConfiguration()
     CompanyName = "CrossSharp",
 };
 var builder = new ApplicationBuilder(configuration);
+builder.SetTheme(new CustomTheme());
 builder.Run<MainForm>();

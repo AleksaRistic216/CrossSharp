@@ -37,12 +37,12 @@ partial class TabbedLayout : ITabbedLayout
         _header = new StackedLayout();
         _header.Orientation = Orientation.Horizontal;
         _header.BackgroundColor = Theme.SecondaryBackgroundColor;
-        _header.ItemsSpacing = 4;
+        _header.ItemsSpacing = HeaderItemsSpacing;
         _header.Parent = this;
-        _header.Padding = new Padding(4);
+        _header.Padding = HeaderPadding;
         _header.DockIndex = 0;
         _header.Dock = DockStyle.Top;
-        _header.Height = headerHeight;
+        _header.Height = HeaderHeight;
         _controls.Add(_header);
     }
 
@@ -104,6 +104,7 @@ partial class TabbedLayout : ITabbedLayout
     void StyleTabButton(ref IButton button)
     {
         button.AutoSize = true;
+        button.MinHeight = _header.Height - _header.Padding.Vertical;
         button.MaxHeight = _header.Height - _header.Padding.Vertical;
     }
 

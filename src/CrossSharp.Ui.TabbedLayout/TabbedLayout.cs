@@ -4,6 +4,7 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
@@ -109,6 +110,36 @@ public class TabbedLayout()
         set => _impl.BackgroundColorChanged = value;
     }
 
+    public int HeaderItemsSpacing
+    {
+        get => _impl.HeaderItemsSpacing;
+        set => _impl.HeaderItemsSpacing = value;
+    }
+    public EventHandler? HeaderItemsSpacingChanged
+    {
+        get => _impl.HeaderItemsSpacingChanged;
+        set => _impl.HeaderItemsSpacingChanged = value;
+    }
+    public Padding HeaderPadding
+    {
+        get => _impl.HeaderPadding;
+        set => _impl.HeaderPadding = value;
+    }
+    public EventHandler? HeaderPaddingChanged
+    {
+        get => _impl.HeaderPaddingChanged;
+        set => _impl.HeaderPaddingChanged = value;
+    }
+    public int HeaderHeight
+    {
+        get => _impl.HeaderHeight;
+        set => _impl.HeaderHeight = value;
+    }
+    public EventHandler? HeaderHeightChanged
+    {
+        get => _impl.HeaderHeightChanged;
+        set => _impl.HeaderHeightChanged = value;
+    }
     public EventHandler? CurrentTabChanged
     {
         get => _impl.CurrentTabChanged;

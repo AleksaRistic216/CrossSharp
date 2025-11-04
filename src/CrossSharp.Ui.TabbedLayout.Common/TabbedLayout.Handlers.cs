@@ -44,6 +44,40 @@ partial class TabbedLayout
         RaiseBackgroundColorChanged();
     }
 
+    public EventHandler? HeaderItemsSpacingChanged { get; set; }
+
+    void RaiseHeaderItemsSpacingChanged() =>
+        HeaderItemsSpacingChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnHeaderItemsSpacingChanged()
+    {
+        _header.ItemsSpacing = _headerItemsSpacing;
+        Invalidate();
+        RaiseHeaderItemsSpacingChanged();
+    }
+
+    public EventHandler? HeaderPaddingChanged { get; set; }
+
+    void RaiseHeaderPaddingChanged() => HeaderPaddingChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnHeaderPaddingChanged()
+    {
+        _header.Padding = HeaderPadding;
+        Invalidate();
+        RaiseHeaderPaddingChanged();
+    }
+
+    public EventHandler? HeaderHeightChanged { get; set; }
+
+    void RaiseHeaderHeightChanged() => HeaderHeightChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnHeaderHeightChanged()
+    {
+        _header.Height = _headerHeight;
+        Invalidate();
+        RaiseHeaderHeightChanged();
+    }
+
     public EventHandler? CurrentTabChanged { get; set; }
 
     void RaiseCurrentTabChanged() => CurrentTabChanged?.Invoke(this, EventArgs.Empty);
