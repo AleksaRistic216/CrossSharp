@@ -1,0 +1,62 @@
+using System.Drawing;
+
+namespace CrossSharp.Ui.Common;
+
+partial class TabbedLayout
+{
+    public EventHandler<Point>? LocationChanged { get; set; }
+
+    void RaiseLocationChanged() => LocationChanged?.Invoke(this, new Point(Location.X, Location.Y));
+
+    void OnLocationChangedInternal()
+    {
+        Invalidate();
+        RaiseLocationChanged();
+    }
+
+    public EventHandler<Size>? SizeChanged { get; set; }
+
+    void RaiseSizeChanged() => SizeChanged?.Invoke(this, new Size(Width, Height));
+
+    void OnSizeChangedInternal()
+    {
+        Invalidate();
+        RaiseSizeChanged();
+    }
+
+    public EventHandler? MarginChanged { get; set; }
+
+    void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnMarginChangedInternal()
+    {
+        Invalidate();
+        RaiseMarginChanged();
+    }
+
+    public EventHandler? BackgroundColorChanged { get; set; }
+
+    void RaiseBackgroundColorChanged() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnBackgroundColorChangedInternal()
+    {
+        Invalidate();
+        RaiseBackgroundColorChanged();
+    }
+
+    public EventHandler? CurrentTabChanged { get; set; }
+
+    void RaiseCurrentTabChanged() => CurrentTabChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnCurrentTabChanged()
+    {
+        Invalidate();
+        RaiseCurrentTabChanged();
+    }
+
+    public EventHandler? Disposing { get; set; }
+
+    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
+
+    void OnDisposeInternal() => RaiseDisposing();
+}

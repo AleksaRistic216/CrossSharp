@@ -9,15 +9,8 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
-class TabbedLayout : ITabbedLayout
+partial class TabbedLayout : ITabbedLayout
 {
-    ITheme _theme => Services.GetSingleton<ITheme>();
-    DynamicControlsController _controlsController;
-    readonly List<IControl> _controls = [];
-    IControlsContainer _tabs;
-    IStackedLayout _header;
-    private int headerHeight = 30;
-
     internal TabbedLayout()
     {
         Initialize();
@@ -43,7 +36,7 @@ class TabbedLayout : ITabbedLayout
     {
         _header = new StackedLayout();
         _header.Orientation = Orientation.Horizontal;
-        _header.BackgroundColor = _theme.SecondaryBackgroundColor;
+        _header.BackgroundColor = Theme.SecondaryBackgroundColor;
         _header.ItemsSpacing = 4;
         _header.Parent = this;
         _header.Padding = new Padding(4);
@@ -69,30 +62,7 @@ class TabbedLayout : ITabbedLayout
 
     public void Dispose() => OnDisposeInternal();
 
-    public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
-
     public void LimitClip(ref IGraphics g) { }
-
-    public Point Location { get; set; }
-    public EventHandler<Point>? LocationChanged { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public EventHandler<Size>? SizeChanged { get; set; }
-    public object? Parent { get; set; }
-    public bool IsMouseOver { get; set; }
-    bool _visible = true;
-    public bool Visible
-    {
-        get => _visible;
-        set
-        {
-            if (_visible == value)
-                return;
-            _visible = value;
-            Invalidate();
-        }
-    }
 
     public void SuspendLayout() { }
 
@@ -102,28 +72,6 @@ class TabbedLayout : ITabbedLayout
     {
         _header.Draw(ref graphics);
         _tabs.Draw(ref graphics);
-    }
-
-    public EventHandler? Disposing { get; set; }
-    public int Index { get; set; }
-
-    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
-
-    void OnDisposeInternal() => RaiseDisposing();
-
-    public int DockIndex { get; set; }
-    public DockStyle Dock { get; set; }
-    public ColorRgba BackgroundColor { get; set; }
-    public EventHandler? BackgroundColorChanged { get; set; }
-
-    public EventHandler? CurrentTabChanged { get; set; }
-
-    void RaiseCurrentTabChanged() => CurrentTabChanged?.Invoke(this, EventArgs.Empty);
-
-    void OnCurrentTabChanged()
-    {
-        Invalidate();
-        RaiseCurrentTabChanged();
     }
 
     public void AddTab(string title, Type content)
@@ -194,10 +142,4 @@ class TabbedLayout : ITabbedLayout
     }
 
     public void Clear() => throw new NotImplementedException(); // IDk if I should have it here, think abt it later
-
-    public int MarginTop { get; set; }
-    public int MarginBottom { get; set; }
-    public int MarginLeft { get; set; }
-    public int MarginRight { get; set; }
-    public EventHandler? MarginChanged { get; set; }
 }
