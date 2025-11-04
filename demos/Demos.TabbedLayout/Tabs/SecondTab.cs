@@ -1,10 +1,11 @@
 using System.Drawing;
 using CrossSharp.Ui;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
 
 namespace Demos.TabbedLayout.Tabs;
 
-public class SecondTab : StackedLayout
+public class SecondTab : StackedLayout, ITabbedLayoutTab
 {
     Label _label;
     Button _button;
@@ -22,4 +23,6 @@ public class SecondTab : StackedLayout
         };
         Add(_button);
     }
+
+    public void OnTabFocusGained(string title) { }
 }
