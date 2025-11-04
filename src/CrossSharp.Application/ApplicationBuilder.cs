@@ -71,7 +71,7 @@ public class ApplicationBuilder
         AddSingleton<IFlowLayoutFactory, Ui.Linux.FlowLayoutFactory>();
         AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
-        AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
+        AddSingleton<ILabelFactory, Ui.Windows.LabelFactory>();
         AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
         AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
         AddSingleton<IInputFactory, Ui.Windows.InputFactory>();

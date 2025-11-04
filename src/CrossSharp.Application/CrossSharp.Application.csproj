@@ -74,6 +74,7 @@
     <ProjectReference Include="..\CrossSharp.Ui.Input.Windows\CrossSharp.Ui.Input.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Label.Linux\CrossSharp.Ui.Label.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Label.Windows\CrossSharp.Ui.Label.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Linux\CrossSharp.Ui.ModularForm.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Windows\CrossSharp.Ui.ModularForm.Windows.csproj" />

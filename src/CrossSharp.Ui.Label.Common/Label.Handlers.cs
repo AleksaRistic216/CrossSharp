@@ -1,4 +1,4 @@
-namespace CrossSharp.Ui.Linux;
+namespace CrossSharp.Ui.Common;
 
 partial class Label
 {
