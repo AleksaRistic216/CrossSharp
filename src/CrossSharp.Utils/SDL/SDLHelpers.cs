@@ -40,11 +40,11 @@ static class SDLHelpers
 
 #if WINDOWS
 #if DEBUG
-    internal const string LIB = "runtimes/win-x64/native/SDL2";
-    public const string TTF_LIB = "runtimes/win-x64/native/SDL2_ttf";
+    internal const string LIB = "runtimes/win-x64/native/SDL2.dll";
+    public const string TTF_LIB = "runtimes/win-x64/native/SDL2_ttf.dll";
 #else
-    internal const string LIB = "SDL2";
-    public const string TTF_LIB = "SDL2_ttf";
+    internal const string LIB = "SDL2.dll";
+    public const string TTF_LIB = "SDL2_ttf.dll";
 #endif
 #else
 #if DEBUG
