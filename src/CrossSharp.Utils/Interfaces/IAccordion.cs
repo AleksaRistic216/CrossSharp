@@ -1,3 +1,3 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IAccordion : IControl { }
+public interface IAccordion : IControl, IDockable, IBackgroundColorProvider { }
