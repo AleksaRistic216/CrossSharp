@@ -109,7 +109,7 @@ partial class StackedLayout : IStackedLayout
     {
         var clientBounds = this.GetClientBounds();
         graphics.SetOffset(clientBounds.X, clientBounds.Y);
-        graphics.SetClip(clientBounds);
+        graphics.SetClip(clientBounds, 0);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);

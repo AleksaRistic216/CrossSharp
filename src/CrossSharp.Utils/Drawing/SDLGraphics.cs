@@ -673,7 +673,7 @@ class SDLGraphics : IGraphics
         _offsetY = 0;
     }
 
-    public void SetClip(Rectangle rectangle)
+    public void SetClip(Rectangle rectangle, int roundedCornersRadius)
     {
         var rect = new SDLRect
         {
@@ -683,11 +683,6 @@ class SDLGraphics : IGraphics
             h = rectangle.Height,
         };
         SDL_RenderSetClipRect(_renderer, ref rect);
-    }
-
-    public void SetClip(Rectangle rectangle, int roundedCornersRadius)
-    {
-        SetClip(rectangle);
         _clipRoundedCornerRadius = roundedCornersRadius;
     }
 

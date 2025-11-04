@@ -108,7 +108,7 @@ partial class FormSDL : IFormSDL
 
     public void Draw(ref IGraphics graphics)
     {
-        graphics.SetClip(new Rectangle(0, 0, Width, Height));
+        graphics.SetClip(new Rectangle(0, 0, Width, Height), 0);
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);

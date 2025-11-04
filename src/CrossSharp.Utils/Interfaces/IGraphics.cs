@@ -29,7 +29,6 @@ public interface IGraphics : IDisposable
         ColorRgba textColor
     );
     Size MeasureText(string text, FontFamily fontFamily, int fontSize);
-    void SetClip(Rectangle rectangle);
     void ResetOffset();
     void SetOffset(int x, int y);
     void SetClip(Rectangle rectangle, int roundedCornersRadius);

@@ -158,7 +158,7 @@ partial class FlowLayout : IFlowLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        graphics.SetClip(new Rectangle(Location, new Size(Width, Height)));
+        graphics.SetClip(new Rectangle(Location, new Size(Width, Height)), 0);
         graphics.SetOffset(0, 0);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))

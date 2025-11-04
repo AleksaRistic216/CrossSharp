@@ -97,5 +97,5 @@ partial class Button
     public int? MinWidth { get; set; }
     public int? MinHeight { get; set; }
     public bool IsSelected { get; set; }
-    public int CornerRadius { get; set; }
+    public int CornerRadius { get; set; } = Services.GetSingleton<ITheme>().DefaultCornerRadius;
 }

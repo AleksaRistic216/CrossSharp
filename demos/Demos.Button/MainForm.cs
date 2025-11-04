@@ -20,16 +20,6 @@ public class MainForm : Form
 
     public MainForm()
     {
-        var button = new CrossSharp.Ui.Button();
-        button.Text = "I am a button on the form itself";
-        button.AutoSize = true;
-        button.BackgroundColor = ColorRgba.Blue;
-        button.Location = new Point(20, 20);
-        button.CornerRadius = 8;
-        Controls.Add(button);
-
-        return;
-
         InitializeStackedLayout();
         InitializeContainedButtons();
         InitializeFlatButton();

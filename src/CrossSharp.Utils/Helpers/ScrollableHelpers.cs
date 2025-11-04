@@ -83,7 +83,8 @@ static class ScrollableHelpers
         var offsetX = clientBounds.X;
         var offsetY = clientBounds.Y;
         g.SetClip(
-            new Rectangle(clientBounds.X, clientBounds.Y, clientBounds.Width, clientBounds.Height)
+            new Rectangle(clientBounds.X, clientBounds.Y, clientBounds.Width, clientBounds.Height),
+            0
         );
         g.SetOffset(offsetX, offsetY);
         var scrolledPercentX = GetScrolledPercentX(viewPort, scrollable);
