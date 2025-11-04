@@ -1,9 +1,8 @@
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
 
-namespace CrossSharp.Ui.Linux;
+namespace CrossSharp.Ui.Common;
 
 partial class FormSDL
 {

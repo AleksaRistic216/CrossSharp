@@ -7,7 +7,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-partial class ModularForm : FormSDL, IModularForm
+partial class ModularForm : Form, IModularForm
 {
     public ModularForm()
     {

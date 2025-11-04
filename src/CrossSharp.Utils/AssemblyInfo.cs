@@ -5,6 +5,7 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Desktop.Notifications")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Utils.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Form.Windows")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Input")]

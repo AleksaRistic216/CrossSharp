@@ -5,7 +5,7 @@ using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
 using Rectangle = System.Drawing.Rectangle;
 
-namespace CrossSharp.Ui.Linux;
+namespace CrossSharp.Ui.Common;
 
 partial class FormSDL : IFormSDL
 {
@@ -47,7 +47,7 @@ partial class FormSDL : IFormSDL
 
     void Initialize()
     {
-        Handle = CreateWindow(Title ?? "CrossSharp Application", Width, Height);
+        Handle = FormSDL.CreateWindow(Title ?? "CrossSharp Application", Width, Height);
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
         CreateRenderer();
@@ -98,7 +98,7 @@ partial class FormSDL : IFormSDL
 
     public virtual void DrawContent(ref IGraphics g)
     {
-        foreach (var control in Controls.ToArray())
+        foreach (var control in Enumerable.ToArray<IControl>(Controls))
         {
             g.SetOffset(control.Location.X, control.Location.Y);
             control.Draw(ref g);
