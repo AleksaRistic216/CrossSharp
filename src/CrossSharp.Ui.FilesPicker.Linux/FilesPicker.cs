@@ -60,6 +60,7 @@ public class FilesPicker : Form, IFilesPicker
         var rootButton = new Button();
         rootButton.Text = "Root (/)";
         rootButton.TextAlignment = Alignment.Left;
+        rootButton.CornerRadius = 0;
         rootButton.Height = _blockHeight;
         rootButton.Tag = "/";
         rootButton.Click = OnLocationButtonClicked;
@@ -71,6 +72,7 @@ public class FilesPicker : Form, IFilesPicker
         var homeButton = new Button();
         homeButton.Text = "Home (~)";
         homeButton.TextAlignment = Alignment.Left;
+        homeButton.CornerRadius = 0;
         homeButton.Height = _blockHeight;
         homeButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         homeButton.Click = OnLocationButtonClicked;
@@ -82,6 +84,7 @@ public class FilesPicker : Form, IFilesPicker
         var documentsButton = new Button();
         documentsButton.Text = "Documents";
         documentsButton.TextAlignment = Alignment.Left;
+        documentsButton.CornerRadius = 0;
         documentsButton.Height = _blockHeight;
         documentsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         documentsButton.Click = OnLocationButtonClicked;
@@ -93,6 +96,7 @@ public class FilesPicker : Form, IFilesPicker
         var musicButton = new Button();
         musicButton.Text = "Music";
         musicButton.TextAlignment = Alignment.Left;
+        musicButton.CornerRadius = 0;
         musicButton.Height = _blockHeight;
         musicButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         musicButton.Click = OnLocationButtonClicked;
@@ -104,6 +108,7 @@ public class FilesPicker : Form, IFilesPicker
         var picturesButton = new Button();
         picturesButton.Text = "Pictures";
         picturesButton.TextAlignment = Alignment.Left;
+        picturesButton.CornerRadius = 0;
         picturesButton.Height = _blockHeight;
         picturesButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         picturesButton.Click = OnLocationButtonClicked;
@@ -115,6 +120,7 @@ public class FilesPicker : Form, IFilesPicker
         var videosButton = new Button();
         videosButton.Text = "Videos";
         videosButton.TextAlignment = Alignment.Left;
+        videosButton.CornerRadius = 0;
         videosButton.Height = _blockHeight;
         videosButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         videosButton.Click = OnLocationButtonClicked;
@@ -126,6 +132,7 @@ public class FilesPicker : Form, IFilesPicker
         var downloadsButton = new Button();
         downloadsButton.Text = "Downloads";
         downloadsButton.TextAlignment = Alignment.Left;
+        downloadsButton.CornerRadius = 0;
         downloadsButton.Height = _blockHeight;
         downloadsButton.Tag =
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
@@ -219,6 +226,7 @@ public class FilesPicker : Form, IFilesPicker
                 entryButton.Text = Path.GetFileName(entry);
                 entryButton.Tag = entry;
                 entryButton.TextAlignment = Alignment.Left;
+                entryButton.CornerRadius = 0;
                 entryButton.Height = _blockHeight;
                 entryButton.BackgroundColor = isDir
                     ? ColorRgba.Orange.Darkened
