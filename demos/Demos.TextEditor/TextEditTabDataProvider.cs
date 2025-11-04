@@ -27,4 +27,6 @@ public class TextEditTabDataProvider
             throw new ArgumentException("File not found", nameof(file));
         return _fileContents[filePath];
     }
+
+    public HashSet<string> GetOpenFiles() => _files;
 }

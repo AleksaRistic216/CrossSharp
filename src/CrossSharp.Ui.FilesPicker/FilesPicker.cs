@@ -11,6 +11,8 @@ public class FilesPicker()
 {
     public void Show() => Implementation.Show();
 
+    public void Close() => Implementation.Close();
+
     public EventHandler<FilesSelectedEventArgs> FilesSelected
     {
         get => Implementation.FilesSelected;

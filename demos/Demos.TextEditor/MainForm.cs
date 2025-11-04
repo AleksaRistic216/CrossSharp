@@ -1,6 +1,5 @@
 using CrossSharp.Desktop;
 using CrossSharp.Ui;
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
@@ -10,9 +9,9 @@ namespace Demos.TextEditor;
 
 public class MainForm : Form
 {
+    FilesPicker? _filesPicker;
     readonly TabbedLayout _tabbedLayout = new();
     ITheme Theme => Services.GetSingleton<ITheme>();
-    string _selectedFilePath = string.Empty;
 
     public MainForm()
     {
@@ -20,6 +19,21 @@ public class MainForm : Form
         Services.AddSingleton(new TextEditTabDataProvider());
         InitializeMenuBar();
         InitializeTabbedLayout();
+        LoadInitialFiles();
+    }
+
+    void LoadInitialFiles()
+    {
+        var settings = SettingsHelpers.GetSettings();
+        var dataProvider = GetDataProvider();
+        foreach (var file in settings.Files)
+        {
+            if (!File.Exists(file))
+                continue;
+            var fileName = Path.GetFileName(file);
+            dataProvider.LoadFile(file, fileName);
+            _tabbedLayout.AddTab(fileName, typeof(TextEditTab));
+        }
     }
 
     TextEditTabDataProvider GetDataProvider() => Services.GetSingleton<TextEditTabDataProvider>();
@@ -36,11 +50,6 @@ public class MainForm : Form
                 Notifications.Show("New Tab Clicked", "You clicked the new tab button.");
             }
         );
-    }
-
-    void AddTextEditTab()
-    {
-        _tabbedLayout.AddTab("New Tab", typeof(TextEditTab));
     }
 
     void InitializeMenuBar()
@@ -70,9 +79,19 @@ public class MainForm : Form
 
     void OpenFileButton_Click(object? sender, EventArgs e)
     {
-        var filesPicker = new FilesPicker();
-        filesPicker.FilesSelected += OpenFileSelected;
-        filesPicker.Show();
+        _filesPicker = new FilesPicker();
+        _filesPicker.FilesSelected += OpenFileSelected;
+        _filesPicker.Disposing += FilesPickerDisposing;
+        _filesPicker.Show();
+    }
+
+    void FilesPickerDisposing(object? sender, EventArgs e)
+    {
+        if (_filesPicker is null)
+            return;
+
+        _filesPicker.FilesSelected -= OpenFileSelected;
+        _filesPicker.Disposing -= FilesPickerDisposing;
     }
 
     void OpenFileSelected(object? sender, FilesSelectedEventArgs e)
@@ -80,6 +99,7 @@ public class MainForm : Form
         if (e.SelectedFiles.Length > 0)
         {
             var dataProvider = GetDataProvider();
+            var hasChange = false;
             foreach (var file in e.SelectedFiles)
             {
                 if (dataProvider.IsFileOpen(file))
@@ -87,10 +107,19 @@ public class MainForm : Form
                     Notifications.Show("File Already Open", $"The file {file} is already open.");
                     continue;
                 }
+                hasChange = true;
                 var fileName = Path.GetFileName(file);
                 dataProvider.LoadFile(file, fileName);
                 _tabbedLayout.AddTab(fileName, typeof(TextEditTab));
                 _tabbedLayout.SelectTab(fileName);
+            }
+            _filesPicker?.Close();
+
+            if (hasChange)
+            {
+                var settings = SettingsHelpers.GetSettings();
+                settings.Files = dataProvider.GetOpenFiles();
+                SettingsHelpers.SaveSettings(settings);
             }
         }
         else

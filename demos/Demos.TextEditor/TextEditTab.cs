@@ -36,6 +36,6 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
     {
         var dataProvider = GetDataProvider();
         var text = dataProvider.GetFileContents(title);
-        // _input.Text = text;
+        _input.Text = text;
     }
 }
