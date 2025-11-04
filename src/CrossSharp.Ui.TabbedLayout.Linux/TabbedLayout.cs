@@ -133,27 +133,30 @@ class TabbedLayout : ITabbedLayout
                 "Content type must implement ITabbedLayoutTab interface.",
                 nameof(content)
             );
-        AddTabButtonInternal(title, OnTabButtonClicked);
+
+        IButton tabButton = new Button();
+        tabButton.Text = title;
+        StyleTabButton(ref tabButton);
+        tabButton.Click += OnTabButtonClicked;
+        _header.Add(tabButton);
         _controlsController.Register(title, content);
         Invalidate();
     }
 
-    public void AddTabButton(string text, Action onClick)
+    public IButton CreateTabButton()
     {
-        var btn = AddTabButtonInternal(text, (s, e) => onClick());
-        btn.Index = int.MaxValue;
+        IButton tabButton = new Button();
+        StyleTabButton(ref tabButton);
+        tabButton.Index = int.MaxValue;
+        _header.Add(tabButton);
         Invalidate();
+        return tabButton;
     }
 
-    Button AddTabButtonInternal(string text, EventHandler onClick)
+    void StyleTabButton(ref IButton button)
     {
-        var tabButton = new Button();
-        tabButton.Text = text;
-        tabButton.AutoSize = true;
-        tabButton.MaxHeight = _header.Height - _header.Padding.Vertical;
-        tabButton.Click += onClick;
-        _header.Add(tabButton);
-        return tabButton;
+        button.AutoSize = true;
+        button.MaxHeight = _header.Height - _header.Padding.Vertical;
     }
 
     void OnTabButtonClicked(object? sender, EventArgs e)

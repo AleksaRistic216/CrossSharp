@@ -8,4 +8,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Material.Icons">
+      <HintPath>..\..\..\..\.nuget\packages\material.icons\2.4.1\lib\netstandard2.0\Material.Icons.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

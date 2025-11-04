@@ -1,9 +1,12 @@
 using CrossSharp.Desktop;
 using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using Material.Icons;
 
 namespace Demos.TextEditor;
 
@@ -12,6 +15,8 @@ public class MainForm : Form
     FilesPicker? _filesPicker;
     readonly TabbedLayout _tabbedLayout = new();
     readonly StackedLayout _editorBar = new();
+    const int IMAGE_SIZE = 24;
+    MaterialIconKind OpenFileIconKind = MaterialIconKind.FolderOpen;
 
     ITheme Theme => Services.GetSingleton<ITheme>();
 
@@ -19,10 +24,32 @@ public class MainForm : Form
     {
         // Registers service which provides data for TextEditTab instances
         Services.AddSingleton(new TextEditTabDataProvider());
+        LoadImages();
         InitializeMenuBar();
         InitializeEditorBar();
         InitializeTabbedLayout();
         LoadInitialFiles();
+    }
+
+    void LoadImages()
+    {
+        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
+        imagesCache.AddImage(
+            nameof(MaterialIconKind.Add),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(MaterialIconKind.Add),
+                IMAGE_SIZE,
+                IMAGE_SIZE
+            )
+        );
+        imagesCache.AddImage(
+            nameof(OpenFileIconKind),
+            ImageHelpers.FromSvgPath(
+                MaterialIconDataProvider.GetData(OpenFileIconKind),
+                IMAGE_SIZE,
+                IMAGE_SIZE
+            )
+        );
     }
 
     void LoadInitialFiles()
@@ -51,29 +78,30 @@ public class MainForm : Form
             Invalidate();
         };
         Controls.Add(_tabbedLayout);
-        _tabbedLayout.AddTabButton(
-            "+",
-            () =>
-            {
-                var applicationDataPath = Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData
-                );
-                var directoryPath = Path.Combine(applicationDataPath, "draft-files");
-                if (!Directory.Exists(directoryPath))
-                    Directory.CreateDirectory(directoryPath);
-                var draftFilesCount = Directory.GetFiles(directoryPath).Length;
-                var newFileName = $"Draft-{draftFilesCount + 1}.txt";
-                var newFilePath = Path.Combine(directoryPath, newFileName);
-                File.WriteAllText(newFilePath, string.Empty);
-                var dataProvider = GetDataProvider();
-                dataProvider.LoadFile(newFilePath, newFileName);
-                _tabbedLayout.AddTab(newFileName, typeof(TextEditTab));
-                _tabbedLayout.SelectTab(newFileName);
-                var settings = SettingsHelpers.GetSettings();
-                settings.Files = dataProvider.GetOpenFiles();
-                SettingsHelpers.SaveSettings(settings);
-            }
-        );
+        var btn = _tabbedLayout.CreateTabButton();
+        btn.AutoSize = false;
+        btn.Width = IMAGE_SIZE;
+        btn.Image = EfficientImage.Get(nameof(MaterialIconKind.Add));
+        btn.Click += (s, e) =>
+        {
+            var applicationDataPath = Environment.GetFolderPath(
+                Environment.SpecialFolder.ApplicationData
+            );
+            var directoryPath = Path.Combine(applicationDataPath, "draft-files");
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+            var draftFilesCount = Directory.GetFiles(directoryPath).Length;
+            var newFileName = $"Draft-{draftFilesCount + 1}.txt";
+            var newFilePath = Path.Combine(directoryPath, newFileName);
+            File.WriteAllText(newFilePath, string.Empty);
+            var dataProvider = GetDataProvider();
+            dataProvider.LoadFile(newFilePath, newFileName);
+            _tabbedLayout.AddTab(newFileName, typeof(TextEditTab));
+            _tabbedLayout.SelectTab(newFileName);
+            var settings = SettingsHelpers.GetSettings();
+            settings.Files = dataProvider.GetOpenFiles();
+            SettingsHelpers.SaveSettings(settings);
+        };
     }
 
     void InitializeMenuBar()
@@ -88,8 +116,8 @@ public class MainForm : Form
         Controls.Add(menuBar);
 
         var btn1 = new Button();
-        btn1.Text = "Open File";
-        btn1.AutoSize = true;
+        btn1.Image = EfficientImage.Get(nameof(OpenFileIconKind));
+        btn1.Width = IMAGE_SIZE;
         btn1.CornerRadius = 0;
         btn1.MinHeight = menuBarHeight;
         btn1.Click += OpenFileButton_Click;
