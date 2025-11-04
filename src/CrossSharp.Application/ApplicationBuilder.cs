@@ -65,9 +65,9 @@ public class ApplicationBuilder
     {
         AddSingleton<IFormFactory, Ui.Windows.FormFactory>();
         AddSingleton<IModularFormFactory, Ui.Windows.ModularFormFactory>();
-        AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
+        AddSingleton<IStaticLayoutFactory, Ui.Windows.StaticLayoutFactory>();
         AddSingleton<IStackedLayoutFactory, Ui.Windows.StackedLayoutFactory>();
-        AddSingleton<ITabbedLayoutFactory, Ui.Linux.TabbedLayoutFactory>();
+        AddSingleton<ITabbedLayoutFactory, Ui.Windows.TabbedLayoutFactory>();
         AddSingleton<IFlowLayoutFactory, Ui.Windows.FlowLayoutFactory>();
         AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();

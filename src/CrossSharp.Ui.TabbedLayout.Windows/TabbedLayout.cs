@@ -1,3 +1,3 @@
-﻿namespace CrossSharp.Ui.Linux;
+﻿namespace CrossSharp.Ui.Windows;
 
 class TabbedLayout : Common.TabbedLayout { }
