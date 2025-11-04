@@ -1,3 +1,4 @@
+CONFIG=Release
 minimal=false
 for arg in "$@"; do
   if [ "$arg" = "--minimal" ]; then
@@ -12,7 +13,7 @@ rm -rf ../bin/demos/*
   
 for dir in ../demos/*/; do
   if [ -f "$dir"/*.csproj ]; then
-    dotnet build "$dir"/*.csproj -c Release
+    dotnet build "$dir"/*.csproj -c "${CONFIG:-Debug}"
     all_runtimes=(
           linux-arm linux-arm64 linux-loongarch64 linux-musl-arm linux-musl-arm64 linux-musl-loongarch64
           linux-musl-riscv64 linux-musl-x64 linux-riscv64 linux-x64 linux-x86
@@ -27,9 +28,10 @@ for dir in ../demos/*/; do
       runtimes=("${all_runtimes[@]}")
     fi
     for rt in "${runtimes[@]}"; do
-      mkdir -p ../bin/demos/$(basename "$dir")-$rt
+      demo_name=$(basename "${dir%/}")
+      mkdir -p ../bin/demos/${demo_name}-$rt
+      cp -r "$dir"/bin/${CONFIG:-Debug}/* ../bin/demos/${demo_name}-$rt/
       
-      cp -r "$dir"/bin/${CONFIG:-Debug}/* ../bin/demos/$(basename "$dir")-$rt/
       find ../bin/demos/$(basename "$dir")-$rt/net9.0/runtimes/ -mindepth 1 -maxdepth 1 ! -name "$rt" -exec rm -rf {} +
       
       zip -r ../bin/demos/$(basename "$dir")-$rt.zip ../bin/demos/$(basename "$dir")-$rt &
