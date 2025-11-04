@@ -63,7 +63,9 @@ public class ApplicationBuilder
 
     void RegisterWindowsServices()
     {
-        throw new NotImplementedException();
+        AddSingleton<IFormFactory, Ui.Linux.FormFactory>();
+        AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
+        AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
     }
 
     void RegisterMacOsServices()

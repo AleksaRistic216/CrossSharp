@@ -1,5 +1,4 @@
 using CrossSharp.Utils;
-using CrossSharp.Utils.Configurations;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -17,10 +16,10 @@ class ApplicationLoop : IApplicationLoop
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
-                RunWindowsApp<T>();
+                RunLinuxApp<T>();
                 break;
             case CrossPlatformType.Linux:
-                RunLinuxApp<T>();
+                RunWindowsApp<T>();
                 break;
             case CrossPlatformType.MacOs:
                 RunMacOsApp<T>();
@@ -41,42 +40,15 @@ class ApplicationLoop : IApplicationLoop
     void RunLinuxApp<T>()
         where T : IForm
     {
-        ILinuxConfiguration? linuxConfiguration;
-        if (Services.IsRegistered<ILinuxConfiguration>())
-            linuxConfiguration = Services.GetSingleton<ILinuxConfiguration>();
-        else
-        {
-            linuxConfiguration = new DefaultLinuxConfiguration();
-            Services.AddSingleton(linuxConfiguration);
-        }
-
-        switch (linuxConfiguration.WidgetLibrary)
-        {
-            case LinuxWidgetLibrary.CrossSharpSDK:
-                CrossSharpApplicationRunner.Run<T>();
-                break;
-            default:
-                throw new NotSupportedException(
-                    "The selected Linux widget library is not supported."
-                );
-        }
+        CrossSharpApplicationRunner.Run<T>();
         Dispose();
     }
 
     void RunWindowsApp<T>()
         where T : IForm
     {
-        throw new NotImplementedException();
-        // Bellow is a placeholder for actual Windows Forms application loop
-        Thread thread = new(() =>
-        {
-            throw new NotImplementedException();
-        });
-#pragma warning disable CA1416
-        thread.SetApartmentState(ApartmentState.STA);
-#pragma warning restore CA1416
-        thread.Start();
-        thread.Join();
+        CrossSharpApplicationRunner.Run<T>();
+        Dispose();
     }
 
     public void Dispose()

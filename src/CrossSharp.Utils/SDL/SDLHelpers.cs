@@ -2,10 +2,15 @@ using System.Runtime.InteropServices;
 
 namespace CrossSharp.Utils.SDL;
 
-internal static class SDLHelpers
+static class SDLHelpers
 {
+#if WINDOWS
+    internal const string LIB = "lib/SDL2.dll";
+    public const string TTF_LIB = "lib/SDL2_ttf.dll";
+#else
     internal const string LIB = "libSDL2-2.0.so.0";
     public const string TTF_LIB = "lib/libSDL2_ttf-2.0.so.0";
+#endif
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_Init(uint flags);

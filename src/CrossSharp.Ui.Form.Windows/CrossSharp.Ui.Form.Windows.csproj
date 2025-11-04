@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>CrossSharp.Ui.Windows</RootNamespace>
     <Version>9.0.2</Version>
     <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
     <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
@@ -57,40 +58,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2_ttf-2.0.so.0">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/libSDL2_ttf-2.0.so.0</Link>
-    </None>
+    <ProjectReference Include="..\CrossSharp.Utils.Windows\CrossSharp.Utils.Windows.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/libSDL2-2.0.so.0</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/SDL2.dll</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2_ttf.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>lib/SDL2_ttf.dll</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
-    <PackageReference Include="SkiaSharp" Version="3.119.1" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
-    <PackageReference Include="ValueInjecter" Version="3.2.0" />
-  </ItemGroup>
-  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-    <DefineConstants>WINDOWS</DefineConstants>
-  </PropertyGroup>
 </Project>
