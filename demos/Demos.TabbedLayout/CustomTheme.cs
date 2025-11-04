@@ -4,5 +4,5 @@ namespace Demos.TabbedLayout;
 
 public class CustomTheme : DefaultTheme
 {
-    public override int DefaultCornerRadius { get; set; } = 4;
+    public override int DefaultCornerRadius { get; set; } = 0;
 }

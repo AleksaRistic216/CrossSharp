@@ -1,29 +1,30 @@
-using System.Drawing;
 using CrossSharp.Ui;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
-using CrossSharp.Utils.Structs;
 
 namespace Demos.TabbedLayout.Tabs;
 
 public class FirstTab : StackedLayout, ITabbedLayoutTab
 {
-    Label _label;
-    Button _button;
+    ITheme Theme => Services.GetSingleton<ITheme>();
+    IStackedLayout _navigationMenu;
 
     public FirstTab()
     {
-        ItemsSpacing = 10;
+        Orientation = Orientation.Horizontal;
         Dock = DockStyle.Fill;
-        _label = new Label() { Text = "This is the first page" };
-        Add(_label);
-        _button = new Button()
-        {
-            Style = RenderStyle.Contained,
-            Text = "Button on first page",
-            Height = 50,
-        };
-        Add(_button);
+        InitializeNavigationMenu();
+    }
+
+    void InitializeNavigationMenu()
+    {
+        _navigationMenu = new StackedLayout();
+        _navigationMenu.Orientation = Orientation.Vertical;
+        _navigationMenu.BackgroundColor = Theme.BackgroundColor.Darkened;
+        _navigationMenu.Width = 200;
+        _navigationMenu.Dock = DockStyle.Left;
+        Add(_navigationMenu);
     }
 
     public void OnTabFocusGained(string title) { }
