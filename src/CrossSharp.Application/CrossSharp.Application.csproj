@@ -83,6 +83,7 @@
     <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Linux\CrossSharp.Ui.StackedLayout.Linux.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Windows\CrossSharp.Ui.StackedLayout.Windows.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Linux\CrossSharp.Ui.StaticLayout.Linux.csproj" />
     <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />

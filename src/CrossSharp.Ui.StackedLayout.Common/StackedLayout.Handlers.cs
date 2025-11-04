@@ -3,7 +3,7 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 
-namespace CrossSharp.Ui.Linux;
+namespace CrossSharp.Ui.Common;
 
 partial class StackedLayout
 {

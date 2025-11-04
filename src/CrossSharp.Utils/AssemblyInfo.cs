@@ -17,7 +17,11 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ModularForm.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ModularForm.Windows")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
+    "CrossSharp.Ui.StackedLayout.Windows"
+)]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout.Linux")]
