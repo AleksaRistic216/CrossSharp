@@ -32,7 +32,13 @@ for dir in ../demos/*/; do
       mkdir -p ../bin/demos/${demo_name}-$rt
       cp -r "$dir"/bin/${CONFIG:-Debug}/* ../bin/demos/${demo_name}-$rt/
       
+      # Clean up unneeded runtimes to reduce zip size
       find ../bin/demos/$(basename "$dir")-$rt/net9.0/runtimes/ -mindepth 1 -maxdepth 1 ! -name "$rt" -exec rm -rf {} +
+      # Clean up unnecessary libraries from the ./lib folder
+      if [[ "$rt" == win-* ]]; then find ../bin/demos/${demo_name}-$rt/net9.0/lib -mindepth 1 -maxdepth 1 ! -name '*.dll' -exec rm -f {} +; fi
+      if [[ "$rt" != win-* ]]; then find ../bin/demos/${demo_name}-$rt/net9.0/lib -mindepth 1 -maxdepth 1 -name '*.dll' -exec rm -f {} +; fi
+      # Clean all PDB files
+      find ../bin/demos/$(basename "$dir")-$rt/ -name '*.pdb' -exec rm -f {} +
       
       zip -r ../bin/demos/$(basename "$dir")-$rt.zip ../bin/demos/$(basename "$dir")-$rt &
     done
