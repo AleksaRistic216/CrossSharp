@@ -64,7 +64,8 @@ public class ApplicationBuilder
     void RegisterWindowsServices()
     {
         AddSingleton<IFormFactory, Ui.Windows.FormFactory>();
-        AddSingleton<IModularFormFactory, Ui.Linux.ModularFormFactory>();
+        AddSingleton<IModularFormFactory, Ui.Windows.ModularFormFactory>();
+
         AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
         AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
         AddSingleton<ITabbedLayoutFactory, Ui.Linux.TabbedLayoutFactory>();

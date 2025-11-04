@@ -9,7 +9,7 @@ namespace CrossSharp.Ui.Common;
 
 partial class FormSDL : IFormSDL
 {
-    public FormSDL()
+    internal FormSDL()
     {
         Initialize();
     }
