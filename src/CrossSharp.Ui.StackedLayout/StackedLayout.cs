@@ -20,10 +20,10 @@ public class StackedLayout()
         get => _impl.ItemsSpacing;
         set => _impl.ItemsSpacing = value;
     }
-    public Direction Direction
+    public Orientation Orientation
     {
-        get => _impl.Direction;
-        set => _impl.Direction = value;
+        get => _impl.Orientation;
+        set => _impl.Orientation = value;
     }
 
     public int DockIndex

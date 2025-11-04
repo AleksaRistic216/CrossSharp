@@ -23,13 +23,13 @@ public class TestForm : Form
         stackedLayout.BackgroundColor = ColorRgba.Blue;
         Controls.Add(stackedLayout);
 
-        NestedLayout.Direction = Direction.Horizontal;
+        NestedLayout.Orientation = Orientation.Horizontal;
         NestedLayout.Dock = DockStyle.Bottom;
         NestedLayout.Height = 105;
         NestedLayout.BackgroundColor = ColorRgba.Green;
         stackedLayout.Add(NestedLayout);
 
-        NestedLayoutItem1.Direction = Direction.Vertical;
+        NestedLayoutItem1.Orientation = Orientation.Vertical;
         NestedLayoutItem1.Dock = DockStyle.Left;
         NestedLayoutItem1.Width = 100;
         NestedLayoutItem1.BackgroundColor = ColorRgba.Yellow;

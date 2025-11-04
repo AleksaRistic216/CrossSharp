@@ -79,7 +79,7 @@ public class MainForm : Form
         var menuBar = new StackedLayout();
         menuBar.Height = menuBarHeight;
         menuBar.BackgroundColor = Theme.SecondaryBackgroundColor.Darkened;
-        menuBar.Direction = Direction.Horizontal;
+        menuBar.Orientation = Orientation.Horizontal;
         menuBar.Dock = DockStyle.Top;
         menuBar.DockIndex = 0;
         Controls.Add(menuBar);

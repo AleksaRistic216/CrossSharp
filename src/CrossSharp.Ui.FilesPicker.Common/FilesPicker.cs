@@ -156,7 +156,7 @@ public class FilesPicker : Form, IFilesPicker
         _actionBar.Height = _blockHeight;
         _actionBar.Dock = DockStyle.Top;
         _actionBar.DockIndex = 0;
-        _actionBar.Direction = Direction.Horizontal;
+        _actionBar.Orientation = Orientation.Horizontal;
         _rightRow.Add(_actionBar);
         InitializeLocationInput();
     }

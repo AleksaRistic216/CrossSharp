@@ -24,13 +24,13 @@ static class ScrollableHelpers
     }
 
     internal static void Scroll(
-        Direction direction,
+        Orientation orientation,
         int amount,
         IScrollable scrollable,
         ref Rectangle viewPort
     )
     {
-        if (direction == Direction.Vertical)
+        if (orientation == Orientation.Vertical)
         {
             var scrollPercentY = GetScrolledPercentY(viewPort, scrollable);
             if (amount < 0 && scrollPercentY >= 1.0f || amount > 0 && scrollPercentY <= 0.0f)

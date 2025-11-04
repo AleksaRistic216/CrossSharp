@@ -31,7 +31,7 @@ public class MainForm : Form
     {
         var horizontalStackedLayout = new CrossSharp.Ui.StackedLayout();
         horizontalStackedLayout.Location = new Point(Width / 4, 0);
-        horizontalStackedLayout.Direction = Direction.Horizontal;
+        horizontalStackedLayout.Orientation = Orientation.Horizontal;
         horizontalStackedLayout.Width = Width / 4 * 3;
         horizontalStackedLayout.Height = Height;
         var horizontalItems = 3;

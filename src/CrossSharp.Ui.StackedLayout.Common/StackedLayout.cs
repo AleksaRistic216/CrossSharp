@@ -20,7 +20,7 @@ partial class StackedLayout : IStackedLayout
     public void Invalidate()
     {
         this.PerformDocking();
-        if (Direction == Direction.Vertical)
+        if (Orientation == Orientation.Vertical)
             InvalidateStackVertical();
         else
             InvalidateStackHorizontal();

@@ -34,9 +34,9 @@ partial class StackedLayout
         if (Math.Abs(rotation) <= 0)
             return;
         if (Scrollable == ScrollableMode.Vertical)
-            ScrollableHelpers.Scroll(Direction.Vertical, rotation, this, ref _viewPort);
+            ScrollableHelpers.Scroll(Orientation.Vertical, rotation, this, ref _viewPort);
         else if (Scrollable == ScrollableMode.Horizontal)
-            ScrollableHelpers.Scroll(Direction.Horizontal, rotation, this, ref _viewPort);
+            ScrollableHelpers.Scroll(Orientation.Horizontal, rotation, this, ref _viewPort);
         else if (Scrollable == ScrollableMode.Both)
         {
             // TODO: implement both direction scrolling using mouse and shift key

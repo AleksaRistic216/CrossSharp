@@ -42,7 +42,7 @@ class TabbedLayout : ITabbedLayout
     void InitializeHeader()
     {
         _header = new StackedLayout();
-        _header.Direction = Direction.Horizontal;
+        _header.Orientation = Orientation.Horizontal;
         _header.BackgroundColor = _theme.SecondaryBackgroundColor;
         _header.ItemsSpacing = 4;
         _header.Parent = this;
