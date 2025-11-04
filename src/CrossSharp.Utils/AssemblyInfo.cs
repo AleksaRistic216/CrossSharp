@@ -33,6 +33,8 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Panel")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Panel.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Button")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Button.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Button.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Button.Windows")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.CenterPanel")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.CenterPanel.Linux")]
