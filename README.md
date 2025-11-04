@@ -28,6 +28,8 @@ This project provides an easy way to develop C# UI applications across all major
 - Notifications
 
 ## Try it out
+Clone repository and run any demo application
+or
 [Read documentation to see how you can try it out yourself](https://limitlesssoft.youtrack.cloud/articles/CS-A-20/Setting-up-the-application)
 
 ## Controls
