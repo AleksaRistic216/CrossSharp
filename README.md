@@ -30,6 +30,20 @@ var builder = new ApplicationBuilder(configuration);
 builder.Run<MainForm>();
 ```
 
+## Controls
+Documentation is still to come, but for purpose of testing out you can either browse the source code `~/Demos` or try using any of bellow controls and figure out yourself:
+ - Button
+ - Label
+ - Panel
+ - Input
+ - StackedLayout
+ - TabbedLayout
+ - FlowLayout
+ - StaticLayout
+ - Form
+ - ModularForm
+ - FilesPicker
+
 ## Build for multiplatform
  - Simply build with specifying OS=Window_NT or OS=Linux and you can run this app on both systems.
  - (plan is to simplify this and make this easier through single command and/or through UI)
