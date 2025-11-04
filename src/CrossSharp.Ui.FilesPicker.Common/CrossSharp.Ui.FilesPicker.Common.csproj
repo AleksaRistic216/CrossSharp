@@ -3,7 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CrossSharp.Ui.Linux</RootNamespace>
+    <RootNamespace>CrossSharp.Ui.Common</RootNamespace>
     <Version>9.0.2</Version>
     <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
     <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
@@ -58,7 +58,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Common\CrossSharp.Ui.FilesPicker.Common.csproj" />
+    <ProjectReference Include="..\CrossSharp.Desktop.Notifications\CrossSharp.Desktop.Notifications.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
     <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
 </Project>
