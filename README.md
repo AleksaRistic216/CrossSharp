@@ -12,7 +12,7 @@ This project provides an easy way to develop C# UI applications across all major
 
 ## Try it out
  - Create Console Aplication project (Templates still to come)
- - `dotnet add package CrossSharp --version 9.0.3`
+ - `dotnet add package CrossSharp --version 9.0.3.2`
  - Create `MainForm.cs` and inherit `Form` (leave other empty)
  - Update `Program.cs` as bellow
  - Run application
