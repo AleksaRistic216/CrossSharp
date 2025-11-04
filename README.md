@@ -34,7 +34,7 @@ builder.Run<MainForm>();
 ```
 
 ## Controls
-Documentation is still to come, but for purpose of testing out you can either browse the source code `~/Demos` or try using any of bellow controls and figure out yourself:
+[Documentation (work in progress, have some data there, check it out)](https://limitlesssoft.youtrack.cloud/articles/CS-A-5/Controls) is still to come, but for purpose of testing out you can either browse the source code `~/Demos` or try using any of bellow controls and figure out yourself:
  - Button
  - Label
  - Panel
