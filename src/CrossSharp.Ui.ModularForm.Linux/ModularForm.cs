@@ -75,7 +75,7 @@ partial class ModularForm : FormSDL, IModularForm
     /// <param name="pageType"></param>
     public void AddPage(object identifier, Type pageType)
     {
-        _viewer.Set(identifier, pageType);
+        _viewer.Register(identifier, pageType);
     }
 
     /// <summary>

@@ -11,7 +11,12 @@ public class DynamicControlsController(ref IControlsContainer container)
     readonly IControlsContainer _container = container;
     public object? CurrentPage { get; private set; }
 
-    public void Set(object identifier, Type control)
+    /// <summary>
+    /// Registers a control type with an identifier.
+    /// </summary>
+    /// <param name="identifier"></param>
+    /// <param name="control"></param>
+    public void Register(object identifier, Type control)
     {
         _pages[identifier] = control;
     }

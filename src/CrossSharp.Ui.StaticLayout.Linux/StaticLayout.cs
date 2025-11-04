@@ -50,7 +50,18 @@ class StaticLayout : IStaticLayout
     }
     public EventHandler<Size>? SizeChanged { get; set; }
     public object Parent { get; set; }
-    public bool Visible { get; set; }
+    bool _visible = true;
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            Invalidate();
+        }
+    }
 
     public void LimitClip(ref IGraphics g) { }
 

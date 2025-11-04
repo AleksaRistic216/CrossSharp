@@ -69,7 +69,7 @@ public static class ControlsHelpers
             return;
         var parentBounds = new Rectangle(Point.Empty, parent.Size);
         HashSet<int> recordedDockIndexes = [];
-        foreach (var sibling in parent)
+        foreach (var sibling in parent.Where(x => x.Visible))
         {
             if (sibling is not IDockable dockedSibling || dockedSibling.Dock == DockStyle.None)
                 continue;

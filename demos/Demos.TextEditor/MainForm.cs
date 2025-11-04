@@ -11,6 +11,8 @@ public class MainForm : Form
 {
     FilesPicker? _filesPicker;
     readonly TabbedLayout _tabbedLayout = new();
+    readonly StackedLayout _editorBar = new();
+
     ITheme Theme => Services.GetSingleton<ITheme>();
 
     public MainForm()
@@ -43,6 +45,11 @@ public class MainForm : Form
     {
         _tabbedLayout.Dock = DockStyle.Fill;
         _tabbedLayout.DockIndex = 2;
+        _tabbedLayout.CurrentTabChanged += (s, e) =>
+        {
+            _editorBar.Visible = true;
+            Invalidate();
+        };
         Controls.Add(_tabbedLayout);
         _tabbedLayout.AddTabButton(
             "+",
@@ -92,13 +99,13 @@ public class MainForm : Form
     void InitializeEditorBar()
     {
         var editorBarHeight = 30;
-        var editorBar = new StackedLayout();
-        editorBar.Height = editorBarHeight;
-        editorBar.BackgroundColor = Theme.SecondaryBackgroundColor;
-        editorBar.Direction = Direction.Horizontal;
-        editorBar.Dock = DockStyle.Top;
-        editorBar.DockIndex = 1;
-        Controls.Add(editorBar);
+        _editorBar.Height = editorBarHeight;
+        _editorBar.BackgroundColor = Theme.SecondaryBackgroundColor;
+        _editorBar.Direction = Direction.Horizontal;
+        _editorBar.Dock = DockStyle.Top;
+        _editorBar.DockIndex = 1;
+        _editorBar.Visible = false;
+        Controls.Add(_editorBar);
     }
 
     void OpenFileButton_Click(object? sender, EventArgs e)

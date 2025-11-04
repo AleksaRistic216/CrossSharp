@@ -109,6 +109,12 @@ public class TabbedLayout()
         set => _impl.BackgroundColorChanged = value;
     }
 
+    public EventHandler? CurrentTabChanged
+    {
+        get => _impl.CurrentTabChanged;
+        set => _impl.CurrentTabChanged = value;
+    }
+
     public void AddTab(string title, Type content) => _impl.AddTab(title, content);
 
     public void AddTabButton(string text, Action onClick) => _impl.AddTabButton(text, onClick);

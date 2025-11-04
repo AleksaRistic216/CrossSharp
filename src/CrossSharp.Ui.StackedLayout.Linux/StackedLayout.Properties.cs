@@ -13,7 +13,18 @@ partial class StackedLayout
     Rectangle _viewPort = Rectangle.Empty;
 
     public object? Parent { get; set; }
-    public bool Visible { get; set; }
+    bool _visible = true;
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            Invalidate();
+        }
+    }
     public int Index { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }

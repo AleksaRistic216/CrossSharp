@@ -81,7 +81,18 @@ class TabbedLayout : ITabbedLayout
     public EventHandler<Size>? SizeChanged { get; set; }
     public object? Parent { get; set; }
     public bool IsMouseOver { get; set; }
-    public bool Visible { get; set; }
+    bool _visible = true;
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            Invalidate();
+        }
+    }
 
     public void SuspendLayout() { }
 
@@ -105,6 +116,16 @@ class TabbedLayout : ITabbedLayout
     public ColorRgba BackgroundColor { get; set; }
     public EventHandler? BackgroundColorChanged { get; set; }
 
+    public EventHandler? CurrentTabChanged { get; set; }
+
+    void RaiseCurrentTabChanged() => CurrentTabChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnCurrentTabChanged()
+    {
+        Invalidate();
+        RaiseCurrentTabChanged();
+    }
+
     public void AddTab(string title, Type content)
     {
         if (!typeof(ITabbedLayoutTab).IsAssignableFrom(content))
@@ -113,7 +134,7 @@ class TabbedLayout : ITabbedLayout
                 nameof(content)
             );
         AddTabButtonInternal(title, OnTabButtonClicked);
-        _controlsController.Set(title, content);
+        _controlsController.Register(title, content);
         Invalidate();
     }
 
@@ -152,7 +173,7 @@ class TabbedLayout : ITabbedLayout
         _controlsController.Show(title);
         var tab = _controlsController.GetCurrentControl() as ITabbedLayoutTab;
         tab?.OnTabFocusGained(title);
-        Invalidate();
+        OnCurrentTabChanged();
     }
 
     public IEnumerator<IControl> GetEnumerator() => _controls.GetEnumerator();

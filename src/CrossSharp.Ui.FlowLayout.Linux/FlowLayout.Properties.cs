@@ -10,7 +10,18 @@ partial class FlowLayout
     IInputHandler _inputHandler;
     public object Parent { get; set; }
     public bool IsMouseOver { get; set; }
-    public bool Visible { get; set; }
+    bool _visible = true;
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            Invalidate();
+        }
+    }
     public int Index { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }

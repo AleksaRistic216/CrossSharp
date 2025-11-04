@@ -54,7 +54,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackVertical()
     {
         var currentY = Padding.Top;
-        foreach (var c in _controls.OrderBy(x => x.Index))
+        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
             var marginTop = 0;
             var marginBottom = 0;
@@ -76,7 +76,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackHorizontal()
     {
         var currentX = Padding.Left;
-        foreach (var c in _controls.OrderBy(x => x.Index))
+        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
             currentX += c.MarginLeft;
             c.Location = new Point(currentX, Padding.Top);
@@ -118,6 +118,8 @@ partial class StackedLayout : IStackedLayout
 
     bool ShouldControlBeDrawn(IControl control)
     {
+        if (!control.Visible)
+            return false;
         if (Scrollable == ScrollableMode.None)
             return true;
         return Viewport.IntersectsWith(
