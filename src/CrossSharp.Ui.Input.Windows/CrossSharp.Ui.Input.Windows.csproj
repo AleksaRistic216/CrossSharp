@@ -58,7 +58,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Ui.Form.Common\CrossSharp.Ui.Form.Common.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.Input.Common\CrossSharp.Ui.Input.Common.csproj" />
   </ItemGroup>
 </Project>

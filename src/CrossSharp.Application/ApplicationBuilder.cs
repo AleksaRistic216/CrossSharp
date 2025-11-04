@@ -65,17 +65,16 @@ public class ApplicationBuilder
     {
         AddSingleton<IFormFactory, Ui.Windows.FormFactory>();
         AddSingleton<IModularFormFactory, Ui.Windows.ModularFormFactory>();
-
         AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
         AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
         AddSingleton<ITabbedLayoutFactory, Ui.Linux.TabbedLayoutFactory>();
         AddSingleton<IFlowLayoutFactory, Ui.Linux.FlowLayoutFactory>();
-        AddSingleton<IFilesPickerFactory, Ui.Linux.FilesPickerFactory>();
+        AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
         AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
         AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
-        AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
-        AddSingleton<IInputFactory, Ui.Linux.InputFactory>();
+        AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
+        AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
     }
 
     void RegisterMacOsServices()

@@ -2,7 +2,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Linux;
 
-public class ButtonFactory : IButtonFactory
+class ButtonFactory : IButtonFactory
 {
     public IButton Create() => new Button();
 }

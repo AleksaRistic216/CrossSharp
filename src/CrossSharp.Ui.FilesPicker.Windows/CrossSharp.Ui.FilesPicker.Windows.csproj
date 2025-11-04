@@ -59,6 +59,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Common\CrossSharp.Ui.FilesPicker.Common.csproj" />
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
 </Project>

@@ -1,3 +1,3 @@
 ﻿namespace CrossSharp.Ui.Linux;
 
-public class FilesPicker : Common.FilesPicker { }
+class FilesPicker : Common.FilesPicker { }

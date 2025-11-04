@@ -59,6 +59,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Common\CrossSharp.Ui.ModularForm.Common.csproj" />
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
   </ItemGroup>
 </Project>

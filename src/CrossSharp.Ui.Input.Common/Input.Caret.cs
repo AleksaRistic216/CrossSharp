@@ -5,7 +5,7 @@ using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Ui.Linux;
+namespace CrossSharp.Ui.Common;
 
 partial class Input
 {
@@ -16,7 +16,7 @@ partial class Input
         if (form is null)
             return;
         var text = MultiLine ? Text.Split(Environment.NewLine)[_caretPosition.Y] : Text;
-        text = text[..Math.Min(_caretPosition.X, text.Length)];
+        text = text[..Math.Min((int)_caretPosition.X, (int)text.Length)];
         var textSize = g.MeasureText(text, FontFamily.Default, FontSize);
         var caretX = _lineGap + textSize.Width + CornerRadius / 2 + BorderWidth;
         var caretY = _lineGap / 2 + _caretPosition.Y * LineHeight + BorderWidth;
@@ -97,7 +97,7 @@ partial class Input
                 return true;
             _caretPosition.Y--;
             var lines = Text.Split(Environment.NewLine);
-            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
             return true;
         }
         if (keyInputArgs.KeyCode == KeyCode.VcDown && MultiLine)
@@ -106,7 +106,7 @@ partial class Input
             if (_caretPosition.Y >= lines.Length - 1)
                 return true;
             _caretPosition.Y++;
-            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
             return true;
         }
         if (keyInputArgs.KeyCode == KeyCode.VcHome)
@@ -129,14 +129,14 @@ partial class Input
         {
             _caretPosition.Y = 0;
             var lines = Text.Split(Environment.NewLine);
-            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
             return true;
         }
         if (keyInputArgs.KeyCode == KeyCode.VcPageDown && MultiLine)
         {
             var lines = Text.Split(Environment.NewLine);
             _caretPosition.Y = lines.Length - 1;
-            _caretPosition.X = Math.Min(_caretPosition.X, lines[_caretPosition.Y].Length);
+            _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
             return true;
         }
         return false;
