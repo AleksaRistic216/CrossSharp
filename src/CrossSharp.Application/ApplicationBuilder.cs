@@ -68,7 +68,7 @@ public class ApplicationBuilder
         AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
         AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
         AddSingleton<ITabbedLayoutFactory, Ui.Linux.TabbedLayoutFactory>();
-        AddSingleton<IFlowLayoutFactory, Ui.Linux.FlowLayoutFactory>();
+        AddSingleton<IFlowLayoutFactory, Ui.Windows.FlowLayoutFactory>();
         AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
         AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
         AddSingleton<ILabelFactory, Ui.Windows.LabelFactory>();

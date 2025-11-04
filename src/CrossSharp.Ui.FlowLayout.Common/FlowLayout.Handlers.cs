@@ -1,7 +1,6 @@
 using System.Drawing;
-using CrossSharp.Utils;
 
-namespace CrossSharp.Ui.Linux;
+namespace CrossSharp.Ui.Common;
 
 partial class FlowLayout
 {
