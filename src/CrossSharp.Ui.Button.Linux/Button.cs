@@ -154,7 +154,7 @@ partial class Button : ControlBase, IButton
                 _textBounds.Value.Y,
                 _theme.DefaultFontFamily,
                 _theme.DefaultFontSize,
-                ForegroundColor == ColorRgba.Transparent
+                Equals(ForegroundColor, ColorRgba.Transparent)
                     ? this.GetBackgroundColor().Contrasted
                     : ForegroundColor
             );

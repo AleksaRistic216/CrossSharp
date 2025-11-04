@@ -161,10 +161,6 @@ class SDLGraphics : IGraphics
             return;
         }
 
-        // Ensure border width is at least as large as corner radius to avoid artifacts
-        // if (borderWidth > 1 && borderWidth < roundedCornersRadius)
-        //     borderWidth = roundedCornersRadius;
-
         x += _offsetX;
         y += _offsetY;
 
@@ -204,7 +200,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255); // Opaque mask
-        FillRoundedRectMask(0, 0, width, height, _clipRoundedCornerRadius);
+        // FillRoundedRectMask(0, 0, width, height, _clipRoundedCornerRadius); // This works but this should be as for background, and not draw rectangle...
 
         // Step 3: Composite masked border
         SDL_SetRenderTarget(_renderer, IntPtr.Zero);
@@ -343,7 +339,10 @@ class SDLGraphics : IGraphics
             FillRectangleWithoutMask(x, y, width, height, fillColor);
             return;
         }
-        // Step 1: Create target texture for filled rectangle
+        x += _offsetX;
+        y += _offsetY;
+
+        // Step 1: Create transparent target texture for border
         IntPtr targetTexture = SDL_CreateTexture(
             _renderer,
             (uint)SDLPixelFormat.ABGR8888,
@@ -353,16 +352,10 @@ class SDLGraphics : IGraphics
         );
         SDL_SetTextureBlendMode(targetTexture, SDLBlendMode.Blend);
         SDL_SetRenderTarget(_renderer, targetTexture);
-        SDL_SetRenderDrawColor(
-            _renderer,
-            fillColor.RByte,
-            fillColor.GByte,
-            fillColor.BByte,
-            fillColor.AByte
-        );
+        SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0); // Fully transparent
         SDL_RenderClear(_renderer);
 
-        // Step 2: Create rounded corner mask texture
+        // Step 2: Create rounded mask texture
         IntPtr maskTexture = SDL_CreateTexture(
             _renderer,
             (uint)SDLPixelFormat.ABGR8888,
@@ -372,22 +365,26 @@ class SDLGraphics : IGraphics
         );
         SDL_SetTextureBlendMode(maskTexture, SDLBlendMode.Blend);
         SDL_SetRenderTarget(_renderer, maskTexture);
-        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent background
+        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(_renderer, 255, 0, 255, 255); // Opaque mask
+        SDL_SetRenderDrawColor(
+            _renderer,
+            fillColor.RByte,
+            fillColor.GByte,
+            fillColor.BByte,
+            fillColor.AByte
+        ); // Opaque mask
+        FillRoundedRectMask(0, 0, width, height, _clipRoundedCornerRadius); // This works but this should be as for background, and not draw rectangle...
 
-        // Fill rounded rectangle mask
-        FillRoundedRectMask(x, y, width, height, _clipRoundedCornerRadius);
-
-        // Step 3: Composite filled rectangle with mask
+        // Step 3: Composite masked border
         SDL_SetRenderTarget(_renderer, IntPtr.Zero);
-        SDL_SetTextureBlendMode(targetTexture, SDLBlendMode.Mod);
         SDL_SetTextureBlendMode(maskTexture, SDLBlendMode.Blend);
+        SDL_SetTextureBlendMode(targetTexture, SDLBlendMode.Blend);
 
         var dstRect = new SDLRect
         {
-            x = x + _offsetX,
-            y = y + _offsetY,
+            x = x,
+            y = y,
             w = width,
             h = height,
         };
@@ -608,8 +605,8 @@ class SDLGraphics : IGraphics
         SDL_SetRenderTarget(_renderer, maskTexture);
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255); // Opaque mask
-        FillRoundedRectMask(0, 0, scaledW, scaledH, _clipRoundedCornerRadius);
+        // SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255); // Opaque mask
+        // FillRoundedRectMask(0, 0, scaledW, scaledH, _clipRoundedCornerRadius);
 
         // Step 3: Composite masked text
         SDL_SetRenderTarget(_renderer, IntPtr.Zero);

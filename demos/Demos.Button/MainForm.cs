@@ -4,6 +4,7 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
@@ -19,6 +20,16 @@ public class MainForm : Form
 
     public MainForm()
     {
+        var button = new CrossSharp.Ui.Button();
+        button.Text = "I am a button on the form itself";
+        button.AutoSize = true;
+        button.BackgroundColor = ColorRgba.Blue;
+        button.Location = new Point(20, 20);
+        button.CornerRadius = 8;
+        Controls.Add(button);
+
+        return;
+
         InitializeStackedLayout();
         InitializeContainedButtons();
         InitializeFlatButton();

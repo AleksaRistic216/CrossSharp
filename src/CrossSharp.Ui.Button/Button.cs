@@ -123,4 +123,9 @@ public class Button()
         get => Implementation.MinHeight;
         set => Implementation.MinHeight = value;
     }
+    public int CornerRadius
+    {
+        get => Implementation.CornerRadius;
+        set => Implementation.CornerRadius = value;
+    }
 }

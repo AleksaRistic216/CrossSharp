@@ -10,7 +10,8 @@ public interface IButton
         IHighlightable,
         IRenderStyleProvider,
         IAutoSize,
-        ISelectable
+        ISelectable,
+        IRoundedCorners
 {
     SizeF ImageScale { get; set; }
     EventHandler? OnImageScaleChange { get; set; }
