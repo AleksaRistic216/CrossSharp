@@ -47,7 +47,23 @@ public class MainForm : Form
             "+",
             () =>
             {
-                Notifications.Show("New Tab Clicked", "You clicked the new tab button.");
+                var applicationDataPath = Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData
+                );
+                var directoryPath = Path.Combine(applicationDataPath, "draft-files");
+                if (!Directory.Exists(directoryPath))
+                    Directory.CreateDirectory(directoryPath);
+                var draftFilesCount = Directory.GetFiles(directoryPath).Length;
+                var newFileName = $"Draft-{draftFilesCount + 1}.txt";
+                var newFilePath = Path.Combine(directoryPath, newFileName);
+                File.WriteAllText(newFilePath, string.Empty);
+                var dataProvider = GetDataProvider();
+                dataProvider.LoadFile(newFilePath, newFileName);
+                _tabbedLayout.AddTab(newFileName, typeof(TextEditTab));
+                _tabbedLayout.SelectTab(newFileName);
+                var settings = SettingsHelpers.GetSettings();
+                settings.Files = dataProvider.GetOpenFiles();
+                SettingsHelpers.SaveSettings(settings);
             }
         );
     }
@@ -63,18 +79,13 @@ public class MainForm : Form
         menuBar.DockIndex = 0;
         Controls.Add(menuBar);
 
-        var button1 = new Button();
-        button1.Text = "New File";
-        button1.AutoSize = true;
-        button1.MinHeight = menuBarHeight;
-        menuBar.Add(button1);
-
-        var button2 = new Button();
-        button2.Text = "Open File";
-        button2.AutoSize = true;
-        button2.MinHeight = menuBarHeight;
-        button2.Click += OpenFileButton_Click;
-        menuBar.Add(button2);
+        var btn1 = new Button();
+        btn1.Text = "Open File";
+        btn1.AutoSize = true;
+        btn1.CornerRadius = 0;
+        btn1.MinHeight = menuBarHeight;
+        btn1.Click += OpenFileButton_Click;
+        menuBar.Add(btn1);
     }
 
     void OpenFileButton_Click(object? sender, EventArgs e)
