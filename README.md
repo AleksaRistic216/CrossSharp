@@ -47,3 +47,8 @@ Documentation is still to come, but for purpose of testing out you can either br
 ## Build for multiplatform
  - Simply build with specifying OS=Window_NT or OS=Linux and you can run this app on both systems.
  - (plan is to simplify this and make this easier through single command and/or through UI)
+
+## Current State
+Project is currently maintained mostly by me in my free time. If anyone wants to join, feel free to contact me.
+A lot of features are missing and are planned to come. If you want to see some feature before other, please open issue.
+
