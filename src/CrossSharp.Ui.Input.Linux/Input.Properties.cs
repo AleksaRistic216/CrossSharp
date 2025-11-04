@@ -41,7 +41,7 @@ partial class Input
             Invalidate();
         }
     }
-    public int CornerRadius { get; set; }
+    public int CornerRadius { get; set; } = Services.GetSingleton<ITheme>().DefaultCornerRadius;
     int LineHeight => MultiLine ? FontSize + _lineGap : Height - _lineGap - BorderWidth * 2;
     bool _multiLine;
     public bool MultiLine

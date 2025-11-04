@@ -5,6 +5,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Linux;
 
@@ -43,7 +44,9 @@ class TabbedLayout : ITabbedLayout
         _header = new StackedLayout();
         _header.Direction = Direction.Horizontal;
         _header.BackgroundColor = _theme.SecondaryBackgroundColor;
+        _header.ItemsSpacing = 4;
         _header.Parent = this;
+        _header.Padding = new Padding(4);
         _header.DockIndex = 0;
         _header.Dock = DockStyle.Top;
         _header.Height = headerHeight;
@@ -109,26 +112,27 @@ class TabbedLayout : ITabbedLayout
                 "Content type must implement ITabbedLayoutTab interface.",
                 nameof(content)
             );
-        var tabButton = new Button();
-        tabButton.Text = title;
-        tabButton.AutoSize = true;
-        tabButton.MinHeight = headerHeight;
-        tabButton.Click += OnTabButtonClicked;
-        _header.Add(tabButton);
+        AddTabButtonInternal(title, OnTabButtonClicked);
         _controlsController.Set(title, content);
         Invalidate();
     }
 
     public void AddTabButton(string text, Action onClick)
     {
+        var btn = AddTabButtonInternal(text, (s, e) => onClick());
+        btn.Index = int.MaxValue;
+        Invalidate();
+    }
+
+    Button AddTabButtonInternal(string text, EventHandler onClick)
+    {
         var tabButton = new Button();
         tabButton.Text = text;
-        tabButton.Index = int.MaxValue;
         tabButton.AutoSize = true;
-        tabButton.MinHeight = headerHeight;
-        tabButton.Click += (s, e) => onClick();
+        tabButton.MaxHeight = _header.Height - _header.Padding.Vertical;
+        tabButton.Click += onClick;
         _header.Add(tabButton);
-        Invalidate();
+        return tabButton;
     }
 
     void OnTabButtonClicked(object? sender, EventArgs e)

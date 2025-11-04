@@ -12,4 +12,5 @@ public interface ITheme
     ColorRgba SecondaryBackgroundColor { get; set; }
     ColorRgba ButtonBackgroundColor { get; set; }
     ColorRgba InputBackgroundColor { get; set; }
+    int DefaultCornerRadius { get; set; }
 }

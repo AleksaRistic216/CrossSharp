@@ -14,5 +14,5 @@ public class DefaultTheme : ITheme
     public virtual ColorRgba SecondaryBackgroundColor { get; set; } = ColorRgba.LimitlessPrimary;
     public virtual ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.LimitlessSecondary;
     public virtual ColorRgba InputBackgroundColor { get; set; } = ColorRgba.White;
-    public virtual int RoundedCornersRadius { get; set; } = 8;
+    public virtual int DefaultCornerRadius { get; set; } = 8;
 }
