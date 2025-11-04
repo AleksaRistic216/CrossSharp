@@ -63,7 +63,18 @@ public class ApplicationBuilder
 
     void RegisterWindowsServices()
     {
-        throw new NotImplementedException();
+        AddSingleton<IFormFactory, Ui.Windows.FormFactory>();
+        AddSingleton<IModularFormFactory, Ui.Windows.ModularFormFactory>();
+        AddSingleton<IStaticLayoutFactory, Ui.Windows.StaticLayoutFactory>();
+        AddSingleton<IStackedLayoutFactory, Ui.Windows.StackedLayoutFactory>();
+        AddSingleton<ITabbedLayoutFactory, Ui.Windows.TabbedLayoutFactory>();
+        AddSingleton<IFlowLayoutFactory, Ui.Windows.FlowLayoutFactory>();
+        AddSingleton<IFilesPickerFactory, Ui.Windows.FilesPickerFactory>();
+        AddSingleton<IPanelFactory, Ui.Windows.PanelFactory>();
+        AddSingleton<ILabelFactory, Ui.Windows.LabelFactory>();
+        AddSingleton<IFontFamilyMap, Utils.Windows.FontFamilyMap>();
+        AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
+        AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
     }
 
     void RegisterMacOsServices()

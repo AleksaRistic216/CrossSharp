@@ -69,6 +69,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lib/SDL2.dll</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2_ttf.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lib/SDL2_ttf.dll</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CrossSharp.Diagnostics\CrossSharp.Diagnostics.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -78,4 +90,7 @@
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
     <PackageReference Include="ValueInjecter" Version="3.2.0" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>WINDOWS</DefineConstants>
+  </PropertyGroup>
 </Project>

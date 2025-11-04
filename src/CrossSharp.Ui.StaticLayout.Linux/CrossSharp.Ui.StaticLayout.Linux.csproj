@@ -58,6 +58,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
+    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Common\CrossSharp.Ui.StaticLayout.Common.csproj" />
   </ItemGroup>
 </Project>
