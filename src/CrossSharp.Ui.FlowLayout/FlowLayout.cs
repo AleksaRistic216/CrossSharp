@@ -82,6 +82,11 @@ public class FlowLayout()
         get => _impl.Disposing;
         set => _impl.Disposing = value;
     }
+    public int Index
+    {
+        get => _impl.Index;
+        set => _impl.Index = value;
+    }
 
     public IEnumerator<IControl> GetEnumerator() => _impl.GetEnumerator();
 

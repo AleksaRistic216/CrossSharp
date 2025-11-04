@@ -14,6 +14,7 @@ public abstract partial class ControlBase : IControl
         SubscribeToInputEvents();
     }
 
+    public int Index { get; set; }
     public object Parent { get; set; }
     public abstract void Initialize();
     public abstract void Invalidate();

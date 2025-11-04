@@ -87,6 +87,7 @@ partial class FormSDL
             OnVisibleChangedInternal();
         }
     }
+    public int Index { get; set; }
 
     public bool IsMouseOver { get; set; }
 }

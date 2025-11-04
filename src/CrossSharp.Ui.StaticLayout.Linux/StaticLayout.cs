@@ -14,6 +14,7 @@ class StaticLayout : IStaticLayout
     public int DockIndex { get; set; }
 
     public EventHandler? Disposing { get; set; }
+    public int Index { get; set; }
     public DockStyle Dock { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }

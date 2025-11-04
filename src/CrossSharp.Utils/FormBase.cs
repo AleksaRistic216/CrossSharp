@@ -112,6 +112,11 @@ public abstract class FormBase<T> : IForm
         get => Implementation.Disposing;
         set { Implementation.Disposing = value; }
     }
+    public int Index
+    {
+        get => Implementation.Index;
+        set { Implementation.Index = value; }
+    }
 
     public int BorderWidth
     {

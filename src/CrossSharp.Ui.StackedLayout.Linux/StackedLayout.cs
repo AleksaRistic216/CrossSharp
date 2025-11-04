@@ -54,7 +54,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackVertical()
     {
         var currentY = Padding.Top;
-        foreach (var c in _controls)
+        foreach (var c in _controls.OrderBy(x => x.Index))
         {
             var marginTop = 0;
             var marginBottom = 0;
@@ -76,7 +76,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackHorizontal()
     {
         var currentX = Padding.Left;
-        foreach (var c in _controls)
+        foreach (var c in _controls.OrderBy(x => x.Index))
         {
             c.Location = new Point(currentX, Padding.Top);
             c.Height = Height - Padding.Vertical;

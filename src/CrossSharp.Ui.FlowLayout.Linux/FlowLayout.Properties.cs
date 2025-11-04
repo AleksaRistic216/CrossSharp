@@ -11,6 +11,7 @@ partial class FlowLayout
     public object Parent { get; set; }
     public bool IsMouseOver { get; set; }
     public bool Visible { get; set; }
+    public int Index { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
     Point _location;

@@ -91,6 +91,7 @@ class TabbedLayout : ITabbedLayout
     }
 
     public EventHandler? Disposing { get; set; }
+    public int Index { get; set; }
 
     void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
 
@@ -122,6 +123,7 @@ class TabbedLayout : ITabbedLayout
     {
         var tabButton = new Button();
         tabButton.Text = text;
+        tabButton.Index = int.MaxValue;
         tabButton.AutoSize = true;
         tabButton.MinHeight = headerHeight;
         tabButton.Click += (s, e) => onClick();

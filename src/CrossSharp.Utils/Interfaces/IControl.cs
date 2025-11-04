@@ -16,4 +16,10 @@ public interface IControl
     void ResumeLayout();
     void Draw(ref IGraphics graphics);
     EventHandler? Disposing { get; set; }
+
+    /// <summary>
+    /// Gets or sets the index of the control within its parent container.
+    /// This determines the order in which controls are rendered and laid out.
+    /// </summary>
+    int Index { get; set; }
 }

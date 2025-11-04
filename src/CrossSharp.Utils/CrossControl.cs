@@ -76,6 +76,11 @@ public abstract class CrossControl<T>(T implementation)
         get => Implementation.Disposing;
         set => Implementation.Disposing = value;
     }
+    public int Index
+    {
+        get => Implementation.Index;
+        set => Implementation.Index = value;
+    }
 
     public bool IsMouseOver
     {
