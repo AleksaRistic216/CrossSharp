@@ -1,6 +1,8 @@
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
 using Rectangle = System.Drawing.Rectangle;
@@ -69,8 +71,23 @@ partial class FormSDL : IFormSDL
     {
         Controls.Width = Width;
         Controls.Height = Height;
+        InvalidateTitleBar();
         foreach (var control in Controls)
             control.Invalidate();
+    }
+
+    FormSDLTitleBar? _titleBar;
+
+    void InvalidateTitleBar()
+    {
+        if (Services.GetSingleton<IApplicationConfiguration>().FormsStyle is not FormStyle.CrossSharp)
+            return;
+        _titleBar ??= new FormSDLTitleBar();
+        _titleBar.Height = 35;
+        _titleBar.Width = Width;
+        _titleBar.Parent = this;
+        _titleBar.BackgroundColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor.Darkened;
+        Controls.Location = new Point(0, _titleBar.Height);
     }
 
     void InvalidateTitle()
@@ -91,6 +108,11 @@ partial class FormSDL : IFormSDL
         g.Dispose();
     }
 
+    public void Move(Point location)
+    {
+        SDLHelpers.SDL_SetWindowPosition(Handle, location.X, location.Y);
+    }
+
     public void SuspendLayout() { }
 
     public void ResumeLayout() { }
@@ -106,6 +128,7 @@ partial class FormSDL : IFormSDL
 
     protected virtual void DrawContent(ref IGraphics g)
     {
+        _titleBar?.Draw(ref g);
         foreach (var control in Controls.ToArray())
         {
             g.SetOffset(control.Location.X, control.Location.Y);

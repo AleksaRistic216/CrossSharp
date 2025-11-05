@@ -50,7 +50,7 @@ public class StackedLayout()
 
     public void Clear() => _impl.Clear();
 
-    public void Dispose() => _impl.Dispose();
+    public virtual void Dispose() => _impl.Dispose();
 
     public int BorderWidth
     {

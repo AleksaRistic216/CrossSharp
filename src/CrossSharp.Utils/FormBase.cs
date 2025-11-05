@@ -91,6 +91,8 @@ public abstract class FormBase<T> : IForm
         set { Implementation.State = value; }
     }
 
+    public void Move(Point location) => Implementation.Move(location);
+
     public void Close() => Implementation.Close();
 
     public virtual void Dispose() => Implementation.Dispose();

@@ -19,17 +19,13 @@ static class SDLHelpers
     internal static extern IntPtr SDL_GetError();
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateWindow(
-        string title,
-        int x,
-        int y,
-        int w,
-        int h,
-        uint flags
-    );
+    internal static extern IntPtr SDL_CreateWindow(string title, int x, int y, int w, int h, uint flags);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_SetWindowTitle(IntPtr window, string title);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_SetWindowPosition(IntPtr window, int x, int y);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_ShowWindow(IntPtr window);
@@ -44,12 +40,7 @@ static class SDLHelpers
     internal static extern void SDL_RenderPresent(IntPtr renderer);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern int SDL_UpdateTexture(
-        IntPtr texture,
-        IntPtr rect,
-        IntPtr pixels,
-        int pitch
-    );
+    internal static extern int SDL_UpdateTexture(IntPtr texture, IntPtr rect, IntPtr pixels, int pitch);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_DestroyWindow(IntPtr window);
@@ -76,11 +67,7 @@ static class SDLHelpers
     internal static extern void SDL_Delay(uint ms);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateRenderer(
-        IntPtr window,
-        int index,
-        SDLRenderFlags flags
-    );
+    internal static extern IntPtr SDL_CreateRenderer(IntPtr window, int index, SDLRenderFlags flags);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_GetRendererInfo(IntPtr renderer, ref SDLRendererInfo info);

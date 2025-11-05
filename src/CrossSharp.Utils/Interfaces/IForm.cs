@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
@@ -17,4 +18,10 @@ public interface IForm : IControl, IBackgroundColorProvider
     void Show();
     void Redraw();
     WindowState State { get; set; }
+
+    /// <summary>
+    /// Move the form to the specified location.
+    /// </summary>
+    /// <param name="location"></param>
+    void Move(Point location);
 }
