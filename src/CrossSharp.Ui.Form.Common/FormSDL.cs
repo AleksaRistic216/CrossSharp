@@ -21,6 +21,7 @@ partial class FormSDL : IFormSDL
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
         Services.GetSingleton<IApplication>().Forms.Add(this);
+        PerformTheme();
         Invalidate();
     }
 

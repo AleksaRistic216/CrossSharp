@@ -9,10 +9,11 @@ namespace CrossSharp.Ui.Common;
 
 partial class TabbedLayout : ITabbedLayout
 {
-    public void Initialize()
+    protected TabbedLayout()
     {
-        InitializeContent();
         InitializeHeader();
+        InitializeContent();
+        PerformTheme();
     }
 
     void InitializeContent()

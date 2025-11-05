@@ -7,7 +7,6 @@ class FilesPickerFactory : IFilesPickerFactory
     public IFilesPicker Create()
     {
         var filesPicker = new FilesPicker();
-        filesPicker.PerformTheme();
         return filesPicker;
     }
 }

@@ -7,7 +7,6 @@ class LabelFactory : ILabelFactory
     public ILabel Create()
     {
         var label = new Label();
-        label.Initialize();
         return label;
     }
 }

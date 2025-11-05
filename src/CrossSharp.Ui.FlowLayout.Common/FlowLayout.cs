@@ -17,6 +17,7 @@ partial class FlowLayout : IFlowLayout
     {
         _inputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputHandlerEvents();
+        PerformTheme();
     }
 
     public void Dispose() => OnDisposeInternal();

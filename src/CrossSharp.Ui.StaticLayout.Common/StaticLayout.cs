@@ -54,6 +54,11 @@ class StaticLayout : IStaticLayout
     public object? Parent { get; set; }
     bool _visible = true;
 
+    protected StaticLayout()
+    {
+        PerformTheme();
+    }
+
     public void PerformTheme()
     {
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;

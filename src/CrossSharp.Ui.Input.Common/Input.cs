@@ -15,9 +15,8 @@ partial class Input : ControlBase, IInput
         BorderWidth = 1;
         InputHandler.KeyPressed += InputHandlerOnKeyPressed;
         InputHandler.MousePressed += InputHandlerOnMousePressed;
+        PerformTheme();
     }
-
-    public override void Initialize() { }
 
     public override void Invalidate()
     {
@@ -134,7 +133,7 @@ partial class Input : ControlBase, IInput
         }
     }
 
-    public override void PerformTheme()
+    public sealed override void PerformTheme()
     {
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor.Highlighted;
         FontSize = Services.GetSingleton<ITheme>().DefaultFontSize;

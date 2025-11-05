@@ -8,9 +8,12 @@ class Panel : ControlBase, IPanel
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? BackgroundColorChanged { get; set; }
 
-    public override void Initialize() { }
+    protected Panel()
+    {
+        PerformTheme();
+    }
 
-    public override void PerformTheme() { }
+    public sealed override void PerformTheme() { }
 
     public override void Invalidate() { }
 

@@ -2,7 +2,6 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
@@ -10,9 +9,12 @@ namespace CrossSharp.Ui.Common;
 
 partial class Button : ControlBase, IButton
 {
-    public override void Initialize() { }
+    internal Button()
+    {
+        PerformTheme();
+    }
 
-    public override void PerformTheme()
+    public sealed override void PerformTheme()
     {
         BackgroundColor = Theme.PrimaryColor.Darkened;
         CornerRadius = Theme.DefaultCornerRadius;
@@ -117,7 +119,7 @@ partial class Button : ControlBase, IButton
         if (_scaledToFitImage == null)
             return;
         var imageY = (Height - _scaledToFitImage.Size.Height) / 2;
-        var imageX = 0;
+        int imageX;
         if (_textBounds != null)
         {
             imageX = ImagePlacement switch

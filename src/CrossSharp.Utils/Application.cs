@@ -36,7 +36,6 @@ class Application : IApplication
         if (MainFormType is null)
             throw new NullReferenceException(nameof(MainFormType));
         _mainForm = (IForm)Activator.CreateInstance(MainFormType)!;
-        _mainForm.PerformTheme();
         _mainForm.Invalidate();
         _mainForm.OnClose += OnMainFormClose;
         _mainForm.Show();

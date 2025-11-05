@@ -7,9 +7,12 @@ namespace CrossSharp.Ui.Common;
 
 partial class Label : ControlBase, ILabel
 {
-    public override void Initialize() { }
+    protected Label()
+    {
+        PerformTheme();
+    }
 
-    public override void PerformTheme()
+    public sealed override void PerformTheme()
     {
         FontFamily = Theme.DefaultFontFamily;
         FontSize = Theme.DefaultFontSize;

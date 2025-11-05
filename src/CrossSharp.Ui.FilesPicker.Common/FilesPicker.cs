@@ -29,6 +29,8 @@ class FilesPicker : Form, IFilesPicker
         InitializeLeftRow();
         InitializeRightRow();
         LoadDirectoryContents(_currentDirectory);
+
+        PerformTheme();
     }
 
     void InitializeLeftRow()

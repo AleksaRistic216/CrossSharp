@@ -8,11 +8,12 @@ namespace CrossSharp.Ui.Common;
 
 partial class ModularForm : FormSDL, IModularForm
 {
-    public ModularForm()
+    internal ModularForm()
     {
         InitializeLeftNavigationPane();
         InitializeTopNavigationPane();
         InitializeContentPane();
+        PerformTheme();
     }
 
     void InitializeLeftNavigationPane()

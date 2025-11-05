@@ -16,6 +16,8 @@ partial class Accordion : StackedLayout, IAccordion
         _itemsArea.Orientation = Orientation.Vertical;
         _itemsArea.Dock = DockStyle.Fill;
         Add(_itemsArea);
+
+        PerformTheme();
     }
 
     public sealed override void Add(params IControl[] controls)
@@ -88,7 +90,7 @@ partial class Accordion : StackedLayout, IAccordion
         _itemsArea.Add(item);
     }
 
-    public override void PerformTheme()
+    public sealed override void PerformTheme()
     {
         this.SetMargin(Theme.DefaultLayoutItemSpacing);
         _itemsArea.PerformTheme();

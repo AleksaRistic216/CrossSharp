@@ -12,10 +12,11 @@ namespace CrossSharp.Ui.Common;
 
 partial class StackedLayout : IStackedLayout
 {
-    public StackedLayout()
+    protected StackedLayout()
     {
         _inputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputHandlerEvents();
+        PerformTheme();
     }
 
     public void LimitClip(ref IGraphics g) { }

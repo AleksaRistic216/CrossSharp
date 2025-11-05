@@ -86,7 +86,6 @@ public class DynamicControlsController(ref IControlsContainer container)
             }
             value = instance ?? throw new Exception("Failed to create instance of " + type.FullName);
             _pageInstances[type] = value;
-            value.PerformTheme();
         }
         _container.Remove(_container.ToArray());
         _container.Add(value);
