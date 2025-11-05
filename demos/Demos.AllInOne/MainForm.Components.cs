@@ -28,6 +28,7 @@ public partial class MainForm
         };
         _viewer.Register(nameof(HomeView), typeof(HomeView));
         _viewer.Register(nameof(ThemesView), typeof(ThemesView));
+        _viewer.Register(nameof(DropdownsView), typeof(DropdownsView));
         _viewer.Show(nameof(HomeView));
     }
 
@@ -59,6 +60,14 @@ public partial class MainForm
         btn2.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn2);
         _accordionItems.Add(btn2);
+
+        var btn3 = new Button();
+        btn3.Text = "Dropdowns";
+        btn3.Height = 40;
+        btn3.Tag = nameof(DropdownsView);
+        btn3.Click += OnAccordionButtonClick;
+        _accordion.AddItem(btn3);
+        _accordionItems.Add(btn3);
     }
 
     void OnAccordionButtonClick(object? sender, EventArgs e)
