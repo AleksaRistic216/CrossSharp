@@ -17,7 +17,7 @@ class StaticLayout : IStaticLayout
     public int Index { get; set; }
     public DockStyle Dock { get; set; }
     public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
+    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
 
     public Point Location { get; set; }
     public EventHandler<Point>? LocationChanged { get; set; }
@@ -49,7 +49,7 @@ class StaticLayout : IStaticLayout
         }
     }
     public EventHandler<Size>? SizeChanged { get; set; }
-    public object Parent { get; set; }
+    public object? Parent { get; set; }
     bool _visible = true;
 
     public void PerformTheme() { }

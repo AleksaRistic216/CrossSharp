@@ -10,7 +10,7 @@ public abstract class FormBase<T> : IForm
 {
     protected readonly IForm Implementation = Services.GetSingleton<T>().Create();
 
-    public object Parent
+    public object? Parent
     {
         get => Implementation.Parent;
         set { Implementation.Parent = value; }
@@ -22,7 +22,6 @@ public abstract class FormBase<T> : IForm
         get => Implementation.TitleChanged;
         set { Implementation.TitleChanged = value; }
     }
-    public IApplication AppInstance => Implementation.AppInstance;
 
     public void PerformTheme() => Implementation.PerformTheme();
 

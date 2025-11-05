@@ -3,9 +3,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Utils;
 
-public abstract class CrossControl<T>(T implementation)
-    : CrossWrapper<IControl>(implementation),
-        IControl
+public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>(implementation), IControl
     where T : IControl
 {
     protected T Implementation = implementation;
@@ -52,7 +50,7 @@ public abstract class CrossControl<T>(T implementation)
         get => Implementation.SizeChanged;
         set => Implementation.SizeChanged = value;
     }
-    public object Parent
+    public object? Parent
     {
         get => Implementation.Parent;
         set => Implementation.Parent = value;

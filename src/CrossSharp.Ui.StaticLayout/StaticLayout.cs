@@ -74,7 +74,7 @@ public class StaticLayout()
         get => _impl.SizeChanged;
         set => _impl.SizeChanged = value;
     }
-    public object Parent
+    public object? Parent
     {
         get => _impl.Parent;
         set { _impl.Parent = value; }

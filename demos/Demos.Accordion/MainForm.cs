@@ -10,8 +10,8 @@ namespace Demos.Accordion;
 
 public class MainForm : Form
 {
-    IAccordion _leftMenu;
-    IStackedLayout _contentArea;
+    IAccordion _leftMenu = null!;
+    IStackedLayout _contentArea = null!;
 
     public MainForm()
     {
@@ -109,10 +109,7 @@ public class MainForm : Form
         btnInside.Text = "Click me!";
         btnInside.Click += (s, e) =>
         {
-            Notifications.Show(
-                "Clicked",
-                "You clicked the button inside horizontal accordion item."
-            );
+            Notifications.Show("Clicked", "You clicked the button inside horizontal accordion item.");
         };
         btnInside.Height = 30;
         horizontalAccordion.AddItem(btnInside);

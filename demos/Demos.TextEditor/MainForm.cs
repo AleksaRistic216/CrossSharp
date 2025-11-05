@@ -4,9 +4,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
-using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
-using Material.Icons;
 
 namespace Demos.TextEditor;
 
@@ -51,11 +49,9 @@ public class MainForm : Form
         btn.AutoSize = false;
         btn.Width = Constants.IMAGE_SIZE;
         btn.Image = EfficientImage.Get(nameof(Constants.AddFileIconKind));
-        btn.Click += (s, e) =>
+        btn.Click += (_, _) =>
         {
-            var applicationDataPath = Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData
-            );
+            var applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var directoryPath = Path.Combine(applicationDataPath, "draft-files");
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);

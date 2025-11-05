@@ -2,7 +2,6 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
-using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -28,7 +27,7 @@ partial class Accordion : StackedLayout, IAccordion
 
     void InitializeHeader()
     {
-        SizeChanged += (s, e) =>
+        SizeChanged += (_, _) =>
         {
             if (State != AccordionState.Expanded)
                 return;
@@ -46,12 +45,9 @@ partial class Accordion : StackedLayout, IAccordion
         _hamburgButton.Height = _headerArea.Height;
         _hamburgButton.Text = "☰";
         _hamburgButton.BackgroundColor = ColorRgba.Transparent;
-        _hamburgButton.Click += (s, e) =>
+        _hamburgButton.Click += (_, _) =>
         {
-            State =
-                State == AccordionState.Collapsed
-                    ? AccordionState.Expanded
-                    : AccordionState.Collapsed;
+            State = State == AccordionState.Collapsed ? AccordionState.Expanded : AccordionState.Collapsed;
         };
         _headerArea.Add(_hamburgButton);
     }
@@ -76,10 +72,7 @@ partial class Accordion : StackedLayout, IAccordion
         if (Orientation != Orientation.Vertical)
             return;
         var collapsedWidth =
-            _hamburgButton.Width
-            + Padding.Horizontal
-            + _headerArea.MarginLeft
-            + _headerArea.MarginRight;
+            _hamburgButton.Width + Padding.Horizontal + _headerArea.MarginLeft + _headerArea.MarginRight;
         Width = _state == AccordionState.Expanded ? _lastWidth : collapsedWidth;
     }
 

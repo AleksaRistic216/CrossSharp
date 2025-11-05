@@ -5,7 +5,7 @@ namespace CrossSharp.Ui.Common;
 
 class Panel : ControlBase, IPanel
 {
-    public ColorRgba BackgroundColor { get; set; }
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? BackgroundColorChanged { get; set; }
 
     public override void Initialize() { }

@@ -2,20 +2,10 @@ using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Utils;
 
-public class ColorRgba
+public class ColorRgba(float r, float g, float b, float a)
 {
-    public static readonly ColorRgba LimitlessPrimary = new(
-        0x47 / 255f,
-        0x77 / 255f,
-        0xBB / 255f,
-        1.0f
-    );
-    public static readonly ColorRgba LimitlessSecondary = new(
-        0x2A / 255f,
-        0x4A / 255f,
-        0x8E / 255f,
-        1.0f
-    );
+    public static readonly ColorRgba LimitlessPrimary = new(0x47 / 255f, 0x77 / 255f, 0xBB / 255f, 1.0f);
+    public static readonly ColorRgba LimitlessSecondary = new(0x2A / 255f, 0x4A / 255f, 0x8E / 255f, 1.0f);
     public static readonly ColorRgba LimitlessBackground = new(0.9f, 0.9f, 0.9f, 1);
     public static readonly ColorRgba Transparent = new(0, 0, 0, 0);
     public static readonly ColorRgba Red = new(1, 0, 0, 1);
@@ -46,16 +36,11 @@ public class ColorRgba
     public static readonly ColorRgba WhiteSmoke = new(0.9f, 0.9f, 0.9f, 1);
     public static readonly ColorRgba Black = new(0, 0, 0, 1);
     public static ColorRgba RandomColor =>
-        new(
-            (float)Random.Shared.NextDouble(),
-            (float)Random.Shared.NextDouble(),
-            (float)Random.Shared.NextDouble(),
-            1
-        );
-    public float R { get; set; }
-    public float G { get; set; }
-    public float B { get; set; }
-    public float A { get; set; }
+        new((float)Random.Shared.NextDouble(), (float)Random.Shared.NextDouble(), (float)Random.Shared.NextDouble(), 1);
+    public float R { get; } = r;
+    public float G { get; } = g;
+    public float B { get; } = b;
+    public float A { get; } = a;
     public byte RByte => (byte)(R * 255);
     public byte GByte => (byte)(G * 255);
     public byte BByte => (byte)(B * 255);
@@ -63,34 +48,18 @@ public class ColorRgba
 
     const float HIGHLIGHT_FACTOR = 0.5f;
     public ColorRgba Highlighted =>
-        new(
-            Math.Min(R + HIGHLIGHT_FACTOR, 1),
-            Math.Min(G + HIGHLIGHT_FACTOR, 1),
-            Math.Min(B + HIGHLIGHT_FACTOR, 1),
-            A
-        );
+        new(Math.Min(R + HIGHLIGHT_FACTOR, 1), Math.Min(G + HIGHLIGHT_FACTOR, 1), Math.Min(B + HIGHLIGHT_FACTOR, 1), A);
 
     const float SELECTED_FACTOR = 0.3f;
     public ColorRgba Selected =>
-        new(
-            Math.Min(R + SELECTED_FACTOR, 1),
-            Math.Min(G + SELECTED_FACTOR, 1),
-            Math.Min(B + SELECTED_FACTOR, 1),
-            A
-        );
+        new(Math.Min(R + SELECTED_FACTOR, 1), Math.Min(G + SELECTED_FACTOR, 1), Math.Min(B + SELECTED_FACTOR, 1), A);
 
     const float DARKEN_FACTOR = 0.15f;
     public ColorRgba Darkened =>
-        new(
-            Math.Max(R - DARKEN_FACTOR, 0),
-            Math.Max(G - DARKEN_FACTOR, 0),
-            Math.Max(B - DARKEN_FACTOR, 0),
-            A
-        );
+        new(Math.Max(R - DARKEN_FACTOR, 0), Math.Max(G - DARKEN_FACTOR, 0), Math.Max(B - DARKEN_FACTOR, 0), A);
 
     const float DISABLED_FACTOR = 0.5f;
-    public ColorRgba Disabled =>
-        new(R * DISABLED_FACTOR, G * DISABLED_FACTOR, B * DISABLED_FACTOR, A);
+    public ColorRgba Disabled => new(R * DISABLED_FACTOR, G * DISABLED_FACTOR, B * DISABLED_FACTOR, A);
 
     public ColorRgba Contrasted =>
         A < 0.01f ? Black
@@ -98,19 +67,11 @@ public class ColorRgba
         : Black;
     public static ColorRgba Empty { get; } = new(0, 0, 0, 0);
 
-    public ColorRgba(float r, float g, float b, float a)
-    {
-        R = r;
-        G = g;
-        B = b;
-        A = a;
-    }
-
-    public static ColorRgba FromBytes(byte r, byte g, byte b, byte a) =>
-        new(r / 255f, g / 255f, b / 255f, a / 255f);
+    public static ColorRgba FromBytes(byte r, byte g, byte b, byte a) => new(r / 255f, g / 255f, b / 255f, a / 255f);
 
     public override string ToString() => $"RGBA({RByte}, {GByte}, {BByte}, {AByte})";
 
+    // ReSharper disable once InconsistentNaming
     public SDLColor ToSDLColor() =>
         new()
         {
@@ -122,12 +83,20 @@ public class ColorRgba
 
     public override bool Equals(object? obj)
     {
-        const float TOLERANCE = 0.01f;
+        const float tolerance = 0.01f;
         if (obj is not ColorRgba other)
             return false;
-        return Math.Abs(R - other.R) < TOLERANCE
-            && Math.Abs(G - other.G) < TOLERANCE
-            && Math.Abs(B - other.B) < TOLERANCE
-            && Math.Abs(A - other.A) < TOLERANCE;
+        return Math.Abs(R - other.R) < tolerance
+            && Math.Abs(G - other.G) < tolerance
+            && Math.Abs(B - other.B) < tolerance
+            && Math.Abs(A - other.A) < tolerance;
+    }
+
+    protected bool Equals(ColorRgba other) =>
+        R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B) && A.Equals(other.A);
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(R, G, B, A);
     }
 }

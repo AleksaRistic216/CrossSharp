@@ -4,7 +4,6 @@ using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
-using Material.Icons;
 
 namespace Demos.TextEditor;
 
@@ -12,7 +11,6 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
 {
     readonly Input _input = new();
     readonly StackedLayout _editorBar = new();
-    bool _textChanged;
     ITheme Theme => Services.GetSingleton<ITheme>();
 
     public TextEditTab()
@@ -31,10 +29,7 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
         Add(_input);
     }
 
-    void TextChanged(object? sender, EventArgs e)
-    {
-        _textChanged = true;
-    }
+    void TextChanged(object? sender, EventArgs e) { }
 
     void InitializeEditorBar()
     {

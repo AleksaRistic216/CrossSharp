@@ -19,8 +19,8 @@ partial class Input
         var text = MultiLine ? Text.Split(Environment.NewLine)[_caretPosition.Y] : Text;
         text = text[..Math.Min((int)_caretPosition.X, (int)text.Length)];
         var textSize = g.MeasureText(text, FontFamily.Default, FontSize);
-        var caretX = _lineGap + textSize.Width + CornerRadius / 2 + BorderWidth;
-        var caretY = _lineGap / 2 + _caretPosition.Y * LineHeight + BorderWidth;
+        var caretX = LINE_GAP + textSize.Width + CornerRadius / 2 + BorderWidth;
+        var caretY = LINE_GAP / 2 + _caretPosition.Y * LineHeight + BorderWidth;
         _caretBounds = new Rectangle(caretX, caretY, 2, LineHeight);
     }
 

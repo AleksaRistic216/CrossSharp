@@ -11,11 +11,11 @@ partial class TabbedLayout
 {
     readonly List<IControl> _controls = [];
     ITheme Theme => Services.GetSingleton<ITheme>();
-    DynamicControlsController _controlsController;
-    IControlsContainer _tabs;
-    IStackedLayout _header;
+    DynamicControlsController _controlsController = null!;
+    IControlsContainer _tabs = null!;
+    IStackedLayout _header = null!;
     public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
+    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
     Point _location;
     public Point Location
     {
@@ -106,13 +106,13 @@ partial class TabbedLayout
     public int Index { get; set; }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
-    ColorRgba _backgroundColor;
+    ColorRgba _backgroundColor = ColorRgba.Transparent;
     public ColorRgba BackgroundColor
     {
         get => _backgroundColor;
         set
         {
-            if (_backgroundColor == value)
+            if (Equals(_backgroundColor, value))
                 return;
             _backgroundColor = value;
             OnBackgroundColorChangedInternal();

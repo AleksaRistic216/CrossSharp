@@ -8,7 +8,7 @@ namespace CrossSharp.Ui.Common;
 partial class FlowLayout
 {
     IInputHandler _inputHandler;
-    public object Parent { get; set; }
+    public object? Parent { get; set; }
     public bool IsMouseOver { get; set; }
     bool _visible = true;
     public bool Visible
@@ -24,7 +24,7 @@ partial class FlowLayout
     }
     public int Index { get; set; }
     public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
+    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
     Point _location;
     public Point Location
     {
@@ -120,9 +120,7 @@ partial class FlowLayout
             if (_scrollable == value)
                 return;
             if (_scrollable != ScrollableMode.None && value != ScrollableMode.Vertical)
-                throw new NotSupportedException(
-                    "FlowLayout only supports Vertical or None scrollable modes."
-                );
+                throw new NotSupportedException("FlowLayout only supports Vertical or None scrollable modes.");
             _scrollable = value;
             Invalidate();
         }

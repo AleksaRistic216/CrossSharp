@@ -13,7 +13,7 @@ public class FilesPicker()
 
     public void Close() => Implementation.Close();
 
-    public EventHandler<FilesSelectedEventArgs> FilesSelected
+    public EventHandler<FilesSelectedEventArgs>? FilesSelected
     {
         get => Implementation.FilesSelected;
         set => Implementation.FilesSelected = value;

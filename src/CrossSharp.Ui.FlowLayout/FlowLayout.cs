@@ -7,9 +7,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class FlowLayout()
-    : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlowLayoutFactory>().Create()),
-        IFlowLayout
+public class FlowLayout() : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlowLayoutFactory>().Create()), IFlowLayout
 {
     IFlowLayout _impl => GetImplementation();
 
@@ -53,7 +51,7 @@ public class FlowLayout()
         get => _impl.SizeChanged;
         set => _impl.SizeChanged = value;
     }
-    public object Parent
+    public object? Parent
     {
         get => _impl.Parent;
         set => _impl.Parent = value;

@@ -9,7 +9,7 @@ namespace CrossSharp.Ui.Common;
 
 partial class Input : ControlBase, IInput
 {
-    public Input()
+    protected Input()
     {
         BorderColor = ColorRgba.Gray;
         BorderWidth = 1;
@@ -30,19 +30,19 @@ partial class Input : ControlBase, IInput
     void InvalidateContentBounds()
     {
         _contentBounds = new Rectangle(
-            _lineGap + CornerRadius / 2 + BorderWidth,
-            _lineGap / 2 + BorderWidth,
-            Width - CornerRadius - _lineGap * 2,
-            Height - _lineGap - BorderWidth * 2
+            LINE_GAP + CornerRadius / 2 + BorderWidth,
+            LINE_GAP / 2 + BorderWidth,
+            Width - CornerRadius - LINE_GAP * 2,
+            Height - LINE_GAP - BorderWidth * 2
         );
     }
 
     void InvalidatePlaceholderBounds()
     {
         _placeholderBounds = new Rectangle(
-            _lineGap + CornerRadius / 2 + BorderWidth,
-            _lineGap / 2 + BorderWidth,
-            Width - CornerRadius - _lineGap * 2,
+            LINE_GAP + CornerRadius / 2 + BorderWidth,
+            LINE_GAP / 2 + BorderWidth,
+            Width - CornerRadius - LINE_GAP * 2,
             LineHeight
         );
     }
@@ -93,7 +93,7 @@ partial class Input : ControlBase, IInput
         }
 
         // If single liner, override font size to fit height
-        FontSize = Height - _lineGap * 2 - BorderWidth * 2;
+        FontSize = Height - LINE_GAP * 2 - BorderWidth * 2;
     }
 
     public override void Redraw() { }
@@ -128,14 +128,7 @@ partial class Input : ControlBase, IInput
         var clientBounds = this.GetClientBounds();
         foreach (var line in Text.Split(Environment.NewLine))
         {
-            g.SetClip(
-                clientBounds with
-                {
-                    Width = Width - CornerRadius,
-                    Height = Height,
-                },
-                CornerRadius
-            );
+            g.SetClip(clientBounds with { Width = Width - CornerRadius, Height = Height }, CornerRadius);
             g.DrawText(line, x, y, FontFamily.Default, FontSize, ColorRgba.Black);
             y += LineHeight;
         }

@@ -8,9 +8,7 @@ static class SettingsHelpers
 
     static SettingsHelpers()
     {
-        var applicationDataDirectory = Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData
-        );
+        var applicationDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         var applicationSettingsFile = Path.Combine(
             applicationDataDirectory,
             "CrossSharp",
@@ -35,9 +33,7 @@ static class SettingsHelpers
     public static void SaveSettings(Settings settings)
     {
         _settings = settings;
-        var applicationDataDirectory = Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData
-        );
+        var applicationDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         var applicationSettingsFile = Path.Combine(
             applicationDataDirectory,
             "CrossSharp",
@@ -46,7 +42,7 @@ static class SettingsHelpers
             "settings.json"
         );
         var applicationSettingsDirectory = Path.GetDirectoryName(applicationSettingsFile);
-        if (!Directory.Exists(applicationSettingsDirectory))
+        if (!string.IsNullOrWhiteSpace(applicationSettingsDirectory) && !Directory.Exists(applicationSettingsDirectory))
             Directory.CreateDirectory(applicationSettingsDirectory);
         var json = System.Text.Json.JsonSerializer.Serialize(settings);
         File.WriteAllText(applicationSettingsFile, json);

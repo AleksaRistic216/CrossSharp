@@ -11,24 +11,17 @@ static class ScrollableHelpers
     {
         if (viewPort.X == 0 || scrollable.ContentBounds.Width <= scrollable.Width)
             return 0.0f;
-        return (float)viewPort.X
-            / ((float)scrollable.ContentBounds.Width - (float)scrollable.Width);
+        return (float)viewPort.X / ((float)scrollable.ContentBounds.Width - (float)scrollable.Width);
     }
 
     static float GetScrolledPercentY(Rectangle viewPort, IScrollable scrollable)
     {
         if (viewPort.Y == 0 || scrollable.ContentBounds.Height <= scrollable.Height)
             return 0.0f;
-        return (float)viewPort.Y
-            / ((float)scrollable.ContentBounds.Height - (float)scrollable.Height);
+        return (float)viewPort.Y / ((float)scrollable.ContentBounds.Height - (float)scrollable.Height);
     }
 
-    internal static void Scroll(
-        Orientation orientation,
-        int amount,
-        IScrollable scrollable,
-        ref Rectangle viewPort
-    )
+    internal static void Scroll(Orientation orientation, int amount, IScrollable scrollable, ref Rectangle viewPort)
     {
         if (orientation == Orientation.Vertical)
         {
@@ -57,67 +50,37 @@ static class ScrollableHelpers
     {
         if (scrollable.Scrollable == ScrollableMode.None)
             return;
-        if (
-            scrollable.ContentBounds.Width <= scrollable.Width
-            && scrollable.ContentBounds.Height <= scrollable.Height
-        )
+        if (scrollable.ContentBounds.Width <= scrollable.Width && scrollable.ContentBounds.Height <= scrollable.Height)
             return;
-        if (
-            scrollable.Scrollable == ScrollableMode.Vertical
-            && scrollable.ContentBounds.Height <= scrollable.Height
-        )
+        if (scrollable.Scrollable == ScrollableMode.Vertical && scrollable.ContentBounds.Height <= scrollable.Height)
             return;
-        if (
-            scrollable.Scrollable == ScrollableMode.Horizontal
-            && scrollable.ContentBounds.Width <= scrollable.Width
-        )
+        if (scrollable.Scrollable == ScrollableMode.Horizontal && scrollable.ContentBounds.Width <= scrollable.Width)
             return;
         const int barThickness = 20;
         const int barSizeK = 5;
         ColorRgba barColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor;
-        barColor.A = 0.2f;
+        barColor = new ColorRgba(barColor.R, barColor.G, barColor.B, 0.2f);
         if (scrollable.Scrollable == ScrollableMode.None)
             return;
         var viewPort = scrollable.Viewport;
         var clientBounds = scrollable.GetClientBounds();
         var offsetX = clientBounds.X;
         var offsetY = clientBounds.Y;
-        g.SetClip(
-            new Rectangle(clientBounds.X, clientBounds.Y, clientBounds.Width, clientBounds.Height),
-            0
-        );
+        g.SetClip(new Rectangle(clientBounds.X, clientBounds.Y, clientBounds.Width, clientBounds.Height), 0);
         g.SetOffset(offsetX, offsetY);
         var scrolledPercentX = GetScrolledPercentX(viewPort, scrollable);
         var scrolledPercentY = GetScrolledPercentY(viewPort, scrollable);
-        if (
-            scrollable.Scrollable == ScrollableMode.Horizontal
-            || scrollable.Scrollable == ScrollableMode.Both
-        )
+        if (scrollable.Scrollable == ScrollableMode.Horizontal || scrollable.Scrollable == ScrollableMode.Both)
         {
             var barWidth = scrollable.Width / barSizeK;
             var barX = (scrolledPercentX * (scrollable.Width - barWidth));
-            g.FillRectangle(
-                (int)barX,
-                scrollable.Height - barThickness,
-                barWidth,
-                barThickness,
-                barColor
-            );
+            g.FillRectangle((int)barX, scrollable.Height - barThickness, barWidth, barThickness, barColor);
         }
-        if (
-            scrollable.Scrollable == ScrollableMode.Vertical
-            || scrollable.Scrollable == ScrollableMode.Both
-        )
+        if (scrollable.Scrollable == ScrollableMode.Vertical || scrollable.Scrollable == ScrollableMode.Both)
         {
             var barHeight = scrollable.Height / barSizeK;
             var barY = (scrolledPercentY * (scrollable.Height - barHeight));
-            g.FillRectangle(
-                scrollable.Width - barThickness,
-                (int)barY,
-                barThickness,
-                barHeight,
-                barColor
-            );
+            g.FillRectangle(scrollable.Width - barThickness, (int)barY, barThickness, barHeight, barColor);
         }
     }
 }

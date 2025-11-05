@@ -56,6 +56,6 @@ class ApplicationLoop : IApplicationLoop
         _cts.Cancel();
         _cts.Dispose();
         var ih = Services.GetSingleton<IInputHandler>() as InputHandler; // Unsafe but should be fine
-        ih.StopListening();
+        ih?.StopListening();
     }
 }

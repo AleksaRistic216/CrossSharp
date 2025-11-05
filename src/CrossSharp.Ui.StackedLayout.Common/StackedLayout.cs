@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Drawing;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
@@ -22,10 +23,7 @@ partial class StackedLayout : IStackedLayout
     {
         CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
-        Padding =
-            Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
-                ? new Padding(8, 4)
-                : new Padding(0);
+        Padding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
         foreach (var control in _controls)
             control.PerformTheme();
     }
@@ -89,9 +87,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackHorizontal()
     {
         var currentX = Padding.Left;
-        foreach (
-            var c in Enumerable.Where<IControl>(_controls, x => x.Visible).OrderBy(x => x.Index)
-        )
+        foreach (var c in Enumerable.Where<IControl>(_controls, x => x.Visible).OrderBy(x => x.Index))
         {
             currentX += c.MarginLeft;
             c.Location = new Point(currentX, Padding.Top + c.MarginTop);

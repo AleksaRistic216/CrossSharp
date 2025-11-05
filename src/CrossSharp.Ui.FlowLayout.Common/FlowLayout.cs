@@ -12,7 +12,7 @@ partial class FlowLayout : IFlowLayout
 {
     readonly List<IControl> _controls = [];
 
-    public FlowLayout()
+    protected FlowLayout()
     {
         _inputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputHandlerEvents();

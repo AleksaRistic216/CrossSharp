@@ -4,8 +4,8 @@ namespace CrossSharp.Utils;
 
 public static class MainThreadDispatcher
 {
-    private static readonly ConcurrentQueue<Action> _queue = new();
-    private static int _mainThreadId;
+    static readonly ConcurrentQueue<Action> _queue = new();
+    static int _mainThreadId;
 
     internal static void Initialize()
     {
@@ -27,15 +27,6 @@ public static class MainThreadDispatcher
         else
         {
             _queue.Enqueue(action);
-            return;
-            // Commented out bellow, I think I do not need it
-            var done = new ManualResetEvent(false);
-            _queue.Enqueue(() =>
-            {
-                action();
-                done.Set();
-                done.WaitOne();
-            });
         }
     }
 
@@ -44,7 +35,7 @@ public static class MainThreadDispatcher
         if (Environment.CurrentManagedThreadId == _mainThreadId)
             return func();
 
-        T result = default!;
+        T result = default(T)!;
         var done = new ManualResetEvent(false);
         _queue.Enqueue(() =>
         {

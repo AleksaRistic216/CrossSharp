@@ -67,7 +67,7 @@ partial class StackedLayout
         }
     }
     public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
+    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
     public Point Location { get; set; }
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public bool IsMouseOver { get; set; }
@@ -77,9 +77,7 @@ partial class StackedLayout
     {
         get
         {
-            return Scrollable == ScrollableMode.None
-                ? new Rectangle(Location.X, Location.Y, Width, Height)
-                : _viewPort;
+            return Scrollable == ScrollableMode.None ? new Rectangle(Location.X, Location.Y, Width, Height) : _viewPort;
         }
         set
         {

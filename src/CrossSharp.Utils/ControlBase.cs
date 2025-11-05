@@ -15,7 +15,7 @@ public abstract partial class ControlBase : IControl
     }
 
     public int Index { get; set; }
-    public object Parent { get; set; }
+    public object? Parent { get; set; }
     public abstract void Initialize();
 
     public abstract void PerformTheme();
@@ -45,10 +45,6 @@ public abstract partial class ControlBase : IControl
     public virtual void DrawBackground(ref IGraphics g)
     {
         var color = this.GetBackgroundColor();
-        if (color is null)
-        {
-            ;
-        }
         g.FillRectangle(0, 0, Width, Height, color);
     }
 
@@ -75,10 +71,7 @@ public abstract partial class ControlBase : IControl
         var offsetX = clientBounds.X;
         var offsetY = clientBounds.Y;
 
-        if (
-            Parent is IScrollable scrollableParent
-            && scrollableParent.Scrollable != ScrollableMode.None
-        )
+        if (Parent is IScrollable scrollableParent && scrollableParent.Scrollable != ScrollableMode.None)
         {
             offsetX -= scrollableParent.Viewport.X;
             offsetY -= scrollableParent.Viewport.Y;

@@ -11,25 +11,25 @@ namespace CrossSharp.Ui.Common;
 
 public class FilesPicker : Form, IFilesPicker
 {
-    StackedLayout _leftRow;
-    StackedLayout _rightRow;
-    StackedLayout _actionBar;
-    StackedLayout _contentsList;
-    Input _locationInput;
+    StackedLayout _leftRow = null!;
+    StackedLayout _rightRow = null!;
+    StackedLayout _actionBar = null!;
+    StackedLayout _contentsList = null!;
+    Input _locationInput = null!;
     ITheme Theme => Services.GetSingleton<ITheme>();
-    string _currentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+    readonly string _currentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-    const int _leftRowWidth = 150;
-    const int _blockHeight = 40;
+    const int LEFT_ROW_WIDTH = 150;
+    const int BLOCK_HEIGHT = 40;
 
-    public EventHandler<FilesSelectedEventArgs> FilesSelected { get; set; }
+    public EventHandler<FilesSelectedEventArgs>? FilesSelected { get; set; }
 
-    public FilesPicker()
+    protected FilesPicker()
     {
         Initialize();
     }
 
-    public void Initialize()
+    void Initialize()
     {
         InitializeLeftRow();
         InitializeRightRow();
@@ -41,7 +41,7 @@ public class FilesPicker : Form, IFilesPicker
         _leftRow = new StackedLayout();
         _leftRow.Dock = DockStyle.Left;
         _leftRow.BackgroundColor = Theme.BackgroundColor.Darkened;
-        _leftRow.Width = _leftRowWidth;
+        _leftRow.Width = LEFT_ROW_WIDTH;
         _leftRow.DockIndex = 0;
         Controls.Add(_leftRow);
 
@@ -60,7 +60,7 @@ public class FilesPicker : Form, IFilesPicker
         rootButton.Text = "Root (/)";
         rootButton.TextAlignment = Alignment.Left;
         rootButton.CornerRadius = 0;
-        rootButton.Height = _blockHeight;
+        rootButton.Height = BLOCK_HEIGHT;
         rootButton.Tag = "/";
         rootButton.Click = OnLocationButtonClicked;
         _leftRow.Add(rootButton);
@@ -72,7 +72,7 @@ public class FilesPicker : Form, IFilesPicker
         homeButton.Text = "Home (~)";
         homeButton.TextAlignment = Alignment.Left;
         homeButton.CornerRadius = 0;
-        homeButton.Height = _blockHeight;
+        homeButton.Height = BLOCK_HEIGHT;
         homeButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         homeButton.Click = OnLocationButtonClicked;
         _leftRow.Add(homeButton);
@@ -84,7 +84,7 @@ public class FilesPicker : Form, IFilesPicker
         documentsButton.Text = "Documents";
         documentsButton.TextAlignment = Alignment.Left;
         documentsButton.CornerRadius = 0;
-        documentsButton.Height = _blockHeight;
+        documentsButton.Height = BLOCK_HEIGHT;
         documentsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         documentsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(documentsButton);
@@ -96,7 +96,7 @@ public class FilesPicker : Form, IFilesPicker
         musicButton.Text = "Music";
         musicButton.TextAlignment = Alignment.Left;
         musicButton.CornerRadius = 0;
-        musicButton.Height = _blockHeight;
+        musicButton.Height = BLOCK_HEIGHT;
         musicButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         musicButton.Click = OnLocationButtonClicked;
         _leftRow.Add(musicButton);
@@ -108,7 +108,7 @@ public class FilesPicker : Form, IFilesPicker
         picturesButton.Text = "Pictures";
         picturesButton.TextAlignment = Alignment.Left;
         picturesButton.CornerRadius = 0;
-        picturesButton.Height = _blockHeight;
+        picturesButton.Height = BLOCK_HEIGHT;
         picturesButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         picturesButton.Click = OnLocationButtonClicked;
         _leftRow.Add(picturesButton);
@@ -120,7 +120,7 @@ public class FilesPicker : Form, IFilesPicker
         videosButton.Text = "Videos";
         videosButton.TextAlignment = Alignment.Left;
         videosButton.CornerRadius = 0;
-        videosButton.Height = _blockHeight;
+        videosButton.Height = BLOCK_HEIGHT;
         videosButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         videosButton.Click = OnLocationButtonClicked;
         _leftRow.Add(videosButton);
@@ -132,9 +132,8 @@ public class FilesPicker : Form, IFilesPicker
         downloadsButton.Text = "Downloads";
         downloadsButton.TextAlignment = Alignment.Left;
         downloadsButton.CornerRadius = 0;
-        downloadsButton.Height = _blockHeight;
-        downloadsButton.Tag =
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
+        downloadsButton.Height = BLOCK_HEIGHT;
+        downloadsButton.Tag = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Downloads";
         downloadsButton.Click = OnLocationButtonClicked;
         _leftRow.Add(downloadsButton);
     }
@@ -153,7 +152,7 @@ public class FilesPicker : Form, IFilesPicker
     void InitializeActionBar()
     {
         _actionBar = new StackedLayout();
-        _actionBar.Height = _blockHeight;
+        _actionBar.Height = BLOCK_HEIGHT;
         _actionBar.Dock = DockStyle.Top;
         _actionBar.DockIndex = 0;
         _actionBar.Orientation = Orientation.Horizontal;
@@ -165,7 +164,7 @@ public class FilesPicker : Form, IFilesPicker
     {
         _locationInput = new Input();
         _locationInput.Dock = DockStyle.Fill;
-        _locationInput.Height = _blockHeight;
+        _locationInput.Height = BLOCK_HEIGHT;
         _locationInput.CornerRadius = 16;
         _locationInput.BorderWidth = 2;
         _locationInput.SetMargin(4);
@@ -226,12 +225,10 @@ public class FilesPicker : Form, IFilesPicker
                 entryButton.Tag = entry;
                 entryButton.TextAlignment = Alignment.Left;
                 entryButton.CornerRadius = 0;
-                entryButton.Height = _blockHeight;
-                entryButton.BackgroundColor = isDir
-                    ? ColorRgba.Orange.Darkened
-                    : Theme.BackgroundColor;
+                entryButton.Height = BLOCK_HEIGHT;
+                entryButton.BackgroundColor = isDir ? ColorRgba.Orange.Darkened : Theme.BackgroundColor;
                 entryButton.Style = RenderStyle.Contained;
-                entryButton.Click = (s, e) =>
+                entryButton.Click = (s, _) =>
                 {
                     var tag = (s as IButton)?.Tag as string;
                     if (entriesList[tag!] == 0)

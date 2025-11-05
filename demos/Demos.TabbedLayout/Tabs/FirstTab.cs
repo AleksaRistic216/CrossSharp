@@ -8,7 +8,7 @@ namespace Demos.TabbedLayout.Tabs;
 public class FirstTab : StackedLayout, ITabbedLayoutTab
 {
     ITheme Theme => Services.GetSingleton<ITheme>();
-    IStackedLayout _navigationMenu;
+    IStackedLayout _navigationMenu = null!;
 
     public FirstTab()
     {

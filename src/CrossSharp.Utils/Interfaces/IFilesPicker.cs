@@ -6,5 +6,5 @@ public interface IFilesPicker : IControl
 {
     void Show();
     void Close();
-    EventHandler<FilesSelectedEventArgs> FilesSelected { get; set; }
+    EventHandler<FilesSelectedEventArgs>? FilesSelected { get; set; }
 }

@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Drawing;
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
@@ -16,7 +14,7 @@ partial class TabbedLayout : ITabbedLayout
         Initialize();
     }
 
-    public void Initialize()
+    void Initialize()
     {
         InitializeContent();
         InitializeHeader();
@@ -50,10 +48,7 @@ partial class TabbedLayout : ITabbedLayout
     {
         BackgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
         HeaderItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
-        HeaderPadding =
-            Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
-                ? new Padding(8, 4)
-                : new Padding(0);
+        HeaderPadding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
     }
 
     public void Invalidate()
@@ -87,10 +82,7 @@ partial class TabbedLayout : ITabbedLayout
     public void AddTab(string title, Type content)
     {
         if (!typeof(ITabbedLayoutTab).IsAssignableFrom(content))
-            throw new ArgumentException(
-                "Content type must implement ITabbedLayoutTab interface.",
-                nameof(content)
-            );
+            throw new ArgumentException("Content type must implement ITabbedLayoutTab interface.", nameof(content));
 
         IButton tabButton = new Button();
         tabButton.Text = title;

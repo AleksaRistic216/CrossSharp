@@ -7,6 +7,7 @@ using Rectangle = System.Drawing.Rectangle;
 
 namespace CrossSharp.Ui.Common;
 
+// ReSharper disable once InconsistentNaming
 partial class FormSDL : IFormSDL
 {
     internal FormSDL()
@@ -47,7 +48,7 @@ partial class FormSDL : IFormSDL
 
     void Initialize()
     {
-        Handle = FormSDL.CreateWindow(Title ?? "CrossSharp Application", Width, Height);
+        Handle = CreateWindow(Title, Width, Height);
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
         CreateRenderer();
@@ -94,18 +95,18 @@ partial class FormSDL : IFormSDL
 
     public void ResumeLayout() { }
 
-    public virtual void DrawShadows(ref IGraphics g) { }
+    protected virtual void DrawShadows(ref IGraphics g) { }
 
-    public virtual void DrawBackground(ref IGraphics g)
+    protected virtual void DrawBackground(ref IGraphics g)
     {
         g.FillRectangle(0, 0, Width, Height, BackgroundColor);
     }
 
-    public virtual void DrawBorders(ref IGraphics g) { }
+    protected virtual void DrawBorders(ref IGraphics g) { }
 
-    public virtual void DrawContent(ref IGraphics g)
+    protected virtual void DrawContent(ref IGraphics g)
     {
-        foreach (var control in Enumerable.ToArray<IControl>(Controls))
+        foreach (var control in Controls.ToArray())
         {
             g.SetOffset(control.Location.X, control.Location.Y);
             control.Draw(ref g);

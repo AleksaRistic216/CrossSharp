@@ -22,8 +22,8 @@ partial class FormSDL
             return _windowId;
         }
     }
-    public IControlsContainer Controls { get; private set; }
-    public ColorRgba BackgroundColor { get; set; }
+    public IControlsContainer Controls { get; private set; } = null!;
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public int Column { get; set; }
     public int Row { get; set; }
     public IntPtr DisplayHandle { get; set; }
@@ -40,12 +40,11 @@ partial class FormSDL
             OnTitleChangedInternal();
         }
     }
-    public IApplication AppInstance { get; }
     public WindowState State { get; set; }
     public IntPtr ParentHandle { get; set; }
-    public object Parent { get; set; }
+    public object? Parent { get; set; }
     public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; }
+    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
     public Point Location { get; set; }
     int _width = 800;
     public int Width

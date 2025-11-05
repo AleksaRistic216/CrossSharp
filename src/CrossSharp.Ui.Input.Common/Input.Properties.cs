@@ -9,9 +9,9 @@ namespace CrossSharp.Ui.Common;
 partial class Input
 {
     DateTime _lastCaretStateUpdate = DateTime.MinValue;
-    int _lineGap = 4;
+    const int LINE_GAP = 4;
     bool _caretVisible = false;
-    ColorRgba _backgroundColor;
+    ColorRgba _backgroundColor = ColorRgba.Transparent;
     public ColorRgba BackgroundColor
     {
         get => _backgroundColor;
@@ -41,7 +41,7 @@ partial class Input
         }
     }
     public int CornerRadius { get; set; }
-    int LineHeight => MultiLine ? FontSize + _lineGap : Height - _lineGap - BorderWidth * 2;
+    int LineHeight => MultiLine ? FontSize + LINE_GAP : Height - LINE_GAP - BorderWidth * 2;
     bool _multiLine;
     public bool MultiLine
     {
@@ -70,7 +70,6 @@ partial class Input
         }
     }
 
-    bool _isFocused = false;
     public bool IsFocused { get; set; }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }

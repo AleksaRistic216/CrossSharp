@@ -3,12 +3,10 @@ using Xunit;
 
 namespace Tests.Utils;
 
+// ReSharper disable once InconsistentNaming
 public class DITests
 {
-    class AddSingletonTestService
-    {
-        internal int Value;
-    }
+    class AddSingletonTestService;
 
     [Fact]
     public void AddSingletonTest()
@@ -41,10 +39,7 @@ public class DITests
         Assert.Equal(value, service.Value);
     }
 
-    class IsRegisteredTrueTestService
-    {
-        internal int Value;
-    }
+    class IsRegisteredTrueTestService;
 
     [Fact]
     public void IsRegisteredTrueTest()
@@ -53,10 +48,8 @@ public class DITests
         Assert.True(Services.IsRegistered<IsRegisteredTrueTestService>());
     }
 
-    class IsRegisteredFalseTestService
-    {
-        internal int Value;
-    }
+    // ReSharper disable once ClassNeverInstantiated.Local
+    class IsRegisteredFalseTestService;
 
     [Fact]
     public void IsRegisteredFalseTest()

@@ -7,9 +7,9 @@ namespace CrossSharp.Ui.Common;
 partial class Accordion
 {
     ITheme Theme => Services.GetSingleton<ITheme>();
-    IStackedLayout _headerArea;
-    IStackedLayout _itemsArea;
-    IButton _hamburgButton;
+    IStackedLayout _headerArea = null!;
+    IStackedLayout _itemsArea = null!;
+    IButton _hamburgButton = null!;
     int _lastWidth;
     int _lastHeight;
     Orientation _accordionOrientation = Orientation.Vertical;
@@ -30,6 +30,4 @@ partial class Accordion
             OnStateChanged();
         }
     }
-
-    public int CornerRadius { get; set; } = 8;
 }
