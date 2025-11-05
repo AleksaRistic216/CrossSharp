@@ -1,3 +1,3 @@
 namespace CrossSharp.Themes;
 
-public class DefaultTheme : RoundedSpacedLightTheme;
+public class DefaultTheme : RoundedSpacedLimitlessSoftTheme;
