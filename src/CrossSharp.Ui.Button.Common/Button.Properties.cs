@@ -34,7 +34,7 @@ partial class Button
             OnTagChangedInternal();
         }
     }
-    public ColorRgba BackgroundColor { get; set; }
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
 
     public RenderStyle Style { get; set; }
 

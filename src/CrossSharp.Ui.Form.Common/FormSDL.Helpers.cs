@@ -1,4 +1,5 @@
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
 
@@ -6,10 +7,8 @@ namespace CrossSharp.Ui.Common;
 
 partial class FormSDL
 {
-    static IntPtr CreateWindow(string title, int width, int height)
-    {
-        return CreateWindowCore(title, width, height); // Idea is to somehow handle creation from different thread
-    }
+    static IntPtr CreateWindow(string title, int width, int height) =>
+        CreateWindowCore(title, width, height); // Idea is to somehow handle creation from different thread
 
     static IntPtr CreateWindowCore(string title, int width, int height)
     {
@@ -17,6 +16,9 @@ partial class FormSDL
         uint flags = SDLWindowFlags.HIDDEN | SDLWindowFlags.RESIZABLE;
         if (appConfig.HighDpi)
             flags |= SDLWindowFlags.ALLOW_HIGHDPI;
+
+        if (Services.GetSingleton<IApplicationConfiguration>().FormsStyle is FormStyle.CrossSharp)
+            flags |= SDLWindowFlags.BORDERLESS;
 
         // Set to OPENGL, later can be changed to VULKAN or METAL or DIRECT3D based on configuration and platform
         flags |= SDLWindowFlags.OPENGL;

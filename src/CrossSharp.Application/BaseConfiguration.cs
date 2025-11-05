@@ -1,9 +1,11 @@
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Application;
 
 public class BaseConfiguration : IApplicationConfiguration
 {
+    public FormStyle FormsStyle { get; set; } = FormStyle.Native;
     public bool HighDpi { get; set; }
     public required string ApplicationName { get; set; }
     public required string CompanyName { get; set; }

@@ -31,8 +31,12 @@ public class MainForm : Form
 
     void FilesPicker_Disposing(object? sender, EventArgs e)
     {
-        filesPicker!.FilesSelected -= FilesPicker_OnFileSelected;
-        filesPicker!.Disposing -= FilesPicker_Disposing;
+        if (filesPicker is null)
+            return;
+#pragma warning disable CS8601 // Possible null reference assignment.
+        filesPicker.FilesSelected -= FilesPicker_OnFileSelected;
+#pragma warning restore CS8601 // Possible null reference assignment.
+        filesPicker.Disposing -= FilesPicker_Disposing;
         filesPicker = null;
     }
 }
