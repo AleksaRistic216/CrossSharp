@@ -19,16 +19,14 @@ partial class Button : ControlBase, IButton
 
     public override void Invalidate()
     {
+        this.PerformDocking();
         InvalidateSize();
         InvalidateImage();
         CalcTextBounds();
         CalcImageBounds();
         if (BorderWidth == 0 && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderWidth = 2;
-        if (
-            Equals(BorderColor, ColorRgba.Transparent)
-            && this.GetRenderStyle() == RenderStyle.Outlined
-        )
+        if (Equals(BorderColor, ColorRgba.Transparent) && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderColor = BackgroundColor;
     }
 
@@ -54,9 +52,7 @@ partial class Button : ControlBase, IButton
         int scaleToFitSize = Height < Width ? Height - _padding : Width - _padding;
         if (scaleToFitSize < 2)
             return;
-        scaleToFitSize = (int)(
-            scaleToFitSize * (Height < Width ? ImageScale.Height : ImageScale.Width)
-        );
+        scaleToFitSize = (int)(scaleToFitSize * (Height < Width ? ImageScale.Height : ImageScale.Width));
         if (scaleToFitSize < 2)
             return;
         _scaledToFitImage = Image?.ScaledToFit(scaleToFitSize);
@@ -90,12 +86,7 @@ partial class Button : ControlBase, IButton
                 textSize.Width,
                 textSize.Height
             ),
-            Alignment.Left => new Rectangle(
-                _padding,
-                (Height - textSize.Height) / 2,
-                textSize.Width,
-                textSize.Height
-            ),
+            Alignment.Left => new Rectangle(_padding, (Height - textSize.Height) / 2, textSize.Width, textSize.Height),
             Alignment.Right => new Rectangle(
                 Width - textSize.Width - _padding,
                 (Height - textSize.Height) / 2,
@@ -130,9 +121,7 @@ partial class Button : ControlBase, IButton
         {
             imageX = ImagePlacement switch
             {
-                ButtonImagePlacement.BeforeText => _textBounds.Value.X
-                    - _scaledToFitImage.Size.Width
-                    - _padding,
+                ButtonImagePlacement.BeforeText => _textBounds.Value.X - _scaledToFitImage.Size.Width - _padding,
                 ButtonImagePlacement.AfterText => _textBounds.Value.Right + _padding,
                 _ => (Width - _scaledToFitImage.Size.Width) / 2,
             };
@@ -147,12 +136,7 @@ partial class Button : ControlBase, IButton
                 _ => throw new ArgumentOutOfRangeException(),
             };
         }
-        _imageBounds = new Rectangle(
-            imageX,
-            imageY,
-            _scaledToFitImage.Size.Width,
-            _scaledToFitImage.Size.Height
-        );
+        _imageBounds = new Rectangle(imageX, imageY, _scaledToFitImage.Size.Width, _scaledToFitImage.Size.Height);
     }
 
     string GetTextToRender()
@@ -176,9 +160,7 @@ partial class Button : ControlBase, IButton
                 _textBounds.Value.Y,
                 Theme.DefaultFontFamily,
                 Theme.DefaultFontSize,
-                Equals(ForegroundColor, ColorRgba.Transparent)
-                    ? this.GetBackgroundColor().Contrasted
-                    : ForegroundColor
+                Equals(ForegroundColor, ColorRgba.Transparent) ? this.GetBackgroundColor().Contrasted : ForegroundColor
             );
         if (Image != null && _imageBounds.HasValue)
             g.DrawImage(Image.Data, _imageBounds.Value);

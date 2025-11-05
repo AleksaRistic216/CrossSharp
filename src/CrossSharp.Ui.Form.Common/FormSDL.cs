@@ -1,5 +1,4 @@
 using System.Drawing;
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
@@ -48,11 +47,23 @@ partial class FormSDL : IFormSDL
         Height = h;
     }
 
+    public void RecordState()
+    {
+        var state = SDLHelpers.SDL_GetWindowFlags(Handle);
+        if ((state & SDLWindowFlags.MINIMIZED) != 0 || (state & SDLWindowFlags.HIDDEN) != 0)
+            State = WindowState.Minimized;
+        else if ((state & SDLWindowFlags.MAXIMIZED) != 0)
+            State = WindowState.Maximized;
+        else
+            State = WindowState.Normal;
+    }
+
     void Initialize()
     {
         Handle = CreateWindow(Title, Width, Height);
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
+        ((IFormSDL)this).RecordState();
         CreateRenderer();
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
@@ -84,6 +95,7 @@ partial class FormSDL : IFormSDL
             return;
         _titleBar ??= new FormSDLTitleBar(this);
         Controls.Location = new Point(0, _titleBar.Height);
+        _titleBar.Invalidate();
     }
 
     void InvalidateTitle()
@@ -149,11 +161,20 @@ partial class FormSDL : IFormSDL
         Dispose();
     }
 
-    public void Minimize() { }
+    public void Minimize()
+    {
+        SDLHelpers.SDL_MinimizeWindow(Handle);
+    }
 
-    public void Maximize() { }
+    public void Maximize()
+    {
+        SDLHelpers.SDL_MaximizeWindow(Handle);
+    }
 
-    public void Restore() { }
+    public void Restore()
+    {
+        SDLHelpers.SDL_RestoreWindow(Handle);
+    }
 
     public void Dispose() => OnDisposingInternal();
 

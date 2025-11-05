@@ -40,7 +40,18 @@ partial class FormSDL
             OnTitleChangedInternal();
         }
     }
-    public WindowState State { get; set; }
+    WindowState _state = WindowState.Normal;
+    public WindowState State
+    {
+        get => _state;
+        set
+        {
+            if (_state == value)
+                return;
+            _state = value;
+            OnStateChanged();
+        }
+    }
     public IntPtr ParentHandle { get; set; }
     public object? Parent { get; set; }
     public int BorderWidth { get; set; }

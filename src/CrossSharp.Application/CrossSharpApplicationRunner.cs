@@ -38,6 +38,7 @@ static class CrossSharpApplicationRunner
                         continue;
                     f.RecordLocation();
                     f.RecordSize();
+                    f.RecordState();
                     f.Redraw();
                 }
                 Services.GetSingleton<IApplication>().Tick?.Invoke(null, EventArgs.Empty);

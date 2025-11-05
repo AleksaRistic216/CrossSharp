@@ -10,6 +10,12 @@ partial class FormSDL
     public EventHandler<Point>? LocationChanged { get; set; }
     public EventHandler? Shown { get; set; }
     public EventHandler? OnClose { get; set; }
+    public EventHandler? StateChanged { get; set; }
+
+    void RaiseStateChanged() => StateChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnStateChanged() => RaiseStateChanged();
+
     public EventHandler? BackgroundColorChanged { get; set; }
 
     public EventHandler<Size>? SizeChanged { get; set; }

@@ -6,9 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-public class Button()
-    : CrossControl<IButton>(Services.GetSingleton<IButtonFactory>().Create()),
-        IButton
+public class Button() : CrossControl<IButton>(Services.GetSingleton<IButtonFactory>().Create()), IButton
 {
     public EventHandler? Click
     {
@@ -127,5 +125,15 @@ public class Button()
     {
         get => Implementation.CornerRadius;
         set => Implementation.CornerRadius = value;
+    }
+    public int DockIndex
+    {
+        get => Implementation.DockIndex;
+        set => Implementation.DockIndex = value;
+    }
+    public DockStyle Dock
+    {
+        get => Implementation.Dock;
+        set => Implementation.Dock = value;
     }
 }

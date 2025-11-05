@@ -10,6 +10,9 @@ sealed partial class FormSDLTitleBar
     IInputHandler InputHandler => Services.GetSingleton<IInputHandler>();
     IForm Form => (IForm)Parent!;
 
+    IButton _closeButton;
+    IButton _minimizeButton;
+    IButton _maximizeRestoreButton = null!;
     CancellationTokenSource? _formDragCancellationTokenSource;
 
     // ReSharper disable once NotAccessedField.Local

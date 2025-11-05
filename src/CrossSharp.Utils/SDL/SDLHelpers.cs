@@ -46,6 +46,15 @@ static class SDLHelpers
     internal static extern void SDL_DestroyWindow(IntPtr window);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_MinimizeWindow(IntPtr window);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_MaximizeWindow(IntPtr window);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_RestoreWindow(IntPtr window);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_DestroyRenderer(IntPtr renderer);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]

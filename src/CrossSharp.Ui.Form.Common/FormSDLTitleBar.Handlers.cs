@@ -16,7 +16,12 @@ sealed partial class FormSDLTitleBar
 
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
-        _mouseDownMousePosition = new Point(e.X, e.Y);
+        if (!IsMouseOver)
+            return;
+        var mousePoint = new Point(e.X, e.Y);
+        if (!IsWithinDraggableBounds(mousePoint))
+            return;
+        _mouseDownMousePosition = mousePoint;
         _mouseDownFormPosition = Form.Location;
         StartMovingForm();
     }
@@ -24,6 +29,9 @@ sealed partial class FormSDLTitleBar
     void OnMouseDragged(object? sender, MouseInputArgs e)
     {
         if (!IsMouseOver || _mouseDownMousePosition is null || _mouseDownFormPosition is null)
+            return;
+        var mousePoint = new Point(e.X, e.Y);
+        if (!IsWithinDraggableBounds(mousePoint))
             return;
         var dx = e.X - _mouseDownMousePosition.Value.X;
         var dy = e.Y - _mouseDownMousePosition.Value.Y;

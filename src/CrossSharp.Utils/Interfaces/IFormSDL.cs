@@ -6,4 +6,5 @@ interface IFormSDL : IForm
     IntPtr Renderer { get; }
     void RecordLocation();
     void RecordSize();
+    void RecordState();
 }

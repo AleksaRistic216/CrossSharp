@@ -97,4 +97,6 @@ partial class Button
     public int? MinHeight { get; set; }
     public bool IsSelected { get; set; }
     public int CornerRadius { get; set; }
+    public int DockIndex { get; set; }
+    public DockStyle Dock { get; set; }
 }

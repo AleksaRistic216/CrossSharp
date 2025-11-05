@@ -12,7 +12,8 @@ public interface IButton
         IAutoSize,
         ISelectable,
         IRoundedCorners,
-        IAccordionItem
+        IAccordionItem,
+        IDockable
 {
     SizeF ImageScale { get; set; }
     EventHandler? OnImageScaleChange { get; set; }

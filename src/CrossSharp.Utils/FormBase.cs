@@ -90,6 +90,11 @@ public abstract class FormBase<T> : IForm
         get => Implementation.State;
         set { Implementation.State = value; }
     }
+    public EventHandler? StateChanged
+    {
+        get => Implementation.StateChanged;
+        set { Implementation.StateChanged = value; }
+    }
 
     public void Move(Point location) => Implementation.Move(location);
 
