@@ -68,16 +68,17 @@ public static class ControlsHelpers
         if (control.Parent is not IControlsContainer parent)
             return;
         var parentBounds = new Rectangle(Point.Empty, parent.Size);
+        parentBounds.Height -= parent.Location.Y; // This may break something but not sure at the moment
+        // parentBounds.Width -= parent.Location.X; // Had to remove it
         HashSet<int> recordedDockIndexes = [];
         foreach (var sibling in parent.Where(x => x.Visible))
         {
             if (sibling is not IDockable dockedSibling || dockedSibling.Dock == DockStyle.None)
                 continue;
-            if (recordedDockIndexes.Contains(dockedSibling.DockIndex))
+            if (!recordedDockIndexes.Add(dockedSibling.DockIndex))
                 throw new Exception(
                     "Duplicate DockIndex detected within the same container. Each docked control must have a unique DockIndex."
                 );
-            recordedDockIndexes.Add(dockedSibling.DockIndex);
             if (Equals(sibling, control))
                 continue;
             if (dockedSibling.DockIndex > control.DockIndex)
@@ -141,10 +142,7 @@ public static class ControlsHelpers
                 control.Width = parentBounds.Width;
                 break;
             case DockStyle.Bottom:
-                control.Location = new Point(
-                    parentBounds.X,
-                    parentBounds.Y + parentBounds.Height - control.Height
-                );
+                control.Location = new Point(parentBounds.X, parentBounds.Y + parentBounds.Height - control.Height);
                 control.Width = parentBounds.Width;
                 break;
             case DockStyle.Left:
@@ -152,10 +150,7 @@ public static class ControlsHelpers
                 control.Height = parentBounds.Height;
                 break;
             case DockStyle.Right:
-                control.Location = new Point(
-                    parentBounds.X + parentBounds.Width - control.Width,
-                    parentBounds.Y
-                );
+                control.Location = new Point(parentBounds.X + parentBounds.Width - control.Width, parentBounds.Y);
                 control.Height = parentBounds.Height;
                 break;
             case DockStyle.Fill:

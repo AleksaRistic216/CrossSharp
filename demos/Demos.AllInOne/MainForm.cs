@@ -2,4 +2,15 @@ using CrossSharp.Ui;
 
 namespace Demos.AllInOne;
 
-public class MainForm : Form { }
+public partial class MainForm : Form
+{
+    public MainForm()
+    {
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        InitializeSideMenu();
+    }
+}
