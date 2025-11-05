@@ -60,7 +60,7 @@ partial class FormSDL : IFormSDL
 
     void Initialize()
     {
-        Handle = CreateWindow(Title, Width, Height);
+        Handle = CreateWindow(Title, Width, Height + (_titleBar?.Height ?? 0));
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
         ((IFormSDL)this).RecordState();
@@ -147,7 +147,8 @@ partial class FormSDL : IFormSDL
 
     public void Draw(ref IGraphics graphics)
     {
-        graphics.SetClip(new Rectangle(0, 0, Width, Height), 0);
+        graphics.SetClip(new Rectangle(0, 0, Width, Height + (_titleBar?.Height ?? 0)), 0);
+        graphics.SetOffset(0, _titleBar?.Height ?? 0);
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);
