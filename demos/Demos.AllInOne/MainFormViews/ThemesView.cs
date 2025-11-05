@@ -7,7 +7,7 @@ public class ThemesView : StackedLayout
 {
     const int LABEL_HEIGHT = 24;
 
-    public override void Initialize()
+    public ThemesView()
     {
         Dock = DockStyle.Fill;
         var label1 = new Label();

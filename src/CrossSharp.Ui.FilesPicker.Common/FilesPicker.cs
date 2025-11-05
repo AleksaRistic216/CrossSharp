@@ -9,7 +9,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
 
-public class FilesPicker : Form, IFilesPicker
+class FilesPicker : Form, IFilesPicker
 {
     StackedLayout _leftRow = null!;
     StackedLayout _rightRow = null!;
@@ -24,7 +24,7 @@ public class FilesPicker : Form, IFilesPicker
 
     public EventHandler<FilesSelectedEventArgs>? FilesSelected { get; set; }
 
-    public override void Initialize()
+    internal FilesPicker()
     {
         InitializeLeftRow();
         InitializeRightRow();

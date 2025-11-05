@@ -8,8 +8,7 @@ class Application : IApplication
 {
     bool _developersMode;
     IForm? _mainForm;
-    public IForm MainForm =>
-        _mainForm ?? throw new InvalidOperationException("Application not started");
+    public IForm MainForm => _mainForm ?? throw new InvalidOperationException("Application not started");
     public Type? MainFormType { get; set; }
     public IntPtr MainWindowHandle { get; set; }
     public bool DevelopersMode
@@ -37,6 +36,8 @@ class Application : IApplication
         if (MainFormType is null)
             throw new NullReferenceException(nameof(MainFormType));
         _mainForm = (IForm)Activator.CreateInstance(MainFormType)!;
+        _mainForm.PerformTheme();
+        _mainForm.Invalidate();
         _mainForm.OnClose += OnMainFormClose;
         _mainForm.Show();
     }

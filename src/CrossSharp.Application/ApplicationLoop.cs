@@ -16,10 +16,10 @@ class ApplicationLoop : IApplicationLoop
         switch (PlatformHelpers.GetCurrentPlatform())
         {
             case CrossPlatformType.Windows:
-                RunLinuxApp<T>();
+                RunWindowsApp<T>();
                 break;
             case CrossPlatformType.Linux:
-                RunWindowsApp<T>();
+                RunLinuxApp<T>();
                 break;
             case CrossPlatformType.MacOs:
                 RunMacOsApp<T>();

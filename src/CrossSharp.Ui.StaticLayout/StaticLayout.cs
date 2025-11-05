@@ -90,8 +90,6 @@ public class StaticLayout()
 
     public void Invalidate() => _impl.Invalidate();
 
-    public virtual void Initialize() => _impl.Initialize();
-
     public void SuspendLayout() => _impl.SuspendLayout();
 
     public void ResumeLayout() => _impl.ResumeLayout();

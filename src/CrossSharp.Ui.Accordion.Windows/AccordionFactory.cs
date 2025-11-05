@@ -7,7 +7,7 @@ class AccordionFactory : IAccordionFactory
     public IAccordion Create()
     {
         var accordion = new Accordion();
-        accordion.Initialize();
+        accordion.PerformTheme();
         return accordion;
     }
 }

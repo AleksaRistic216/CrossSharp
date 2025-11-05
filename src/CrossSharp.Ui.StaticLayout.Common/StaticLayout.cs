@@ -56,7 +56,7 @@ class StaticLayout : IStaticLayout
 
     public void PerformTheme()
     {
-        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
+        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         foreach (var control in _controls)
             control.PerformTheme();
@@ -91,7 +91,7 @@ class StaticLayout : IStaticLayout
 
     public IEnumerator<IControl> GetEnumerator() => _controls.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => _controls.GetEnumerator();
 
     public void Add(params IControl[] controls)
     {

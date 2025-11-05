@@ -92,7 +92,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackHorizontal()
     {
         var currentX = Padding.Left;
-        foreach (var c in Enumerable.Where<IControl>(_controls, x => x.Visible).OrderBy(x => x.Index))
+        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
             currentX += c.MarginLeft;
             c.Location = new Point(currentX, Padding.Top + c.MarginTop);
@@ -107,7 +107,7 @@ partial class StackedLayout : IStackedLayout
 
     public IEnumerator<IControl> GetEnumerator() => _controls.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => _controls.GetEnumerator();
 
     public void Add(params IControl[] controls)
     {

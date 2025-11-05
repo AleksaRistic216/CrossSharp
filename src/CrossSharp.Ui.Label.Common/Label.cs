@@ -13,6 +13,7 @@ partial class Label : ControlBase, ILabel
     {
         FontFamily = Theme.DefaultFontFamily;
         FontSize = Theme.DefaultFontSize;
+        ForegroundColor = Theme.LayoutBackgroundColor.Contrasted;
     }
 
     public override void Invalidate()

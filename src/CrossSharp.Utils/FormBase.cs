@@ -10,6 +10,8 @@ public abstract class FormBase<T> : IForm
 {
     protected readonly IForm Implementation = Services.GetSingleton<T>().Create();
 
+    protected FormBase() { }
+
     public object? Parent
     {
         get => Implementation.Parent;
@@ -103,8 +105,6 @@ public abstract class FormBase<T> : IForm
     public virtual void Dispose() => Implementation.Dispose();
 
     public virtual void Invalidate() => Implementation.Invalidate();
-
-    public virtual void Initialize() => Implementation.Initialize();
 
     public void SuspendLayout() => Implementation.SuspendLayout();
 

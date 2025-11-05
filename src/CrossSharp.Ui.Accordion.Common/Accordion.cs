@@ -7,7 +7,7 @@ namespace CrossSharp.Ui.Common;
 
 partial class Accordion : StackedLayout, IAccordion
 {
-    public override void Initialize()
+    internal Accordion()
     {
         InitializeHeader();
 
@@ -54,17 +54,9 @@ partial class Accordion : StackedLayout, IAccordion
     public override void Invalidate()
     {
         base.Invalidate();
-        InvalidateStyling();
         InvalidateItemsVisibility();
         InvalidateWidth();
         InvalidateHeight();
-    }
-
-    void InvalidateStyling()
-    {
-        BackgroundColor = Theme.PrimaryColor;
-        _itemsArea.BackgroundColor = ColorRgba.Transparent;
-        _headerArea.BackgroundColor = ColorRgba.Transparent;
     }
 
     void InvalidateItemsVisibility()
@@ -102,5 +94,8 @@ partial class Accordion : StackedLayout, IAccordion
         _itemsArea.PerformTheme();
         _headerArea.PerformTheme();
         base.PerformTheme();
+        BackgroundColor = Theme.PrimaryColor;
+        _itemsArea.BackgroundColor = ColorRgba.Transparent;
+        _headerArea.BackgroundColor = ColorRgba.Transparent;
     }
 }

@@ -13,7 +13,7 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
     readonly StackedLayout _editorBar = new();
     ITheme Theme => Services.GetSingleton<ITheme>();
 
-    public override void Initialize()
+    public TextEditTab()
     {
         InitializeEditorBar();
         Dock = DockStyle.Fill;

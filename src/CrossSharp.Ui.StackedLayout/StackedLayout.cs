@@ -106,8 +106,6 @@ public class StackedLayout()
 
     public virtual void Invalidate() => _impl.Invalidate();
 
-    public virtual void Initialize() => _impl.Initialize();
-
     public virtual void SuspendLayout() => _impl.SuspendLayout();
 
     public virtual void ResumeLayout() => _impl.ResumeLayout();

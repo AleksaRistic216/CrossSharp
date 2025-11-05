@@ -18,7 +18,6 @@ public interface IControl
     /// </summary>
     bool Visible { get; set; }
     void Invalidate();
-    void Initialize();
     void SuspendLayout();
     void ResumeLayout();
     void Draw(ref IGraphics graphics);

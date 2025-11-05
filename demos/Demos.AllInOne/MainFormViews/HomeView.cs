@@ -7,7 +7,7 @@ public sealed class HomeView : StackedLayout
 {
     const int LABEL_HEIGHT = 24;
 
-    public override void Initialize()
+    public HomeView()
     {
         Dock = DockStyle.Fill;
         var label1 = new Label();

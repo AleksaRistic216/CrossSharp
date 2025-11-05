@@ -17,11 +17,7 @@ static class CrossSharpApplicationRunner
         var application = Services.GetSingleton<IApplication>();
         application.MainFormType = typeof(T);
         application.Start();
-        var form = application.MainForm;
-        form.PerformTheme();
-        form.Invalidate();
-        form.Show();
-        application.MainWindowHandle = form.Handle;
+        application.MainWindowHandle = application.MainForm.Handle;
         while (
             Services.GetSingleton<IApplication>().MainForm.Handle != IntPtr.Zero // Need to use this instead of application.MainWindowHandle because it can be changed when the main form is replaced
         )
