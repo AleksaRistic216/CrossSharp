@@ -75,6 +75,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
     public override void Invalidate()
     {
+        CornerRadius = 0;
         Width = Form.Width;
         base.Invalidate();
     }
