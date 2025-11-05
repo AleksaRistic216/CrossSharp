@@ -17,10 +17,4 @@ partial class Accordion
         if (Dock != DockStyle.None)
             this.GetForm()?.Invalidate();
     }
-
-    public EventHandler? OrientationChanged { get; set; }
-
-    void RaiseOrientationChanged() => OrientationChanged?.Invoke(this, EventArgs.Empty);
-
-    void OnOrientationChanged() => RaiseOrientationChanged();
 }

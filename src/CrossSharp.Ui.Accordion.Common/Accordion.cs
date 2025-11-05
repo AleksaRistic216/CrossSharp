@@ -13,7 +13,6 @@ partial class Accordion : StackedLayout, IAccordion
 {
     protected Accordion()
     {
-        Orientation = Orientation.Vertical;
         InitializeHeader();
 
         _itemsArea = new StackedLayout();
@@ -23,7 +22,7 @@ partial class Accordion : StackedLayout, IAccordion
         Add(_itemsArea);
     }
 
-    public override void Add(params IControl[] controls)
+    public sealed override void Add(params IControl[] controls)
     {
         base.Add(controls);
         foreach (var control in controls)
@@ -34,8 +33,10 @@ partial class Accordion : StackedLayout, IAccordion
     {
         SizeChanged += (s, e) =>
         {
-            if (State == AccordionState.Expanded)
-                _lastWidth = Width;
+            if (State != AccordionState.Expanded)
+                return;
+            _lastWidth = Width;
+            _lastHeight = Height;
         };
         _headerArea = new StackedLayout();
         _headerArea.Orientation = Orientation.Horizontal;
@@ -61,12 +62,36 @@ partial class Accordion : StackedLayout, IAccordion
     public override void Invalidate()
     {
         base.Invalidate();
-        var minWidth =
+        InvalidateItemsVisibility();
+        InvalidateWidth();
+        InvalidateHeight();
+    }
+
+    void InvalidateItemsVisibility()
+    {
+        if (Orientation == Orientation.Vertical)
+            return;
+        _itemsArea.Visible = _state == AccordionState.Expanded;
+    }
+
+    void InvalidateWidth()
+    {
+        if (Orientation != Orientation.Vertical)
+            return;
+        var collapsedWidth =
             _hamburgButton.Width
             + Padding.Horizontal
             + _headerArea.MarginLeft
             + _headerArea.MarginRight;
-        Width = _state == AccordionState.Expanded ? _lastWidth : minWidth;
+        Width = _state == AccordionState.Expanded ? _lastWidth : collapsedWidth;
+    }
+
+    void InvalidateHeight()
+    {
+        if (Orientation != Orientation.Horizontal)
+            return;
+        var collapsedHeight = _headerArea.Height;
+        Height = _state == AccordionState.Expanded ? _lastHeight : collapsedHeight;
     }
 
     public void AddItem(IAccordionItem item)

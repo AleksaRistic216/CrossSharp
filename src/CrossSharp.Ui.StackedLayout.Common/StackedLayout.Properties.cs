@@ -54,7 +54,18 @@ partial class StackedLayout
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
     public int ItemsSpacing { get; set; }
-    public Orientation Orientation { get; set; } = Orientation.Vertical;
+    Orientation _orientation = Orientation.Vertical;
+    public Orientation Orientation
+    {
+        get => _orientation;
+        set
+        {
+            if (_orientation == value)
+                return;
+            _orientation = value;
+            OnOrientationChanged();
+        }
+    }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
     public Point Location { get; set; }

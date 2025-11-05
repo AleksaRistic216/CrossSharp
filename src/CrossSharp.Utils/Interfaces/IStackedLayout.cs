@@ -6,4 +6,5 @@ public interface IStackedLayout : IControlsContainer, IPadding, IScrollable
 {
     int ItemsSpacing { get; set; }
     Orientation Orientation { get; set; }
+    EventHandler? OrientationChanged { get; set; }
 }

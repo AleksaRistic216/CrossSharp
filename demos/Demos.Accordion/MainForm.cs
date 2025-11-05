@@ -22,10 +22,11 @@ public class MainForm : Form
         _leftMenu = new CrossSharp.Ui.Accordion();
         _leftMenu.Dock = DockStyle.Left;
         _leftMenu.Width = 300;
+        _leftMenu.State = AccordionState.Collapsed;
         Controls.Add(_leftMenu);
 
         var btn = new Button();
-        btn.Text = "Use default theme";
+        btn.Text = "Default theme";
         btn.Height = 30;
         btn.Click += (s, e) =>
         {
@@ -36,7 +37,7 @@ public class MainForm : Form
         _leftMenu.AddItem(btn);
 
         var btn2 = new Button();
-        btn2.Text = "Use rounded dark theme";
+        btn2.Text = "Rounded dark theme";
         btn2.Height = 30;
         btn2.Click += (s, e) =>
         {
@@ -47,7 +48,7 @@ public class MainForm : Form
         _leftMenu.AddItem(btn2);
 
         var btn3 = new Button();
-        btn3.Text = "Use flat pink theme";
+        btn3.Text = "Flat pink theme";
         btn3.Height = 30;
         btn3.Click += (s, e) =>
         {
@@ -56,17 +57,6 @@ public class MainForm : Form
             Invalidate();
         };
         _leftMenu.AddItem(btn3);
-
-        var btn4 = new Button();
-        btn4.Text = "Use flat blue theme";
-        btn4.Height = 30;
-        btn4.Click += (s, e) =>
-        {
-            Services.AddSingleton<ITheme, FlatBlueTheme>(true);
-            PerformTheme();
-            Invalidate();
-        };
-        _leftMenu.AddItem(btn4);
 
         var btn5 = new Button();
         btn5.Text = "High Contrast Theme";
@@ -78,17 +68,6 @@ public class MainForm : Form
             Invalidate();
         };
         _leftMenu.AddItem(btn5);
-
-        var btn6 = new Button();
-        btn6.Text = "Flat high contrast theme";
-        btn6.Height = 30;
-        btn6.Click += (s, e) =>
-        {
-            Services.AddSingleton<ITheme, FlatHighContrastTheme>(true);
-            PerformTheme();
-            Invalidate();
-        };
-        _leftMenu.AddItem(btn6);
     }
 
     void InitializeContentArea()
@@ -98,31 +77,30 @@ public class MainForm : Form
         _contentArea.DockIndex = 1;
         Controls.Add(_contentArea);
 
-        var btn = new Button();
-        btn.Text = "Accordion Item 1";
-        btn.Height = 30;
-        _contentArea.Add(btn);
-
-        var btn2 = new Button();
-        btn2.Text = "Accordion Item 2";
-        btn2.Height = 30;
-        _contentArea.Add(btn2);
-
+        var textLineHeight = 16;
         var label = new Label();
         label.Text = "Welcome to the Accordion Demo!";
+        label.Height = textLineHeight;
         _contentArea.Add(label);
-        //
-        // var label1 = new Label();
-        // label1.Text = "Welcome to the Accordion Demo!";
-        // _contentArea.Add(label1);
-        //
-        // var label2 = new Label();
-        // label2.Text = "Welcome to the Accordion Demo!";
-        // _contentArea.Add(label2);
 
-        // var horizontalAccordion = new CrossSharp.Ui.Accordion();
-        // horizontalAccordion.Height = 300;
-        // horizontalAccordion.Orientation = Orientation.Horizontal;
-        // _contentArea.Add(horizontalAccordion);
+        var label1 = new Label();
+        label1.Text = "On the left side, you can find accordion with vertical orientation.";
+        label1.Height = textLineHeight;
+        _contentArea.Add(label1);
+
+        var label2 = new Label();
+        label2.Text = "Bellow is an example of horizontal accordion.";
+        label2.Height = textLineHeight;
+        _contentArea.Add(label2);
+
+        var horizontalAccordion = new CrossSharp.Ui.Accordion();
+        horizontalAccordion.Height = 300;
+        horizontalAccordion.Orientation = Orientation.Horizontal;
+        _contentArea.Add(horizontalAccordion);
+
+        var btnInside = new Button();
+        btnInside.Text = "This is some item within horizontal accordion.";
+        btnInside.Height = 30;
+        horizontalAccordion.AddItem(btnInside);
     }
 }

@@ -73,4 +73,17 @@ partial class StackedLayout
         UnsubscribeFromInputHandlerEvents();
         RaiseDisposing();
     }
+
+    public EventHandler? OrientationChanged { get; set; }
+
+    void RaiseOrientationChanged()
+    {
+        OrientationChanged?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnOrientationChanged()
+    {
+        Invalidate();
+        RaiseOrientationChanged();
+    }
 }

@@ -11,6 +11,13 @@ partial class Accordion
     IStackedLayout _itemsArea;
     IButton _hamburgButton;
     int _lastWidth;
+    int _lastHeight;
+    Orientation _accordionOrientation = Orientation.Vertical;
+    public new Orientation Orientation // new because underlying StackedLayout.Orientation should always be vertical within accordion
+    {
+        get => _accordionOrientation;
+        set => _accordionOrientation = value;
+    }
     AccordionState _state = AccordionState.Expanded;
     public AccordionState State
     {

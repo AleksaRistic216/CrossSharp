@@ -23,6 +23,11 @@ public class StackedLayout()
         get => _impl.Orientation;
         set => _impl.Orientation = value;
     }
+    public EventHandler? OrientationChanged
+    {
+        get => _impl.OrientationChanged;
+        set => _impl.OrientationChanged = value;
+    }
 
     public int DockIndex
     {
