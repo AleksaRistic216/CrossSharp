@@ -10,14 +10,20 @@ namespace CrossSharp.Ui.Common;
 class FormSDLTitleBar : StackedLayout, IMouseTargetable
 {
     IInputHandler InputHandler => Services.GetSingleton<IInputHandler>();
-    Point _dragStartMousePosition = Point.Empty;
-    Point _dragStartWindowPosition = Point.Empty;
-    bool _isDragging = false;
-    DateTime _lastFormLocationUpdate = DateTime.MinValue;
-    static readonly TimeSpan _formLocationUpdateInterval = TimeSpan.FromMilliseconds(
-        1000 / Math.Max(1, Math.Min(30, Services.GetSingleton<IApplicationConfiguration>().CoreFps))
-    );
+    IForm Form => (IForm)Parent!;
+
+    CancellationTokenSource? _formDragCancellationTokenSource;
+
+    // ReSharper disable once NotAccessedField.Local
+    Task? _formDragTask;
+    Point? _formDragDestination;
+    int CoreFps => Services.GetSingleton<IApplicationConfiguration>().CoreFps;
+    DateTime? _lastFormDragTime;
     const int MOVEMENT_THRESHOLD = 1;
+    Point? _mouseDownMousePosition;
+    Point? _mouseDownFormPosition;
+    int _deltaX;
+    int _deltaY;
 
     internal FormSDLTitleBar()
     {
@@ -27,57 +33,67 @@ class FormSDLTitleBar : StackedLayout, IMouseTargetable
         InputHandler.MouseReleased += OnMouseReleased;
     }
 
+    void StartMovingForm()
+    {
+        _formDragCancellationTokenSource = new CancellationTokenSource();
+        _formDragTask = Task.Run(
+            () =>
+            {
+                while (!_formDragCancellationTokenSource.IsCancellationRequested)
+                {
+                    if (_formDragDestination is null)
+                        continue;
+                    int targetDelay = (int)(1000f / CoreFps);
+                    int timeSinceLastDrag = _lastFormDragTime is null
+                        ? int.MaxValue
+                        : (int)(DateTime.Now - _lastFormDragTime.Value).TotalMilliseconds;
+                    if (timeSinceLastDrag < targetDelay)
+                        continue;
+                    _lastFormDragTime = DateTime.Now;
+                    Form.Move(_formDragDestination.Value);
+                }
+            },
+            _formDragCancellationTokenSource.Token
+        );
+    }
+
     void OnMouseReleased(object? sender, MouseInputArgs e)
     {
-        _isDragging = false;
+        _formDragCancellationTokenSource?.Cancel();
+        _mouseDownMousePosition = null;
+        _mouseDownFormPosition = null;
     }
 
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
-        if (!IsMouseOver)
-            return;
-        if (Parent is not IFormSDL form)
-            return;
-        _isDragging = true;
-        _dragStartMousePosition = new Point(e.X, e.Y);
-        _dragStartWindowPosition = form.Location;
+        _mouseDownMousePosition = new Point(e.X, e.Y);
+        _mouseDownFormPosition = Form.Location;
+        StartMovingForm();
     }
 
     void OnMouseDragged(object? sender, MouseInputArgs e)
     {
-        if (Parent is not IFormSDL form)
+        if (!IsMouseOver || _mouseDownMousePosition is null || _mouseDownFormPosition is null)
             return;
-        if (!IsMouseOver)
-        {
-            _isDragging = false;
+        var dx = e.X - _mouseDownMousePosition.Value.X;
+        var dy = e.Y - _mouseDownMousePosition.Value.Y;
+        if (Math.Abs(dx - _deltaX) < MOVEMENT_THRESHOLD && Math.Abs(dy - _deltaY) < MOVEMENT_THRESHOLD)
             return;
-        }
-        if (!_isDragging)
-        {
-            int deltaX = Math.Abs(e.X - form.Location.X);
-            int deltaY = Math.Abs(e.Y - form.Location.Y);
-            if (deltaX < MOVEMENT_THRESHOLD && deltaY < MOVEMENT_THRESHOLD)
-                return;
-            _isDragging = true;
-            _dragStartMousePosition = new Point(e.X, e.Y);
-            _dragStartWindowPosition = form.Location;
-        }
-
-        // Throttle form movement updates
-        var now = DateTime.UtcNow;
-        if (now - _lastFormLocationUpdate < _formLocationUpdateInterval)
-            return;
-        _lastFormLocationUpdate = now;
-
-        var moveDeltaX = e.X - _dragStartMousePosition.X;
-        var moveDeltaY = e.Y - _dragStartMousePosition.Y;
-        form.Move(new Point(_dragStartWindowPosition.X + moveDeltaX, _dragStartWindowPosition.Y + moveDeltaY));
+        _deltaX = dx;
+        _deltaY = dy;
+        var newLocation = new Point(_mouseDownFormPosition.Value.X + _deltaX, _mouseDownFormPosition.Value.Y + _deltaY);
+        _formDragDestination = newLocation;
     }
 
     public override void Dispose()
     {
         base.Dispose();
         InputHandler.MouseMoved -= OnMouseMoved;
+        InputHandler.MousePressed -= OnMousePressed;
+        InputHandler.MouseDragged -= OnMouseDragged;
+        InputHandler.MouseReleased -= OnMouseReleased;
+        _formDragCancellationTokenSource?.Cancel();
+        _formDragTask = null;
     }
 
     void OnMouseMoved(object? sender, MouseInputArgs e)
