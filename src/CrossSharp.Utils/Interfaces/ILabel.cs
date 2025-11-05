@@ -2,7 +2,7 @@ using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ILabel : IControl, IForegroundColorProvider
+public interface ILabel : IControl, IForegroundColorProvider, IAccordionItem
 {
     EventHandler<System.EventArgs>? OnTextChanged { get; set; }
     string Text { get; set; }

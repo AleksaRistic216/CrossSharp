@@ -1,5 +1,7 @@
+using CrossSharp.Desktop;
 using CrossSharp.Themes;
 using CrossSharp.Ui;
+using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -98,9 +100,21 @@ public class MainForm : Form
         horizontalAccordion.Orientation = Orientation.Horizontal;
         _contentArea.Add(horizontalAccordion);
 
-        // var btnInside = new Button();
-        // btnInside.Text = "This is some item within horizontal accordion.";
-        // btnInside.Height = 30;
-        // horizontalAccordion.AddItem(btnInside);
+        var l = new Label();
+        l.Text = "This is horizontal accordion item.";
+        l.Height = textLineHeight;
+        horizontalAccordion.AddItem(l);
+
+        var btnInside = new Button();
+        btnInside.Text = "Click me!";
+        btnInside.Click += (s, e) =>
+        {
+            Notifications.Show(
+                "Clicked",
+                "You clicked the button inside horizontal accordion item."
+            );
+        };
+        btnInside.Height = 30;
+        horizontalAccordion.AddItem(btnInside);
     }
 }

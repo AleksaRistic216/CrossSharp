@@ -4,7 +4,8 @@ public interface IControlsContainer
     : IControl,
         IEnumerable<IControl>,
         IDockable,
-        IBackgroundColorProvider
+        IBackgroundColorProvider,
+        IAccordionItem
 {
     void Add(params IControl[] controls);
     void Remove(params IControl[] controls);
