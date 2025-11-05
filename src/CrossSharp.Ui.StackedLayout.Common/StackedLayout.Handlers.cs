@@ -45,6 +45,18 @@ partial class StackedLayout
 
     public EventHandler<Point>? LocationChanged { get; set; }
     public EventHandler<Size>? SizeChanged { get; set; }
+
+    void RaiseSizeChanged(Size newSize)
+    {
+        SizeChanged?.Invoke(this, newSize);
+    }
+
+    void OnSizeChanged(Size newSize)
+    {
+        Invalidate();
+        RaiseSizeChanged(newSize);
+    }
+
     public EventHandler? BackgroundColorChanged { get; set; }
     public EventHandler? Disposing { get; set; }
 

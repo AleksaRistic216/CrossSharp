@@ -30,6 +30,16 @@ public class Accordion()
         set => Implementation.BackgroundColorChanged = value;
     }
 
+    public AccordionState State
+    {
+        get => Implementation.State;
+        set => Implementation.State = value;
+    }
+    public EventHandler? StateChanged
+    {
+        get => Implementation.StateChanged;
+        set => Implementation.StateChanged = value;
+    }
     public Orientation Orientation
     {
         get => Implementation.Orientation;

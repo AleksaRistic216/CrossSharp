@@ -27,8 +27,30 @@ partial class StackedLayout
         }
     }
     public int Index { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    int _width;
+    public int Width
+    {
+        get => _width;
+        set
+        {
+            if (_width == value)
+                return;
+            _width = value;
+            OnSizeChanged(new Size(_width, _height));
+        }
+    }
+    int _height;
+    public int Height
+    {
+        get => _height;
+        set
+        {
+            if (_height == value)
+                return;
+            _height = value;
+            OnSizeChanged(new Size(_width, _height));
+        }
+    }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
     public int ItemsSpacing { get; set; }
