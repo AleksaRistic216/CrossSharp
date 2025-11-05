@@ -1,11 +1,10 @@
-using CrossSharp.Desktop;
 using CrossSharp.Themes;
 using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
-namespace CrossSharp.Accordion;
+namespace Demos.Accordion;
 
 public class MainForm : Form
 {
@@ -20,7 +19,7 @@ public class MainForm : Form
 
     void InitializeLeftMenu()
     {
-        _leftMenu = new Ui.Accordion();
+        _leftMenu = new CrossSharp.Ui.Accordion();
         _leftMenu.Dock = DockStyle.Left;
         _leftMenu.Width = 300;
         Controls.Add(_leftMenu);
@@ -99,8 +98,31 @@ public class MainForm : Form
         _contentArea.DockIndex = 1;
         Controls.Add(_contentArea);
 
+        var btn = new Button();
+        btn.Text = "Accordion Item 1";
+        btn.Height = 30;
+        _contentArea.Add(btn);
+
+        var btn2 = new Button();
+        btn2.Text = "Accordion Item 2";
+        btn2.Height = 30;
+        _contentArea.Add(btn2);
+
         var label = new Label();
         label.Text = "Welcome to the Accordion Demo!";
         _contentArea.Add(label);
+        //
+        // var label1 = new Label();
+        // label1.Text = "Welcome to the Accordion Demo!";
+        // _contentArea.Add(label1);
+        //
+        // var label2 = new Label();
+        // label2.Text = "Welcome to the Accordion Demo!";
+        // _contentArea.Add(label2);
+
+        // var horizontalAccordion = new CrossSharp.Ui.Accordion();
+        // horizontalAccordion.Height = 300;
+        // horizontalAccordion.Orientation = Orientation.Horizontal;
+        // _contentArea.Add(horizontalAccordion);
     }
 }

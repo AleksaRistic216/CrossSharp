@@ -19,10 +19,11 @@ partial class Label : ControlBase, ILabel
     {
         if (this.GetForm() is not IFormSDL form)
             return;
-        using var graphics = new SDLGraphics(form.Renderer);
-        var size = graphics.MeasureText(Text, FontFamily, FontSize);
-        Width = size.Width;
-        Height = size.Height;
+        // I do not want to auto size labels. No need to do that without IAutoSize
+        // using var graphics = new SDLGraphics(form.Renderer);
+        // var size = graphics.MeasureText(Text, FontFamily, FontSize);
+        // Width = size.Width;
+        // Height = size.Height;
         if (Equals(ForegroundColor, ColorRgba.Transparent))
             ForegroundColor = Theme.BackgroundColor.Contrasted;
     }

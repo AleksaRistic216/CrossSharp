@@ -1,5 +1,5 @@
-using CrossSharp.Accordion;
 using CrossSharp.Application;
+using Demos.Accordion;
 
 var configuration = new BaseConfiguration()
 {
