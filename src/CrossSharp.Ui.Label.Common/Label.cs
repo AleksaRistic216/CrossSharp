@@ -39,6 +39,6 @@ partial class Label : ControlBase, ILabel
             return;
         if (FontSize <= 0)
             return;
-        g.DrawText(Text, Location.X, Location.Y, FontFamily, FontSize, ForegroundColor);
+        g.DrawText(Text, 0, 0, FontFamily, FontSize, ForegroundColor);
     }
 }
