@@ -42,7 +42,6 @@ partial class FormSDL
     }
     public IApplication AppInstance { get; }
     public WindowState State { get; set; }
-    public ITitleBar? TitleBar { get; }
     public IntPtr ParentHandle { get; set; }
     public object Parent { get; set; }
     public int BorderWidth { get; set; }
