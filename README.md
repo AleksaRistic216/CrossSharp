@@ -26,6 +26,7 @@ This project provides an easy way to develop C# UI applications across all major
 - Input
 - FilesPicker
 - Notifications
+- Accordion
 
 ## Try it out
 Clone repository and run any demo application
