@@ -2,7 +2,7 @@ using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IAccordion : IControl, IDockable, IBackgroundColorProvider
+public interface IAccordion : IControl, IDockable, IBackgroundColorProvider, IRoundedCorners
 {
     AccordionState State { get; set; }
     EventHandler? StateChanged { get; set; }

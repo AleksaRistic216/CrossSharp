@@ -30,4 +30,6 @@ partial class Accordion
             OnStateChanged();
         }
     }
+
+    public int CornerRadius { get; set; } = 8;
 }

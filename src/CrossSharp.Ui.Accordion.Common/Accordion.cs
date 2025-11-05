@@ -1,11 +1,6 @@
 using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
-using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace CrossSharp.Ui.Common;
 

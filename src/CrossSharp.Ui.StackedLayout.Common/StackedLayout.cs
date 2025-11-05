@@ -20,6 +20,7 @@ partial class StackedLayout : IStackedLayout
 
     public void PerformTheme()
     {
+        CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
         Padding =
             Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
@@ -51,8 +52,8 @@ partial class StackedLayout : IStackedLayout
         }
         var x = 0;
         var y = 0;
-        var width = Enumerable.Max<IControl>(_controls, c => c.Location.X + c.Width);
-        var height = Enumerable.Max<IControl>(_controls, c => c.Location.Y + c.Height);
+        var width = _controls.Max(c => c.Location.X + c.Width);
+        var height = _controls.Max(c => c.Location.Y + c.Height);
         ContentBounds = new Rectangle(x, y, width, height);
     }
 
@@ -66,9 +67,7 @@ partial class StackedLayout : IStackedLayout
     void InvalidateStackVertical()
     {
         var currentY = Padding.Top;
-        foreach (
-            var c in Enumerable.Where<IControl>(_controls, x => x.Visible).OrderBy(x => x.Index)
-        )
+        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
             var marginTop = 0;
             var marginBottom = 0;
@@ -125,9 +124,9 @@ partial class StackedLayout : IStackedLayout
     {
         var clientBounds = this.GetClientBounds();
         graphics.SetOffset(clientBounds.X, clientBounds.Y);
-        graphics.SetClip(clientBounds, 0);
+        graphics.SetClip(clientBounds, CornerRadius);
         DrawBackground(ref graphics);
-        foreach (var c in Enumerable.Where<IControl>(_controls, ShouldControlBeDrawn))
+        foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);
         ScrollableHelpers.DrawScrollBar(ref graphics, this);
     }

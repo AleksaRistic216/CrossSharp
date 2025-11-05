@@ -95,4 +95,5 @@ partial class StackedLayout
     public int MarginLeft { get; set; }
     public int MarginRight { get; set; }
     public EventHandler? MarginChanged { get; set; }
+    public int CornerRadius { get; set; }
 }

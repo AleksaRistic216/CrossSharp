@@ -98,9 +98,9 @@ public class MainForm : Form
         horizontalAccordion.Orientation = Orientation.Horizontal;
         _contentArea.Add(horizontalAccordion);
 
-        var btnInside = new Button();
-        btnInside.Text = "This is some item within horizontal accordion.";
-        btnInside.Height = 30;
-        horizontalAccordion.AddItem(btnInside);
+        // var btnInside = new Button();
+        // btnInside.Text = "This is some item within horizontal accordion.";
+        // btnInside.Height = 30;
+        // horizontalAccordion.AddItem(btnInside);
     }
 }

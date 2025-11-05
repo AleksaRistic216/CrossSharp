@@ -52,4 +52,10 @@ public class Accordion()
     }
 
     public void AddItem(IAccordionItem item) => Implementation.AddItem(item);
+
+    public int CornerRadius
+    {
+        get => Implementation.CornerRadius;
+        set => Implementation.CornerRadius = value;
+    }
 }

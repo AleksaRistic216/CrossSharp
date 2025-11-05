@@ -183,4 +183,9 @@ public class StackedLayout()
         get => _impl.MarginChanged;
         set => _impl.MarginChanged = value;
     }
+    public int CornerRadius
+    {
+        get => _impl.CornerRadius;
+        set => _impl.CornerRadius = value;
+    }
 }
