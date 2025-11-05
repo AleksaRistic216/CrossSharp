@@ -4,6 +4,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -16,6 +17,17 @@ partial class StackedLayout : IStackedLayout
     }
 
     public void LimitClip(ref IGraphics g) { }
+
+    public void PerformTheme()
+    {
+        ItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
+        Padding =
+            Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
+                ? new Padding(8, 4)
+                : new Padding(0);
+        foreach (var control in _controls)
+            control.PerformTheme();
+    }
 
     public void Invalidate()
     {

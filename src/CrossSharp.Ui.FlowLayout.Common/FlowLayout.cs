@@ -22,7 +22,7 @@ partial class FlowLayout : IFlowLayout
 
     public void LimitClip(ref IGraphics g) { }
 
-    public void Initialize() { }
+    public void PerformTheme() { }
 
     public void Invalidate()
     {

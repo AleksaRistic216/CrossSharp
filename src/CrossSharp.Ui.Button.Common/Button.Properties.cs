@@ -8,7 +8,7 @@ namespace CrossSharp.Ui.Common;
 
 partial class Button
 {
-    ITheme _theme = Services.GetSingleton<ITheme>();
+    ITheme Theme => Services.GetSingleton<ITheme>();
     Rectangle? _textBounds;
     string? _text;
     public string? Text
@@ -34,8 +34,7 @@ partial class Button
             OnTagChangedInternal();
         }
     }
-    public ColorRgba BackgroundColor { get; set; } =
-        Services.GetSingleton<ITheme>().ButtonBackgroundColor;
+    public ColorRgba BackgroundColor { get; set; }
 
     public RenderStyle Style { get; set; }
 
@@ -97,5 +96,5 @@ partial class Button
     public int? MinWidth { get; set; }
     public int? MinHeight { get; set; }
     public bool IsSelected { get; set; }
-    public int CornerRadius { get; set; } = Services.GetSingleton<ITheme>().DefaultCornerRadius;
+    public int CornerRadius { get; set; }
 }

@@ -51,6 +51,9 @@ class StaticLayout : IStaticLayout
     public EventHandler<Size>? SizeChanged { get; set; }
     public object Parent { get; set; }
     bool _visible = true;
+
+    public void PerformTheme() { }
+
     public bool Visible
     {
         get => _visible;

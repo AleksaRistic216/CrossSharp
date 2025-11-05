@@ -29,6 +29,7 @@ public class ColorRgba
     public static readonly ColorRgba Gray = new(0.5f, 0.5f, 0.5f, 1);
     public static readonly ColorRgba LightGray = new(0.8f, 0.8f, 0.8f, 1);
     public static readonly ColorRgba DarkGray = new(0.2f, 0.2f, 0.2f, 1);
+    public static readonly ColorRgba DimGray = new(0.3f, 0.3f, 0.3f, 1);
     public static readonly ColorRgba ReallyDarkGray = new(0.1f, 0.1f, 0.1f, 1);
     public static readonly ColorRgba Yellow = new(1, 1, 0, 1);
     public static readonly ColorRgba Orange = new(1, 0.65f, 0, 1);

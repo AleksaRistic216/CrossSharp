@@ -23,8 +23,7 @@ partial class FormSDL
         }
     }
     public IControlsContainer Controls { get; private set; }
-    public ColorRgba BackgroundColor { get; set; } =
-        Services.GetSingleton<ITheme>().BackgroundColor;
+    public ColorRgba BackgroundColor { get; set; }
     public int Column { get; set; }
     public int Row { get; set; }
     public bool UseNativeTitleBar { get; set; }

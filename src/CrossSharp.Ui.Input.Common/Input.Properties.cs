@@ -11,7 +11,7 @@ partial class Input
     DateTime _lastCaretStateUpdate = DateTime.MinValue;
     int _lineGap = 4;
     bool _caretVisible = false;
-    ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().InputBackgroundColor;
+    ColorRgba _backgroundColor;
     public ColorRgba BackgroundColor
     {
         get => _backgroundColor;
@@ -28,7 +28,7 @@ partial class Input
     Rectangle _placeholderBounds = Rectangle.Empty;
     Rectangle _contentBounds = Rectangle.Empty;
     Rectangle _caretBounds = Rectangle.Empty;
-    int _fontSize = Services.GetSingleton<ITheme>().DefaultFontSize;
+    int _fontSize;
     public int FontSize
     {
         get => _fontSize;
@@ -40,7 +40,7 @@ partial class Input
             Invalidate();
         }
     }
-    public int CornerRadius { get; set; } = Services.GetSingleton<ITheme>().DefaultCornerRadius;
+    public int CornerRadius { get; set; }
     int LineHeight => MultiLine ? FontSize + _lineGap : Height - _lineGap - BorderWidth * 2;
     bool _multiLine;
     public bool MultiLine

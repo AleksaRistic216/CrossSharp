@@ -1,5 +1,7 @@
 using CrossSharp.Desktop;
+using CrossSharp.Themes;
 using CrossSharp.Ui;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
@@ -20,24 +22,28 @@ public class MainForm : Form
     {
         _leftMenu = new Ui.Accordion();
         _leftMenu.Dock = DockStyle.Left;
-        _leftMenu.Width = 200;
+        _leftMenu.Width = 300;
         Controls.Add(_leftMenu);
 
         var btn = new Button();
-        btn.Text = "Click Me";
+        btn.Text = "Use default theme";
         btn.Height = 30;
         btn.Click += (s, e) =>
         {
-            Notifications.Show("Button Clicked", "You have clicked the button.");
+            Services.AddSingleton<ITheme, DefaultTheme>(true);
+            PerformTheme();
+            Invalidate();
         };
         _leftMenu.AddItem(btn);
 
         var btn2 = new Button();
-        btn2.Text = "Another Button";
+        btn2.Text = "Use rounded dark theme";
         btn2.Height = 30;
         btn2.Click += (s, e) =>
         {
-            Notifications.Show("Another Button Clicked", "You have clicked another button.");
+            Services.AddSingleton<ITheme, RoundedSpacedDarkTheme>(true);
+            PerformTheme();
+            Invalidate();
         };
         _leftMenu.AddItem(btn2);
     }

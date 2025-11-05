@@ -17,6 +17,9 @@ public abstract partial class ControlBase : IControl
     public int Index { get; set; }
     public object Parent { get; set; }
     public abstract void Initialize();
+
+    public abstract void PerformTheme();
+
     public abstract void Invalidate();
 
     public Size GetSize() => new(Width, Height);

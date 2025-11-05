@@ -57,6 +57,13 @@ partial class FormSDL : IFormSDL
         Invalidate();
     }
 
+    public void PerformTheme()
+    {
+        BackgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
+        foreach (var control in Controls)
+            control.PerformTheme();
+    }
+
     public void Invalidate()
     {
         Controls.Width = Width;

@@ -6,7 +6,7 @@ namespace CrossSharp.Ui.Common;
 
 partial class Label
 {
-    ITheme _theme = Services.GetSingleton<ITheme>();
+    ITheme Theme => Services.GetSingleton<ITheme>();
     string _text = string.Empty;
     public string Text
     {
@@ -19,6 +19,6 @@ partial class Label
             OnTextChangedInternal();
         }
     }
-    public FontFamily FontFamily { get; set; } = Services.GetSingleton<ITheme>().DefaultFontFamily;
-    public int FontSize { get; set; } = Services.GetSingleton<ITheme>().DefaultFontSize;
+    public FontFamily FontFamily { get; set; }
+    public int FontSize { get; set; }
 }

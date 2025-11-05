@@ -9,6 +9,12 @@ partial class Label : ControlBase, ILabel
 {
     public override void Initialize() { }
 
+    public override void PerformTheme()
+    {
+        FontFamily = Theme.DefaultFontFamily;
+        FontSize = Theme.DefaultFontSize;
+    }
+
     public override void Invalidate()
     {
         if (this.GetForm() is not IFormSDL form)
@@ -18,7 +24,7 @@ partial class Label : ControlBase, ILabel
         Width = size.Width;
         Height = size.Height;
         if (Equals(ForegroundColor, ColorRgba.Transparent))
-            ForegroundColor = _theme.BackgroundColor.Contrasted;
+            ForegroundColor = Theme.BackgroundColor.Contrasted;
     }
 
     public override void Redraw()

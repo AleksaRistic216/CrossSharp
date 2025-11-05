@@ -10,6 +10,7 @@ public interface IControl
         IIsMouseOverProvider,
         IMarginProvider
 {
+    void PerformTheme();
     bool Visible { get; set; }
     void Invalidate();
     void SuspendLayout();

@@ -46,6 +46,16 @@ partial class TabbedLayout : ITabbedLayout
         _controls.Add(_header);
     }
 
+    public void PerformTheme()
+    {
+        BackgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
+        HeaderItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
+        HeaderPadding =
+            Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
+                ? new Padding(8, 4)
+                : new Padding(0);
+    }
+
     public void Invalidate()
     {
         this.PerformDocking();

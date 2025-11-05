@@ -10,6 +10,8 @@ class Panel : ControlBase, IPanel
 
     public override void Initialize() { }
 
+    public override void PerformTheme() { }
+
     public override void Invalidate() { }
 
     public override void Redraw() { }

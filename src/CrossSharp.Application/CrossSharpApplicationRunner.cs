@@ -18,6 +18,8 @@ static class CrossSharpApplicationRunner
         application.MainFormType = typeof(T);
         application.Start();
         var form = application.MainForm;
+        form.PerformTheme();
+        form.Invalidate();
         form.Show();
         application.MainWindowHandle = form.Handle;
         while (

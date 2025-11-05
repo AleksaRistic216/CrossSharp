@@ -29,6 +29,9 @@ public abstract class FormBase<T> : IForm
         get => Implementation.UseNativeTitleBar;
         set { Implementation.UseNativeTitleBar = value; }
     }
+
+    public void PerformTheme() => Implementation.PerformTheme();
+
     public bool Visible
     {
         get => Implementation.Visible;

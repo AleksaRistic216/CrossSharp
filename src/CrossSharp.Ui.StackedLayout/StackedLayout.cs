@@ -92,6 +92,9 @@ public class StackedLayout()
         get => _impl.Parent;
         set => _impl.Parent = value;
     }
+
+    public void PerformTheme() => _impl.PerformTheme();
+
     public bool Visible
     {
         get => _impl.Visible;

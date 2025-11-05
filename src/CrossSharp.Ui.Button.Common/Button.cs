@@ -11,6 +11,12 @@ partial class Button : ControlBase, IButton
 {
     public override void Initialize() { }
 
+    public override void PerformTheme()
+    {
+        BackgroundColor = Theme.ButtonBackgroundColor;
+        CornerRadius = Theme.DefaultCornerRadius;
+    }
+
     public override void Invalidate()
     {
         InvalidateSize();
@@ -19,7 +25,10 @@ partial class Button : ControlBase, IButton
         CalcImageBounds();
         if (BorderWidth == 0 && this.GetRenderStyle() == RenderStyle.Outlined)
             BorderWidth = 2;
-        if (BorderColor == ColorRgba.Transparent && this.GetRenderStyle() == RenderStyle.Outlined)
+        if (
+            Equals(BorderColor, ColorRgba.Transparent)
+            && this.GetRenderStyle() == RenderStyle.Outlined
+        )
             BorderColor = BackgroundColor;
     }
 
@@ -60,7 +69,7 @@ partial class Button : ControlBase, IButton
         if (string.IsNullOrWhiteSpace(Text))
             return Size.Empty;
         using var graphics = new SDLGraphics(form.Renderer);
-        return graphics.MeasureText(Text, _theme.DefaultFontFamily, _theme.DefaultFontSize);
+        return graphics.MeasureText(Text, Theme.DefaultFontFamily, Theme.DefaultFontSize);
     }
 
     void CalcTextBounds()
@@ -152,8 +161,8 @@ partial class Button : ControlBase, IButton
                 Text,
                 _textBounds.Value.X,
                 _textBounds.Value.Y,
-                _theme.DefaultFontFamily,
-                _theme.DefaultFontSize,
+                Theme.DefaultFontFamily,
+                Theme.DefaultFontSize,
                 Equals(ForegroundColor, ColorRgba.Transparent)
                     ? this.GetBackgroundColor().Contrasted
                     : ForegroundColor

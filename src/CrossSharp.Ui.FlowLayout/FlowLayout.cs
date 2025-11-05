@@ -63,6 +63,9 @@ public class FlowLayout()
         get => _impl.IsMouseOver;
         set => _impl.IsMouseOver = value;
     }
+
+    public void PerformTheme() => _impl.PerformTheme();
+
     public bool Visible
     {
         get => _impl.Visible;

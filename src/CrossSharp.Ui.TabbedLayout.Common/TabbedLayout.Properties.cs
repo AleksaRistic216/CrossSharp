@@ -106,7 +106,7 @@ partial class TabbedLayout
     public int Index { get; set; }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
-    ColorRgba _backgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
+    ColorRgba _backgroundColor;
     public ColorRgba BackgroundColor
     {
         get => _backgroundColor;
@@ -130,7 +130,7 @@ partial class TabbedLayout
             Invalidate();
         }
     }
-    int _headerItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
+    int _headerItemsSpacing;
     public int HeaderItemsSpacing
     {
         get => _headerItemsSpacing;
@@ -142,10 +142,7 @@ partial class TabbedLayout
             OnHeaderItemsSpacingChanged();
         }
     }
-    Padding _headerPadding =
-        Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
-            ? new Padding(8, 4)
-            : new Padding(0);
+    Padding _headerPadding;
     public Padding HeaderPadding
     {
         get => _headerPadding;

@@ -57,6 +57,9 @@ public abstract class CrossControl<T>(T implementation)
         get => Implementation.Parent;
         set => Implementation.Parent = value;
     }
+
+    public void PerformTheme() => Implementation.PerformTheme();
+
     public bool Visible
     {
         get => Implementation.Visible;
