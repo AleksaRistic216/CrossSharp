@@ -29,4 +29,17 @@ public class Accordion()
         get => Implementation.BackgroundColorChanged;
         set => Implementation.BackgroundColorChanged = value;
     }
+
+    public Orientation Orientation
+    {
+        get => Implementation.Orientation;
+        set => Implementation.Orientation = value;
+    }
+    public EventHandler? OrientationChanged
+    {
+        get => Implementation.OrientationChanged;
+        set => Implementation.OrientationChanged = value;
+    }
+
+    public void AddItem(IAccordionItem item) => Implementation.AddItem(item);
 }

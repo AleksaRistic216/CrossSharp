@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
@@ -30,14 +31,18 @@ partial class StackedLayout
     public int Height { get; set; }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
-    public int ItemsSpacing { get; set; } = 0;
+    public int ItemsSpacing { get; set; } =
+        Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
     public Orientation Orientation { get; set; } = Orientation.Vertical;
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; }
     public Point Location { get; set; }
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public bool IsMouseOver { get; set; }
-    public Padding Padding { get; set; } = Padding.Zero;
+    public Padding Padding { get; set; } =
+        Services.GetSingleton<ITheme>().DefaultCornerRadius > 0
+            ? new Padding(8, 4)
+            : new Padding(0);
     public ScrollableMode Scrollable { get; set; } = ScrollableMode.None;
     public Rectangle Viewport
     {
