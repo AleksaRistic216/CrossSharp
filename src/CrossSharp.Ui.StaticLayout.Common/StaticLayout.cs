@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -52,7 +55,12 @@ class StaticLayout : IStaticLayout
     public object? Parent { get; set; }
     bool _visible = true;
 
-    public void PerformTheme() { }
+    public void PerformTheme()
+    {
+        this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
+        foreach (var control in _controls)
+            control.PerformTheme();
+    }
 
     public bool Visible
     {
@@ -99,8 +107,18 @@ class StaticLayout : IStaticLayout
 
     public void Draw(ref IGraphics graphics)
     {
+        var clientBounds = this.GetClientBounds();
+        graphics.SetOffset(clientBounds.X, clientBounds.Y);
+        graphics.SetClip(clientBounds, 0);
+        DrawBackground(ref graphics);
         foreach (var c in _controls.ToArray())
             c.Draw(ref graphics);
+        // ScrollableHelpers.DrawScrollBar(ref graphics, this);
+    }
+
+    void DrawBackground(ref IGraphics graphics)
+    {
+        graphics.FillRectangle(0, 0, Width, Height, BackgroundColor);
     }
 
     public void Dispose() => OnDisposingInternal();

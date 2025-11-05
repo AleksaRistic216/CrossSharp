@@ -10,6 +10,7 @@ public class DynamicControlsController(ref IControlsContainer container)
     readonly Dictionary<Type, IControl> _pageInstances = new();
     readonly IControlsContainer _container = container;
     public object? CurrentPage { get; private set; }
+    public EventHandler? CurrentPageChanged { get; set; }
 
     /// <summary>
     /// Registers a control type with an identifier.
@@ -74,9 +75,7 @@ public class DynamicControlsController(ref IControlsContainer container)
                     .Select(p =>
                         TryGetService(p.ParameterType, out var v)
                             ? v
-                            : throw new Exception(
-                                "No registered service for " + p.ParameterType.FullName
-                            )
+                            : throw new Exception("No registered service for " + p.ParameterType.FullName)
                     )
                     .ToArray();
                 instance = (IControl?)Activator.CreateInstance(type, args);
@@ -85,14 +84,15 @@ public class DynamicControlsController(ref IControlsContainer container)
             {
                 instance = (IControl?)Activator.CreateInstance(type);
             }
-            value =
-                instance ?? throw new Exception("Failed to create instance of " + type.FullName);
+            value = instance ?? throw new Exception("Failed to create instance of " + type.FullName);
             _pageInstances[type] = value;
         }
         _container.Remove(_container.ToArray());
         _container.Add(value);
+        value.PerformTheme();
         value.Invalidate();
         CurrentPage = identifier;
+        CurrentPageChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public object GetCurrentControl()

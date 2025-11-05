@@ -12,5 +12,6 @@ public partial class MainForm : Form
     void Initialize()
     {
         InitializeSideMenu();
+        InitializeViewer();
     }
 }
