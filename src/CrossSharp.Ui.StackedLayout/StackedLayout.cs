@@ -39,7 +39,7 @@ public class StackedLayout()
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public void Add(params IControl[] controls) => _impl.Add(controls);
+    public virtual void Add(params IControl[] controls) => _impl.Add(controls);
 
     public void Remove(params IControl[] controls) => _impl.Remove(controls);
 

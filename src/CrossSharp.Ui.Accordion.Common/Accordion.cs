@@ -23,6 +23,13 @@ partial class Accordion : StackedLayout, IAccordion
         Add(_itemsArea);
     }
 
+    public override void Add(params IControl[] controls)
+    {
+        base.Add(controls);
+        foreach (var control in controls)
+            control.Parent = this;
+    }
+
     void InitializeHeader()
     {
         SizeChanged += (s, e) =>

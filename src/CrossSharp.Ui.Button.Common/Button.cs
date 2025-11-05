@@ -42,8 +42,8 @@ partial class Button : ControlBase, IButton
             throw new InvalidOperationException("MaxHeight cannot be less than MinHeight.");
         var textSize = GetTextSize();
         // Apply max constraints first
-        Width = Math.Min(textSize.Width + Button._padding * 2, MaxWidth ?? int.MaxValue);
-        Height = Math.Min(textSize.Height + Button._padding * 2, MaxHeight ?? int.MaxValue);
+        Width = Math.Min(textSize.Width + _padding * 2, MaxWidth ?? int.MaxValue);
+        Height = Math.Min(textSize.Height + _padding * 2, MaxHeight ?? int.MaxValue);
         // Then apply min constraints
         Width = Math.Max(Width, MinWidth ?? 0);
         Height = Math.Max(Height, MinHeight ?? 0);
@@ -51,7 +51,7 @@ partial class Button : ControlBase, IButton
 
     void InvalidateImage()
     {
-        int scaleToFitSize = Height < Width ? Height - Button._padding : Width - Button._padding;
+        int scaleToFitSize = Height < Width ? Height - _padding : Width - _padding;
         if (scaleToFitSize < 2)
             return;
         scaleToFitSize = (int)(
@@ -66,10 +66,11 @@ partial class Button : ControlBase, IButton
     {
         if (this.GetForm() is not IFormSDL form)
             return Size.Empty;
-        if (string.IsNullOrWhiteSpace(Text))
+        var textToRender = GetTextToRender();
+        if (string.IsNullOrWhiteSpace(textToRender))
             return Size.Empty;
         using var graphics = new SDLGraphics(form.Renderer);
-        return graphics.MeasureText(Text, Theme.DefaultFontFamily, Theme.DefaultFontSize);
+        return graphics.MeasureText(textToRender, Theme.DefaultFontFamily, Theme.DefaultFontSize);
     }
 
     void CalcTextBounds()
@@ -90,13 +91,13 @@ partial class Button : ControlBase, IButton
                 textSize.Height
             ),
             Alignment.Left => new Rectangle(
-                Button._padding,
+                _padding,
                 (Height - textSize.Height) / 2,
                 textSize.Width,
                 textSize.Height
             ),
             Alignment.Right => new Rectangle(
-                Width - textSize.Width - Button._padding,
+                Width - textSize.Width - _padding,
                 (Height - textSize.Height) / 2,
                 textSize.Width,
                 textSize.Height
@@ -108,13 +109,13 @@ partial class Button : ControlBase, IButton
             && ImagePlacement == ButtonImagePlacement.BeforeText
             && TextAlignment == Alignment.Left
         )
-            bounds.X += _scaledToFitImage.Size.Width + Button._padding; // image width + padding
+            bounds.X += _scaledToFitImage.Size.Width + _padding;
         if (
             _scaledToFitImage != null
             && ImagePlacement == ButtonImagePlacement.AfterText
             && TextAlignment == Alignment.Right
         )
-            bounds.X -= _scaledToFitImage.Size.Width + Button._padding; // image width + padding
+            bounds.X -= _scaledToFitImage.Size.Width + _padding;
         _textBounds = bounds;
     }
 
@@ -131,8 +132,8 @@ partial class Button : ControlBase, IButton
             {
                 ButtonImagePlacement.BeforeText => _textBounds.Value.X
                     - _scaledToFitImage.Size.Width
-                    - Button._padding,
-                ButtonImagePlacement.AfterText => _textBounds.Value.Right + Button._padding,
+                    - _padding,
+                ButtonImagePlacement.AfterText => _textBounds.Value.Right + _padding,
                 _ => (Width - _scaledToFitImage.Size.Width) / 2,
             };
         }
@@ -141,8 +142,8 @@ partial class Button : ControlBase, IButton
             imageX = TextAlignment switch
             {
                 Alignment.Center => (Width - _scaledToFitImage.Size.Width) / 2,
-                Alignment.Left => Button._padding,
-                Alignment.Right => Width - _scaledToFitImage.Size.Width - Button._padding,
+                Alignment.Left => _padding,
+                Alignment.Right => Width - _scaledToFitImage.Size.Width - _padding,
                 _ => throw new ArgumentOutOfRangeException(),
             };
         }
@@ -154,11 +155,23 @@ partial class Button : ControlBase, IButton
         );
     }
 
+    string GetTextToRender()
+    {
+        if (string.IsNullOrWhiteSpace(Text))
+            return string.Empty;
+        if (
+            this is IAccordionItem item
+            && ((item.Parent as IControl)?.Parent as IAccordion)?.State is AccordionState.Collapsed
+        )
+            return Text[0].ToString().ToUpper();
+        return Text;
+    }
+
     public override void DrawContent(ref IGraphics g)
     {
         if (!string.IsNullOrEmpty(Text) && _textBounds.HasValue)
             g.DrawText(
-                Text,
+                GetTextToRender(),
                 _textBounds.Value.X,
                 _textBounds.Value.Y,
                 Theme.DefaultFontFamily,

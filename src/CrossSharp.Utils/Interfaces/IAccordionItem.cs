@@ -1,6 +1,3 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IAccordionItem : IControl
-{
-    int Index { get; set; }
-}
+public interface IAccordionItem : IControl { }
