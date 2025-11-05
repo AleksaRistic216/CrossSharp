@@ -19,21 +19,15 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout.Linux")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
-    "CrossSharp.Ui.StackedLayout.Windows"
-)]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.StackedLayout.Windows")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FlowLayout.Windows")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.SimpleContainer")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
-    "CrossSharp.Ui.SimpleContainer.Linux"
-)]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.SimpleContainer.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ControlsContainer")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
-    "CrossSharp.Ui.ControlsContainer.Linux"
-)]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ControlsContainer.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FormTitleBar")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.FormTitleBar.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Label")]
@@ -50,3 +44,7 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Accordion.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Accordion.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Accordion.Windows")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown.Common")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown.Windows")]

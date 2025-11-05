@@ -61,6 +61,7 @@ public class ApplicationBuilder
         AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
         AddSingleton<IInputFactory, Ui.Linux.InputFactory>();
         AddSingleton<IAccordionFactory, Ui.Linux.AccordionFactory>();
+        AddSingleton<IDropdownFactory, Ui.Linux.DropdownFactory>();
     }
 
     void RegisterWindowsServices()
@@ -78,6 +79,7 @@ public class ApplicationBuilder
         AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
         AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
         AddSingleton<IAccordionFactory, Ui.Windows.AccordionFactory>();
+        AddSingleton<IDropdownFactory, Ui.Windows.DropdownFactory>();
     }
 
     void RegisterMacOsServices()
@@ -116,9 +118,7 @@ public class ApplicationBuilder
 
     public void AddSingleton<TInterface, TImplementation>()
         where TInterface : class
-        where TImplementation : class, TInterface =>
-        Services.AddSingleton<TInterface, TImplementation>();
+        where TImplementation : class, TInterface => Services.AddSingleton<TInterface, TImplementation>();
 
-    public void EnableDevelopersMode() =>
-        Services.GetSingleton<IApplication>().DevelopersMode = true;
+    public void EnableDevelopersMode() => Services.GetSingleton<IApplication>().DevelopersMode = true;
 }

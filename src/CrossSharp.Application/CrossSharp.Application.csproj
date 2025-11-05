@@ -1,104 +1,95 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Version>9.0.6</Version>
-    <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
-    <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-  </PropertyGroup>
-  <Target
-    Name="ForceCopyToLocalFeed"
-    AfterTargets="Build"
-    Condition="'$(Configuration)' == 'Debug'"
-  >
     <PropertyGroup>
-      <!-- Resolve home directory on Linux -->
-      <DebugSymbols>true</DebugSymbols>
-      <LocalFeedRoot>$(HOME)/.nuget/packages</LocalFeedRoot>
-      <LocalFeedPath>$(LocalFeedRoot)/$([System.String]::Copy($(MSBuildProjectName)).ToLowerInvariant())/$(Version)/lib/$(TargetFramework)</LocalFeedPath>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Version>9.0.6</Version>
+        <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
+        <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
+    <Target Name="ForceCopyToLocalFeed" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+        <PropertyGroup>
+            <!-- Resolve home directory on Linux -->
+            <DebugSymbols>true</DebugSymbols>
+            <LocalFeedRoot>$(HOME)/.nuget/packages</LocalFeedRoot>
+            <LocalFeedPath>$(LocalFeedRoot)/$([System.String]::Copy($(MSBuildProjectName)).ToLowerInvariant())/$(Version)/lib/$(TargetFramework)</LocalFeedPath>
+        </PropertyGroup>
+        <ItemGroup>
+            <BuiltDll Include="$(OutputPath)$(MSBuildProjectName).dll" />
+            <BuildPdb Include="$(OutputPath)$(MSBuildProjectName).pdb" />
+        </ItemGroup>
+        <MakeDir Directories="$(LocalFeedPath)" />
+        <Copy SourceFiles="@(BuiltDll)" DestinationFolder="$(LocalFeedPath)" OverwriteReadOnlyFiles="true" />
+        <Copy SourceFiles="@(BuildPdb)" DestinationFolder="$(LocalFeedPath)" OverwriteReadOnlyFiles="true" />
+    </Target>
+    <Target Name="CopyPackage" AfterTargets="Pack">
+        <ItemGroup>
+            <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
+        </ItemGroup>
+        <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
+    </Target>
     <ItemGroup>
-      <BuiltDll Include="$(OutputPath)$(MSBuildProjectName).dll" />
-      <BuildPdb Include="$(OutputPath)$(MSBuildProjectName).pdb" />
+        <None Include="..\..\LICENSE">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
     </ItemGroup>
-    <MakeDir Directories="$(LocalFeedPath)" />
-    <Copy
-      SourceFiles="@(BuiltDll)"
-      DestinationFolder="$(LocalFeedPath)"
-      OverwriteReadOnlyFiles="true"
-    />
-    <Copy
-      SourceFiles="@(BuildPdb)"
-      DestinationFolder="$(LocalFeedPath)"
-      OverwriteReadOnlyFiles="true"
-    />
-  </Target>
-  <Target Name="CopyPackage" AfterTargets="Pack">
     <ItemGroup>
-      <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
+        <Content Include="..\..\README.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </Content>
     </ItemGroup>
-    <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
-  </Target>
-  <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CrossSharp.Desktop.Notifications\CrossSharp.Desktop.Notifications.csproj" />
-    <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Accordion.Linux\CrossSharp.Ui.Accordion.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Accordion.Windows\CrossSharp.Ui.Accordion.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Accordion\CrossSharp.Ui.Accordion.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Button.Windows\CrossSharp.Ui.Button.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Linux\CrossSharp.Ui.FilesPicker.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Windows\CrossSharp.Ui.FilesPicker.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FilesPicker\CrossSharp.Ui.FilesPicker.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FlowLayout.Linux\CrossSharp.Ui.FlowLayout.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FlowLayout.Windows\CrossSharp.Ui.FlowLayout.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.FlowLayout\CrossSharp.Ui.FlowLayout.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Form.Windows\CrossSharp.Ui.Form.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Input.Linux\CrossSharp.Ui.Input.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Input.Windows\CrossSharp.Ui.Input.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Label.Linux\CrossSharp.Ui.Label.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Label.Windows\CrossSharp.Ui.Label.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Linux\CrossSharp.Ui.ModularForm.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Windows\CrossSharp.Ui.ModularForm.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.ModularForm\CrossSharp.Ui.ModularForm.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Panel.Windows\CrossSharp.Ui.Panel.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Linux\CrossSharp.Ui.StackedLayout.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Windows\CrossSharp.Ui.StackedLayout.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Linux\CrossSharp.Ui.StaticLayout.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Windows\CrossSharp.Ui.StaticLayout.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Linux\CrossSharp.Ui.TabbedLayout.Linux.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Windows\CrossSharp.Ui.TabbedLayout.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout\CrossSharp.Ui.TabbedLayout.csproj" />
-    <ProjectReference Include="..\CrossSharp.Utils.Windows\CrossSharp.Utils.Windows.csproj" />
-    <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SharpHook" Version="7.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CrossSharp.Desktop.Notifications\CrossSharp.Desktop.Notifications.csproj" />
+        <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Accordion.Linux\CrossSharp.Ui.Accordion.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Accordion.Windows\CrossSharp.Ui.Accordion.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Accordion\CrossSharp.Ui.Accordion.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Button.Windows\CrossSharp.Ui.Button.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Dropdown.Linux\CrossSharp.Ui.Dropdown.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Dropdown.Windows\CrossSharp.Ui.Dropdown.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Dropdown\CrossSharp.Ui.Dropdown.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Linux\CrossSharp.Ui.FilesPicker.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Windows\CrossSharp.Ui.FilesPicker.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FilesPicker\CrossSharp.Ui.FilesPicker.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FlowLayout.Linux\CrossSharp.Ui.FlowLayout.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FlowLayout.Windows\CrossSharp.Ui.FlowLayout.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FlowLayout\CrossSharp.Ui.FlowLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Form.Windows\CrossSharp.Ui.Form.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Input.Linux\CrossSharp.Ui.Input.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Input.Windows\CrossSharp.Ui.Input.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Label.Linux\CrossSharp.Ui.Label.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Label.Windows\CrossSharp.Ui.Label.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Linux\CrossSharp.Ui.ModularForm.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Windows\CrossSharp.Ui.ModularForm.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ModularForm\CrossSharp.Ui.ModularForm.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Panel.Linux\CrossSharp.Ui.Panel.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Panel.Windows\CrossSharp.Ui.Panel.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Linux\CrossSharp.Ui.StackedLayout.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Windows\CrossSharp.Ui.StackedLayout.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Linux\CrossSharp.Ui.StaticLayout.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Windows\CrossSharp.Ui.StaticLayout.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Linux\CrossSharp.Ui.TabbedLayout.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Windows\CrossSharp.Ui.TabbedLayout.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout\CrossSharp.Ui.TabbedLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Utils.Windows\CrossSharp.Utils.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="SharpHook" Version="7.0.1" />
+    </ItemGroup>
 </Project>
