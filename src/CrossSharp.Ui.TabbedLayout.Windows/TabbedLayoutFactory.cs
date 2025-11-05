@@ -4,5 +4,10 @@ namespace CrossSharp.Ui.Windows;
 
 class TabbedLayoutFactory : ITabbedLayoutFactory
 {
-    public ITabbedLayout Create() => new TabbedLayout();
+    public ITabbedLayout Create()
+    {
+        var layout = new TabbedLayout();
+        layout.Initialize();
+        return layout;
+    }
 }

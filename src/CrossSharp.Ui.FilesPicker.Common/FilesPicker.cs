@@ -24,12 +24,7 @@ public class FilesPicker : Form, IFilesPicker
 
     public EventHandler<FilesSelectedEventArgs>? FilesSelected { get; set; }
 
-    protected FilesPicker()
-    {
-        Initialize();
-    }
-
-    void Initialize()
+    public override void Initialize()
     {
         InitializeLeftRow();
         InitializeRightRow();

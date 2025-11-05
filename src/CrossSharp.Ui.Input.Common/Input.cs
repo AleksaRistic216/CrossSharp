@@ -136,7 +136,7 @@ partial class Input : ControlBase, IInput
 
     public override void PerformTheme()
     {
-        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
+        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor.Highlighted;
         FontSize = Services.GetSingleton<ITheme>().DefaultFontSize;
         CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
     }

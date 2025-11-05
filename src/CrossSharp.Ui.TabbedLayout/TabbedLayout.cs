@@ -75,6 +75,8 @@ public class TabbedLayout()
 
     public void Invalidate() => _impl.Invalidate();
 
+    public void Initialize() { }
+
     public void SuspendLayout() => _impl.SuspendLayout();
 
     public void ResumeLayout() => _impl.ResumeLayout();

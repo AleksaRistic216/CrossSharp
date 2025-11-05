@@ -14,7 +14,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         Parent = form;
         Form.StateChanged += FormStateChanged;
         Orientation = Orientation.Horizontal;
-        BackgroundColor = Services.GetSingleton<ITheme>().SecondaryColor.Darkened;
+        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
         Height = 35;
         Width = Form.Width;
         InputHandler.MouseMoved += OnMouseMoved;
@@ -29,7 +29,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         _closeButton.Width = buttonWidth;
         _closeButton.Height = Height;
         _closeButton.Dock = DockStyle.Right;
-        _closeButton.BackgroundColor = BackgroundColor.Darkened;
+        _closeButton.BackgroundColor = BackgroundColor;
         _closeButton.Click += (_, _) =>
         {
             Form.Close();
@@ -42,7 +42,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         _maximizeRestoreButton.Width = buttonWidth;
         _maximizeRestoreButton.Height = Height;
         _maximizeRestoreButton.Dock = DockStyle.Right;
-        _maximizeRestoreButton.BackgroundColor = BackgroundColor.Darkened;
+        _maximizeRestoreButton.BackgroundColor = BackgroundColor;
         _maximizeRestoreButton.Click += (_, _) =>
         {
             if (Form.State == WindowState.Maximized)
@@ -58,7 +58,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         _minimizeButton.Width = buttonWidth;
         _minimizeButton.Height = Height;
         _minimizeButton.Dock = DockStyle.Right;
-        _minimizeButton.BackgroundColor = BackgroundColor.Darkened;
+        _minimizeButton.BackgroundColor = BackgroundColor;
         _minimizeButton.Click += (_, _) =>
         {
             Form.Minimize();

@@ -11,11 +11,6 @@ namespace CrossSharp.Ui.Common;
 // ReSharper disable once InconsistentNaming
 partial class FormSDL : IFormSDL
 {
-    internal FormSDL()
-    {
-        Initialize();
-    }
-
     void CreateRenderer()
     {
         Renderer = SDLHelpers.SDL_CreateRenderer(
@@ -58,7 +53,7 @@ partial class FormSDL : IFormSDL
             State = WindowState.Normal;
     }
 
-    void Initialize()
+    public void Initialize()
     {
         Handle = CreateWindow(Title, Width, Height + (_titleBar?.Height ?? 0));
         ((IFormSDL)this).RecordLocation();
@@ -73,7 +68,7 @@ partial class FormSDL : IFormSDL
 
     public void PerformTheme()
     {
-        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
+        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         foreach (var control in Controls)
             control.PerformTheme();
     }

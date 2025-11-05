@@ -68,8 +68,6 @@ public static class ControlsHelpers
         if (control.Parent is not IControlsContainer parent)
             return;
         var parentBounds = new Rectangle(Point.Empty, parent.Size);
-        // parentBounds.Height -= parent.Location.Y; // This may break something but not sure at the moment
-        // parentBounds.Width -= parent.Location.X; // Had to remove it
         HashSet<int> recordedDockIndexes = [];
         foreach (var sibling in parent.Where(x => x.Visible))
         {

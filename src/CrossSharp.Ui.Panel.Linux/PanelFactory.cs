@@ -4,5 +4,10 @@ namespace CrossSharp.Ui.Linux;
 
 public class PanelFactory : IPanelFactory
 {
-    public IPanel Create() => new Panel();
+    public IPanel Create()
+    {
+        var panel = new Panel();
+        panel.Initialize();
+        return panel;
+    }
 }

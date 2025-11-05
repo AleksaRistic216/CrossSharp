@@ -5,5 +5,10 @@ namespace CrossSharp.Ui.Linux;
 
 class LabelFactory : ILabelFactory
 {
-    public ILabel Create() => new Label();
+    public ILabel Create()
+    {
+        var label = new Label();
+        label.Initialize();
+        return label;
+    }
 }

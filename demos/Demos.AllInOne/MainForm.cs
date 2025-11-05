@@ -4,12 +4,7 @@ namespace Demos.AllInOne;
 
 public partial class MainForm : Form
 {
-    public MainForm()
-    {
-        Initialize();
-    }
-
-    void Initialize()
+    public override void Initialize()
     {
         InitializeSideMenu();
         InitializeViewer();

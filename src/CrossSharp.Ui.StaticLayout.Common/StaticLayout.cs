@@ -56,7 +56,7 @@ class StaticLayout : IStaticLayout
 
     public void PerformTheme()
     {
-        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
+        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
         this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         foreach (var control in _controls)
             control.PerformTheme();

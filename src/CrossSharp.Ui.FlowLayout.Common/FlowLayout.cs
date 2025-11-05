@@ -42,6 +42,8 @@ partial class FlowLayout : IFlowLayout
         InvalidateViewport();
     }
 
+    public void Initialize() { }
+
     void SubscribeToInputHandlerEvents()
     {
         _inputHandler.MouseWheel += InputHandlerOnMouseWheel;

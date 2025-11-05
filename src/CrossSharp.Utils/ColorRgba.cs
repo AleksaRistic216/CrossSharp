@@ -9,7 +9,7 @@ public class ColorRgba(float r, float g, float b, float a)
     public static readonly ColorRgba MistyRose = new(1.0f, 0.89f, 0.88f, 1.0f);
     public static readonly ColorRgba LightCoral = new(0.94f, 0.5f, 0.5f, 1.0f);
     public static readonly ColorRgba LimitlessPrimary = new(0x44 / 255f, 0x75 / 255f, 0xBA / 255f, 1.0f);
-    public static readonly ColorRgba LimitlessBackground = new(0xF9 / 255f, 0xF9 / 255f, 0xF9 / 255f, 1.0f);
+    public static readonly ColorRgba LimitlessSecondary = new(0xF9 / 255f, 0xF9 / 255f, 0xF9 / 255f, 1.0f);
     public static readonly ColorRgba LimitlessAccent = new(0xFF / 255f, 0xA7 / 255f, 0x26 / 255f, 1.0f);
     public static readonly ColorRgba LimitlessInput = new(0xEE / 255f, 0xEE / 255f, 0xEE / 255f, 1.0f);
     public static readonly ColorRgba Transparent = new(0, 0, 0, 0);

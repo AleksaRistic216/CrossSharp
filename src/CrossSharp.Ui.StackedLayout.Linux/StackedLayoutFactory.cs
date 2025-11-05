@@ -4,5 +4,10 @@ namespace CrossSharp.Ui.Linux;
 
 class StackedLayoutFactory : IStackedLayoutFactory
 {
-    public IStackedLayout Create() => new StackedLayout();
+    public IStackedLayout Create()
+    {
+        var layout = new StackedLayout();
+        layout.Initialize();
+        return layout;
+    }
 }

@@ -66,6 +66,8 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
 
     public void Invalidate() => Implementation.Invalidate();
 
+    public void Initialize() => Implementation.Initialize();
+
     public void SuspendLayout() => Implementation.SuspendLayout();
 
     public void ResumeLayout() => Implementation.ResumeLayout();

@@ -4,5 +4,10 @@ namespace CrossSharp.Ui.Linux;
 
 public class InputFactory : IInputFactory
 {
-    public IInput Create() => new Input();
+    public IInput Create()
+    {
+        var input = new Input();
+        input.Initialize();
+        return input;
+    }
 }

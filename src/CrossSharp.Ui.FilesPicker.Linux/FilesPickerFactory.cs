@@ -4,5 +4,10 @@ namespace CrossSharp.Ui.Linux;
 
 class FilesPickerFactory : IFilesPickerFactory
 {
-    public IFilesPicker Create() => new FilesPicker();
+    public IFilesPicker Create()
+    {
+        var filesPicker = new FilesPicker();
+        filesPicker.Initialize();
+        return filesPicker;
+    }
 }

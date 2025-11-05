@@ -44,6 +44,8 @@ partial class StackedLayout : IStackedLayout
         InvalidateViewport();
     }
 
+    public void Initialize() { }
+
     void InvalidateContentBounds()
     {
         if (_controls.Count == 0)

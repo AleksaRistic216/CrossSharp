@@ -4,5 +4,10 @@ namespace CrossSharp.Ui.Linux;
 
 class FlowLayoutFactory : IFlowLayoutFactory
 {
-    public IFlowLayout Create() => new FlowLayout();
+    public IFlowLayout Create()
+    {
+        var layout = new FlowLayout();
+        layout.Initialize();
+        return layout;
+    }
 }
