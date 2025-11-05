@@ -1,3 +1,7 @@
+using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
+using CrossSharp.Utils.Interfaces;
+
 namespace CrossSharp.Ui.Common;
 
 partial class Accordion
@@ -10,6 +14,8 @@ partial class Accordion
     {
         Invalidate();
         RaiseStateChanged();
+        if (Dock != DockStyle.None)
+            this.GetForm()?.Invalidate();
     }
 
     public EventHandler? OrientationChanged { get; set; }
