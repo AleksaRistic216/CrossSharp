@@ -26,7 +26,6 @@ partial class FormSDL
     public ColorRgba BackgroundColor { get; set; }
     public int Column { get; set; }
     public int Row { get; set; }
-    public bool UseNativeTitleBar { get; set; }
     public IntPtr DisplayHandle { get; set; }
     public IntPtr WindowSurfaceHandle { get; set; }
     string _title = string.Empty;

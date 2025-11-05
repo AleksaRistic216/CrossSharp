@@ -2,11 +2,10 @@ using CrossSharp.Utils.Enums;
 
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IForm : IControl, ITitleBarProvider, IBackgroundColorProvider
+public interface IForm : IControl, IBackgroundColorProvider
 {
     IControlsContainer Controls { get; }
     IntPtr Handle { get; }
-    bool UseNativeTitleBar { get; set; }
     string Title { get; set; }
     EventHandler? TitleChanged { get; set; }
     IApplication AppInstance { get; }

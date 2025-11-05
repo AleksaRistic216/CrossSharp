@@ -17,18 +17,12 @@ public abstract class FormBase<T> : IForm
     }
     public IControlsContainer Controls => Implementation.Controls;
     public IntPtr Handle => Implementation.Handle;
-    public ITitleBar? TitleBar => Implementation.TitleBar;
     public EventHandler? TitleChanged
     {
         get => Implementation.TitleChanged;
         set { Implementation.TitleChanged = value; }
     }
     public IApplication AppInstance => Implementation.AppInstance;
-    public bool UseNativeTitleBar
-    {
-        get => Implementation.UseNativeTitleBar;
-        set { Implementation.UseNativeTitleBar = value; }
-    }
 
     public void PerformTheme() => Implementation.PerformTheme();
 
