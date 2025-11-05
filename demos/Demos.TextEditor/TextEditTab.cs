@@ -35,7 +35,7 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
     {
         var editorBarHeight = 30;
         _editorBar.Height = editorBarHeight;
-        _editorBar.BackgroundColor = Theme.SecondaryBackgroundColor;
+        _editorBar.BackgroundColor = Theme.SecondaryColor;
         _editorBar.Orientation = Orientation.Horizontal;
         _editorBar.Dock = DockStyle.Top;
         _editorBar.DockIndex = 0;

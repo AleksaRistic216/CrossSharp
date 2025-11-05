@@ -6,7 +6,6 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
-using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -57,6 +56,7 @@ class StaticLayout : IStaticLayout
 
     public void PerformTheme()
     {
+        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         foreach (var control in _controls)
             control.PerformTheme();

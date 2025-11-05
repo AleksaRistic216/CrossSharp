@@ -25,7 +25,7 @@ partial class Label : ControlBase, ILabel
         // Width = size.Width;
         // Height = size.Height;
         if (Equals(ForegroundColor, ColorRgba.Transparent))
-            ForegroundColor = Theme.BackgroundColor.Contrasted;
+            ForegroundColor = Theme.PrimaryColor.Contrasted;
     }
 
     public override void Redraw()

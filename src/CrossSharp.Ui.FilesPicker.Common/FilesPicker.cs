@@ -40,7 +40,7 @@ public class FilesPicker : Form, IFilesPicker
     {
         _leftRow = new StackedLayout();
         _leftRow.Dock = DockStyle.Left;
-        _leftRow.BackgroundColor = Theme.BackgroundColor.Darkened;
+        _leftRow.BackgroundColor = Theme.PrimaryColor.Darkened;
         _leftRow.Width = LEFT_ROW_WIDTH;
         _leftRow.DockIndex = 0;
         Controls.Add(_leftRow);
@@ -142,7 +142,7 @@ public class FilesPicker : Form, IFilesPicker
     {
         _rightRow = new StackedLayout();
         _rightRow.Dock = DockStyle.Fill;
-        _rightRow.BackgroundColor = Theme.BackgroundColor;
+        _rightRow.BackgroundColor = Theme.PrimaryColor;
         _rightRow.DockIndex = 1;
         Controls.Add(_rightRow);
         InitializeActionBar();
@@ -226,7 +226,7 @@ public class FilesPicker : Form, IFilesPicker
                 entryButton.TextAlignment = Alignment.Left;
                 entryButton.CornerRadius = 0;
                 entryButton.Height = BLOCK_HEIGHT;
-                entryButton.BackgroundColor = isDir ? ColorRgba.Orange.Darkened : Theme.BackgroundColor;
+                entryButton.BackgroundColor = isDir ? ColorRgba.Orange.Darkened : Theme.PrimaryColor;
                 entryButton.Style = RenderStyle.Contained;
                 entryButton.Click = (s, _) =>
                 {

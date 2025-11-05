@@ -3,6 +3,7 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
@@ -21,9 +22,11 @@ partial class StackedLayout : IStackedLayout
 
     public void PerformTheme()
     {
+        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
         Padding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
+        this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         foreach (var control in _controls)
             control.PerformTheme();
     }

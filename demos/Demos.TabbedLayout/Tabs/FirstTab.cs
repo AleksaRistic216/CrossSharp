@@ -21,7 +21,7 @@ public class FirstTab : StackedLayout, ITabbedLayoutTab
     {
         _navigationMenu = new StackedLayout();
         _navigationMenu.Orientation = Orientation.Vertical;
-        _navigationMenu.BackgroundColor = Theme.BackgroundColor.Darkened;
+        _navigationMenu.BackgroundColor = Theme.PrimaryColor.Darkened;
         _navigationMenu.Width = 200;
         _navigationMenu.Dock = DockStyle.Left;
         Add(_navigationMenu);

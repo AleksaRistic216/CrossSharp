@@ -44,7 +44,6 @@ partial class Accordion : StackedLayout, IAccordion
         _hamburgButton.Width = _headerArea.Height;
         _hamburgButton.Height = _headerArea.Height;
         _hamburgButton.Text = "☰";
-        _hamburgButton.BackgroundColor = ColorRgba.Transparent;
         _hamburgButton.Click += (_, _) =>
         {
             State = State == AccordionState.Collapsed ? AccordionState.Expanded : AccordionState.Collapsed;
@@ -92,7 +91,6 @@ partial class Accordion : StackedLayout, IAccordion
     public override void PerformTheme()
     {
         this.SetMargin(Theme.DefaultLayoutItemSpacing);
-        BackgroundColor = Theme.SecondaryBackgroundColor;
         _itemsArea.PerformTheme();
         _headerArea.PerformTheme();
         base.PerformTheme();

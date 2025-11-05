@@ -1,4 +1,5 @@
 using CrossSharp.Ui;
+using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 
 namespace Demos.Input;
@@ -12,6 +13,7 @@ public class MainForm : Form
         var flowLayout = new FlowLayout();
         flowLayout.Dock = DockStyle.Fill;
         flowLayout.ItemsSpacing = 10;
+        flowLayout.BackgroundColor = ColorRgba.WhiteSmoke;
         Controls.Add(flowLayout);
 
         var singleLineInput = new CrossSharp.Ui.Input();

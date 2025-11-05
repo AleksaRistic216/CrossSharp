@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
@@ -13,7 +14,7 @@ partial class Button : ControlBase, IButton
 
     public override void PerformTheme()
     {
-        BackgroundColor = Theme.ButtonBackgroundColor;
+        BackgroundColor = Theme.PrimaryColor.Darkened;
         CornerRadius = Theme.DefaultCornerRadius;
     }
 

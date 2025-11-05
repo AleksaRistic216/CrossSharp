@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
@@ -22,7 +23,14 @@ partial class FlowLayout : IFlowLayout
 
     public void LimitClip(ref IGraphics g) { }
 
-    public void PerformTheme() { }
+    public void PerformTheme()
+    {
+        this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
+        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
+        ItemsSpacing = Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing;
+        foreach (var control in _controls)
+            control.PerformTheme();
+    }
 
     public void Invalidate()
     {
@@ -157,12 +165,12 @@ partial class FlowLayout : IFlowLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        graphics.SetClip(new Rectangle(Location, new Size(Width, Height)), 0);
-        graphics.SetOffset(0, 0);
+        var clientBounds = this.GetClientBounds();
+        graphics.SetOffset(clientBounds.X, clientBounds.Y);
+        graphics.SetClip(clientBounds, 0);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);
-        ScrollableHelpers.DrawScrollBar(ref graphics, this);
     }
 
     bool ShouldControlBeDrawn(IControl control)
@@ -176,7 +184,7 @@ partial class FlowLayout : IFlowLayout
 
     void DrawBackground(ref IGraphics graphics)
     {
-        graphics.FillRectangle(Location.X, Location.Y, Width, Height, BackgroundColor);
+        graphics.FillRectangle(0, 0, Width, Height, BackgroundColor);
     }
 
     public IEnumerator<IControl> GetEnumerator() => _controls.GetEnumerator();

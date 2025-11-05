@@ -14,7 +14,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         Parent = form;
         Form.StateChanged += FormStateChanged;
         Orientation = Orientation.Horizontal;
-        BackgroundColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor.Darkened;
+        BackgroundColor = Services.GetSingleton<ITheme>().SecondaryColor.Darkened;
         Height = 35;
         Width = Form.Width;
         InputHandler.MouseMoved += OnMouseMoved;

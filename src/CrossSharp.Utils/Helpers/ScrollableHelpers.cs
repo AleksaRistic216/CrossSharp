@@ -58,7 +58,7 @@ static class ScrollableHelpers
             return;
         const int barThickness = 20;
         const int barSizeK = 5;
-        ColorRgba barColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor;
+        ColorRgba barColor = Services.GetSingleton<ITheme>().SecondaryColor;
         barColor = new ColorRgba(barColor.R, barColor.G, barColor.B, 0.2f);
         if (scrollable.Scrollable == ScrollableMode.None)
             return;

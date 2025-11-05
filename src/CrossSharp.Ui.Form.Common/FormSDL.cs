@@ -73,7 +73,7 @@ partial class FormSDL : IFormSDL
 
     public void PerformTheme()
     {
-        BackgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
+        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
         foreach (var control in Controls)
             control.PerformTheme();
     }

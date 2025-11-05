@@ -133,4 +133,11 @@ partial class Input : ControlBase, IInput
             y += LineHeight;
         }
     }
+
+    public override void PerformTheme()
+    {
+        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
+        FontSize = Services.GetSingleton<ITheme>().DefaultFontSize;
+        CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
+    }
 }

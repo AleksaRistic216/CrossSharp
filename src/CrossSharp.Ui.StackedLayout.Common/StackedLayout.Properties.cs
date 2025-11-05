@@ -1,6 +1,5 @@
 using System.Drawing;
 using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;

@@ -18,7 +18,7 @@ partial class ModularForm : FormSDL, IModularForm
     void InitializeLeftNavigationPane()
     {
         LeftNavigationPane = new StackedLayout();
-        LeftNavigationPane.BackgroundColor = _theme.SecondaryBackgroundColor;
+        LeftNavigationPane.BackgroundColor = _theme.SecondaryColor;
         LeftNavigationPane.Orientation = Orientation.Vertical;
         LeftNavigationPane.Dock = DockStyle.Left;
         LeftNavigationPane.DockIndex = 0;
@@ -29,7 +29,7 @@ partial class ModularForm : FormSDL, IModularForm
     void InitializeTopNavigationPane()
     {
         TopNavigationPane = new StackedLayout();
-        TopNavigationPane.BackgroundColor = _theme.SecondaryBackgroundColor;
+        TopNavigationPane.BackgroundColor = _theme.SecondaryColor;
         TopNavigationPane.Orientation = Orientation.Horizontal;
         TopNavigationPane.Dock = DockStyle.Top;
         TopNavigationPane.DockIndex = 1;

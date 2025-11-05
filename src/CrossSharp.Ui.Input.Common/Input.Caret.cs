@@ -1,6 +1,5 @@
 using System.Drawing;
 using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
@@ -141,12 +140,5 @@ partial class Input
             return true;
         }
         return false;
-    }
-
-    public override void PerformTheme()
-    {
-        BackgroundColor = Services.GetSingleton<ITheme>().InputBackgroundColor;
-        FontSize = Services.GetSingleton<ITheme>().DefaultFontSize;
-        CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
     }
 }

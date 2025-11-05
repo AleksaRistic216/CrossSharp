@@ -11,6 +11,11 @@ public interface IControl
         IMarginProvider
 {
     void PerformTheme();
+
+    /// <summary>
+    /// Invoked before performing the theming process.
+    /// If this function returns true, default theming process will be skipped.
+    /// </summary>
     bool Visible { get; set; }
     void Invalidate();
     void SuspendLayout();

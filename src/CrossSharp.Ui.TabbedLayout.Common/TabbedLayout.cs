@@ -34,7 +34,7 @@ partial class TabbedLayout : ITabbedLayout
     {
         _header = new StackedLayout();
         _header.Orientation = Orientation.Horizontal;
-        _header.BackgroundColor = Theme.SecondaryBackgroundColor;
+        _header.BackgroundColor = Theme.SecondaryColor;
         _header.ItemsSpacing = HeaderItemsSpacing;
         _header.Parent = this;
         _header.Padding = HeaderPadding;
@@ -46,9 +46,11 @@ partial class TabbedLayout : ITabbedLayout
 
     public void PerformTheme()
     {
-        BackgroundColor = Services.GetSingleton<ITheme>().BackgroundColor;
+        BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
         HeaderItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
         HeaderPadding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
+        foreach (var control in _controls)
+            control.PerformTheme();
     }
 
     public void Invalidate()
