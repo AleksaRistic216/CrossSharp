@@ -1,16 +1,35 @@
+using System.Drawing;
+using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
 
 // ReSharper disable once InconsistentNaming
-partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
+sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 {
-    internal FormSDLTitleBar()
+    internal FormSDLTitleBar(FormSDL form)
     {
+        Parent = form;
+        Orientation = Utils.Enums.Orientation.Horizontal;
+        BackgroundColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor.Darkened;
+        Height = 35;
+        Width = Form.Width;
         InputHandler.MouseMoved += OnMouseMoved;
         InputHandler.MousePressed += OnMousePressed;
         InputHandler.MouseDragged += OnMouseDragged;
         InputHandler.MouseReleased += OnMouseReleased;
+
+        var closeButton = new Button();
+        closeButton.Text = "X";
+        closeButton.Width = 50;
+        closeButton.Height = Height;
+        closeButton.BackgroundColor = BackgroundColor.Darkened;
+        closeButton.Click += (s, e) =>
+        {
+            Form.Close();
+        };
+        Add(closeButton);
     }
 
     void StartMovingForm()

@@ -5,7 +5,7 @@ using CrossSharp.Utils.Input;
 namespace CrossSharp.Ui.Common;
 
 // ReSharper disable once InconsistentNaming
-partial class FormSDLTitleBar
+sealed partial class FormSDLTitleBar
 {
     void OnMouseReleased(object? sender, MouseInputArgs e)
     {

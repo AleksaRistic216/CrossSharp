@@ -5,7 +5,7 @@ using CrossSharp.Utils.Interfaces;
 namespace CrossSharp.Ui.Common;
 
 // ReSharper disable once InconsistentNaming
-partial class FormSDLTitleBar
+sealed partial class FormSDLTitleBar
 {
     IInputHandler InputHandler => Services.GetSingleton<IInputHandler>();
     IForm Form => (IForm)Parent!;

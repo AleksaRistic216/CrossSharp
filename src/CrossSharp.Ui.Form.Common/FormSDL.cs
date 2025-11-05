@@ -82,11 +82,7 @@ partial class FormSDL : IFormSDL
     {
         if (Services.GetSingleton<IApplicationConfiguration>().FormsStyle is not FormStyle.CrossSharp)
             return;
-        _titleBar ??= new FormSDLTitleBar();
-        _titleBar.Height = 35;
-        _titleBar.Width = Width;
-        _titleBar.Parent = this;
-        _titleBar.BackgroundColor = Services.GetSingleton<ITheme>().SecondaryBackgroundColor.Darkened;
+        _titleBar ??= new FormSDLTitleBar(this);
         Controls.Location = new Point(0, _titleBar.Height);
     }
 
