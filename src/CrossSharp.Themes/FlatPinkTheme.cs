@@ -14,5 +14,6 @@ public class FlatPinkTheme : ITheme
     public ColorRgba SecondaryBackgroundColor { get; set; } = ColorRgba.LightPink;
     public ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.HotPink;
     public ColorRgba InputBackgroundColor { get; set; } = ColorRgba.MediumVioletRed;
-    public int DefaultCornerRadius { get; set; } = 0;
+    public int DefaultCornerRadius { get; set; } = Constants.DEFAULT_FLAT_CORNER_RADIUS;
+    public int DefaultLayoutItemSpacing { get; set; } = Constants.DEFAULT_FLAT_LAYOUT_ITEM_SPACING;
 }

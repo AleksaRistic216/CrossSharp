@@ -4,16 +4,16 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Themes;
 
-public class RoundedSpacedDarkTheme : ITheme
+public class RoundedSpacedLightTheme : ITheme
 {
-    public virtual int AntiAliasingLevel { get; set; } = Constants.ANTI_ALIASING_LEVEL;
+    public int AntiAliasingLevel { get; set; } = Constants.ANTI_ALIASING_LEVEL;
     public RenderStyle Style { get; set; } = RenderStyle.Contained;
     public int DefaultFontSize { get; set; } = Constants.DEFAULT_FONT_SIZE;
     public FontFamily DefaultFontFamily { get; set; } = Constants.DEFAULT_FONT_FAMILY;
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.DarkGray;
-    public ColorRgba SecondaryBackgroundColor { get; set; } = ColorRgba.DimGray;
-    public ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.Gray;
-    public ColorRgba InputBackgroundColor { get; set; } = ColorRgba.LightGray;
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.White;
+    public ColorRgba SecondaryBackgroundColor { get; set; } = ColorRgba.LightGray;
+    public ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.Silver;
+    public ColorRgba InputBackgroundColor { get; set; } = ColorRgba.Gainsboro;
     public int DefaultCornerRadius { get; set; } = Constants.DEFAULT_ROUNDED_CORNER_RADIUS;
     public int DefaultLayoutItemSpacing { get; set; } =
         Constants.DEFAULT_ROUNDED_LAYOUT_ITEM_SPACING;

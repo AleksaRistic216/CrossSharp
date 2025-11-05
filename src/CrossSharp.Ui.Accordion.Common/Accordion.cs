@@ -1,6 +1,8 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -36,7 +38,7 @@ partial class Accordion : StackedLayout, IAccordion
         _headerArea = new StackedLayout();
         _headerArea.Orientation = Orientation.Horizontal;
         _headerArea.Dock = DockStyle.Top;
-        _headerArea.Height = 35;
+        _headerArea.Height = 40;
         Add(_headerArea);
 
         _hamburgButton = new Button();
@@ -96,6 +98,7 @@ partial class Accordion : StackedLayout, IAccordion
 
     public override void PerformTheme()
     {
+        this.SetMargin(Theme.DefaultLayoutItemSpacing);
         BackgroundColor = Theme.SecondaryBackgroundColor;
         _itemsArea.PerformTheme();
         _headerArea.PerformTheme();

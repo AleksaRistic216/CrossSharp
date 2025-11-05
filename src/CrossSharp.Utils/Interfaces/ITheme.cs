@@ -13,4 +13,5 @@ public interface ITheme
     ColorRgba ButtonBackgroundColor { get; set; }
     ColorRgba InputBackgroundColor { get; set; }
     int DefaultCornerRadius { get; set; }
+    int DefaultLayoutItemSpacing { get; set; }
 }

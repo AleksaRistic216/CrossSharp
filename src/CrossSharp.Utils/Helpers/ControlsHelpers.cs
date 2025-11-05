@@ -83,6 +83,21 @@ public static class ControlsHelpers
             if (dockedSibling.DockIndex > control.DockIndex)
                 continue;
             var siblingBounds = new Rectangle(dockedSibling.Location, dockedSibling.Size);
+            var siblingMarginTop = 0;
+            var siblingMarginBottom = 0;
+            var siblingMarginLeft = 0;
+            var siblingMarginRight = 0;
+            if (sibling is IMarginProvider siblingMp)
+            {
+                siblingMarginTop = siblingMp.MarginTop;
+                siblingMarginBottom = siblingMp.MarginBottom;
+                siblingMarginLeft = siblingMp.MarginLeft;
+                siblingMarginRight = siblingMp.MarginRight;
+            }
+            siblingBounds.X -= siblingMarginLeft;
+            siblingBounds.Y -= siblingMarginTop;
+            siblingBounds.Width += siblingMarginLeft + siblingMarginRight;
+            siblingBounds.Height += siblingMarginTop + siblingMarginBottom;
             switch (dockedSibling.Dock)
             {
                 case DockStyle.Top:

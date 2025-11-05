@@ -14,5 +14,6 @@ public class FlatBlueTheme : ITheme
     public ColorRgba SecondaryBackgroundColor { get; set; } = ColorRgba.LightBlue;
     public ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.DodgerBlue;
     public ColorRgba InputBackgroundColor { get; set; } = ColorRgba.SteelBlue;
-    public int DefaultCornerRadius { get; set; } = 0;
+    public int DefaultCornerRadius { get; set; } = Constants.DEFAULT_FLAT_CORNER_RADIUS;
+    public int DefaultLayoutItemSpacing { get; set; } = Constants.DEFAULT_FLAT_LAYOUT_ITEM_SPACING;
 }

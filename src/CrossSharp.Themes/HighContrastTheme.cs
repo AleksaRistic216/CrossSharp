@@ -14,5 +14,7 @@ public class HighContrastTheme : ITheme
     public ColorRgba SecondaryBackgroundColor { get; set; } = ColorRgba.White;
     public ColorRgba ButtonBackgroundColor { get; set; } = ColorRgba.Yellow;
     public ColorRgba InputBackgroundColor { get; set; } = ColorRgba.Cyan;
-    public int DefaultCornerRadius { get; set; } = 0;
+    public int DefaultCornerRadius { get; set; } = Constants.DEFAULT_CONTAINED_CORNER_RADIUS;
+    public int DefaultLayoutItemSpacing { get; set; } =
+        Constants.DEFAULT_CONTAINED_LAYOUT_ITEM_SPACING;
 }
