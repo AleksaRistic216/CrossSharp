@@ -23,6 +23,8 @@ public class ColorRgba
     public static readonly ColorRgba LightGreen = new(0.5f, 1, 0.5f, 1);
     public static readonly ColorRgba DarkGreen = new(0, 0.5f, 0, 1);
     public static readonly ColorRgba LightBlue = new(0.5f, 0.5f, 1, 1);
+    public static readonly ColorRgba DodgerBlue = new(0.12f, 0.56f, 1, 1);
+    public static readonly ColorRgba SteelBlue = new(0.27f, 0.51f, 0.71f, 1);
     public static readonly ColorRgba DarkBlue = new(0, 0, 0.5f, 1);
     public static readonly ColorRgba Blue = new(0, 0, 1, 1);
     public static readonly ColorRgba Purple = new(0.5f, 0, 0.5f, 1);
@@ -32,8 +34,12 @@ public class ColorRgba
     public static readonly ColorRgba DimGray = new(0.3f, 0.3f, 0.3f, 1);
     public static readonly ColorRgba ReallyDarkGray = new(0.1f, 0.1f, 0.1f, 1);
     public static readonly ColorRgba Yellow = new(1, 1, 0, 1);
+    public static readonly ColorRgba Cyan = new(0, 1, 1, 1);
     public static readonly ColorRgba Orange = new(1, 0.65f, 0, 1);
     public static readonly ColorRgba Pink = new(1, 0.75f, 0.8f, 1);
+    public static readonly ColorRgba LightPink = new(1, 0.85f, 0.9f, 1);
+    public static readonly ColorRgba HotPink = new(1, 0.4f, 0.7f, 1);
+    public static readonly ColorRgba MediumVioletRed = new(0.78f, 0.08f, 0.52f, 1);
     public static readonly ColorRgba White = new(1, 1, 1, 1);
     public static readonly ColorRgba WhiteSmoke = new(0.9f, 0.9f, 0.9f, 1);
     public static readonly ColorRgba Black = new(0, 0, 0, 1);

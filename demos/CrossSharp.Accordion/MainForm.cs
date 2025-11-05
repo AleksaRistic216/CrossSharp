@@ -46,6 +46,50 @@ public class MainForm : Form
             Invalidate();
         };
         _leftMenu.AddItem(btn2);
+
+        var btn3 = new Button();
+        btn3.Text = "Use flat pink theme";
+        btn3.Height = 30;
+        btn3.Click += (s, e) =>
+        {
+            Services.AddSingleton<ITheme, FlatPinkTheme>(true);
+            PerformTheme();
+            Invalidate();
+        };
+        _leftMenu.AddItem(btn3);
+
+        var btn4 = new Button();
+        btn4.Text = "Use flat blue theme";
+        btn4.Height = 30;
+        btn4.Click += (s, e) =>
+        {
+            Services.AddSingleton<ITheme, FlatBlueTheme>(true);
+            PerformTheme();
+            Invalidate();
+        };
+        _leftMenu.AddItem(btn4);
+
+        var btn5 = new Button();
+        btn5.Text = "High Contrast Theme";
+        btn5.Height = 30;
+        btn5.Click += (s, e) =>
+        {
+            Services.AddSingleton<ITheme, HighContrastTheme>(true);
+            PerformTheme();
+            Invalidate();
+        };
+        _leftMenu.AddItem(btn5);
+
+        var btn6 = new Button();
+        btn6.Text = "Flat high contrast theme";
+        btn6.Height = 30;
+        btn6.Click += (s, e) =>
+        {
+            Services.AddSingleton<ITheme, FlatHighContrastTheme>(true);
+            PerformTheme();
+            Invalidate();
+        };
+        _leftMenu.AddItem(btn6);
     }
 
     void InitializeContentArea()
