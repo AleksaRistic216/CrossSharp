@@ -26,7 +26,7 @@ partial class StackedLayout : IStackedLayout
         CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
         Padding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
-        this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
+        // this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing); // Do not do this, it is bugged :)
         foreach (var control in _controls)
             control.PerformTheme();
     }
