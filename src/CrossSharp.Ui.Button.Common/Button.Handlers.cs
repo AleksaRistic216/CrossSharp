@@ -7,7 +7,6 @@ partial class Button
     void OnTextChangedInternal()
     {
         Invalidate();
-        Redraw();
         RaiseOnTextChange();
     }
 
@@ -18,7 +17,6 @@ partial class Button
     void OnBackgroundColorChangedInternal()
     {
         Invalidate();
-        Redraw();
         RaiseOnBackgroundColorChange();
     }
 
@@ -42,7 +40,6 @@ partial class Button
     void OnTextAlignmentChangedInternal()
     {
         Invalidate();
-        Redraw();
         RaiseOnTextAlignmentChange();
     }
 
@@ -53,7 +50,6 @@ partial class Button
     void OnImageChangedInternal()
     {
         Invalidate();
-        Redraw();
         RaiseOnImageChange();
     }
 
@@ -64,7 +60,6 @@ partial class Button
     void OnImagePlacementChangedInternal()
     {
         Invalidate();
-        Redraw();
         RaiseOnImagePlacementChange();
     }
 
@@ -75,7 +70,6 @@ partial class Button
     void OnImageScaleChangedInternal()
     {
         Invalidate();
-        Redraw();
         RaiseOnImageScaleChange();
     }
 

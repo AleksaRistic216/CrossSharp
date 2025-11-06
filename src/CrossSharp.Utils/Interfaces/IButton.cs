@@ -13,7 +13,8 @@ public interface IButton
         ISelectable,
         IRoundedCorners,
         IAccordionItem,
-        IDockable
+        IDockable,
+        IDropdownItem
 {
     SizeF ImageScale { get; set; }
     EventHandler? OnImageScaleChange { get; set; }

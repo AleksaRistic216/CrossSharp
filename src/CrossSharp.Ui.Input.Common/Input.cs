@@ -95,8 +95,6 @@ partial class Input : ControlBase, IInput
         FontSize = Height - LINE_GAP * 2 - BorderWidth * 2;
     }
 
-    public override void Redraw() { }
-
     public override void DrawContent(ref IGraphics g)
     {
         DrawPlaceholder(ref g);

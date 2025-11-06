@@ -21,6 +21,7 @@ partial class FormSDL : IFormSDL
         Controls = Services.GetSingleton<IStaticLayoutFactory>().Create();
         Controls.Parent = this;
         Services.GetSingleton<IApplication>().Forms.Add(this);
+        InvalidateTitleBar();
         PerformTheme();
         Invalidate();
     }
@@ -71,6 +72,7 @@ partial class FormSDL : IFormSDL
 
     public void PerformTheme()
     {
+        _titleBar?.PerformTheme();
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         foreach (var control in Controls)
             control.PerformTheme();
@@ -187,5 +189,5 @@ partial class FormSDL : IFormSDL
         Services.GetSingleton<IApplication>().Tick -= OnTickDispose;
     }
 
-    public void LimitClip(ref IGraphics g) { }
+    public void PrepareClipAndOffset(ref IGraphics g) { }
 }

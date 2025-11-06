@@ -106,10 +106,6 @@ public abstract class FormBase<T> : IForm
 
     public virtual void Invalidate() => Implementation.Invalidate();
 
-    public void SuspendLayout() => Implementation.SuspendLayout();
-
-    public void ResumeLayout() => Implementation.ResumeLayout();
-
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
     public EventHandler? Disposing
@@ -145,7 +141,7 @@ public abstract class FormBase<T> : IForm
         set { Implementation.BackgroundColorChanged = value; }
     }
 
-    public void LimitClip(ref IGraphics g) => Implementation.LimitClip(ref g);
+    public void PrepareClipAndOffset(ref IGraphics g) => Implementation.PrepareClipAndOffset(ref g);
 
     public bool IsMouseOver
     {

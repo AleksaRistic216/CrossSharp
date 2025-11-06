@@ -25,20 +25,6 @@ public abstract partial class ControlBase : IControl
 
     public virtual void Dispose() => OnDisposingInternal();
 
-    public abstract void Redraw();
-
-    public void SuspendLayout()
-    {
-        _suspendLayout = true;
-    }
-
-    public void ResumeLayout()
-    {
-        _suspendLayout = false;
-        Invalidate();
-        Redraw();
-    }
-
     public virtual void DrawShadows(ref IGraphics g) { }
 
     public virtual void DrawBackground(ref IGraphics g)
@@ -76,14 +62,14 @@ public abstract partial class ControlBase : IControl
             offsetY -= scrollableParent.Viewport.Y;
         }
         graphics.SetOffset(offsetX, offsetY);
-        LimitClip(ref graphics);
+        PrepareClipAndOffset(ref graphics);
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);
         DrawContent(ref graphics);
     }
 
-    public virtual void LimitClip(ref IGraphics g)
+    public virtual void PrepareClipAndOffset(ref IGraphics g)
     {
         int cornerRadius = 0;
         if (this is IRoundedCorners rc)

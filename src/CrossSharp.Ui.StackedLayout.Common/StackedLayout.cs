@@ -19,7 +19,12 @@ partial class StackedLayout : IStackedLayout
         PerformTheme();
     }
 
-    public void LimitClip(ref IGraphics g) { }
+    public void PrepareClipAndOffset(ref IGraphics g)
+    {
+        var clientBounds = this.GetClientBounds();
+        g.SetOffset(clientBounds.X, clientBounds.Y);
+        g.SetClip(clientBounds, CornerRadius);
+    }
 
     public void PerformTheme()
     {
@@ -124,13 +129,13 @@ partial class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        var clientBounds = this.GetClientBounds();
-        graphics.SetOffset(clientBounds.X, clientBounds.Y);
-        graphics.SetClip(clientBounds, CornerRadius);
+        PrepareClipAndOffset(ref graphics);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);
+        PrepareClipAndOffset(ref graphics);
         ScrollableHelpers.DrawScrollBar(ref graphics, this);
+        DrawBorders(ref graphics);
     }
 
     bool ShouldControlBeDrawn(IControl control)
@@ -147,6 +152,19 @@ partial class StackedLayout : IStackedLayout
     void DrawBackground(ref IGraphics graphics)
     {
         graphics.FillRectangle(0, 0, Width, Height, BackgroundColor);
+    }
+
+    void DrawBorders(ref IGraphics graphics)
+    {
+        if (BorderWidth <= 0)
+            return;
+        if (Equals(BorderColor, ColorRgba.Transparent))
+            return;
+        if (Width <= 0 || Height <= 0)
+            return;
+
+        var cornersRadius = (this as IRoundedCorners)?.CornerRadius ?? 0;
+        graphics.DrawRectangle(0, 0, Width, Height, BorderColor, BorderWidth, cornersRadius);
     }
 
     public void Dispose() => OnDisposeInternal();

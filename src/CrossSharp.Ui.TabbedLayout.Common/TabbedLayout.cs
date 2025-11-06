@@ -65,7 +65,7 @@ partial class TabbedLayout : ITabbedLayout
 
     public void Dispose() => OnDisposeInternal();
 
-    public void LimitClip(ref IGraphics g) { }
+    public void PrepareClipAndOffset(ref IGraphics g) { }
 
     public void SuspendLayout() { }
 

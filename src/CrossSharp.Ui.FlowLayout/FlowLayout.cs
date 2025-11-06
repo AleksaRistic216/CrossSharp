@@ -24,7 +24,7 @@ public class FlowLayout() : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlo
         set => _impl.BorderColor = value;
     }
 
-    public void LimitClip(ref IGraphics g) => _impl.LimitClip(ref g);
+    public void PrepareClipAndOffset(ref IGraphics g) => _impl.PrepareClipAndOffset(ref g);
 
     public Point Location
     {
@@ -71,10 +71,6 @@ public class FlowLayout() : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlo
     }
 
     public void Invalidate() => _impl.Invalidate();
-
-    public void SuspendLayout() => _impl.SuspendLayout();
-
-    public void ResumeLayout() => _impl.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 

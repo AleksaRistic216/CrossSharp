@@ -32,17 +32,14 @@ partial class Label : ControlBase, ILabel
             ForegroundColor = Theme.PrimaryColor.Contrasted;
     }
 
-    public override void Redraw()
-    {
-        // idea is to not draw each time but to have flag, and redraw only when that flag is updated using this
-    }
-
     public override void DrawContent(ref IGraphics g)
     {
         if (string.IsNullOrEmpty(Text))
             return;
         if (FontSize <= 0)
             return;
-        g.DrawText(Text, 0, 0, FontFamily, FontSize, ForegroundColor);
+        var textSize = g.MeasureText(Text, FontFamily, FontSize);
+        var y = (Height - textSize.Height) / 2;
+        g.DrawText(Text, 0, y, FontFamily, FontSize, ForegroundColor);
     }
 }

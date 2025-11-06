@@ -79,7 +79,7 @@ class StaticLayout : IStaticLayout
         }
     }
 
-    public void LimitClip(ref IGraphics g) { }
+    public void PrepareClipAndOffset(ref IGraphics g) { }
 
     public void Initialize() { }
 

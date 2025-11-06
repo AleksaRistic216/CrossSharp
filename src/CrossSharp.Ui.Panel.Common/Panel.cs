@@ -16,6 +16,4 @@ class Panel : ControlBase, IPanel
     public sealed override void PerformTheme() { }
 
     public override void Invalidate() { }
-
-    public override void Redraw() { }
 }

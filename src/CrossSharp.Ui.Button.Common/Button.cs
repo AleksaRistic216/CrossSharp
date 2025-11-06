@@ -168,9 +168,4 @@ partial class Button : ControlBase, IButton
         if (Image != null && _imageBounds.HasValue)
             g.DrawImage(Image.Data, _imageBounds.Value);
     }
-
-    public override void Redraw()
-    {
-        // idea is to not draw each time but to have flag, and redraw only when that flag is updated using this
-    }
 }

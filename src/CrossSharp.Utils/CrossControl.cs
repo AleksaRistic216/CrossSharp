@@ -23,7 +23,7 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
         set => Implementation.BorderColor = value;
     }
 
-    public void LimitClip(ref IGraphics g) => Implementation.LimitClip(ref g);
+    public void PrepareClipAndOffset(ref IGraphics g) => Implementation.PrepareClipAndOffset(ref g);
 
     public Point Location
     {
@@ -65,10 +65,6 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
     }
 
     public void Invalidate() => Implementation.Invalidate();
-
-    public void SuspendLayout() => Implementation.SuspendLayout();
-
-    public void ResumeLayout() => Implementation.ResumeLayout();
 
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 

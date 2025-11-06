@@ -10,7 +10,6 @@ public partial class ControlBase
     int _height = 0;
     bool _visible = true;
 
-    bool _suspendLayout = false;
     public ColorRgba ForegroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? LayoutChanged { get; set; }
 
@@ -27,7 +26,6 @@ public partial class ControlBase
                 return;
             _borderWidth = value;
             Invalidate();
-            Redraw();
         }
     }
     ColorRgba _borderColor { get; set; } = ColorRgba.Transparent;
@@ -40,7 +38,6 @@ public partial class ControlBase
                 return;
             _borderColor = value;
             Invalidate();
-            Redraw();
         }
     }
     public IntPtr ParentHandle { get; set; }
@@ -62,10 +59,6 @@ public partial class ControlBase
             if (_width == value)
                 return;
             _width = value;
-            if (!_suspendLayout)
-            {
-                Redraw();
-            }
             RaiseOnSizeChanged(new Size(Width, Height));
         }
     }
@@ -75,10 +68,6 @@ public partial class ControlBase
         set
         {
             _height = value;
-            if (!_suspendLayout)
-            {
-                Redraw();
-            }
             RaiseOnSizeChanged(new Size(Width, Height));
         }
     }
@@ -90,10 +79,6 @@ public partial class ControlBase
             if (_location == value)
                 return;
             _location = value;
-            if (!_suspendLayout)
-            {
-                Redraw();
-            }
             RaiseOnLocationChanged(value);
         }
     }

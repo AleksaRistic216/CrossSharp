@@ -63,7 +63,7 @@ public class StackedLayout()
         set => _impl.BorderColor = value;
     }
 
-    public void LimitClip(ref IGraphics g) => _impl.LimitClip(ref g);
+    public void PrepareClipAndOffset(ref IGraphics g) => _impl.PrepareClipAndOffset(ref g);
 
     public Point Location
     {
@@ -106,11 +106,7 @@ public class StackedLayout()
 
     public virtual void Invalidate() => _impl.Invalidate();
 
-    public virtual void SuspendLayout() => _impl.SuspendLayout();
-
-    public virtual void ResumeLayout() => _impl.ResumeLayout();
-
-    public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
+    public virtual void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
     public EventHandler? Disposing
     {
