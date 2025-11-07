@@ -31,6 +31,7 @@ partial class FlowLayout : IFlowLayout
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing;
         foreach (var control in _controls)
             control.PerformTheme();
+        OnThemePerformed();
     }
 
     public void Invalidate()
@@ -170,7 +171,7 @@ partial class FlowLayout : IFlowLayout
     {
         var clientBounds = this.GetClientBounds();
         graphics.SetOffset(clientBounds.X, clientBounds.Y);
-        graphics.SetClip(clientBounds, 0);
+        graphics.SetClip(clientBounds, CornerRadius);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);

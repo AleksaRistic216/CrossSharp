@@ -65,6 +65,16 @@ class StaticLayout : IStaticLayout
         this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         foreach (var control in _controls)
             control.PerformTheme();
+        OnThemePerformed();
+    }
+
+    public EventHandler? ThemePerformed { get; set; }
+
+    void RaiseThemePerformed() => ThemePerformed?.Invoke(this, EventArgs.Empty);
+
+    void OnThemePerformed()
+    {
+        RaiseThemePerformed();
     }
 
     public bool Visible
@@ -79,7 +89,12 @@ class StaticLayout : IStaticLayout
         }
     }
 
-    public void PrepareClipAndOffset(ref IGraphics g) { }
+    public void PrepareClipAndOffset(ref IGraphics g)
+    {
+        var clientBounds = this.GetClientBounds();
+        g.SetOffset(clientBounds.X, clientBounds.Y);
+        g.SetClip(clientBounds, CornerRadius);
+    }
 
     public void Initialize() { }
 
@@ -112,18 +127,31 @@ class StaticLayout : IStaticLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        var clientBounds = this.GetClientBounds();
-        graphics.SetOffset(clientBounds.X, clientBounds.Y);
-        graphics.SetClip(clientBounds, 0);
+        PrepareClipAndOffset(ref graphics);
         DrawBackground(ref graphics);
         foreach (var c in _controls.ToArray())
             c.Draw(ref graphics);
+        PrepareClipAndOffset(ref graphics);
         // ScrollableHelpers.DrawScrollBar(ref graphics, this);
+        DrawBorders(ref graphics);
     }
 
     void DrawBackground(ref IGraphics graphics)
     {
         graphics.FillRectangle(0, 0, Width, Height, BackgroundColor);
+    }
+
+    void DrawBorders(ref IGraphics graphics)
+    {
+        if (BorderWidth <= 0)
+            return;
+        if (Equals(BorderColor, ColorRgba.Transparent))
+            return;
+        if (Width <= 0 || Height <= 0)
+            return;
+
+        var cornersRadius = (this as IRoundedCorners)?.CornerRadius ?? 0;
+        graphics.DrawRectangle(0, 0, Width, Height, BorderColor, BorderWidth, cornersRadius);
     }
 
     public void Dispose() => OnDisposingInternal();
@@ -146,4 +174,5 @@ class StaticLayout : IStaticLayout
     public int MarginLeft { get; set; }
     public int MarginRight { get; set; }
     public EventHandler? MarginChanged { get; set; }
+    public int CornerRadius { get; set; }
 }

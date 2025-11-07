@@ -11,6 +11,7 @@ public interface IControl
         IMarginProvider
 {
     void PerformTheme();
+    EventHandler? ThemePerformed { get; set; }
 
     /// <summary>
     /// Invoked before performing the theming process.

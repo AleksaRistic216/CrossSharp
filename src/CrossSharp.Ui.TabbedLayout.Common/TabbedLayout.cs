@@ -47,6 +47,7 @@ partial class TabbedLayout : ITabbedLayout
         HeaderPadding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
         foreach (var control in _controls)
             control.PerformTheme();
+        OnThemePerformed();
     }
 
     public void Invalidate()

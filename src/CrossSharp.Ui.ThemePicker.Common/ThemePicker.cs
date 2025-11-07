@@ -1,11 +1,27 @@
-using CrossSharp.Utils;
+using CrossSharp.Themes;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
 
-class ThemePicker : ControlBase, IThemePicker
+partial class ThemePicker : Dropdown, IThemePicker
 {
-    public override void PerformTheme() { }
+    internal ThemePicker()
+    {
+        InitializeItems();
+    }
 
-    public override void Invalidate() { }
+    void InitializeItems()
+    {
+        var item = new ThemePickerDropdownItem(new DefaultTheme());
+        item.Height = 30;
+        AddItem(item);
+        _items.Add(item);
+    }
+
+    public override void PerformTheme()
+    {
+        base.PerformTheme();
+        foreach (var item in _items)
+            item.PerformTheme();
+    }
 }

@@ -85,6 +85,7 @@ public class DynamicControlsController(ref IControlsContainer container)
                 instance = (IControl?)Activator.CreateInstance(type);
             }
             value = instance ?? throw new Exception("Failed to create instance of " + type.FullName);
+            value.PerformTheme();
             _pageInstances[type] = value;
         }
         _container.Remove(_container.ToArray());
@@ -103,5 +104,11 @@ public class DynamicControlsController(ref IControlsContainer container)
         if (!_pageInstances.TryGetValue(type, out IControl? value))
             throw new InvalidOperationException("Current page instance not found.");
         return value;
+    }
+
+    public void PerformTheme()
+    {
+        foreach (var pageInstance in _pageInstances.Values)
+            pageInstance.PerformTheme();
     }
 }

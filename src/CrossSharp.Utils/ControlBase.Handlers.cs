@@ -2,12 +2,23 @@ using System.Drawing;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
-using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Utils;
 
 public partial class ControlBase
 {
+    public EventHandler? ThemePerformed { get; set; }
+
+    void RaiseThemePerformed()
+    {
+        ThemePerformed?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    internal void OnThemePerformed()
+    {
+        RaiseThemePerformed();
+    }
+
     public EventHandler<Size>? SizeChanged { get; set; }
     public EventHandler<Point>? LocationChanged { get; set; }
 

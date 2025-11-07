@@ -1,5 +1,4 @@
-using System.Reflection;
-using CrossSharp.Themes;
+using System.Text.RegularExpressions;
 using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
@@ -50,11 +49,7 @@ public sealed class DropdownsView : StackedLayout
         foreach (var themeType in themeTypes)
         {
             var item = new Button();
-            item.Text = System.Text.RegularExpressions.Regex.Replace(
-                themeType.Name.Replace("Theme", ""),
-                "(\\B[A-Z])",
-                " $1"
-            );
+            item.Text = Regex.Replace(themeType.Name.Replace("Theme", ""), "(\\B[A-Z])", " $1");
             item.Style = RenderStyle.Flat;
             item.Height = 30;
             item.Click += (s, _) =>

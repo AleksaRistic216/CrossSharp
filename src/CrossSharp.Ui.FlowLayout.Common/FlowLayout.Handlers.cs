@@ -60,6 +60,18 @@ partial class FlowLayout
 
     void OnMarginChangedInternal() => RaiseMarginChanged();
 
+    public EventHandler? ThemePerformed { get; set; }
+
+    void RaiseThemePerformed()
+    {
+        ThemePerformed?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnThemePerformed()
+    {
+        RaiseThemePerformed();
+    }
+
     public EventHandler? Disposing { get; set; }
 
     void RaiseDisposing()

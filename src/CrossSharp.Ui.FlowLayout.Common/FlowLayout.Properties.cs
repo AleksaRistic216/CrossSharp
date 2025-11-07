@@ -142,4 +142,5 @@ partial class FlowLayout
     public int MarginBottom { get; set; }
     public int MarginLeft { get; set; }
     public int MarginRight { get; set; }
+    public int CornerRadius { get; set; }
 }

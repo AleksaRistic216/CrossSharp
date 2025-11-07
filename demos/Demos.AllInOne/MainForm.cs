@@ -8,5 +8,27 @@ public partial class MainForm : Form
     {
         InitializeSideMenu();
         InitializeViewer();
+        SubscribeEvents();
+    }
+
+    public override void Dispose()
+    {
+        UnsubscribeEvents();
+        base.Dispose();
+    }
+
+    void SubscribeEvents()
+    {
+        ThemePerformed += OnThemePerformed;
+    }
+
+    void UnsubscribeEvents()
+    {
+        ThemePerformed -= OnThemePerformed;
+    }
+
+    void OnThemePerformed(object? sender, EventArgs e)
+    {
+        _viewer.PerformTheme();
     }
 }

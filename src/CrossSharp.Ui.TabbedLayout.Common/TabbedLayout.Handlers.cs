@@ -46,8 +46,7 @@ partial class TabbedLayout
 
     public EventHandler? HeaderItemsSpacingChanged { get; set; }
 
-    void RaiseHeaderItemsSpacingChanged() =>
-        HeaderItemsSpacingChanged?.Invoke(this, EventArgs.Empty);
+    void RaiseHeaderItemsSpacingChanged() => HeaderItemsSpacingChanged?.Invoke(this, EventArgs.Empty);
 
     void OnHeaderItemsSpacingChanged()
     {
@@ -87,6 +86,12 @@ partial class TabbedLayout
         Invalidate();
         RaiseCurrentTabChanged();
     }
+
+    public EventHandler? ThemePerformed { get; set; }
+
+    void RaiseThemePerformed() => ThemePerformed?.Invoke(this, EventArgs.Empty);
+
+    void OnThemePerformed() => RaiseThemePerformed();
 
     public EventHandler? Disposing { get; set; }
 

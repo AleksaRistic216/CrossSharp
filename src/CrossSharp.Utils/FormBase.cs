@@ -27,6 +27,12 @@ public abstract class FormBase<T> : IForm
 
     public void PerformTheme() => Implementation.PerformTheme();
 
+    public EventHandler? ThemePerformed
+    {
+        get => Implementation.ThemePerformed;
+        set { Implementation.ThemePerformed = value; }
+    }
+
     public bool Visible
     {
         get => Implementation.Visible;

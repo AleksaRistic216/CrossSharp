@@ -21,4 +21,9 @@ public class Panel() : CrossControl<IPanel>(Services.GetSingleton<IPanelFactory>
         get => Implementation.ForegroundColor;
         set => Implementation.ForegroundColor = value;
     }
+    public int CornerRadius
+    {
+        get => Implementation.CornerRadius;
+        set => Implementation.CornerRadius = value;
+    }
 }

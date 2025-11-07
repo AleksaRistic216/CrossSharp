@@ -136,5 +136,6 @@ partial class Input : ControlBase, IInput
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor.Highlighted;
         FontSize = Services.GetSingleton<ITheme>().DefaultFontSize;
         CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
+        OnThemePerformed();
     }
 }

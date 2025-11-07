@@ -5,6 +5,7 @@ namespace CrossSharp.Ui.Common;
 
 class Panel : ControlBase, IPanel
 {
+    public int CornerRadius { get; set; }
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? BackgroundColorChanged { get; set; }
 
@@ -13,7 +14,10 @@ class Panel : ControlBase, IPanel
         PerformTheme();
     }
 
-    public sealed override void PerformTheme() { }
+    public sealed override void PerformTheme()
+    {
+        OnThemePerformed();
+    }
 
     public override void Invalidate() { }
 }

@@ -90,7 +90,7 @@ partial class Accordion : StackedLayout, IAccordion
         _itemsArea.Add(item);
     }
 
-    public sealed override void PerformTheme()
+    public sealed override void PerformTheme() // Shouldn't override method from
     {
         this.SetMargin(Theme.DefaultLayoutItemSpacing);
         _itemsArea.PerformTheme();

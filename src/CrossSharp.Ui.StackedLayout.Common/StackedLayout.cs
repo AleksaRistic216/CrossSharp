@@ -35,6 +35,7 @@ partial class StackedLayout : IStackedLayout
         // this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing); // Do not do this, it is bugged :)
         foreach (var control in _controls)
             control.PerformTheme();
+        OnThemePerformed();
     }
 
     public void Invalidate()

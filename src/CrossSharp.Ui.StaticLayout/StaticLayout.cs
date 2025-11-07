@@ -82,6 +82,12 @@ public class StaticLayout()
 
     public void PerformTheme() => _impl.PerformTheme();
 
+    public EventHandler? ThemePerformed
+    {
+        get => _impl.ThemePerformed;
+        set => _impl.ThemePerformed = value;
+    }
+
     public bool Visible
     {
         get => _impl.Visible;
@@ -142,5 +148,10 @@ public class StaticLayout()
     {
         get => _impl.MarginChanged;
         set => _impl.MarginChanged = value;
+    }
+    public int CornerRadius
+    {
+        get => _impl.CornerRadius;
+        set => _impl.CornerRadius = value;
     }
 }

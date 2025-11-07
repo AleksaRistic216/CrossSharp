@@ -56,7 +56,13 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
         set => Implementation.Parent = value;
     }
 
-    public void PerformTheme() => Implementation.PerformTheme();
+    public virtual void PerformTheme() => Implementation.PerformTheme();
+
+    public EventHandler? ThemePerformed
+    {
+        get => Implementation.ThemePerformed;
+        set => Implementation.ThemePerformed = value;
+    }
 
     public bool Visible
     {

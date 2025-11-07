@@ -171,4 +171,5 @@ partial class TabbedLayout
             OnHeaderHeightChanged();
         }
     }
+    public int CornerRadius { get; set; }
 }

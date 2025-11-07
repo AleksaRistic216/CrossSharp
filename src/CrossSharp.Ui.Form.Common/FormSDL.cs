@@ -76,6 +76,7 @@ partial class FormSDL : IFormSDL
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         foreach (var control in Controls)
             control.PerformTheme();
+        OnThemePerformed();
     }
 
     public void Invalidate()

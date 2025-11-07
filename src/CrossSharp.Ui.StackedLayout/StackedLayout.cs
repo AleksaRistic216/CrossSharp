@@ -98,6 +98,12 @@ public class StackedLayout()
 
     public virtual void PerformTheme() => _impl.PerformTheme();
 
+    public EventHandler? ThemePerformed
+    {
+        get => _impl.ThemePerformed;
+        set => _impl.ThemePerformed = value;
+    }
+
     public bool Visible
     {
         get => _impl.Visible;

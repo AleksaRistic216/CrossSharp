@@ -18,6 +18,7 @@ partial class Button : ControlBase, IButton
     {
         BackgroundColor = Theme.PrimaryColor.Darkened;
         CornerRadius = Theme.DefaultCornerRadius;
+        OnThemePerformed();
     }
 
     public override void Invalidate()
