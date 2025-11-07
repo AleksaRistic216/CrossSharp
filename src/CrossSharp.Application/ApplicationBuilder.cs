@@ -62,6 +62,7 @@ public class ApplicationBuilder
         AddSingleton<IInputFactory, Ui.Linux.InputFactory>();
         AddSingleton<IAccordionFactory, Ui.Linux.AccordionFactory>();
         AddSingleton<IDropdownFactory, Ui.Linux.DropdownFactory>();
+        AddSingleton<IThemePickerFactory, Ui.Linux.ThemePickerFactory>();
     }
 
     void RegisterWindowsServices()
@@ -80,6 +81,7 @@ public class ApplicationBuilder
         AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
         AddSingleton<IAccordionFactory, Ui.Windows.AccordionFactory>();
         AddSingleton<IDropdownFactory, Ui.Windows.DropdownFactory>();
+        AddSingleton<IThemePickerFactory, Ui.Windows.ThemePickerFactory>();
     }
 
     void RegisterMacOsServices()

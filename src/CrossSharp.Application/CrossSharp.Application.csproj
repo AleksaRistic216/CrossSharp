@@ -86,6 +86,9 @@
         <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Linux\CrossSharp.Ui.TabbedLayout.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Windows\CrossSharp.Ui.TabbedLayout.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout\CrossSharp.Ui.TabbedLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ThemePicker.Linux\CrossSharp.Ui.ThemePicker.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ThemePicker.Windows\CrossSharp.Ui.ThemePicker.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ThemePicker\CrossSharp.Ui.ThemePicker.csproj" />
         <ProjectReference Include="..\CrossSharp.Utils.Windows\CrossSharp.Utils.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
     </ItemGroup>

@@ -48,3 +48,7 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.Dropdown.Windows")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker.Common")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker.Windows")]
