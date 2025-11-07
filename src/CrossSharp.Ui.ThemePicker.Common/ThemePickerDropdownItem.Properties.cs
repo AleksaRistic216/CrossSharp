@@ -13,4 +13,6 @@ partial class ThemePickerDropdownItem
     IStackedLayout _layout;
     ColorRgba _backgroundColor = ColorRgba.Transparent;
     IPanel _primaryColorPanel;
+    IPanel _secondaryColorPanel;
+    ILabel _themeNameLabel;
 }

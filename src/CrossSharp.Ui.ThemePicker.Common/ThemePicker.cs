@@ -12,16 +12,14 @@ partial class ThemePicker : Dropdown, IThemePicker
 
     void InitializeItems()
     {
-        var item = new ThemePickerDropdownItem(new DefaultTheme());
-        item.Height = 30;
-        AddItem(item);
-        _items.Add(item);
-    }
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        List<Type> themeTypes = [];
+        foreach (var type in assemblies.SelectMany(x => x.GetTypes()))
+            if (type is { IsClass: true, IsAbstract: false } && typeof(ITheme).IsAssignableFrom(type))
+                themeTypes.Add(type);
 
-    public override void PerformTheme()
-    {
-        base.PerformTheme();
-        foreach (var item in _items)
-            item.PerformTheme();
+        foreach (var themeType in themeTypes)
+            if (Activator.CreateInstance(themeType) is ITheme themeInstance)
+                AddItem(new ThemePickerDropdownItem(themeInstance));
     }
 }

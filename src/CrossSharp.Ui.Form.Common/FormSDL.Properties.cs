@@ -75,8 +75,6 @@ partial class FormSDL
         get => _height - (_titleBar?.Height ?? 0);
         set
         {
-            if (_titleBar is not null)
-                _height += _titleBar.Height;
             if (_height == value)
                 return;
             _height = value;

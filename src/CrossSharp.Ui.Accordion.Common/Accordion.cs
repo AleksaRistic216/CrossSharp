@@ -99,5 +99,6 @@ partial class Accordion : StackedLayout, IAccordion
         BackgroundColor = Theme.PrimaryColor;
         _itemsArea.BackgroundColor = ColorRgba.Transparent;
         _headerArea.BackgroundColor = ColorRgba.Transparent;
+        Invalidate();
     }
 }

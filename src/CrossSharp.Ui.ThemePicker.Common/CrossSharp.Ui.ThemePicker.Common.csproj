@@ -49,6 +49,7 @@
         <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Dropdown\CrossSharp.Ui.Dropdown.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
         <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />

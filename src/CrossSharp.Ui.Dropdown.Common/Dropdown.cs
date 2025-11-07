@@ -4,6 +4,7 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
+using static System.Int32;
 
 namespace CrossSharp.Ui.Common;
 
@@ -85,7 +86,10 @@ partial class Dropdown : StackedLayout, IDropdown
         if (_expandBtn is not null)
             _expandBtn.Text = State is DropdownState.Collapsed ? "▼" : "▲";
         if (_itemsLayout is not null)
-            _itemsLayout.Height = Math.Min(_itemsLayout.Sum(x => x.Height + _itemsLayout.ItemsSpacing), 200);
+            _itemsLayout.Height = Math.Min(
+                _itemsLayout.Sum(x => x.Height + _itemsLayout.ItemsSpacing + x.MarginTop + x.MarginBottom),
+                MaxValue // Update this to cap max dropdown height
+            );
         _headerLayout?.Invalidate();
         _itemsLayout?.Invalidate();
         InvalidateSize();
