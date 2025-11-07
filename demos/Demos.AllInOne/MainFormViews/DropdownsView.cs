@@ -1,3 +1,4 @@
+using System.Reflection;
 using CrossSharp.Themes;
 using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
@@ -40,35 +41,29 @@ public sealed class DropdownsView : StackedLayout
         dropdown.CollapsedHeight = 30;
         Add(dropdown);
 
-        var item1 = new Button();
-        item1.Text = "Default Theme";
-        item1.Style = RenderStyle.Flat;
-        item1.Height = 30;
-        item1.Click += (s, _) =>
-        {
-            SelectTheme((s as IButton)!, new DefaultTheme(), dropdown);
-        };
-        dropdown.AddItem(item1);
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        List<Type> themeTypes = [];
+        foreach (var type in assemblies.SelectMany(x => x.GetTypes()))
+            if (type is { IsClass: true, IsAbstract: false } && typeof(ITheme).IsAssignableFrom(type))
+                themeTypes.Add(type);
 
-        var item2 = new Button();
-        item2.Text = "Flat Pink Theme";
-        item2.Style = RenderStyle.Flat;
-        item2.Height = 30;
-        item2.Click += (s, _) =>
+        foreach (var themeType in themeTypes)
         {
-            SelectTheme((s as IButton)!, new FlatPinkTheme(), dropdown);
-        };
-        dropdown.AddItem(item2);
-
-        var item3 = new Button();
-        item3.Text = "Rounded Spaced Dark Theme";
-        item3.Style = RenderStyle.Flat;
-        item3.Height = 30;
-        item3.Click += (s, _) =>
-        {
-            SelectTheme((s as IButton)!, new RoundedSpacedDarkTheme(), dropdown);
-        };
-        dropdown.AddItem(item3);
+            var item = new Button();
+            item.Text = System.Text.RegularExpressions.Regex.Replace(
+                themeType.Name.Replace("Theme", ""),
+                "(\\B[A-Z])",
+                " $1"
+            );
+            item.Style = RenderStyle.Flat;
+            item.Height = 30;
+            item.Click += (s, _) =>
+            {
+                if (Activator.CreateInstance(themeType) is ITheme themeInstance)
+                    SelectTheme((s as IButton)!, themeInstance, dropdown);
+            };
+            dropdown.AddItem(item);
+        }
     }
 
     void SelectTheme(IButton sender, ITheme theme, IDropdown dropdown)

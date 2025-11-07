@@ -19,6 +19,7 @@ public class ColorRgba(float r, float g, float b, float a)
     public static readonly ColorRgba DarkGreen = new(0, 0.5f, 0, 1);
     public static readonly ColorRgba LightBlue = new(0.5f, 0.5f, 1, 1);
     public static readonly ColorRgba DodgerBlue = new(0.12f, 0.56f, 1, 1);
+    public static readonly ColorRgba DeepSkyBlue = new(0, 0.75f, 1, 1);
     public static readonly ColorRgba SteelBlue = new(0.27f, 0.51f, 0.71f, 1);
     public static readonly ColorRgba DarkBlue = new(0, 0, 0.5f, 1);
     public static readonly ColorRgba Blue = new(0, 0, 1, 1);
