@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>CrossSharp.Ui.Windows</RootNamespace>
+        <Version>9.0.6</Version>
+        <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
+        <Description>Cross-platform UI c# library supporting Linux, Windows and MacOs</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    </PropertyGroup>
+    <Target Name="ForceCopyToLocalFeed" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+        <PropertyGroup>
+            <!-- Resolve home directory on Linux -->
+            <DebugSymbols>true</DebugSymbols>
+            <LocalFeedRoot>$(HOME)/.nuget/packages</LocalFeedRoot>
+            <LocalFeedPath>$(LocalFeedRoot)/$([System.String]::Copy($(MSBuildProjectName)).ToLowerInvariant())/$(Version)/lib/$(TargetFramework)</LocalFeedPath>
+        </PropertyGroup>
+        <ItemGroup>
+            <BuiltDll Include="$(OutputPath)$(MSBuildProjectName).dll" />
+            <BuildPdb Include="$(OutputPath)$(MSBuildProjectName).pdb" />
+        </ItemGroup>
+        <MakeDir Directories="$(LocalFeedPath)" />
+        <Copy SourceFiles="@(BuiltDll)" DestinationFolder="$(LocalFeedPath)" OverwriteReadOnlyFiles="true" />
+        <Copy SourceFiles="@(BuildPdb)" DestinationFolder="$(LocalFeedPath)" OverwriteReadOnlyFiles="true" />
+    </Target>
+    <Target Name="CopyPackage" AfterTargets="Pack">
+        <ItemGroup>
+            <PackedFiles Include="$(PackageOutputPath)\*.nupkg" />
+        </ItemGroup>
+        <Copy SourceFiles="@(PackedFiles)" DestinationFolder="..\..\bin" />
+    </Target>
+    <ItemGroup>
+        <None Include="..\..\LICENSE">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\README.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CrossSharp.Ui.ThemePicker.Common\CrossSharp.Ui.ThemePicker.Common.csproj" />
+    </ItemGroup>
+</Project>
