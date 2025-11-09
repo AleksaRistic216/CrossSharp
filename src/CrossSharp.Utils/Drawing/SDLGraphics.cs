@@ -63,6 +63,9 @@ class SDLGraphics : IGraphics
     static extern int SDL_RenderSetClipRect(IntPtr renderer, ref SDLRect rect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern int SDL_RenderSetClipRect(IntPtr renderer, IntPtr rect);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_RenderFillRect(IntPtr renderer, ref SDLRect rect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
@@ -87,32 +90,16 @@ class SDLGraphics : IGraphics
     static extern IntPtr SDL_CreateTextureFromSurface(IntPtr renderer, IntPtr surface);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_QueryTexture(
-        IntPtr texture,
-        IntPtr format,
-        IntPtr access,
-        out int w,
-        out int h
-    );
+    static extern int SDL_QueryTexture(IntPtr texture, IntPtr format, IntPtr access, out int w, out int h);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderCopy(
-        IntPtr renderer,
-        IntPtr texture,
-        IntPtr srcRect,
-        ref SDLRect dstRect
-    );
+    static extern int SDL_RenderCopy(IntPtr renderer, IntPtr texture, IntPtr srcRect, ref SDLRect dstRect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_SetTextureBlendMode(IntPtr texture, SDLBlendMode blendMode);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderCopy(
-        IntPtr renderer,
-        IntPtr texture,
-        IntPtr srcRect,
-        IntPtr dstRect
-    );
+    static extern int SDL_RenderCopy(IntPtr renderer, IntPtr texture, IntPtr srcRect, IntPtr dstRect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern void SDL_FreeSurface(IntPtr surface);
@@ -121,13 +108,7 @@ class SDLGraphics : IGraphics
     static extern void SDL_DestroyTexture(IntPtr texture);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateTexture(
-        IntPtr renderer,
-        uint format,
-        int access,
-        int w,
-        int h
-    );
+    internal static extern IntPtr SDL_CreateTexture(IntPtr renderer, uint format, int access, int w, int h);
 
     public SDLGraphics(IntPtr renderer)
     {
@@ -176,13 +157,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderTarget(_renderer, targetTexture);
         SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0); // Fully transparent
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(
-            _renderer,
-            borderColor.RByte,
-            borderColor.GByte,
-            borderColor.BByte,
-            borderColor.AByte
-        );
+        SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
 
         if (roundedCornersRadius > 0)
             DrawRoundedRectBorder(0, 0, width, height, _clipRoundedCornerRadius, borderWidth);
@@ -222,24 +197,11 @@ class SDLGraphics : IGraphics
         SDL_DestroyTexture(targetTexture);
     }
 
-    void DrawRectangleWithoutMask(
-        int x,
-        int y,
-        int width,
-        int height,
-        ColorRgba borderColor,
-        float borderWidth
-    )
+    void DrawRectangleWithoutMask(int x, int y, int width, int height, ColorRgba borderColor, float borderWidth)
     {
         x += _offsetX;
         y += _offsetY;
-        SDL_SetRenderDrawColor(
-            _renderer,
-            borderColor.RByte,
-            borderColor.GByte,
-            borderColor.BByte,
-            borderColor.AByte
-        );
+        SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
         for (int i = 0; i < (int)borderWidth; i++)
         {
             var rect = new SDLRect
@@ -367,13 +329,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderTarget(_renderer, maskTexture);
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(
-            _renderer,
-            fillColor.RByte,
-            fillColor.GByte,
-            fillColor.BByte,
-            fillColor.AByte
-        ); // Opaque mask
+        SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte); // Opaque mask
         FillRoundedRectMask(0, 0, width, height, _clipRoundedCornerRadius); // This works but this should be as for background, and not draw rectangle...
 
         // Step 3: Composite masked border
@@ -406,13 +362,7 @@ class SDLGraphics : IGraphics
             return;
         x += _offsetX;
         y += _offsetY;
-        SDL_SetRenderDrawColor(
-            _renderer,
-            fillColor.RByte,
-            fillColor.GByte,
-            fillColor.BByte,
-            fillColor.AByte
-        );
+        SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte);
         var rect = new SDLRect
         {
             x = x,
@@ -519,14 +469,7 @@ class SDLGraphics : IGraphics
         return font;
     }
 
-    public void DrawText(
-        string text,
-        int x,
-        int y,
-        FontFamily fontFamily,
-        int fontSize,
-        ColorRgba textColor
-    )
+    public void DrawText(string text, int x, int y, FontFamily fontFamily, int fontSize, ColorRgba textColor)
     {
         if (_renderer == IntPtr.Zero)
             throw new NullReferenceException(nameof(_renderer));

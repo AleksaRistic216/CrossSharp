@@ -128,6 +128,8 @@ class StaticLayout : IStaticLayout
 
     public void Draw(ref IGraphics graphics)
     {
+        if (!Visible)
+            return;
         PrepareClipAndOffset(ref graphics);
         DrawBackground(ref graphics);
         foreach (var c in _controls.ToArray())

@@ -28,6 +28,13 @@ public static class ControlsHelpers
         {
             if (parent is IForm)
                 break;
+            if (parent is IScrollable s && s.Scrollable != ScrollableMode.None)
+            {
+                if (s.Viewport.X > 0)
+                    location.X -= s.Viewport.X;
+                if (s.Viewport.Y > 0)
+                    location.Y -= s.Viewport.Y;
+            }
             location.Offset(parentControl.Location);
             parent = parentControl.Parent;
         }
@@ -41,23 +48,6 @@ public static class ControlsHelpers
         if (form is null)
             return Rectangle.Empty;
         clientBounds.Offset(form.Location);
-        var parent = control.Parent;
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        while (parent is not null)
-        {
-            if (parent is IScrollable s)
-            {
-                if (s.Scrollable == ScrollableMode.None)
-                    break;
-                if (s.Viewport.X > 0)
-                    clientBounds.X -= s.Viewport.X;
-                if (s.Viewport.Y > 0)
-                    clientBounds.Y -= s.Viewport.Y;
-            }
-            if (parent is IChild c)
-                parent = c.Parent;
-        }
-
         return clientBounds;
     }
 

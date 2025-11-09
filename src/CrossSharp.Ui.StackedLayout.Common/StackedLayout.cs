@@ -149,7 +149,9 @@ partial class StackedLayout : IStackedLayout
         PrepareClipAndOffset(ref graphics);
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
+        {
             c.Draw(ref graphics);
+        }
         PrepareClipAndOffset(ref graphics);
         ScrollableHelpers.DrawScrollBar(ref graphics, this);
         DrawBorders(ref graphics);
@@ -161,7 +163,9 @@ partial class StackedLayout : IStackedLayout
             return false;
         if (Scrollable == ScrollableMode.None)
             return true;
-        return Viewport.Contains(new Rectangle(control.Location.X, control.Location.Y, control.Width, control.Height));
+        return Viewport.IntersectsWith(
+            new Rectangle(control.Location.X, control.Location.Y, control.Width, control.Height)
+        );
     }
 
     void DrawBackground(ref IGraphics graphics)

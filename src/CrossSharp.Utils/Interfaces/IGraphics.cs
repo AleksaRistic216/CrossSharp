@@ -20,14 +20,7 @@ public interface IGraphics : IDisposable
         int roundedCornersRadius
     );
     void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor);
-    void DrawText(
-        string text,
-        int x,
-        int y,
-        FontFamily fontFamily,
-        int fontSize,
-        ColorRgba textColor
-    );
+    void DrawText(string text, int x, int y, FontFamily fontFamily, int fontSize, ColorRgba textColor);
     Size MeasureText(string text, FontFamily fontFamily, int fontSize);
     void ResetOffset();
     void SetOffset(int x, int y);
