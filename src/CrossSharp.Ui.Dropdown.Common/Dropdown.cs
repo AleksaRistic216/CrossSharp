@@ -4,7 +4,6 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
-using static System.Int32;
 
 namespace CrossSharp.Ui.Common;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
@@ -89,14 +90,6 @@ class StaticLayout : IStaticLayout
         }
     }
 
-    public void PrepareClipAndOffset(ref IGraphics g)
-    {
-        // I think problem is here. I should apply scroll if this is child of scrollable
-        var clientBounds = this.GetClientBounds();
-        g.SetOffset(clientBounds.X, clientBounds.Y);
-        g.SetClip(clientBounds, CornerRadius);
-    }
-
     public void Initialize() { }
 
     public void Invalidate()
@@ -130,13 +123,18 @@ class StaticLayout : IStaticLayout
     {
         if (!Visible)
             return;
-        PrepareClipAndOffset(ref graphics);
+        var oldOffset = graphics.GetOffset();
+        var oldClipState = graphics.GetClipState();
+        var clientBounds = this.GetClientBounds();
+        graphics.SetOffset(clientBounds.Location);
+        graphics.SetClip(ClipState.Create(oldClipState, this.GetClientBounds(), CornerRadius));
         DrawBackground(ref graphics);
         foreach (var c in _controls.ToArray())
             c.Draw(ref graphics);
-        PrepareClipAndOffset(ref graphics);
         // ScrollableHelpers.DrawScrollBar(ref graphics, this);
         DrawBorders(ref graphics);
+        graphics.SetClip(oldClipState);
+        graphics.SetOffset(oldOffset);
     }
 
     void DrawBackground(ref IGraphics graphics)

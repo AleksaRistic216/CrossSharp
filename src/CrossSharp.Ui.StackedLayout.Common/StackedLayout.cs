@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
@@ -17,14 +18,6 @@ partial class StackedLayout : IStackedLayout
         _inputHandler = Services.GetSingleton<IInputHandler>();
         SubscribeToInputHandlerEvents();
         PerformTheme();
-    }
-
-    public void PrepareClipAndOffset(ref IGraphics g)
-    {
-        // I think problem is here. I should apply scroll if this is child of scrollable
-        var clientBounds = this.GetClientBounds();
-        g.SetOffset(clientBounds.X, clientBounds.Y);
-        g.SetClip(clientBounds, CornerRadius);
     }
 
     public void PerformTheme()
@@ -146,15 +139,18 @@ partial class StackedLayout : IStackedLayout
 
     public void Draw(ref IGraphics graphics)
     {
-        PrepareClipAndOffset(ref graphics);
+        var clientBounds = this.GetClientBounds();
+        var oldOffset = graphics.GetOffset();
+        var oldState = graphics.GetClipState();
+        graphics.SetOffset(clientBounds.Location);
+        graphics.SetClip(ClipState.Create(oldState, clientBounds, CornerRadius));
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
-        {
             c.Draw(ref graphics);
-        }
-        PrepareClipAndOffset(ref graphics);
         ScrollableHelpers.DrawScrollBar(ref graphics, this);
         DrawBorders(ref graphics);
+        graphics.SetOffset(oldOffset);
+        graphics.SetClip(oldState);
     }
 
     bool ShouldControlBeDrawn(IControl control)

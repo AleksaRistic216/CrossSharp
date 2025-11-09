@@ -63,8 +63,6 @@ public class StackedLayout()
         set => _impl.BorderColor = value;
     }
 
-    public void PrepareClipAndOffset(ref IGraphics g) => _impl.PrepareClipAndOffset(ref g);
-
     public Point Location
     {
         get => _impl.Location;

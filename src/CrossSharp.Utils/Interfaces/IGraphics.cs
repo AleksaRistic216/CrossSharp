@@ -1,3 +1,4 @@
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -22,7 +23,8 @@ public interface IGraphics : IDisposable
     void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor);
     void DrawText(string text, int x, int y, FontFamily fontFamily, int fontSize, ColorRgba textColor);
     Size MeasureText(string text, FontFamily fontFamily, int fontSize);
-    void ResetOffset();
-    void SetOffset(int x, int y);
-    void SetClip(Rectangle rectangle, int roundedCornersRadius);
+    void SetOffset(System.Drawing.Point offset);
+    System.Drawing.Point GetOffset();
+    void SetClip(ClipState state);
+    ClipState GetClipState();
 }

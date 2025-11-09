@@ -147,8 +147,6 @@ public abstract class FormBase<T> : IForm
         set { Implementation.BackgroundColorChanged = value; }
     }
 
-    public void PrepareClipAndOffset(ref IGraphics g) => Implementation.PrepareClipAndOffset(ref g);
-
     public bool IsMouseOver
     {
         get => Implementation.IsMouseOver;

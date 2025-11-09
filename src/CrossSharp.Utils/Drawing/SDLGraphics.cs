@@ -1,3 +1,4 @@
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
@@ -22,10 +23,8 @@ class SDLGraphics : IGraphics
     const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
     IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
-
-    int _offsetX;
-    int _offsetY;
-    int _clipRoundedCornerRadius;
+    ClipState _clipState = ClipState.Empty;
+    System.Drawing.Point _offset = System.Drawing.Point.Empty;
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern IntPtr SDL_CreateRGBSurfaceWithFormatFrom(
@@ -136,14 +135,14 @@ class SDLGraphics : IGraphics
         if (width <= 0 || height <= 0 || borderWidth <= 0 || borderColor.A == 0)
             return;
 
-        if (_clipRoundedCornerRadius <= 0)
+        if (_clipState.CornerRadius <= 0)
         {
             DrawRectangleWithoutMask(x, y, width, height, borderColor, borderWidth);
             return;
         }
 
-        x += _offsetX;
-        y += _offsetY;
+        x += _offset.X;
+        y += _offset.Y;
 
         // Step 1: Create transparent target texture for border
         IntPtr targetTexture = SDL_CreateTexture(
@@ -160,7 +159,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
 
         if (roundedCornersRadius > 0)
-            DrawRoundedRectBorder(0, 0, width, height, _clipRoundedCornerRadius, borderWidth);
+            DrawRoundedRectBorder(0, 0, width, height, _clipState.CornerRadius, borderWidth);
 
         // Step 2: Create rounded mask texture
         IntPtr maskTexture = SDL_CreateTexture(
@@ -199,8 +198,8 @@ class SDLGraphics : IGraphics
 
     void DrawRectangleWithoutMask(int x, int y, int width, int height, ColorRgba borderColor, float borderWidth)
     {
-        x += _offsetX;
-        y += _offsetY;
+        x += _offset.X;
+        y += _offset.Y;
         SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
         for (int i = 0; i < (int)borderWidth; i++)
         {
@@ -296,13 +295,13 @@ class SDLGraphics : IGraphics
     #region Fill rectangle
     public void FillRectangle(int x, int y, int width, int height, ColorRgba fillColor)
     {
-        if (_clipRoundedCornerRadius <= 0)
+        if (_clipState.CornerRadius <= 0)
         {
             FillRectangleWithoutMask(x, y, width, height, fillColor);
             return;
         }
-        x += _offsetX;
-        y += _offsetY;
+        x += _offset.X;
+        y += _offset.Y;
 
         // Step 1: Create transparent target texture for border
         IntPtr targetTexture = SDL_CreateTexture(
@@ -330,7 +329,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
         SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte); // Opaque mask
-        FillRoundedRectMask(0, 0, width, height, _clipRoundedCornerRadius); // This works but this should be as for background, and not draw rectangle...
+        FillRoundedRectMask(0, 0, width, height, _clipState.CornerRadius); // This works but this should be as for background, and not draw rectangle...
 
         // Step 3: Composite masked border
         SDL_SetRenderTarget(_renderer, IntPtr.Zero);
@@ -360,8 +359,8 @@ class SDLGraphics : IGraphics
             return;
         if (fillColor.A == 0)
             return;
-        x += _offsetX;
-        y += _offsetY;
+        x += _offset.X;
+        y += _offset.Y;
         SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte);
         var rect = new SDLRect
         {
@@ -440,8 +439,8 @@ class SDLGraphics : IGraphics
 
         SDLRect dstRect = new SDLRect
         {
-            x = rect.X + _offsetX,
-            y = rect.Y + _offsetY,
+            x = rect.X + _offset.X,
+            y = rect.Y + _offset.Y,
             w = rect.Width,
             h = rect.Height,
         };
@@ -476,8 +475,8 @@ class SDLGraphics : IGraphics
         if (string.IsNullOrWhiteSpace(text) || fontSize <= 0 || textColor.A == 0)
             return;
 
-        x += _offsetX;
-        y += _offsetY;
+        x += _offset.X;
+        y += _offset.Y;
 
         var font = GetFont(_fontFamilyMap.GetFontFamilyPath(fontFamily), fontSize);
         if (font == IntPtr.Zero)
@@ -513,7 +512,7 @@ class SDLGraphics : IGraphics
             h = scaledH,
         };
 
-        if (_clipRoundedCornerRadius <= 0)
+        if (_clipState.CornerRadius <= 0)
         {
             SDL_SetTextureBlendMode(textTexture, SDLBlendMode.Blend);
             SDL_RenderCopy(_renderer, textTexture, IntPtr.Zero, ref dstRect);
@@ -602,32 +601,27 @@ class SDLGraphics : IGraphics
         return new Size(w / FONT_SCALE, h / FONT_SCALE);
     }
 
-    public void SetOffset(int x, int y)
+    public void SetOffset(System.Drawing.Point offset)
     {
-        if (x == _offsetX && y == _offsetY)
-            return;
-        _offsetX = x;
-        _offsetY = y;
+        _offset = offset;
     }
 
-    public void ResetOffset()
-    {
-        _offsetX = 0;
-        _offsetY = 0;
-    }
+    public System.Drawing.Point GetOffset() => _offset;
 
-    public void SetClip(Rectangle rectangle, int roundedCornersRadius)
+    public void SetClip(ClipState state)
     {
+        _clipState = state;
         var rect = new SDLRect
         {
-            x = rectangle.X,
-            y = rectangle.Y,
-            w = rectangle.Width,
-            h = rectangle.Height,
+            x = state.Bounds.X,
+            y = state.Bounds.Y,
+            w = state.Bounds.Width,
+            h = state.Bounds.Height,
         };
         SDL_RenderSetClipRect(_renderer, ref rect);
-        _clipRoundedCornerRadius = roundedCornersRadius;
     }
+
+    public ClipState GetClipState() => _clipState;
 
     public void Dispose() { }
 }

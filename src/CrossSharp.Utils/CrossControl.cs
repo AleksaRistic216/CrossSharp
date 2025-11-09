@@ -23,8 +23,6 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
         set => Implementation.BorderColor = value;
     }
 
-    public void PrepareClipAndOffset(ref IGraphics g) => Implementation.PrepareClipAndOffset(ref g);
-
     public Point Location
     {
         get => Implementation.Location;

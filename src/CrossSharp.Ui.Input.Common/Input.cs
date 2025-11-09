@@ -122,10 +122,10 @@ partial class Input : ControlBase, IInput
     {
         var x = _contentBounds.X;
         var y = _contentBounds.Y;
-        var clientBounds = this.GetClientBounds();
+        // var clientBounds = this.GetClientBounds();
         foreach (var line in Text.Split(Environment.NewLine))
         {
-            g.SetClip(clientBounds with { Width = Width - CornerRadius, Height = Height }, CornerRadius);
+            // g.SetClip(clientBounds with { Width = Width - CornerRadius, Height = Height }, CornerRadius);
             g.DrawText(line, x, y, FontFamily.Default, FontSize, ColorRgba.Black);
             y += LineHeight;
         }

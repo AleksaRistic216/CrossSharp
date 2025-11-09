@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
@@ -64,10 +65,10 @@ static class ScrollableHelpers
             return;
         var viewPort = scrollable.Viewport;
         var clientBounds = scrollable.GetClientBounds();
-        var offsetX = clientBounds.X;
-        var offsetY = clientBounds.Y;
-        g.SetClip(new Rectangle(clientBounds.X, clientBounds.Y, clientBounds.Width, clientBounds.Height), 0);
-        g.SetOffset(offsetX, offsetY);
+        var oldState = g.GetClipState();
+        var oldOffset = g.GetOffset();
+        g.SetClip(ClipState.Create(oldState, clientBounds, 0));
+        g.SetOffset(clientBounds.Location);
         var scrolledPercentX = GetScrolledPercentX(viewPort, scrollable);
         var scrolledPercentY = GetScrolledPercentY(viewPort, scrollable);
         if (scrollable.Scrollable == ScrollableMode.Horizontal || scrollable.Scrollable == ScrollableMode.Both)
@@ -82,5 +83,7 @@ static class ScrollableHelpers
             var barY = (scrolledPercentY * (scrollable.Height - barHeight));
             g.FillRectangle(scrollable.Width - barThickness, (int)barY, barThickness, barHeight, barColor);
         }
+        g.SetClip(oldState);
+        g.SetOffset(oldOffset);
     }
 }

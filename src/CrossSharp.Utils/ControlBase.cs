@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
@@ -52,23 +53,14 @@ public abstract partial class ControlBase : IControl
     {
         if (!Visible)
             return;
-        PrepareClipAndOffset(ref graphics);
+        var oldState = graphics.GetClipState();
+        var clientBounds = this.GetClientBounds();
+        graphics.SetClip(ClipState.Create(oldState, clientBounds, this is IRoundedCorners rc ? rc.CornerRadius : 0));
+        graphics.SetOffset(clientBounds.Location);
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);
         DrawContent(ref graphics);
-    }
-
-    public virtual void PrepareClipAndOffset(ref IGraphics g)
-    {
-        var clientBounds = this.GetClientBounds();
-        var offsetX = clientBounds.X;
-        var offsetY = clientBounds.Y;
-        g.SetOffset(offsetX, offsetY);
-        // ---
-        int cornerRadius = 0;
-        if (this is IRoundedCorners rc)
-            cornerRadius = rc.CornerRadius;
-        g.SetClip(clientBounds, cornerRadius);
+        graphics.SetClip(oldState);
     }
 }

@@ -138,18 +138,24 @@ partial class FormSDL : IFormSDL
     protected virtual void DrawContent(ref IGraphics g)
     {
         _titleBar?.Draw(ref g);
+        var oldOffset = g.GetOffset();
         foreach (var control in Controls.ToArray())
         {
-            g.SetOffset(control.Location.X, control.Location.Y);
+            g.SetOffset(control.Location);
             control.Draw(ref g);
-            g.ResetOffset();
+            g.SetOffset(oldOffset);
         }
     }
 
     public void Draw(ref IGraphics graphics)
     {
-        graphics.SetClip(new Rectangle(0, 0, Width, Height + (_titleBar?.Height ?? 0)), 0);
-        graphics.SetOffset(0, _titleBar?.Height ?? 0);
+        var clipState = ClipState.Create(
+            ClipState.Max,
+            new Rectangle(0, 0, Width, Height + (_titleBar?.Height ?? 0)),
+            0
+        );
+        graphics.SetClip(clipState);
+        graphics.SetOffset(new Point(0, _titleBar?.Height ?? 0));
         DrawShadows(ref graphics);
         DrawBackground(ref graphics);
         DrawBorders(ref graphics);
@@ -189,6 +195,4 @@ partial class FormSDL : IFormSDL
         Services.GetSingleton<IApplication>().Forms.Remove(this);
         Services.GetSingleton<IApplication>().Tick -= OnTickDispose;
     }
-
-    public void PrepareClipAndOffset(ref IGraphics g) { }
 }

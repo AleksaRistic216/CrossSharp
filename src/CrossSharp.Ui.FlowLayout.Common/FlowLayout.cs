@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
@@ -21,8 +22,6 @@ partial class FlowLayout : IFlowLayout
     }
 
     public void Dispose() => OnDisposeInternal();
-
-    public void PrepareClipAndOffset(ref IGraphics g) { }
 
     public void PerformTheme()
     {
@@ -169,12 +168,18 @@ partial class FlowLayout : IFlowLayout
 
     public void Draw(ref IGraphics graphics)
     {
+        var oldOffset = graphics.GetOffset();
+        var oldClipState = graphics.GetClipState();
         var clientBounds = this.GetClientBounds();
-        graphics.SetOffset(clientBounds.X, clientBounds.Y);
-        graphics.SetClip(clientBounds, CornerRadius);
+        graphics.SetOffset(clientBounds.Location);
+        graphics.SetClip(ClipState.Create(oldClipState, clientBounds, CornerRadius));
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);
+        // ScrollableHelpers.DrawScrollBar(ref graphics, this);
+        // DrawBorders(ref graphics);
+        graphics.SetClip(oldClipState);
+        graphics.SetOffset(oldOffset);
     }
 
     bool ShouldControlBeDrawn(IControl control)
