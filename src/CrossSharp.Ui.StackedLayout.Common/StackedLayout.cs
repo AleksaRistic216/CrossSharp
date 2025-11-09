@@ -21,6 +21,7 @@ partial class StackedLayout : IStackedLayout
 
     public void PrepareClipAndOffset(ref IGraphics g)
     {
+        // I think problem is here. I should apply scroll if this is child of scrollable
         var clientBounds = this.GetClientBounds();
         g.SetOffset(clientBounds.X, clientBounds.Y);
         g.SetClip(clientBounds, CornerRadius);
@@ -41,6 +42,7 @@ partial class StackedLayout : IStackedLayout
     public void Invalidate()
     {
         this.PerformDocking();
+        InvalidateSize();
         if (Orientation == Orientation.Vertical)
             InvalidateStackVertical();
         else
@@ -51,7 +53,21 @@ partial class StackedLayout : IStackedLayout
         InvalidateViewport();
     }
 
-    public void Initialize() { }
+    void InvalidateSize()
+    {
+        // if (!AutoSize)
+        //     return;
+        // if (MaxWidth < MinWidth)
+        //     throw new InvalidOperationException("MaxWidth cannot be less than MinWidth.");
+        // if (MaxHeight < MinHeight)
+        //     throw new InvalidOperationException("MaxHeight cannot be less than MinHeight.");
+        // Apply max constraints first
+        Width = Math.Min(Width, MaxWidth ?? int.MaxValue);
+        Height = Math.Min(Height, MaxHeight ?? int.MaxValue);
+        // Then apply min constraints
+        // Width = Math.Max(Width, MinWidth ?? 0);
+        // Height = Math.Max(Height, MinHeight ?? 0);
+    }
 
     void InvalidateContentBounds()
     {
@@ -145,9 +161,7 @@ partial class StackedLayout : IStackedLayout
             return false;
         if (Scrollable == ScrollableMode.None)
             return true;
-        return Viewport.IntersectsWith(
-            new Rectangle(control.Location.X, control.Location.Y, control.Width, control.Height)
-        );
+        return Viewport.Contains(new Rectangle(control.Location.X, control.Location.Y, control.Width, control.Height));
     }
 
     void DrawBackground(ref IGraphics graphics)

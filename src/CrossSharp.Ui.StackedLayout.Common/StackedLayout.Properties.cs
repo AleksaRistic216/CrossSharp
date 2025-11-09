@@ -93,4 +93,6 @@ partial class StackedLayout
     public int MarginRight { get; set; }
     public EventHandler? MarginChanged { get; set; }
     public int CornerRadius { get; set; }
+    public int? MaxWidth { get; set; }
+    public int? MaxHeight { get; set; }
 }

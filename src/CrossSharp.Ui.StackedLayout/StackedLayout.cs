@@ -190,4 +190,14 @@ public class StackedLayout()
         get => _impl.CornerRadius;
         set => _impl.CornerRadius = value;
     }
+    public int? MaxWidth
+    {
+        get => _impl.MaxWidth;
+        set => _impl.MaxWidth = value;
+    }
+    public int? MaxHeight
+    {
+        get => _impl.MaxHeight;
+        set => _impl.MaxHeight = value;
+    }
 }

@@ -91,6 +91,7 @@ class StaticLayout : IStaticLayout
 
     public void PrepareClipAndOffset(ref IGraphics g)
     {
+        // I think problem is here. I should apply scroll if this is child of scrollable
         var clientBounds = this.GetClientBounds();
         g.SetOffset(clientBounds.X, clientBounds.Y);
         g.SetClip(clientBounds, CornerRadius);

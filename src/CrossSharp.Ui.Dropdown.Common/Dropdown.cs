@@ -26,8 +26,10 @@ partial class Dropdown : StackedLayout, IDropdown
         InitializePlaceholder();
 
         _itemsLayout = new StackedLayout();
+        _itemsLayout.Scrollable = ScrollableMode.Vertical;
         _itemsLayout.Visible = State is DropdownState.Expanded;
         _itemsLayout.Orientation = Orientation.Vertical;
+        _itemsLayout.MaxHeight = 200;
         _itemsLayout.ItemsSpacing = 4;
         Add(_itemsLayout);
     }
@@ -86,9 +88,8 @@ partial class Dropdown : StackedLayout, IDropdown
         if (_expandBtn is not null)
             _expandBtn.Text = State is DropdownState.Collapsed ? "▼" : "▲";
         if (_itemsLayout is not null)
-            _itemsLayout.Height = Math.Min(
-                _itemsLayout.Sum(x => x.Height + _itemsLayout.ItemsSpacing + x.MarginTop + x.MarginBottom),
-                MaxValue // Update this to cap max dropdown height
+            _itemsLayout.Height = _itemsLayout.Sum(x =>
+                x.Height + _itemsLayout.ItemsSpacing + x.MarginTop + x.MarginBottom
             );
         _headerLayout?.Invalidate();
         _itemsLayout?.Invalidate();
