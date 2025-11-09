@@ -28,7 +28,7 @@ partial class Dropdown : StackedLayout, IDropdown
         _itemsLayout.Scrollable = ScrollableMode.Vertical;
         _itemsLayout.Visible = State is DropdownState.Expanded;
         _itemsLayout.Orientation = Orientation.Vertical;
-        _itemsLayout.MaxHeight = 200;
+        _itemsLayout.MaxHeight = 400;
         _itemsLayout.ItemsSpacing = 4;
         Add(_itemsLayout);
     }
