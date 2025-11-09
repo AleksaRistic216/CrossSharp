@@ -71,8 +71,8 @@ partial class StackedLayout : IStackedLayout
         }
         var x = 0;
         var y = 0;
-        var width = _controls.Max(c => c.Location.X + c.Width);
-        var height = _controls.Max(c => c.Location.Y + c.Height);
+        var width = _controls.Max(c => c.Location.X + c.Width) + Padding.Horizontal;
+        var height = _controls.Max(c => c.Location.Y + c.Height) + Padding.Vertical;
         ContentBounds = new Rectangle(x, y, width, height);
     }
 
@@ -116,10 +116,6 @@ partial class StackedLayout : IStackedLayout
             currentX += c.Width + ItemsSpacing + c.MarginRight;
         }
     }
-
-    public void SuspendLayout() { }
-
-    public void ResumeLayout() { }
 
     public IEnumerator<IControl> GetEnumerator() => _controls.GetEnumerator();
 
