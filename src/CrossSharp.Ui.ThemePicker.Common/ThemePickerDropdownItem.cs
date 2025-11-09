@@ -82,6 +82,8 @@ partial class ThemePickerDropdownItem : StaticLayout, IDropdownItem, IClickable
     void SelectTheme()
     {
         Services.AddSingleton(_itemTheme, true);
-        this.GetForm()!.PerformTheme();
+        var form = this.GetForm();
+        form!.PerformTheme();
+        form!.Invalidate();
     }
 }
