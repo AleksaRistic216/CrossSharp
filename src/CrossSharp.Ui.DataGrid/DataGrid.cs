@@ -21,4 +21,15 @@ public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGri
         get => Implementation.CornerRadius;
         set => Implementation.CornerRadius = value;
     }
+    public IQueryable<IDataGridDataItem>? DataSource
+    {
+        get => Implementation.DataSource;
+        set => Implementation.DataSource = value;
+    }
+    public EventHandler? DataSourceChanged
+    {
+        get => Implementation.DataSourceChanged;
+        set => Implementation.DataSourceChanged = value;
+    }
+    public IDataGridConfiguration Configuration => Implementation.Configuration;
 }

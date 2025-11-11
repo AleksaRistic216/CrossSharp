@@ -1,9 +1,36 @@
+using System.Reflection;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
 
 partial class DataGrid
 {
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
+    Dictionary<string, PropertyInfo>? _dataSourceProperties;
+    ColorRgba _backgroundColor = ColorRgba.Transparent;
+    public ColorRgba BackgroundColor
+    {
+        get => _backgroundColor;
+        set
+        {
+            if (_backgroundColor == value)
+                return;
+            _backgroundColor = value;
+            OnBackgroundColorChanged();
+        }
+    }
     public int CornerRadius { get; set; }
+    IQueryable<IDataGridDataItem>? _dataSource;
+    public IQueryable<IDataGridDataItem>? DataSource
+    {
+        get => _dataSource;
+        set
+        {
+            if (_dataSource == value)
+                return;
+            _dataSource = value;
+            OnDataSourceChanged();
+        }
+    }
+    public IDataGridConfiguration Configuration { get; } = new DataGridConfiguration();
 }
