@@ -1,6 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IDataGrid : IControl, IBackgroundColorProvider
+public interface IDataGrid : IControl, IBackgroundColorProvider, IScrollable
 // , IRoundedCorners // cant at the moment, have problem with clipping
 {
     IQueryable<IDataGridDataItem>? DataSource { get; set; }

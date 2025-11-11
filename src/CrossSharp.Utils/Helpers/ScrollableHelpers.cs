@@ -34,7 +34,7 @@ static class ScrollableHelpers
                 scrollY = scrollable.ContentBounds.Height - viewPort.Height;
             viewPort = new Rectangle(viewPort.X, scrollY, viewPort.Width, viewPort.Height);
         }
-        else
+        else if (orientation == Orientation.Horizontal)
         {
             var scrollPercentX = GetScrolledPercentX(viewPort, scrollable);
             if (amount < 0 && scrollPercentX >= 1.0f || amount > 0 && scrollPercentX <= 0.0f)

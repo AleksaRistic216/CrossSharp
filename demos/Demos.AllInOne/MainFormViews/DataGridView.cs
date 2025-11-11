@@ -22,7 +22,7 @@ public sealed class DataGridView : StackedLayout
         dataGrid.Height = 300;
         dataGrid.Configuration.Columns["Asd"].HeaderText = "Hello";
         var list = new List<User>();
-        for (int i = 0; i < 1_000_000; i++)
+        for (int i = 0; i < 1_000; i++)
         {
             list.Add(
                 new User

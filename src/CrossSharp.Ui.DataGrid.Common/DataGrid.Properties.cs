@@ -1,5 +1,8 @@
+using System.Drawing;
 using System.Reflection;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
@@ -7,7 +10,9 @@ namespace CrossSharp.Ui.Common;
 partial class DataGrid
 {
     Dictionary<string, PropertyInfo>? _dataSourceProperties;
-    int _rowHeight = 0;
+    int _rowHeight;
+    int _itemsToLoad;
+    readonly IInputHandler _inputHandler = Services.GetSingleton<IInputHandler>();
     ColorRgba _backgroundColor = ColorRgba.Transparent;
     public ColorRgba BackgroundColor
     {
@@ -33,4 +38,12 @@ partial class DataGrid
         }
     }
     public IDataGridConfiguration Configuration { get; } = new DataGridConfiguration();
+    public ScrollableMode Scrollable { get; set; } = ScrollableMode.Vertical;
+    Rectangle _viewport = Rectangle.Empty;
+    public Rectangle Viewport
+    {
+        get => _viewport;
+        set => _viewport = value;
+    }
+    public Rectangle ContentBounds { get; set; } = Rectangle.Empty;
 }

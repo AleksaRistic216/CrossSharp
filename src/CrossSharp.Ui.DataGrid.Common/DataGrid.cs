@@ -1,13 +1,26 @@
+using System.Drawing;
 using System.Reflection;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
 
 partial class DataGrid : ControlBase, IDataGrid
 {
+    internal DataGrid()
+    {
+        _inputHandler.MouseWheel += InputHandlerOnMouseWheel;
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        _inputHandler.MouseWheel -= InputHandlerOnMouseWheel;
+    }
+
     public override void PerformTheme()
     {
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor.Darkened;
@@ -17,7 +30,17 @@ partial class DataGrid : ControlBase, IDataGrid
 
     public override void Invalidate()
     {
-        _rowHeight = Services.GetSingleton<ITheme>().DefaultFontSize + 15;
+        _rowHeight = Services.GetSingleton<ITheme>().DefaultFontSize + 5;
+        var bufferUpDownItems = 3;
+        _itemsToLoad = Height / _rowHeight + bufferUpDownItems * 2;
+        var itemsCount = DataSource?.Count() ?? 0;
+        ContentBounds = new Rectangle(
+            0,
+            0,
+            Width,
+            (itemsCount + 1) * _rowHeight + _rowHeight /* header */
+        );
+        Viewport = new Rectangle(0, 0, Width, Height);
     }
 
     void InvalidateDataSourcePropertiesCache()
@@ -36,6 +59,7 @@ partial class DataGrid : ControlBase, IDataGrid
 
         DrawHeader(ref g);
         DrawItems(ref g);
+        ScrollableHelpers.DrawScrollBar(ref g, this);
     }
 
     void DrawHeader(ref IGraphics g)
@@ -68,8 +92,8 @@ partial class DataGrid : ControlBase, IDataGrid
         if (DataSource is null)
             return;
 
-        var itemsCount = 5;
-        var items = DataSource!.Take(itemsCount).ToList();
+        var skip = Viewport.Y / _rowHeight;
+        var items = DataSource!.Skip(skip).Take(_itemsToLoad).ToList();
         var y = _rowHeight; // This is header height
         for (int i = 0; i < items.Count; i++)
         {
@@ -112,8 +136,8 @@ partial class DataGrid : ControlBase, IDataGrid
         g.FillRectangle(x, y, width, height, backgroundColor);
         g.DrawText(
             text,
-            x + 5,
-            y + 5,
+            x + 2,
+            y + 2,
             Services.GetSingleton<ITheme>().DefaultFontFamily,
             Services.GetSingleton<ITheme>().DefaultFontSize,
             textColor

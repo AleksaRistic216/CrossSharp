@@ -1,5 +1,7 @@
+using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -27,4 +29,19 @@ public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGri
         set => Implementation.DataSourceChanged = value;
     }
     public IDataGridConfiguration Configuration => Implementation.Configuration;
+    public ScrollableMode Scrollable
+    {
+        get => Implementation.Scrollable;
+        set => Implementation.Scrollable = value;
+    }
+    public Rectangle Viewport
+    {
+        get => Implementation.Viewport;
+        set => Implementation.Viewport = value;
+    }
+    public Rectangle ContentBounds
+    {
+        get => Implementation.ContentBounds;
+        set => Implementation.ContentBounds = value;
+    }
 }
