@@ -51,6 +51,25 @@ public static class ControlsHelpers
         return clientBounds;
     }
 
+    /// <summary>
+    /// Returns if the control is visible and all its parent controls are also visible.
+    /// </summary>
+    /// <param name="control"></param>
+    /// <returns></returns>
+    public static bool IsReallyVisible(this IControl control)
+    {
+        if (!control.Visible)
+            return false;
+        var parent = control.Parent;
+        while (parent is IControl parentControl)
+        {
+            if (!parentControl.Visible)
+                return false;
+            parent = parentControl.Parent;
+        }
+        return true;
+    }
+
     public static void PerformDocking(this IDockable control)
     {
         if (control.Dock == DockStyle.None)

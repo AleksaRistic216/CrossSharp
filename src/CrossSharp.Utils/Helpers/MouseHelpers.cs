@@ -8,6 +8,8 @@ static class MouseHelpers
 {
     internal static bool IsMouseOver(IControl control, Point mousePosition)
     {
+        if (!control.IsReallyVisible())
+            return false;
         if (!IsEventForThisForm(control))
             return false;
         return control.GetScreenBounds().Contains(mousePosition);
