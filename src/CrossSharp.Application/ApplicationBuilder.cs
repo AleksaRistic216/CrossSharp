@@ -63,6 +63,7 @@ public class ApplicationBuilder
         AddSingleton<IAccordionFactory, Ui.Linux.AccordionFactory>();
         AddSingleton<IDropdownFactory, Ui.Linux.DropdownFactory>();
         AddSingleton<IThemePickerFactory, Ui.Linux.ThemePickerFactory>();
+        AddSingleton<IDataGridFactory, Ui.Linux.DataGridFactory>();
     }
 
     void RegisterWindowsServices()
@@ -82,6 +83,7 @@ public class ApplicationBuilder
         AddSingleton<IAccordionFactory, Ui.Windows.AccordionFactory>();
         AddSingleton<IDropdownFactory, Ui.Windows.DropdownFactory>();
         AddSingleton<IThemePickerFactory, Ui.Windows.ThemePickerFactory>();
+        AddSingleton<IDataGridFactory, Ui.Windows.DataGridFactory>();
     }
 
     void RegisterMacOsServices()

@@ -53,6 +53,9 @@
         <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Button.Windows\CrossSharp.Ui.Button.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.DataGrid.Linux\CrossSharp.Ui.DataGrid.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.DataGrid.Windows\CrossSharp.Ui.DataGrid.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.DataGrid\CrossSharp.Ui.DataGrid.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Dropdown.Linux\CrossSharp.Ui.Dropdown.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Dropdown.Windows\CrossSharp.Ui.Dropdown.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Dropdown\CrossSharp.Ui.Dropdown.csproj" />

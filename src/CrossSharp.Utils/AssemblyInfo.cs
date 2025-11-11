@@ -54,3 +54,7 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker.Common")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker.Linux")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.ThemePicker.Windows")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.DataGrid")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.DataGrid.Common")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.DataGrid.Linux")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CrossSharp.Ui.DataGrid.Windows")]
