@@ -112,6 +112,12 @@ public abstract class FormBase<T> : IForm
 
     public virtual void Invalidate() => Implementation.Invalidate();
 
+    public EventHandler? Invalidated
+    {
+        get => Implementation.Invalidated;
+        set { Implementation.Invalidated = value; }
+    }
+
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
     public EventHandler? Disposing

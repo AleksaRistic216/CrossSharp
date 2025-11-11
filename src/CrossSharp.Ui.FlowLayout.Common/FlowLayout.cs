@@ -41,6 +41,7 @@ partial class FlowLayout : IFlowLayout
             control.Invalidate();
         InvalidateContentBounds();
         InvalidateViewport();
+        OnInvalidated();
     }
 
     public void Initialize() { }

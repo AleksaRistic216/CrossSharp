@@ -56,6 +56,7 @@ partial class TabbedLayout : ITabbedLayout
         _header.Invalidate();
         _tabs.Invalidate();
         InvalidateSelectedHeaderButton();
+        OnInvalidated();
     }
 
     void InvalidateSelectedHeaderButton()

@@ -18,6 +18,7 @@ public interface IControl
     /// </summary>
     bool Visible { get; set; }
     void Invalidate();
+    EventHandler? Invalidated { get; set; }
     void Draw(ref IGraphics graphics);
     EventHandler? Disposing { get; set; }
 

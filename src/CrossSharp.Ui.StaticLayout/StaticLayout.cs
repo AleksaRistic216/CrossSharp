@@ -94,6 +94,12 @@ public class StaticLayout()
 
     public void Invalidate() => _impl.Invalidate();
 
+    public EventHandler? Invalidated
+    {
+        get => _impl.Invalidated;
+        set => _impl.Invalidated = value;
+    }
+
     public void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
     public EventHandler? Disposing

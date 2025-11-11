@@ -1,25 +1,28 @@
 using CrossSharp.Ui;
+using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using Demos.AllInOne.Models;
 
 namespace Demos.AllInOne.MainFormViews;
 
-public sealed class DataGridView : StackedLayout
+public sealed class DataGridView : StaticLayout
 {
-    class User : IDataGridDataItem
-    {
-        public string Name { get; set; }
-
-        public int Age { get; set; }
-
-        public string Country { get; set; }
-    }
+    IDataGrid dataGrid = new DataGrid();
+    IStackedLayout statusBar = new StackedLayout();
 
     public DataGridView()
     {
         Dock = DockStyle.Fill;
-        var dataGrid = new DataGrid();
+        InitializeDataGrid();
+        InitializeStatusBar();
+    }
+
+    void InitializeDataGrid()
+    {
         dataGrid.Dock = DockStyle.Fill;
+        dataGrid.DockIndex = 0;
         dataGrid.Configuration.Columns["Asd"].HeaderText = "Hello";
         var list = new List<User>();
         for (int i = 0; i < 1_000_000; i++)
@@ -35,5 +38,20 @@ public sealed class DataGridView : StackedLayout
         }
         dataGrid.DataSource = list.AsQueryable();
         Add(dataGrid);
+    }
+
+    void InitializeStatusBar()
+    {
+        statusBar.Height = 25;
+        statusBar.Dock = DockStyle.Bottom;
+        statusBar.DockIndex = 1;
+        statusBar.BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
+        Add(statusBar);
+
+        // var label = new Label();
+        // label.Text = "Status Bar";
+        // label.Width = 200;
+        // label.Height = 20;
+        // statusBar.Add(label);
     }
 }

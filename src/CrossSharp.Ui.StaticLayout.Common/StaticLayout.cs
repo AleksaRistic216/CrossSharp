@@ -97,6 +97,19 @@ class StaticLayout : IStaticLayout
         this.PerformDocking();
         foreach (var control in _controls)
             control.Invalidate();
+        OnInvalidated();
+    }
+
+    public EventHandler? Invalidated { get; set; }
+
+    void RaiseInvalidated()
+    {
+        Invalidated?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnInvalidated()
+    {
+        RaiseInvalidated();
     }
 
     public void SuspendLayout() { }

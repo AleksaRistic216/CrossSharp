@@ -70,6 +70,12 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
 
     public void Invalidate() => Implementation.Invalidate();
 
+    public EventHandler? Invalidated
+    {
+        get => Implementation.Invalidated;
+        set { Implementation.Invalidated = value; }
+    }
+
     public void Draw(ref IGraphics graphics) => Implementation.Draw(ref graphics);
 
     public EventHandler? Disposing

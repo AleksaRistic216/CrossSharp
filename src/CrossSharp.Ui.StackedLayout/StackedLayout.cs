@@ -110,6 +110,12 @@ public class StackedLayout()
 
     public virtual void Invalidate() => _impl.Invalidate();
 
+    public EventHandler? Invalidated
+    {
+        get => _impl.Invalidated;
+        set => _impl.Invalidated = value;
+    }
+
     public virtual void Draw(ref IGraphics graphics) => _impl.Draw(ref graphics);
 
     public EventHandler? Disposing

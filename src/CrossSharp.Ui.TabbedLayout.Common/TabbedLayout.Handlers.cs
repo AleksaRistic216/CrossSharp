@@ -93,6 +93,12 @@ partial class TabbedLayout
 
     void OnThemePerformed() => RaiseThemePerformed();
 
+    public EventHandler? Invalidated { get; set; }
+
+    void RaiseInvalidated() => Invalidated?.Invoke(this, EventArgs.Empty);
+
+    void OnInvalidated() => RaiseInvalidated();
+
     public EventHandler? Disposing { get; set; }
 
     void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);

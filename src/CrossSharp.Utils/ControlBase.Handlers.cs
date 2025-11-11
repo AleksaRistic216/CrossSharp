@@ -7,6 +7,18 @@ namespace CrossSharp.Utils;
 
 public partial class ControlBase
 {
+    public EventHandler? Invalidated { get; set; }
+
+    void RaiseInvalidated()
+    {
+        Invalidated?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    internal void OnInvalidated()
+    {
+        RaiseInvalidated();
+    }
+
     public EventHandler? ThemePerformed { get; set; }
 
     void RaiseThemePerformed()

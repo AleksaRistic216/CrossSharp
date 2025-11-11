@@ -72,6 +72,18 @@ partial class FlowLayout
         RaiseThemePerformed();
     }
 
+    public EventHandler? Invalidated { get; set; }
+
+    void RaiseInvalidated()
+    {
+        Invalidated?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnInvalidated()
+    {
+        RaiseInvalidated();
+    }
+
     public EventHandler? Disposing { get; set; }
 
     void RaiseDisposing()

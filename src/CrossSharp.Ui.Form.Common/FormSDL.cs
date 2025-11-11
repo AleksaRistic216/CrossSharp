@@ -86,6 +86,7 @@ partial class FormSDL : IFormSDL
         InvalidateTitleBar();
         foreach (var control in Controls)
             control.Invalidate();
+        OnInvalidated();
     }
 
     FormSDLTitleBar? _titleBar;
