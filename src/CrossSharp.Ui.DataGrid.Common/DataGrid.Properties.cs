@@ -7,6 +7,7 @@ namespace CrossSharp.Ui.Common;
 partial class DataGrid
 {
     Dictionary<string, PropertyInfo>? _dataSourceProperties;
+    int _rowHeight = 0;
     ColorRgba _backgroundColor = ColorRgba.Transparent;
     public ColorRgba BackgroundColor
     {
@@ -19,7 +20,6 @@ partial class DataGrid
             OnBackgroundColorChanged();
         }
     }
-    public int CornerRadius { get; set; }
     IQueryable<IDataGridDataItem>? _dataSource;
     public IQueryable<IDataGridDataItem>? DataSource
     {

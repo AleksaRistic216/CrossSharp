@@ -16,11 +16,6 @@ public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGri
         get => Implementation.BackgroundColorChanged;
         set => Implementation.BackgroundColorChanged = value;
     }
-    public int CornerRadius
-    {
-        get => Implementation.CornerRadius;
-        set => Implementation.CornerRadius = value;
-    }
     public IQueryable<IDataGridDataItem>? DataSource
     {
         get => Implementation.DataSource;

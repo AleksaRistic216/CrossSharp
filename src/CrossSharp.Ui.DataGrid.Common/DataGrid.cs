@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.Reflection;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
@@ -12,12 +11,14 @@ partial class DataGrid : ControlBase, IDataGrid
     public override void PerformTheme()
     {
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor.Darkened;
-        CornerRadius = Services.GetSingleton<ITheme>().DefaultCornerRadius;
         BorderWidth = 1;
         BorderColor = BackgroundColor.Darkened;
     }
 
-    public override void Invalidate() { }
+    public override void Invalidate()
+    {
+        _rowHeight = Services.GetSingleton<ITheme>().DefaultFontSize + 15;
+    }
 
     void InvalidateDataSourcePropertiesCache()
     {
@@ -51,7 +52,7 @@ partial class DataGrid : ControlBase, IDataGrid
                 x,
                 0,
                 columnConfig.Width,
-                Services.GetSingleton<ITheme>().DefaultFontSize + 15,
+                _rowHeight,
                 text,
                 columnConfig.HeaderBackgroundColor,
                 columnConfig.HeaderTextColor
@@ -69,7 +70,7 @@ partial class DataGrid : ControlBase, IDataGrid
 
         var itemsCount = 5;
         var items = DataSource!.Take(itemsCount).ToList();
-        var y = Services.GetSingleton<ITheme>().DefaultFontSize + 15; // This is header height
+        var y = _rowHeight; // This is header height
         for (int i = 0; i < items.Count; i++)
         {
             var x = 0;
@@ -91,7 +92,7 @@ partial class DataGrid : ControlBase, IDataGrid
                 );
                 x += columnConfig.Width;
             }
-            y += Services.GetSingleton<ITheme>().DefaultFontSize + 15;
+            y += _rowHeight;
         }
     }
 
@@ -106,8 +107,6 @@ partial class DataGrid : ControlBase, IDataGrid
         ColorRgba textColor
     )
     {
-        // Need to update clip state because for some reason when I try drawing rectangle with no rounded corners
-        // but current state has rounded corners, it doesn't draw it at all.
         var clipState = g.GetClipState();
         g.SetClip(ClipState.Create(clipState, clipState.Bounds, 0));
         g.FillRectangle(x, y, width, height, backgroundColor);
@@ -119,7 +118,9 @@ partial class DataGrid : ControlBase, IDataGrid
             Services.GetSingleton<ITheme>().DefaultFontSize,
             textColor
         );
-        g.DrawRectangle(x, y, width, height, BackgroundColor.Darkened, 1, 0);
+        // Need to update clip state because for some reason when I try drawing rectangle with no rounded corners
+        // but current state has rounded corners, it doesn't draw it at all.
+        g.DrawRectangle(x, y, width, height, BackgroundColor.Darkened, BorderWidth, 0);
         g.SetClip(clipState);
     }
 }
