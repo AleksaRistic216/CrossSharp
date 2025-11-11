@@ -1,3 +1,3 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface IDataGrid : IControl { }
+public interface IDataGrid : IControl, IBackgroundColorProvider, IRoundedCorners;
