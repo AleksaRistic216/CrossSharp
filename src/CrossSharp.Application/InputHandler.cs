@@ -46,6 +46,9 @@ class InputHandler : IInputHandler
         {
             KeyCode = (CrossSharp.Utils.Input.KeyCode)castedE.Data.KeyCode,
             Char = ConvertKeyCodeToChar(keyCode, modifiers),
+            IsShiftPressed = (modifiers & EventMask.Shift) != 0,
+            IsCtrlPressed = (modifiers & EventMask.Ctrl) != 0,
+            IsAltPressed = (modifiers & EventMask.Alt) != 0,
         };
         MainThreadDispatcher.Invoke(() =>
         {

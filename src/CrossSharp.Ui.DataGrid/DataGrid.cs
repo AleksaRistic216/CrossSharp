@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
@@ -34,6 +35,11 @@ public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGri
     {
         get => Implementation.RowsCacheCount;
         set => Implementation.RowsCacheCount = value;
+    }
+    public EventHandler<DataGridCellsSelectionChangedArgs>? CellsSelectionChanged
+    {
+        get => Implementation.CellsSelectionChanged;
+        set => Implementation.CellsSelectionChanged = value;
     }
     public ScrollableMode Scrollable
     {

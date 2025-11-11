@@ -1,3 +1,5 @@
+using CrossSharp.Utils.EventArgs;
+
 namespace CrossSharp.Utils.Interfaces;
 
 public interface IDataGrid : IControl, IBackgroundColorProvider, IScrollable, IDockable
@@ -14,4 +16,5 @@ public interface IDataGrid : IControl, IBackgroundColorProvider, IScrollable, ID
     /// If you want to disable caching, set this to -1.
     /// </summary>
     int? RowsCacheCount { get; set; }
+    EventHandler<DataGridCellsSelectionChangedArgs>? CellsSelectionChanged { get; set; }
 }

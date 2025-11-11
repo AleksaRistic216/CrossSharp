@@ -9,6 +9,7 @@ namespace CrossSharp.Ui.Common;
 
 partial class DataGrid
 {
+    List<IDataGridCell> _selectedCells = [];
     Dictionary<string, PropertyInfo>? _dataSourceProperties;
     int _rowHeight;
     int _itemsToLoad;
