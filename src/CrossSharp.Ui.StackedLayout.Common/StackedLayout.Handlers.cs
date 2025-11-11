@@ -41,6 +41,7 @@ partial class StackedLayout
         {
             // TODO: implement both direction scrolling using mouse and shift key
         }
+        OnScrolled();
     }
 
     public EventHandler<Point>? LocationChanged { get; set; }
@@ -109,5 +110,17 @@ partial class StackedLayout
     {
         Invalidate();
         RaiseOrientationChanged();
+    }
+
+    public EventHandler? Scrolled { get; set; }
+
+    void RaiseScrolled()
+    {
+        Scrolled?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnScrolled()
+    {
+        RaiseScrolled();
     }
 }

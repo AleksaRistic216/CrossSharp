@@ -32,7 +32,13 @@ partial class DataGrid : ControlBase, IDataGrid
     {
         this.PerformDocking();
         _rowHeight = Services.GetSingleton<ITheme>().DefaultFontSize + 5;
-        _itemsToLoad = Height / _rowHeight * 3;
+        _itemsToLoad = RowsCacheCount switch
+        {
+            -1 => DataSource?.Count() ?? 0,
+            0 => Height / _rowHeight * 3,
+            null => Height / _rowHeight * 3,
+            _ => RowsCacheCount.Value,
+        };
         var itemsCount = DataSource?.Count() ?? 0;
         ContentBounds = new Rectangle(
             0,
@@ -65,7 +71,7 @@ partial class DataGrid : ControlBase, IDataGrid
 
     void CacheItems()
     {
-        if (_itemsToLoad == 0)
+        if (_itemsToLoad <= 0)
             return;
         var skip = Math.Max(Viewport.Y / _rowHeight - _itemsToLoad / 3, 0);
         if (skip == _firstCachedItemIndex && _cachedItems is not null)

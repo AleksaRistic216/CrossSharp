@@ -29,10 +29,21 @@ public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGri
         set => Implementation.DataSourceChanged = value;
     }
     public IDataGridConfiguration Configuration => Implementation.Configuration;
+    public int CurrentlyLoadedItemsCount => Implementation.CurrentlyLoadedItemsCount;
+    public int? RowsCacheCount
+    {
+        get => Implementation.RowsCacheCount;
+        set => Implementation.RowsCacheCount = value;
+    }
     public ScrollableMode Scrollable
     {
         get => Implementation.Scrollable;
         set => Implementation.Scrollable = value;
+    }
+    public EventHandler? Scrolled
+    {
+        get => Implementation.Scrolled;
+        set => Implementation.Scrolled = value;
     }
     public Rectangle Viewport
     {

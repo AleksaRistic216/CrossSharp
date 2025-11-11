@@ -104,7 +104,6 @@ public static class ControlsHelpers
                     parentBounds.Width -= siblingBounds.Width;
                     break;
                 case DockStyle.Fill:
-                    parentBounds = Rectangle.Empty;
                     break;
             }
         }

@@ -154,6 +154,11 @@ public class StackedLayout()
         get => _impl.Scrollable;
         set => _impl.Scrollable = value;
     }
+    public EventHandler? Scrolled
+    {
+        get => _impl.Scrolled;
+        set => _impl.Scrolled = value;
+    }
     public Rectangle Viewport
     {
         get => _impl.Viewport;

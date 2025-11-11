@@ -99,4 +99,16 @@ partial class FlowLayout
         UnsubscribeFromInputHandlerEvents();
         RaiseDisposing();
     }
+
+    public EventHandler? Scrolled { get; set; }
+
+    void RaiseScrolled()
+    {
+        Scrolled?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnScrolled()
+    {
+        RaiseScrolled();
+    }
 }

@@ -7,6 +7,8 @@ public interface IScrollable : ISizeProvider, ILocationProvider
 {
     ScrollableMode Scrollable { get; set; }
 
+    EventHandler? Scrolled { get; set; }
+
     /// <summary>
     /// Current viewport within the content bounds.
     /// </summary>

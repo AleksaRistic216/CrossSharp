@@ -80,6 +80,7 @@ partial class FlowLayout : IFlowLayout
         {
             // TODO: implement both direction scrolling using mouse and shift key
         }
+        OnScrolled();
     }
 
     void InvalidateContentBounds()

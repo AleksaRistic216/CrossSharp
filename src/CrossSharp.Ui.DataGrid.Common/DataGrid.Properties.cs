@@ -45,6 +45,10 @@ partial class DataGrid
         }
     }
     public IDataGridConfiguration Configuration { get; } = new DataGridConfiguration();
+    public int CurrentlyLoadedItemsCount => _cachedItems?.Count ?? 0;
+
+    /// <inheritdoc cref="IDataGrid" />
+    public int? RowsCacheCount { get; set; }
     public ScrollableMode Scrollable { get; set; } = ScrollableMode.Vertical;
     Rectangle _viewport = Rectangle.Empty;
     public Rectangle Viewport
