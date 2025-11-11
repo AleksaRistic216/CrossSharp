@@ -213,9 +213,13 @@ partial class DataGrid : ControlBase, IDataGrid
             throw new InvalidOperationException("Data source properties are not initialized.");
         var keys = _dataSourceProperties.Keys.ToList();
         var currentIndex = keys.IndexOf(lastCellColumn);
-        var targetIndex = currentIndex + nextColumnsCount;
-        if (currentIndex == -1 || targetIndex >= keys.Count || targetIndex < 0)
+        if (currentIndex == -1)
             return lastCellColumn; // No next column, return the same
+        var targetIndex = currentIndex + nextColumnsCount;
+        if (targetIndex >= keys.Count)
+            return keys.Last();
+        if (targetIndex < 0)
+            return keys.First();
         return keys[targetIndex];
     }
 }

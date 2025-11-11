@@ -1,3 +1,4 @@
+using System.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Helpers;
@@ -89,6 +90,20 @@ partial class DataGrid
             case KeyCode.VcDown:
                 ShiftCellSelection(e.IsShiftPressed, 0, 1);
                 return;
+            case KeyCode.VcPageDown:
+                ShiftCellSelection(e.IsShiftPressed, 0, Height / _rowHeight);
+                return;
+            case KeyCode.VcPageUp:
+                ShiftCellSelection(e.IsShiftPressed, 0, -Height / _rowHeight);
+                return;
+            case KeyCode.VcEnd:
+                ShiftCellSelection(e.IsShiftPressed, int.MaxValue, 0);
+                return;
+            case KeyCode.VcHome:
+                ShiftCellSelection(e.IsShiftPressed, -int.MaxValue, 0);
+                return;
+            default:
+                return;
         }
     }
 
@@ -150,6 +165,25 @@ partial class DataGrid
         }
 
         OnCellsSelectionChanged(new DataGridCellsSelectionChangedArgs(_selectedCells.ToArray()));
+
+        // if selection gets out of viewport, scroll to it
+        int cellY = nextCell.RowIndex * _rowHeight;
+        var buffer = 2 * _rowHeight;
+        if (cellY > Viewport.Y + Viewport.Height - buffer - _rowHeight)
+        {
+            Viewport = new Rectangle(
+                Viewport.X,
+                (cellY + _rowHeight) - Viewport.Height + buffer,
+                Viewport.Width,
+                Viewport.Height
+            );
+            OnScrolled();
+        }
+        else if (cellY < Viewport.Y)
+        {
+            Viewport = new Rectangle(Viewport.X, cellY, Viewport.Width, Viewport.Height);
+            OnScrolled();
+        }
     }
 
     public EventHandler? Scrolled { get; set; }
