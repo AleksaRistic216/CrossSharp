@@ -25,6 +25,13 @@ partial class DataGrid
             OnBackgroundColorChanged();
         }
     }
+
+    int _firstCachedItemIndex;
+
+    /// <summary>
+    /// Items loaded into memory cache. Usually more than viewport to allow smooth scrolling.
+    /// </summary>
+    List<IDataGridDataItem>? _cachedItems;
     IQueryable<IDataGridDataItem>? _dataSource;
     public IQueryable<IDataGridDataItem>? DataSource
     {

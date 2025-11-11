@@ -31,8 +31,7 @@ partial class DataGrid : ControlBase, IDataGrid
     public override void Invalidate()
     {
         _rowHeight = Services.GetSingleton<ITheme>().DefaultFontSize + 5;
-        var bufferUpDownItems = 3;
-        _itemsToLoad = Height / _rowHeight + bufferUpDownItems * 2;
+        _itemsToLoad = Height / _rowHeight * 3;
         var itemsCount = DataSource?.Count() ?? 0;
         ContentBounds = new Rectangle(
             0,
@@ -41,6 +40,7 @@ partial class DataGrid : ControlBase, IDataGrid
             (itemsCount + 1) * _rowHeight + _rowHeight /* header */
         );
         Viewport = new Rectangle(0, 0, Width, Height);
+        CacheItems();
     }
 
     void InvalidateDataSourcePropertiesCache()
@@ -60,6 +60,17 @@ partial class DataGrid : ControlBase, IDataGrid
         DrawHeader(ref g);
         DrawItems(ref g);
         ScrollableHelpers.DrawScrollBar(ref g, this);
+    }
+
+    void CacheItems()
+    {
+        var skip = Math.Max(Viewport.Y / _rowHeight - _itemsToLoad / 3, 0);
+        if (skip == _firstCachedItemIndex && _cachedItems is not null)
+            return;
+        if (_cachedItems is not null && Math.Abs(skip - _firstCachedItemIndex) < _itemsToLoad / 3)
+            return;
+        _firstCachedItemIndex = skip;
+        _cachedItems = DataSource!.Skip(skip).Take(_itemsToLoad).ToList();
     }
 
     void DrawHeader(ref IGraphics g)
@@ -91,9 +102,11 @@ partial class DataGrid : ControlBase, IDataGrid
             return;
         if (DataSource is null)
             return;
+        if (_cachedItems is null)
+            return;
 
-        var skip = Viewport.Y / _rowHeight;
-        var items = DataSource!.Skip(skip).Take(_itemsToLoad).ToList();
+        var skip = Viewport.Y / _rowHeight - _firstCachedItemIndex;
+        var items = _cachedItems.Skip(skip).Take(Viewport.Height / _rowHeight + 1).ToList();
         var y = _rowHeight; // This is header height
         for (int i = 0; i < items.Count; i++)
         {

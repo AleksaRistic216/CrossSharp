@@ -50,5 +50,6 @@ partial class DataGrid
             ScrollableHelpers.Scroll(Orientation.Vertical, rotation, this, ref _viewport);
             ScrollableHelpers.Scroll(Orientation.Horizontal, rotation, this, ref _viewport);
         }
+        CacheItems();
     }
 }
