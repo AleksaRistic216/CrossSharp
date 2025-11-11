@@ -44,4 +44,14 @@ public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGri
         get => Implementation.ContentBounds;
         set => Implementation.ContentBounds = value;
     }
+    public int DockIndex
+    {
+        get => Implementation.DockIndex;
+        set => Implementation.DockIndex = value;
+    }
+    public DockStyle Dock
+    {
+        get => Implementation.Dock;
+        set => Implementation.Dock = value;
+    }
 }

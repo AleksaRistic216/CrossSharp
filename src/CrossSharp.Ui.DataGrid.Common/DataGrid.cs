@@ -30,6 +30,7 @@ partial class DataGrid : ControlBase, IDataGrid
 
     public override void Invalidate()
     {
+        this.PerformDocking();
         _rowHeight = Services.GetSingleton<ITheme>().DefaultFontSize + 5;
         _itemsToLoad = Height / _rowHeight * 3;
         var itemsCount = DataSource?.Count() ?? 0;
@@ -64,6 +65,8 @@ partial class DataGrid : ControlBase, IDataGrid
 
     void CacheItems()
     {
+        if (_itemsToLoad == 0)
+            return;
         var skip = Math.Max(Viewport.Y / _rowHeight - _itemsToLoad / 3, 0);
         if (skip == _firstCachedItemIndex && _cachedItems is not null)
             return;

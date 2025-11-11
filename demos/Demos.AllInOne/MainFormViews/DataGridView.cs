@@ -19,7 +19,7 @@ public sealed class DataGridView : StackedLayout
     {
         Dock = DockStyle.Fill;
         var dataGrid = new DataGrid();
-        dataGrid.Height = 300;
+        dataGrid.Dock = DockStyle.Fill;
         dataGrid.Configuration.Columns["Asd"].HeaderText = "Hello";
         var list = new List<User>();
         for (int i = 0; i < 1_000_000; i++)

@@ -53,4 +53,6 @@ partial class DataGrid
         set => _viewport = value;
     }
     public Rectangle ContentBounds { get; set; } = Rectangle.Empty;
+    public int DockIndex { get; set; }
+    public DockStyle Dock { get; set; }
 }
