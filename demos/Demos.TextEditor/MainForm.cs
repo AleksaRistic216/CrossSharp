@@ -5,6 +5,7 @@ using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace Demos.TextEditor;
 
@@ -13,6 +14,7 @@ public class MainForm : Form
     FilesPicker? _filesPicker;
     IStackedLayout _menuBar;
     readonly TabbedLayout _tabbedLayout = new();
+    IStackedLayout _editorBar;
 
     static ITheme Theme => Services.GetSingleton<ITheme>();
 
@@ -23,12 +25,20 @@ public class MainForm : Form
         InitializeMenuBar();
         InitializeTabbedLayout();
         LoadInitialFiles();
+        InitializeEditorBar();
         ThemePerformed += MainForm_ThemePerformed;
     }
 
     void MainForm_ThemePerformed(object? sender, EventArgs e)
     {
-        _menuBar.BackgroundColor = Theme.PrimaryColor.Darkened;
+        _menuBar.BackgroundColor = Theme.SecondaryColor;
+        _editorBar.BackgroundColor = Theme.SecondaryColor;
+        _menuBar.Padding = new Padding(2);
+        _editorBar.Padding = new Padding(2);
+        foreach (var btn in _menuBar.OfType<IButton>())
+            btn.CornerRadius = 4;
+        foreach (var btn in _editorBar.OfType<IButton>())
+            btn.CornerRadius = 4;
     }
 
     void LoadInitialFiles()
@@ -43,6 +53,31 @@ public class MainForm : Form
             dataProvider.LoadFile(file, fileName);
             _tabbedLayout.AddTab(fileName, typeof(TextEditTab));
         }
+    }
+
+    void InitializeEditorBar()
+    {
+        var editorBarHeight = 30;
+        _editorBar = new StackedLayout();
+        _editorBar.Height = editorBarHeight;
+        _editorBar.Orientation = Orientation.Horizontal;
+        _editorBar.Dock = DockStyle.Top;
+        _editorBar.DockIndex = 1;
+        Controls.Add(_editorBar);
+
+        var btn = new Button();
+        btn.Image = EfficientImage.Get(nameof(Constants.SaveFileIconKind));
+        btn.Width = editorBarHeight;
+        btn.Click += (_, _) => {
+            // if (string.IsNullOrWhiteSpace(_title))
+            // {
+            //     Notifications.Show("Cannot save file: no title specified.");
+            //     return;
+            // }
+            // var dataProvider = GetDataProvider();
+            // dataProvider.SaveFileContents(_title, _input.Text);
+        };
+        _editorBar.Add(btn);
     }
 
     TextEditTabDataProvider GetDataProvider() => Services.GetSingleton<TextEditTabDataProvider>();

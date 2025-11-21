@@ -88,12 +88,10 @@ partial class StackedLayout : IStackedLayout
         var currentY = Padding.Top;
         foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
-            var margin = Margin.Zero;
-            if (c is IMarginProvider mp)
-                margin = mp.Margin;
-            c.Location = new Point(Padding.Left + margin.Left, currentY + margin.Top);
-            c.Width = Width - Padding.Horizontal - margin.Horizontal;
-            currentY += c.Height + margin.Vertical + ItemsSpacing;
+            currentY += c.Margin.Top;
+            c.Location = new Point(Padding.Left + c.Margin.Left, currentY + c.Margin.Top);
+            c.Width = Width - Padding.Horizontal - c.Margin.Horizontal;
+            currentY += c.Height + c.Margin.Vertical + ItemsSpacing;
         }
     }
 

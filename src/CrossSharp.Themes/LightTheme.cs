@@ -11,7 +11,7 @@ public class LightTheme : ThemeBase
     public override FontFamily DefaultFontFamily { get; set; } = FontFamily.Default;
     public override ColorRgba LayoutBackgroundColor { get; set; } = ColorRgba.FloralWhite;
     public override ColorRgba PrimaryColor { get; set; } = ColorRgba.FromBytes(161, 214, 178, 255);
-    public override ColorRgba SecondaryColor { get; set; } = ColorRgba.LightGray;
+    public override ColorRgba SecondaryColor { get; set; } = ColorRgba.FromBytes(240, 240, 240, 255);
     public override int DefaultCornerRadius { get; set; } = 0;
     public override int DefaultLayoutItemSpacing { get; set; } = 0;
 }
