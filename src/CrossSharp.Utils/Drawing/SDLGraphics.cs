@@ -284,55 +284,54 @@ class SDLGraphics : IGraphics
                 _ => cx,
             };
 
-            if (startX <= endX)
+            if (startX > endX)
+                continue;
+            // Draw the solid line
+            SDL_SetRenderDrawColor(
+                _renderer,
+                borderColor.RByte,
+                borderColor.GByte,
+                borderColor.BByte,
+                borderColor.AByte
+            );
+            SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
+
+            // Draw the see-through pixel at the outer edge one
+            int seeThroughX = corner switch
             {
-                // Draw the solid line
-                SDL_SetRenderDrawColor(
-                    _renderer,
-                    borderColor.RByte,
-                    borderColor.GByte,
-                    borderColor.BByte,
-                    borderColor.AByte
-                );
-                SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
+                Corner.TopLeft => startX - 1,
+                Corner.TopRight => endX + 1,
+                Corner.BottomLeft => startX - 1,
+                Corner.BottomRight => endX + 1,
+                _ => startX,
+            };
 
-                // Draw the see-through pixel at the outer edge one
-                int seeThroughX = corner switch
-                {
-                    Corner.TopLeft => startX - 1,
-                    Corner.TopRight => endX + 1,
-                    Corner.BottomLeft => startX - 1,
-                    Corner.BottomRight => endX + 1,
-                    _ => startX,
-                };
+            SDL_SetRenderDrawColor(
+                _renderer,
+                seeThroughColor1.RByte,
+                seeThroughColor1.GByte,
+                seeThroughColor1.BByte,
+                seeThroughColor1.AByte
+            );
+            SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
 
-                SDL_SetRenderDrawColor(
-                    _renderer,
-                    seeThroughColor1.RByte,
-                    seeThroughColor1.GByte,
-                    seeThroughColor1.BByte,
-                    seeThroughColor1.AByte
-                );
-                SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
-
-                // Draw the see-through pixel at the outer edge two
-                seeThroughX = corner switch
-                {
-                    Corner.TopLeft => startX - 2,
-                    Corner.TopRight => endX + 2,
-                    Corner.BottomLeft => startX - 2,
-                    Corner.BottomRight => endX + 2,
-                    _ => startX,
-                };
-                SDL_SetRenderDrawColor(
-                    _renderer,
-                    seeThroughColor2.RByte,
-                    seeThroughColor2.GByte,
-                    seeThroughColor2.BByte,
-                    seeThroughColor2.AByte
-                );
-                SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
-            }
+            // Draw the see-through pixel at the outer edge two
+            seeThroughX = corner switch
+            {
+                Corner.TopLeft => startX - 2,
+                Corner.TopRight => endX + 2,
+                Corner.BottomLeft => startX - 2,
+                Corner.BottomRight => endX + 2,
+                _ => startX,
+            };
+            SDL_SetRenderDrawColor(
+                _renderer,
+                seeThroughColor2.RByte,
+                seeThroughColor2.GByte,
+                seeThroughColor2.BByte,
+                seeThroughColor2.AByte
+            );
+            SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
         }
     }
 
