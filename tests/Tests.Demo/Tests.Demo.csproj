@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
-    <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\demos\Demos.FlowLayout\Demos.FlowLayout.csproj" />
-    <ProjectReference Include="..\..\demos\Demos.GitControl\Demos.GitControl.csproj" />
-    <ProjectReference Include="..\..\demos\Demos.TabbedLayout\Demos.TabbedLayout.csproj" />
-    <ProjectReference Include="..\..\demos\Demos.TextEditor\Demos.TextEditor.csproj" />
-    <ProjectReference Include="..\Tests.Demo.Utils\Tests.Demo.Utils.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+        <PackageReference Include="xunit" Version="2.9.3" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\demos\Demos.FlowLayout\Demos.FlowLayout.csproj" />
+        <ProjectReference Include="..\..\demos\Demos.GitControl\Demos.GitControl.csproj" />
+        <ProjectReference Include="..\..\demos\Demos.TabbedLayout\Demos.TabbedLayout.csproj" />
+        <ProjectReference Include="..\..\demos\Demos.TextEditor\Demos.TextEditor.csproj" />
+        <ProjectReference Include="..\Tests.Demo.Utils\Tests.Demo.Utils.csproj" />
+    </ItemGroup>
 </Project>

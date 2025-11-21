@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Material.Icons">
-      <HintPath>..\..\..\..\.nuget\packages\material.icons\2.4.1\lib\netstandard2.0\Material.Icons.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <OutputType>WinExe</OutputType>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Material.Icons">
+            <HintPath>..\..\..\..\.nuget\packages\material.icons\2.4.1\lib\netstandard2.0\Material.Icons.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 </Project>
