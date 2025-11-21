@@ -64,6 +64,9 @@ partial class ThemePickerDropdownItem : StaticLayout, IDropdownItem, IClickable
         BorderColor = ColorRgba.DimGray;
         BorderWidth = 1;
 
+        if (_layout.ItemsSpacing <= 0)
+            _layout.ItemsSpacing = 4;
+
         // theme preview
         _primaryColorPanel.BackgroundColor = _itemTheme.PrimaryColor;
         _primaryColorPanel.CornerRadius = _itemTheme.DefaultCornerRadius;
