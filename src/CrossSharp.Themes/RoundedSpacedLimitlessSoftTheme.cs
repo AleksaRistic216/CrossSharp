@@ -6,7 +6,6 @@ namespace CrossSharp.Themes;
 
 public class RoundedSpacedLimitlessSoftTheme : ITheme
 {
-    public virtual int AntiAliasingLevel { get; set; } = Constants.ANTI_ALIASING_LEVEL;
     public virtual RenderStyle Style { get; set; } = RenderStyle.Contained;
     public virtual int DefaultFontSize { get; set; } = Constants.DEFAULT_FONT_SIZE;
     public virtual FontFamily DefaultFontFamily { get; set; } = Constants.DEFAULT_FONT_FAMILY;

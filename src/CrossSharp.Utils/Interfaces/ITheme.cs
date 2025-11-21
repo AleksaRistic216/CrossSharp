@@ -4,7 +4,6 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface ITheme
 {
-    int AntiAliasingLevel { get; set; }
     RenderStyle Style { get; set; }
     int DefaultFontSize { get; set; }
     FontFamily DefaultFontFamily { get; set; }
