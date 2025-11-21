@@ -25,5 +25,7 @@ public static class Notifications
         }
     }
 
+    public static void Show(string message) => _impl.Show(message);
+
     public static void Show(string title, string message) => _impl.Show(title, message);
 }

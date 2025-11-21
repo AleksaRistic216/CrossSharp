@@ -1,3 +1,4 @@
+using CrossSharp.Desktop;
 using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
@@ -9,6 +10,7 @@ namespace Demos.TextEditor;
 
 public class TextEditTab : StaticLayout, ITabbedLayoutTab
 {
+    string? _title;
     readonly Input _input = new();
     readonly StackedLayout _editorBar = new();
     ITheme Theme => Services.GetSingleton<ITheme>();
@@ -40,6 +42,16 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
         btn.Image = EfficientImage.Get(nameof(Constants.SaveFileIconKind));
         btn.Width = editorBarHeight;
         btn.Margin = new Margin(2);
+        btn.Click += (_, _) =>
+        {
+            if (string.IsNullOrWhiteSpace(_title))
+            {
+                Notifications.Show("Cannot save file: no title specified.");
+                return;
+            }
+            var dataProvider = GetDataProvider();
+            dataProvider.SaveFileContents(_title, _input.Text);
+        };
         _editorBar.Add(btn);
     }
 
@@ -50,5 +62,6 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
         var dataProvider = GetDataProvider();
         var text = dataProvider.GetFileContents(title);
         _input.Text = text;
+        _title = title;
     }
 }

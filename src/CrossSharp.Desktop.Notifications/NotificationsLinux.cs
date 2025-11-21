@@ -14,6 +14,12 @@ class NotificationsLinux : IDesktopNotification
         _manager.Initialize().Wait();
     }
 
+    public void Show(string message)
+    {
+        _manager.Initialize();
+        _manager.ShowNotification(new Notification { Body = message });
+    }
+
     public void Show(string title, string message)
     {
         _manager.Initialize();

@@ -11,9 +11,10 @@ namespace Demos.TextEditor;
 public class MainForm : Form
 {
     FilesPicker? _filesPicker;
+    IStackedLayout _menuBar;
     readonly TabbedLayout _tabbedLayout = new();
 
-    ITheme Theme => Services.GetSingleton<ITheme>();
+    static ITheme Theme => Services.GetSingleton<ITheme>();
 
     public MainForm()
     {
@@ -22,6 +23,12 @@ public class MainForm : Form
         InitializeMenuBar();
         InitializeTabbedLayout();
         LoadInitialFiles();
+        ThemePerformed += MainForm_ThemePerformed;
+    }
+
+    void MainForm_ThemePerformed(object? sender, EventArgs e)
+    {
+        _menuBar.BackgroundColor = Theme.PrimaryColor.Darkened;
     }
 
     void LoadInitialFiles()
@@ -51,7 +58,12 @@ public class MainForm : Form
         btn.Image = EfficientImage.Get(nameof(Constants.AddFileIconKind));
         btn.Click += (_, _) =>
         {
-            var applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var applicationDataPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "CrossSharp",
+                "Demos",
+                "TextEditor"
+            );
             var directoryPath = Path.Combine(applicationDataPath, "draft-files");
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
@@ -72,13 +84,12 @@ public class MainForm : Form
     void InitializeMenuBar()
     {
         var menuBarHeight = 30;
-        var menuBar = new StackedLayout();
-        menuBar.Height = menuBarHeight;
-        menuBar.BackgroundColor = Theme.SecondaryColor.Darkened;
-        menuBar.Orientation = Orientation.Horizontal;
-        menuBar.Dock = DockStyle.Top;
-        menuBar.DockIndex = 0;
-        Controls.Add(menuBar);
+        _menuBar = new StackedLayout();
+        _menuBar.Height = menuBarHeight;
+        _menuBar.Orientation = Orientation.Horizontal;
+        _menuBar.Dock = DockStyle.Top;
+        _menuBar.DockIndex = 0;
+        Controls.Add(_menuBar);
 
         var btn1 = new Button();
         btn1.Image = EfficientImage.Get(nameof(Constants.OpenFileIconKind));
@@ -86,7 +97,7 @@ public class MainForm : Form
         btn1.CornerRadius = 0;
         btn1.MinHeight = menuBarHeight;
         btn1.Click += OpenFileButton_Click;
-        menuBar.Add(btn1);
+        _menuBar.Add(btn1);
     }
 
     void OpenFileButton_Click(object? sender, EventArgs e)

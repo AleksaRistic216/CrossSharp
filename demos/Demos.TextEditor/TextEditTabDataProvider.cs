@@ -29,4 +29,12 @@ public class TextEditTabDataProvider
     }
 
     public HashSet<string> GetOpenFiles() => _files;
+
+    public void SaveFileContents(string title, string inputText)
+    {
+        if (!_tabFileMap.TryGetValue(title, out var filePath))
+            throw new ArgumentException("File not found", nameof(title));
+        File.WriteAllText(filePath, inputText);
+        _fileContents[filePath] = inputText;
+    }
 }

@@ -1,12 +1,19 @@
 using CrossSharp.Application;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using Demos.TextEditor;
 using Material.Icons;
 
-var configuration = new BaseConfiguration() { ApplicationName = "Demos.TextEditor", CompanyName = "CrossSharp" };
+var configuration = new BaseConfiguration()
+{
+    ApplicationName = "Demos.TextEditor",
+    CompanyName = "CrossSharp",
+    FormsStyle = FormStyle.CrossSharp,
+};
 var builder = new ApplicationBuilder(configuration);
+builder.SetTheme(new CustomTheme());
 LoadImages();
 builder.Run<MainForm>();
 
