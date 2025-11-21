@@ -91,7 +91,7 @@ partial class FormSDL
             if (_visible == value)
                 return;
             _visible = value;
-            OnVisibleChangedInternal();
+            OnVisibleChanged();
         }
     }
     public int Index { get; set; }

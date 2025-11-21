@@ -38,11 +38,12 @@ partial class FormSDL
 
     void RaiseLocationChanged() => LocationChanged?.Invoke(this, new Point(Location.X, Location.Y));
 
-    void OnVisibleChangedInternal()
+    void OnVisibleChanged()
     {
         SDLHelpers.SDL_ShowWindow(Handle);
         if (Visible)
             Shown?.Invoke(this, EventArgs.Empty);
+        PerformTheme();
     }
 
     public EventHandler? MarginChanged { get; set; }

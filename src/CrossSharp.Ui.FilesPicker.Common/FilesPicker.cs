@@ -29,15 +29,40 @@ class FilesPicker : Form, IFilesPicker
         InitializeLeftRow();
         InitializeRightRow();
         LoadDirectoryContents(_currentDirectory);
+        SubscribeToEvents();
+    }
 
-        PerformTheme();
+    public override void Dispose()
+    {
+        UnsubscribeFromEvents();
+        base.Dispose();
+    }
+
+    void SubscribeToEvents()
+    {
+        ThemePerformed += OnThemePerformed;
+    }
+
+    void UnsubscribeFromEvents()
+    {
+        ThemePerformed -= OnThemePerformed;
+    }
+
+    void OnThemePerformed(object? sender, EventArgs e)
+    {
+        foreach (var btn in _contentsList.OfType<IButton>())
+        {
+            if (btn.Tag is not string key)
+                continue;
+            var isDir = Directory.Exists(key);
+            btn.BackgroundColor = isDir ? ColorRgba.Orange.Darkened : Theme.PrimaryColor;
+        }
     }
 
     void InitializeLeftRow()
     {
         _leftRow = new StackedLayout();
         _leftRow.Dock = DockStyle.Left;
-        _leftRow.BackgroundColor = Theme.PrimaryColor.Darkened;
         _leftRow.Width = LEFT_ROW_WIDTH;
         _leftRow.DockIndex = 0;
         Controls.Add(_leftRow);
@@ -221,7 +246,6 @@ class FilesPicker : Form, IFilesPicker
                 entryButton.Text = Path.GetFileName(entry);
                 entryButton.Tag = entry;
                 entryButton.TextAlignment = Alignment.Left;
-                entryButton.CornerRadius = 0;
                 entryButton.Height = BLOCK_HEIGHT;
                 entryButton.BackgroundColor = isDir ? ColorRgba.Orange.Darkened : Theme.PrimaryColor;
                 entryButton.Style = RenderStyle.Contained;

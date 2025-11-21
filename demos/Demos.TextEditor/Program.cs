@@ -5,11 +5,7 @@ using CrossSharp.Utils.Interfaces;
 using Demos.TextEditor;
 using Material.Icons;
 
-var configuration = new BaseConfiguration()
-{
-    ApplicationName = "Demos.TextEditor",
-    CompanyName = "CrossSharp",
-};
+var configuration = new BaseConfiguration() { ApplicationName = "Demos.TextEditor", CompanyName = "CrossSharp" };
 var builder = new ApplicationBuilder(configuration);
 LoadImages();
 builder.Run<MainForm>();
