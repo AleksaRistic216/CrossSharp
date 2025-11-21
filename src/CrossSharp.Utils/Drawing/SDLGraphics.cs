@@ -244,8 +244,8 @@ class SDLGraphics : IGraphics
         if (radius <= 0 || skipFirst >= radius)
             return;
 
-        var seeThroughColor1 = new ColorRgba(255f, 255f, 255f, 0.1f);
-        var seeThroughColor2 = new ColorRgba(255f, 255f, 255f, 0.05f);
+        var seeThroughColor1 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.4f);
+        var seeThroughColor2 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.2f);
 
         for (int y = 0; y <= radius; y++)
         {
