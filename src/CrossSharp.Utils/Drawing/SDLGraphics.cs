@@ -237,10 +237,10 @@ class SDLGraphics : IGraphics
             SDL_RenderDrawLine(_renderer, px + r, py + h - 1, px + w - r - 1, py + h - 1); // Bottom
             SDL_RenderDrawLine(_renderer, px, py + r, px, py + h - r - 1); // Left
             SDL_RenderDrawLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
-            FillQuarterCircle(px + r, py + r, r, Corner.TopLeft, borderColor, radius - borderWidth);
-            FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight, borderColor, radius - borderWidth);
-            FillQuarterCircle(px + r, py + h - r - 1, r, Corner.BottomLeft, borderColor, radius - borderWidth);
-            FillQuarterCircle(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + r - 1, py + r - 1, r, Corner.TopLeft, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + w - r, py + r + 1, r, Corner.TopRight, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + r - 1, py + h - r, r, Corner.BottomLeft, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + w - r, py + h - r, r, Corner.BottomRight, borderColor, radius - borderWidth);
         }
     }
 
