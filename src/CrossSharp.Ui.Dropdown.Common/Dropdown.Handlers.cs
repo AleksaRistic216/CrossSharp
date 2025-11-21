@@ -6,6 +6,19 @@ namespace CrossSharp.Ui.Common;
 
 partial class Dropdown
 {
+    public EventHandler? MinimumItemMarginChanged { get; set; }
+
+    void RaiseMinimalItemsMarginChanged()
+    {
+        MinimumItemMarginChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    void OnMinimalItemsMarginChanged()
+    {
+        InvalidateItemsMargins();
+        RaiseMinimalItemsMarginChanged();
+    }
+
     public EventHandler? SelectedItemChanged { get; set; }
 
     void RaiseSelectedItemChanged()

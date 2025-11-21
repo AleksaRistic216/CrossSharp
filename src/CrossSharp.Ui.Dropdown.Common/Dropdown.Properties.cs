@@ -1,6 +1,7 @@
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -45,6 +46,18 @@ partial class Dropdown
                 return;
             _selectedItem = value;
             OnSelectedItemChanged();
+        }
+    }
+    Margin? _minimalItemsMargin;
+    public Margin? MinimumItemMargin
+    {
+        get => _minimalItemsMargin;
+        set
+        {
+            if (_minimalItemsMargin == value)
+                return;
+            _minimalItemsMargin = value;
+            OnMinimalItemsMarginChanged();
         }
     }
 }

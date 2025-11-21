@@ -2,6 +2,7 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
@@ -51,5 +52,15 @@ public class Dropdown() : CrossControl<IDropdown>(Services.GetSingleton<IDropdow
     {
         get => Implementation.SelectedItemChanged;
         set => Implementation.SelectedItemChanged = value;
+    }
+    public Margin? MinimumItemMargin
+    {
+        get => Implementation.MinimumItemMargin;
+        set => Implementation.MinimumItemMargin = value;
+    }
+    public EventHandler? MinimumItemMarginChanged
+    {
+        get => Implementation.MinimumItemMarginChanged;
+        set => Implementation.MinimumItemMarginChanged = value;
     }
 }

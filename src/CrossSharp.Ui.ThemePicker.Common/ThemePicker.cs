@@ -1,4 +1,5 @@
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -7,6 +8,7 @@ partial class ThemePicker : Dropdown, IThemePicker
     internal ThemePicker()
     {
         InitializeItems();
+        MinimumItemMargin = new Margin(16, 8);
     }
 
     void InitializeItems()

@@ -52,6 +52,28 @@ partial class Dropdown : StackedLayout, IDropdown
         _headerLayout!.Add(_placeholder);
     }
 
+    void InvalidateItemsMargins()
+    {
+        foreach (var item in _itemsLayout!)
+            InvalidateItemMargins(item);
+    }
+
+    void InvalidateItemMargins(IControl item)
+    {
+        if (MinimumItemMargin is null)
+            return;
+        if (item is not IDropdownItem ddi)
+            return;
+        if (ddi.Margin.Left < MinimumItemMargin.Value.Left)
+            ddi.Margin = ddi.Margin with { Left = MinimumItemMargin.Value.Left };
+        if (ddi.Margin.Right < MinimumItemMargin.Value.Right)
+            ddi.Margin = ddi.Margin with { Right = MinimumItemMargin.Value.Right };
+        if (ddi.Margin.Top < MinimumItemMargin.Value.Top)
+            ddi.Margin = ddi.Margin with { Top = MinimumItemMargin.Value.Top };
+        if (ddi.Margin.Bottom < MinimumItemMargin.Value.Bottom)
+            ddi.Margin = ddi.Margin with { Bottom = MinimumItemMargin.Value.Bottom };
+    }
+
     void InvalidatePlaceholder()
     {
         if (_placeholder is null)
@@ -82,6 +104,7 @@ partial class Dropdown : StackedLayout, IDropdown
     public sealed override void Invalidate()
     {
         base.Invalidate();
+        InvalidateItemsMargins();
         InvalidatePlaceholder();
         if (_expandBtn is not null)
             _expandBtn.Text = State is DropdownState.Collapsed ? "▼" : "▲";
@@ -109,6 +132,8 @@ partial class Dropdown : StackedLayout, IDropdown
         foreach (var i in item)
             _itemsLayout!.Add(i);
         Invalidate();
+        foreach (var i in item)
+            InvalidateItemMargins(i);
     }
 
     public void RemoveItem(params IDropdownItem[] item)

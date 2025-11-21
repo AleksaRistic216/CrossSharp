@@ -1,4 +1,5 @@
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Utils.Interfaces;
 
@@ -13,4 +14,6 @@ public interface IDropdown : IControl
     EventHandler? CollapsedHeightChange { get; set; }
     object? SelectedItem { get; set; }
     EventHandler? SelectedItemChanged { get; set; }
+    Margin? MinimumItemMargin { get; set; }
+    EventHandler? MinimumItemMarginChanged { get; set; }
 }
