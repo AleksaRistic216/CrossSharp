@@ -2,6 +2,7 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -96,6 +97,7 @@ partial class Accordion : StackedLayout, IAccordion
         _itemsArea.PerformTheme();
         _headerArea.PerformTheme();
         base.PerformTheme();
+        _headerArea.Padding = new Padding(CornerRadius, CornerRadius, CornerRadius, 0); // Setting bottom to 0 because this is item, and items have spacing between them
         BackgroundColor = Theme.PrimaryColor;
         _itemsArea.BackgroundColor = ColorRgba.Transparent;
         _headerArea.BackgroundColor = ColorRgba.Transparent;

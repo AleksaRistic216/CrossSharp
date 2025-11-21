@@ -18,8 +18,6 @@ class SDLGraphics : IGraphics
         TTF_Init();
     }
 
-    readonly ITheme _theme;
-
     const int FONT_SCALE = 2; // This scale is used to improve text rendering quality by loading font at higher size and scaling down
     IntPtr _renderer;
     IFontFamilyMap _fontFamilyMap = Services.GetSingleton<IFontFamilyMap>();
@@ -112,7 +110,6 @@ class SDLGraphics : IGraphics
     public SDLGraphics(IntPtr renderer)
     {
         _renderer = renderer;
-        _theme = Services.GetSingleton<ITheme>();
     }
 
     public void Render()
@@ -156,10 +153,9 @@ class SDLGraphics : IGraphics
         SDL_SetRenderTarget(_renderer, targetTexture);
         SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0); // Fully transparent
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
 
         if (roundedCornersRadius > 0)
-            DrawRoundedRectBorder(0, 0, width, height, _clipState.CornerRadius, borderWidth);
+            DrawRoundedRectBorder(0, 0, width, height, _clipState.CornerRadius, borderWidth, borderColor);
 
         // Step 2: Create rounded mask texture
         IntPtr maskTexture = SDL_CreateTexture(
@@ -174,7 +170,6 @@ class SDLGraphics : IGraphics
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255); // Opaque mask
-        // FillRoundedRectMask(0, 0, width, height, _clipRoundedCornerRadius); // This works but this should be as for background, and not draw rectangle...
 
         // Step 3: Composite masked border
         SDL_SetRenderTarget(_renderer, IntPtr.Zero);
@@ -214,12 +209,13 @@ class SDLGraphics : IGraphics
         }
     }
 
-    void DrawRoundedRectBorder(int x, int y, int width, int height, int radius, int borderWidth)
+    void DrawRoundedRectBorder(int x, int y, int width, int height, int radius, int borderWidth, ColorRgba borderColor)
     {
         if (_renderer == IntPtr.Zero)
             throw new NullReferenceException(nameof(_renderer));
         if (width <= 0 || height <= 0 || borderWidth <= 0 || radius < 0)
             return;
+        SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
         int layers = Math.Max(1, borderWidth);
         for (int i = 0; i < layers; i++)
         {
@@ -236,23 +232,24 @@ class SDLGraphics : IGraphics
             SDL_RenderDrawLine(_renderer, px, py + r, px, py + h - r - 1); // Left
             SDL_RenderDrawLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
 
-            FillQuarterCircle(px + r - 1, py + r, r, Corner.TopLeft, radius - borderWidth);
-            FillQuarterCircle(px + w - r, py + r, r, Corner.TopRight, radius - borderWidth);
-            FillQuarterCircle(px + r - 1, py + h - r, r, Corner.BottomLeft, radius - borderWidth);
-            FillQuarterCircle(px + w - r, py + h - r, r, Corner.BottomRight, radius - borderWidth);
+            FillQuarterCircle(px + r, py + r, r, Corner.TopLeft, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + r, py + h - r - 1, r, Corner.BottomLeft, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight, borderColor, radius - borderWidth);
         }
     }
 
-    void FillQuarterCircle(int cx, int cy, int radius, Corner corner, int skipFirst = 0)
+    void FillQuarterCircle(int cx, int cy, int radius, Corner corner, ColorRgba borderColor, int skipFirst = 0)
     {
         if (radius <= 0 || skipFirst >= radius)
             return;
 
+        var seeThroughColor1 = new ColorRgba(255f, 255f, 255f, 0.1f);
+        var seeThroughColor2 = new ColorRgba(255f, 255f, 255f, 0.05f);
+
         for (int y = 0; y <= radius; y++)
         {
             int ySq = y * y;
-            if (ySq > radius * radius)
-                continue;
 
             int outerX = (int)Math.Floor(Math.Sqrt(radius * radius - ySq));
             int innerX =
@@ -288,7 +285,54 @@ class SDLGraphics : IGraphics
             };
 
             if (startX <= endX)
+            {
+                // Draw the solid line
+                SDL_SetRenderDrawColor(
+                    _renderer,
+                    borderColor.RByte,
+                    borderColor.GByte,
+                    borderColor.BByte,
+                    borderColor.AByte
+                );
                 SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
+
+                // Draw the see-through pixel at the outer edge one
+                int seeThroughX = corner switch
+                {
+                    Corner.TopLeft => startX - 1,
+                    Corner.TopRight => endX + 1,
+                    Corner.BottomLeft => startX - 1,
+                    Corner.BottomRight => endX + 1,
+                    _ => startX,
+                };
+
+                SDL_SetRenderDrawColor(
+                    _renderer,
+                    seeThroughColor1.RByte,
+                    seeThroughColor1.GByte,
+                    seeThroughColor1.BByte,
+                    seeThroughColor1.AByte
+                );
+                SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
+
+                // Draw the see-through pixel at the outer edge two
+                seeThroughX = corner switch
+                {
+                    Corner.TopLeft => startX - 2,
+                    Corner.TopRight => endX + 2,
+                    Corner.BottomLeft => startX - 2,
+                    Corner.BottomRight => endX + 2,
+                    _ => startX,
+                };
+                SDL_SetRenderDrawColor(
+                    _renderer,
+                    seeThroughColor2.RByte,
+                    seeThroughColor2.GByte,
+                    seeThroughColor2.BByte,
+                    seeThroughColor2.AByte
+                );
+                SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
+            }
         }
     }
 
@@ -328,8 +372,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderTarget(_renderer, maskTexture);
         SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0); // Transparent clear
         SDL_RenderClear(_renderer);
-        SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte); // Opaque mask
-        FillRoundedRectMask(0, 0, width, height, _clipState.CornerRadius); // This works but this should be as for background, and not draw rectangle...
+        FillRoundedRectMask(0, 0, width, height, _clipState.CornerRadius, fillColor);
 
         // Step 3: Composite masked border
         SDL_SetRenderTarget(_renderer, IntPtr.Zero);
@@ -372,8 +415,9 @@ class SDLGraphics : IGraphics
         SDL_RenderFillRect(_renderer, ref rect);
     }
 
-    void FillRoundedRectMask(int x, int y, int w, int h, int r)
+    void FillRoundedRectMask(int x, int y, int w, int h, int r, ColorRgba fillColor)
     {
+        SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte);
         // Fill center rectangle
         SDLRect rect1 = new SDLRect
         {
@@ -392,10 +436,10 @@ class SDLGraphics : IGraphics
         };
         SDL_RenderFillRect(_renderer, ref rect2);
 
-        FillQuarterCircle(x + r - 1, y + r, r, Corner.TopLeft);
-        FillQuarterCircle(x + w - r, y + r, r, Corner.TopRight);
-        FillQuarterCircle(x + r - 1, y + h - r, r, Corner.BottomLeft);
-        FillQuarterCircle(x + w - r, y + h - r, r, Corner.BottomRight);
+        FillQuarterCircle(x + r, y + r, r, Corner.TopLeft, fillColor);
+        FillQuarterCircle(x + w - r - 1, y + r, r, Corner.TopRight, fillColor);
+        FillQuarterCircle(x + r, y + h - r - 1, r, Corner.BottomLeft, fillColor);
+        FillQuarterCircle(x + w - r - 1, y + h - r - 1, r, Corner.BottomRight, fillColor);
     }
     #endregion
 
