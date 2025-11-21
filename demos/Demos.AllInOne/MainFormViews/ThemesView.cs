@@ -1,5 +1,6 @@
 using CrossSharp.Ui;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 
 namespace Demos.AllInOne.MainFormViews;
 

@@ -2,6 +2,14 @@ using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Utils;
 
+/// <summary>
+/// Color represented in RGBA format with float components ranging from 0.0 to 1.0
+/// You can use ColorRgba.FromBytes(byte r, byte g, byte b, byte a) to create from 0-255 byte values
+/// </summary>
+/// <param name="r"></param>
+/// <param name="g"></param>
+/// <param name="b"></param>
+/// <param name="a"></param>
 public class ColorRgba(float r, float g, float b, float a)
 {
     public static readonly ColorRgba FloralWhite = new(1.0f, 0.98f, 0.94f, 1.0f);
