@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
@@ -12,14 +13,25 @@ partial class Dropdown : StackedLayout, IDropdown
     protected Dropdown()
     {
         Initialize();
-        PerformTheme();
+        SubscribeToEvents();
+    }
+
+    void SubscribeToEvents()
+    {
+        ThemePerformed += OnThemePerformed;
+        Disposing += OnDispose;
+    }
+
+    void UnsubscribeFromEvents()
+    {
+        ThemePerformed -= OnThemePerformed;
+        Disposing -= OnDispose;
     }
 
     void Initialize()
     {
         _headerLayout = new StackedLayout();
         _headerLayout.Orientation = Orientation.Horizontal;
-        _headerLayout.ItemsSpacing = 4;
         Add(_headerLayout);
         InitializeExpandIcon();
         InitializePlaceholder();
@@ -29,7 +41,6 @@ partial class Dropdown : StackedLayout, IDropdown
         _itemsLayout.Visible = State is DropdownState.Expanded;
         _itemsLayout.Orientation = Orientation.Vertical;
         _itemsLayout.MaxHeight = 400;
-        _itemsLayout.ItemsSpacing = 4;
         Add(_itemsLayout);
     }
 
@@ -52,18 +63,6 @@ partial class Dropdown : StackedLayout, IDropdown
         if (_selectedItem is IButton btn)
             selectedItemText = btn.Text;
         _placeholder.Text = selectedItemText!;
-    }
-
-    public sealed override void PerformTheme()
-    {
-        base.PerformTheme();
-        Orientation = Orientation.Vertical;
-        BorderWidth = 1;
-        BorderColor = ColorRgba.DimGray;
-        Padding = Padding.Zero;
-        ItemsSpacing = 0;
-        if (CollapsedHeight == 0)
-            CollapsedHeight = Theme.DefaultFontSize + Theme.DefaultLayoutItemSpacing;
     }
 
     void InitializeExpandIcon()

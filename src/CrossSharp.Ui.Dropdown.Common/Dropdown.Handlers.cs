@@ -1,5 +1,9 @@
+using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -46,5 +50,22 @@ partial class Dropdown
         // else
         Invalidate();
         RaiseStateChanged();
+    }
+
+    void OnThemePerformed(object? sender, EventArgs e)
+    {
+        Orientation = Orientation.Vertical;
+        BorderWidth = 1;
+        BorderColor = ColorRgba.DimGray;
+        Padding = Padding.Zero;
+        ItemsSpacing = 0;
+
+        if (CollapsedHeight == 0)
+            CollapsedHeight = Theme.DefaultFontSize + Theme.DefaultLayoutItemSpacing;
+    }
+
+    void OnDispose(object? sender, EventArgs e)
+    {
+        UnsubscribeFromEvents();
     }
 }
