@@ -1,3 +1,4 @@
+using CrossSharp.Themes;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
 
@@ -5,6 +6,16 @@ namespace CrossSharp.Ui.Common;
 
 partial class ThemePicker : Dropdown, IThemePicker
 {
+    readonly HashSet<Type> _priorityThemes =
+    [
+        typeof(DefaultTheme),
+        typeof(LightTheme),
+        typeof(FlatBlueTheme),
+        typeof(FlatPinkTheme),
+        typeof(RoundedSpacedLimitlessSoftTheme),
+        typeof(RoundedSpacedLightTheme),
+    ];
+
     internal ThemePicker()
     {
         InitializeItems();
@@ -19,7 +30,11 @@ partial class ThemePicker : Dropdown, IThemePicker
             if (type is { IsClass: true, IsAbstract: false } && typeof(ITheme).IsAssignableFrom(type))
                 themeTypes.Add(type);
 
-        foreach (var themeType in themeTypes)
+        var priority = _priorityThemes.Where(themeTypes.Contains).ToList();
+
+        var others = themeTypes.Where(t => !_priorityThemes.Contains(t)).ToList();
+
+        foreach (var themeType in priority.Concat(others))
             if (Activator.CreateInstance(themeType) is ITheme themeInstance)
                 AddItem(new ThemePickerDropdownItem(themeInstance));
     }

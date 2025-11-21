@@ -4,7 +4,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Themes;
 
-public class ThemeBase : ITheme
+public abstract class ThemeBase : ITheme
 {
     public virtual RenderStyle Style { get; set; }
     public virtual int DefaultFontSize { get; set; }
