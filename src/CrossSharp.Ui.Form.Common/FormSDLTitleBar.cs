@@ -32,6 +32,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         {
             Form.Close();
         };
+        _closeButton.ThemePerformed += TitleBarButtonThemePerformed;
         Add(_closeButton);
 
         _maximizeRestoreButton = new Button();
@@ -47,6 +48,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
             else
                 Form.Maximize();
         };
+        _maximizeRestoreButton.ThemePerformed += TitleBarButtonThemePerformed;
         Add(_maximizeRestoreButton);
 
         _minimizeButton = new Button();
@@ -59,12 +61,20 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         {
             Form.Minimize();
         };
+        _minimizeButton.ThemePerformed += TitleBarButtonThemePerformed;
         Add(_minimizeButton);
+    }
+
+    void TitleBarButtonThemePerformed(object? sender, EventArgs e)
+    {
+        if (sender is IButton button)
+            button.CornerRadius = 0;
     }
 
     public override void PerformTheme()
     {
         base.PerformTheme();
+        CornerRadius = 0;
         BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
         _closeButton.BackgroundColor = BackgroundColor;
         _maximizeRestoreButton.BackgroundColor = BackgroundColor;
