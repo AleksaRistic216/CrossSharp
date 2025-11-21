@@ -2,8 +2,8 @@ using CrossSharp.Ui;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace Demos.TextEditor;
 
@@ -39,7 +39,7 @@ public class TextEditTab : StaticLayout, ITabbedLayoutTab
         var btn = new Button();
         btn.Image = EfficientImage.Get(nameof(Constants.SaveFileIconKind));
         btn.Width = editorBarHeight;
-        btn.SetMargin(2);
+        btn.Margin = new Margin(2);
         _editorBar.Add(btn);
     }
 

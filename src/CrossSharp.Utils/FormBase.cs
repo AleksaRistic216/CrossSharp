@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Utils;
 
@@ -158,25 +159,10 @@ public abstract class FormBase<T> : IForm
         get => Implementation.IsMouseOver;
         set { Implementation.IsMouseOver = value; }
     }
-    public int MarginTop
+    public Margin Margin
     {
-        get => Implementation.MarginTop;
-        set => Implementation.MarginTop = value;
-    }
-    public int MarginBottom
-    {
-        get => Implementation.MarginBottom;
-        set => Implementation.MarginBottom = value;
-    }
-    public int MarginLeft
-    {
-        get => Implementation.MarginLeft;
-        set => Implementation.MarginLeft = value;
-    }
-    public int MarginRight
-    {
-        get => Implementation.MarginRight;
-        set => Implementation.MarginRight = value;
+        get => Implementation.Margin;
+        set { Implementation.Margin = value; }
     }
     public EventHandler? MarginChanged
     {

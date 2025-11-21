@@ -1,6 +1,5 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
 
@@ -73,8 +72,7 @@ partial class Accordion : StackedLayout, IAccordion
     {
         if (Orientation != Orientation.Vertical)
             return;
-        var collapsedWidth =
-            _hamburgButton.Width + Padding.Horizontal + _headerArea.MarginLeft + _headerArea.MarginRight;
+        var collapsedWidth = _hamburgButton.Width + Padding.Horizontal + _headerArea.Margin.Horizontal;
         Width = _state == AccordionState.Expanded ? _lastWidth : collapsedWidth;
     }
 
@@ -93,7 +91,7 @@ partial class Accordion : StackedLayout, IAccordion
 
     public sealed override void PerformTheme() // Shouldn't override method from
     {
-        this.SetMargin(Theme.DefaultLayoutItemSpacing);
+        Margin = new Margin(Theme.DefaultLayoutItemSpacing);
         _itemsArea.PerformTheme();
         _headerArea.PerformTheme();
         base.PerformTheme();

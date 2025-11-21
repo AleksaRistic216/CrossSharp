@@ -2,9 +2,9 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -16,7 +16,7 @@ partial class ThemePickerDropdownItem : StaticLayout, IDropdownItem, IClickable
         _itemTheme = itemTheme;
         _layout = new StackedLayout();
         _layout.Dock = DockStyle.Fill;
-        _layout.SetMargin(8);
+        _layout.Margin = new Margin(8);
         Add(_layout);
 
         _themeNameLabel = new Label();
@@ -76,7 +76,7 @@ partial class ThemePickerDropdownItem : StaticLayout, IDropdownItem, IClickable
         _secondaryColorPanel.BorderWidth = 1;
 
         var totalItemsSpacing = _layout.ItemsSpacing * 3;
-        Height = _itemHeight + _layout.MarginTop + _layout.MarginBottom + totalItemsSpacing;
+        Height = _itemHeight + _layout.Margin.Vertical + totalItemsSpacing;
     }
 
     void SelectTheme()

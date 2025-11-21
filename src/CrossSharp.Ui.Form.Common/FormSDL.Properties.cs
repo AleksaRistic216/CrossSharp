@@ -4,6 +4,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -97,4 +98,16 @@ partial class FormSDL
     public int Index { get; set; }
 
     public bool IsMouseOver { get; set; }
+    Margin _margin = Margin.Zero;
+    public Margin Margin
+    {
+        get => _margin;
+        set
+        {
+            if (_margin == value)
+                return;
+            _margin = value;
+            OnMarginChanged();
+        }
+    }
 }

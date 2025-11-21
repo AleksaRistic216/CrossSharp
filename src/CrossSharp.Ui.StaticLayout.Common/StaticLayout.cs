@@ -4,9 +4,9 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -63,7 +63,7 @@ class StaticLayout : IStaticLayout
     public void PerformTheme()
     {
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
-        this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
+        this.Margin = new Margin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         foreach (var control in _controls)
             control.PerformTheme();
         OnThemePerformed();
@@ -183,10 +183,27 @@ class StaticLayout : IStaticLayout
     public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
     public EventHandler? BackgroundColorChanged { get; set; }
     public bool IsMouseOver { get; set; } = false;
-    public int MarginTop { get; set; }
-    public int MarginBottom { get; set; }
-    public int MarginLeft { get; set; }
-    public int MarginRight { get; set; }
+    private Margin _margin = Utils.Structs.Margin.Zero;
+    public Margin Margin
+    {
+        get => _margin;
+        set
+        {
+            if (_margin.Equals(value))
+                return;
+            _margin = value;
+            OnMarginChanged();
+        }
+    }
     public EventHandler? MarginChanged { get; set; }
+
+    void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
+
+    void OnMarginChanged()
+    {
+        Invalidate();
+        RaiseMarginChanged();
+    }
+
     public int CornerRadius { get; set; }
 }

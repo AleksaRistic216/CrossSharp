@@ -28,7 +28,7 @@ partial class TabbedLayout
 
     void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
 
-    void OnMarginChangedInternal()
+    void OnMarginChanged()
     {
         Invalidate();
         RaiseMarginChanged();

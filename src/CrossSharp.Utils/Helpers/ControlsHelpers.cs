@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 using Omu.ValueInjecter;
 
 namespace CrossSharp.Utils.Helpers;
@@ -91,21 +92,13 @@ public static class ControlsHelpers
             if (dockedSibling.DockIndex > control.DockIndex)
                 continue;
             var siblingBounds = new Rectangle(dockedSibling.Location, dockedSibling.Size);
-            var siblingMarginTop = 0;
-            var siblingMarginBottom = 0;
-            var siblingMarginLeft = 0;
-            var siblingMarginRight = 0;
+            var siblingMargin = Margin.Zero;
             if (sibling is IMarginProvider siblingMp)
-            {
-                siblingMarginTop = siblingMp.MarginTop;
-                siblingMarginBottom = siblingMp.MarginBottom;
-                siblingMarginLeft = siblingMp.MarginLeft;
-                siblingMarginRight = siblingMp.MarginRight;
-            }
-            siblingBounds.X -= siblingMarginLeft;
-            siblingBounds.Y -= siblingMarginTop;
-            siblingBounds.Width += siblingMarginLeft + siblingMarginRight;
-            siblingBounds.Height += siblingMarginTop + siblingMarginBottom;
+                siblingMargin = siblingMp.Margin;
+            siblingBounds.X -= siblingMargin.Left;
+            siblingBounds.Y -= siblingMargin.Top;
+            siblingBounds.Width += siblingMargin.Horizontal;
+            siblingBounds.Height += siblingMargin.Vertical;
             switch (dockedSibling.Dock)
             {
                 case DockStyle.Top:
@@ -126,21 +119,13 @@ public static class ControlsHelpers
                     break;
             }
         }
-        var marginTop = 0;
-        var marginBottom = 0;
-        var marginLeft = 0;
-        var marginRight = 0;
+        Margin margin = Margin.Zero;
         if (control is IMarginProvider mp)
-        {
-            marginTop = mp.MarginTop;
-            marginBottom = mp.MarginBottom;
-            marginLeft = mp.MarginLeft;
-            marginRight = mp.MarginRight;
-        }
-        parentBounds.X += marginLeft;
-        parentBounds.Y += marginTop;
-        parentBounds.Width -= marginLeft + marginRight;
-        parentBounds.Height -= marginTop + marginBottom;
+            margin = mp.Margin;
+        parentBounds.X += margin.Left;
+        parentBounds.Y += margin.Top;
+        parentBounds.Width -= margin.Horizontal;
+        parentBounds.Height -= margin.Vertical;
         switch (control.Dock)
         {
             case DockStyle.Top:

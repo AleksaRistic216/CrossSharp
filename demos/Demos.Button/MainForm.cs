@@ -1,10 +1,8 @@
 using System.Drawing;
 using CrossSharp.Ui;
-using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
@@ -44,43 +42,23 @@ public class MainForm : Form
         var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
         imagesCache.AddImage(
             nameof(MaterialIconKind.About),
-            ImageHelpers.FromSvgPath(
-                MaterialIconDataProvider.GetData(MaterialIconKind.About),
-                imageSize,
-                imageSize
-            )
+            ImageHelpers.FromSvgPath(MaterialIconDataProvider.GetData(MaterialIconKind.About), imageSize, imageSize)
         );
         imagesCache.AddImage(
             nameof(MaterialIconKind.Home),
-            ImageHelpers.FromSvgPath(
-                MaterialIconDataProvider.GetData(MaterialIconKind.Home),
-                imageSize,
-                imageSize
-            )
+            ImageHelpers.FromSvgPath(MaterialIconDataProvider.GetData(MaterialIconKind.Home), imageSize, imageSize)
         );
         imagesCache.AddImage(
             nameof(MaterialIconKind.Person),
-            ImageHelpers.FromSvgPath(
-                MaterialIconDataProvider.GetData(MaterialIconKind.Person),
-                imageSize,
-                imageSize
-            )
+            ImageHelpers.FromSvgPath(MaterialIconDataProvider.GetData(MaterialIconKind.Person), imageSize, imageSize)
         );
         imagesCache.AddImage(
             nameof(MaterialIconKind.Money),
-            ImageHelpers.FromSvgPath(
-                MaterialIconDataProvider.GetData(MaterialIconKind.Money),
-                imageSize,
-                imageSize
-            )
+            ImageHelpers.FromSvgPath(MaterialIconDataProvider.GetData(MaterialIconKind.Money), imageSize, imageSize)
         );
         imagesCache.AddImage(
             nameof(MaterialIconKind.City),
-            ImageHelpers.FromSvgPath(
-                MaterialIconDataProvider.GetData(MaterialIconKind.City),
-                imageSize,
-                imageSize
-            )
+            ImageHelpers.FromSvgPath(MaterialIconDataProvider.GetData(MaterialIconKind.City), imageSize, imageSize)
         );
     }
 

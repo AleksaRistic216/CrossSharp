@@ -50,7 +50,7 @@ partial class FormSDL
 
     void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
 
-    void OnMarginChangedInternal() => RaiseMarginChanged();
+    void OnMarginChanged() => RaiseMarginChanged();
 
     public EventHandler? ThemePerformed { get; set; }
 

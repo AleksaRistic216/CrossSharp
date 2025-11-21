@@ -88,20 +88,12 @@ partial class StackedLayout : IStackedLayout
         var currentY = Padding.Top;
         foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
-            var marginTop = 0;
-            var marginBottom = 0;
-            var marginLeft = 0;
-            var marginRight = 0;
+            var margin = Margin.Zero;
             if (c is IMarginProvider mp)
-            {
-                marginTop = mp.MarginTop;
-                marginBottom = mp.MarginBottom;
-                marginLeft = mp.MarginLeft;
-                marginRight = mp.MarginRight;
-            }
-            c.Location = new Point(Padding.Left + marginLeft, currentY + marginTop);
-            c.Width = Width - Padding.Horizontal - marginLeft - marginRight;
-            currentY += c.Height + marginTop + marginBottom + ItemsSpacing;
+                margin = mp.Margin;
+            c.Location = new Point(Padding.Left + margin.Left, currentY + margin.Top);
+            c.Width = Width - Padding.Horizontal - margin.Horizontal;
+            currentY += c.Height + margin.Vertical + ItemsSpacing;
         }
     }
 
@@ -110,10 +102,10 @@ partial class StackedLayout : IStackedLayout
         var currentX = Padding.Left;
         foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
-            currentX += c.MarginLeft;
-            c.Location = new Point(currentX, Padding.Top + c.MarginTop);
-            c.Height = Height - Padding.Vertical - c.MarginTop - c.MarginBottom;
-            currentX += c.Width + ItemsSpacing + c.MarginRight;
+            currentX += c.Margin.Left;
+            c.Location = new Point(currentX, Padding.Top + c.Margin.Top);
+            c.Height = Height - Padding.Vertical - c.Margin.Vertical;
+            currentX += c.Width + ItemsSpacing + c.Margin.Right;
         }
     }
 

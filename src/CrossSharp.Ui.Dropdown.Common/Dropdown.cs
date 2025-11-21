@@ -86,9 +86,7 @@ partial class Dropdown : StackedLayout, IDropdown
         if (_expandBtn is not null)
             _expandBtn.Text = State is DropdownState.Collapsed ? "▼" : "▲";
         if (_itemsLayout is not null)
-            _itemsLayout.Height = _itemsLayout.Sum(x =>
-                x.Height + _itemsLayout.ItemsSpacing + x.MarginTop + x.MarginBottom
-            );
+            _itemsLayout.Height = _itemsLayout.Sum(x => x.Height + _itemsLayout.ItemsSpacing + x.Margin.Vertical);
         _headerLayout?.Invalidate();
         _itemsLayout?.Invalidate();
         InvalidateSize();

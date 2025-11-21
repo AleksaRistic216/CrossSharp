@@ -4,8 +4,8 @@ using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -189,7 +189,7 @@ class FilesPicker : Form, IFilesPicker
         _locationInput.Height = BLOCK_HEIGHT;
         _locationInput.CornerRadius = 16;
         _locationInput.BorderWidth = 2;
-        _locationInput.SetMargin(4);
+        _locationInput.Margin = new Margin(4);
         _actionBar.Add(_locationInput);
     }
 

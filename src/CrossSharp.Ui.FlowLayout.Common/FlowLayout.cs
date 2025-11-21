@@ -3,10 +3,10 @@ using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Extensions;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -25,7 +25,7 @@ partial class FlowLayout : IFlowLayout
 
     public void PerformTheme()
     {
-        this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
+        Margin = new Margin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing;
         foreach (var control in _controls)

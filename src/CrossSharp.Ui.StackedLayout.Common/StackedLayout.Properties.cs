@@ -87,11 +87,18 @@ partial class StackedLayout
         }
     }
     public Rectangle ContentBounds { get; set; }
-    public int MarginTop { get; set; }
-    public int MarginBottom { get; set; }
-    public int MarginLeft { get; set; }
-    public int MarginRight { get; set; }
-    public EventHandler? MarginChanged { get; set; }
+    private Margin _margin = Margin.Zero;
+    public Margin Margin
+    {
+        get => _margin;
+        set
+        {
+            if (_margin.Equals(value))
+                return;
+            _margin = value;
+            OnMarginChanged();
+        }
+    }
     public int CornerRadius { get; set; }
     public int? MaxWidth { get; set; }
     public int? MaxHeight { get; set; }

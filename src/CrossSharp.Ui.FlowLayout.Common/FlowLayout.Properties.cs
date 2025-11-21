@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -138,9 +139,6 @@ partial class FlowLayout
         }
     }
     public Rectangle ContentBounds { get; set; }
-    public int MarginTop { get; set; }
-    public int MarginBottom { get; set; }
-    public int MarginLeft { get; set; }
-    public int MarginRight { get; set; }
+    public Margin Margin { get; set; } = Margin.Zero;
     public int CornerRadius { get; set; }
 }

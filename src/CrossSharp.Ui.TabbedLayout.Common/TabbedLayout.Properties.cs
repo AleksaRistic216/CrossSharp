@@ -55,52 +55,16 @@ partial class TabbedLayout
     public object? Parent { get; set; }
     public bool IsMouseOver { get; set; }
 
-    int _marginTop;
-    public int MarginTop
+    Margin _margin = Margin.Zero;
+    public Margin Margin
     {
-        get => _marginTop;
+        get => _margin;
         set
         {
-            if (_marginTop == value)
+            if (_margin == value)
                 return;
-            _marginTop = value;
-            OnMarginChangedInternal();
-        }
-    }
-    int _marginBottom;
-    public int MarginBottom
-    {
-        get => _marginBottom;
-        set
-        {
-            if (_marginBottom == value)
-                return;
-            _marginBottom = value;
-            OnMarginChangedInternal();
-        }
-    }
-    int _marginLeft;
-    public int MarginLeft
-    {
-        get => _marginLeft;
-        set
-        {
-            if (_marginLeft == value)
-                return;
-            _marginLeft = value;
-            OnMarginChangedInternal();
-        }
-    }
-    int _marginRight;
-    public int MarginRight
-    {
-        get => _marginRight;
-        set
-        {
-            if (_marginRight == value)
-                return;
-            _marginRight = value;
-            OnMarginChangedInternal();
+            _margin = value;
+            OnMarginChanged();
         }
     }
     public int Index { get; set; }

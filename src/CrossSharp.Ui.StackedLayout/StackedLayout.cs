@@ -169,25 +169,10 @@ public class StackedLayout()
         get => _impl.ContentBounds;
         set => _impl.ContentBounds = value;
     }
-    public int MarginTop
+    public Margin Margin
     {
-        get => _impl.MarginTop;
-        set => _impl.MarginTop = value;
-    }
-    public int MarginBottom
-    {
-        get => _impl.MarginBottom;
-        set => _impl.MarginBottom = value;
-    }
-    public int MarginLeft
-    {
-        get => _impl.MarginLeft;
-        set => _impl.MarginLeft = value;
-    }
-    public int MarginRight
-    {
-        get => _impl.MarginRight;
-        set => _impl.MarginRight = value;
+        get => _impl.Margin;
+        set => _impl.Margin = value;
     }
     public EventHandler? MarginChanged
     {

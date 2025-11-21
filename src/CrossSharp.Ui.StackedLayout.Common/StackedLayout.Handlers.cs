@@ -123,4 +123,17 @@ partial class StackedLayout
     {
         RaiseScrolled();
     }
+
+    public EventHandler? MarginChanged { get; set; }
+
+    void RaiseMarginChanged()
+    {
+        MarginChanged?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    void OnMarginChanged()
+    {
+        Invalidate();
+        RaiseMarginChanged();
+    }
 }

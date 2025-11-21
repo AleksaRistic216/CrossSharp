@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Utils;
 
@@ -84,8 +85,16 @@ public partial class ControlBase
     }
     public int ZIndex { get; set; } = 0;
 
-    public int MarginTop { get; set; }
-    public int MarginBottom { get; set; }
-    public int MarginLeft { get; set; }
-    public int MarginRight { get; set; }
+    private Margin _margin = Margin.Zero;
+    public Margin Margin
+    {
+        get => _margin;
+        set
+        {
+            if (_margin.Equals(value))
+                return;
+            _margin = value;
+            OnMarginChanged(this, System.EventArgs.Empty);
+        }
+    }
 }

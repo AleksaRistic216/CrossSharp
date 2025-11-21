@@ -77,8 +77,9 @@ public partial class ControlBase
         MarginChanged?.Invoke(this, System.EventArgs.Empty);
     }
 
-    void OnMarginChangedInternal(object? sender, System.EventArgs e)
+    void OnMarginChanged(object? sender, System.EventArgs e)
     {
+        Invalidate();
         RaiseMarginChanged();
     }
 
