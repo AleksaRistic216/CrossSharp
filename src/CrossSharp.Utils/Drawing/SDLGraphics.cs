@@ -262,8 +262,8 @@ class SDLGraphics : IGraphics
         if (radius <= 0 || skipFirst >= radius)
             return;
 
-        var seeThroughColor1 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.4f);
-        var seeThroughColor2 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.2f);
+        var seeThroughColor1 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.3f);
+        var seeThroughColor2 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.15f);
 
         var key = (corner, radius, skipFirst);
         if (!_quarterCircleCache.TryGetValue(key, out var pixelsToDraw))
