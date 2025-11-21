@@ -251,6 +251,12 @@ class SDLGraphics : IGraphics
         SeeThrough2,
     }
 
+    // key: (Corner, radius, skipFirst)
+    static readonly Dictionary<
+        (Corner corner, int radius, int skipFirst),
+        Dictionary<FillQuarterCirclePointType, List<Rectangle>>
+    > _quarterCircleCache = new();
+
     void FillQuarterCircle(int cx, int cy, int radius, Corner corner, ColorRgba borderColor, int skipFirst = 0)
     {
         if (radius <= 0 || skipFirst >= radius)
@@ -259,83 +265,96 @@ class SDLGraphics : IGraphics
         var seeThroughColor1 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.4f);
         var seeThroughColor2 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.2f);
 
-        var pixelsToDraw = new Dictionary<FillQuarterCirclePointType, List<Rectangle>>();
-        pixelsToDraw.TryAdd(FillQuarterCirclePointType.Solid, []);
-        pixelsToDraw.TryAdd(FillQuarterCirclePointType.SeeThrough1, []);
-        pixelsToDraw.TryAdd(FillQuarterCirclePointType.SeeThrough2, []);
-        for (int y = 0; y <= radius; y++)
+        var key = (corner, radius, skipFirst);
+        if (!_quarterCircleCache.TryGetValue(key, out var pixelsToDraw))
         {
-            int ySq = y * y;
-
-            int outerX = (int)Math.Floor(Math.Sqrt(radius * radius - ySq));
-            int innerX =
-                (skipFirst > 0 && ySq < skipFirst * skipFirst)
-                    ? (int)Math.Ceiling(Math.Sqrt(skipFirst * skipFirst - ySq))
-                    : 0;
-
-            int drawY = corner switch
+            pixelsToDraw = new Dictionary<FillQuarterCirclePointType, List<Rectangle>>
             {
-                Corner.TopLeft => cy - y,
-                Corner.TopRight => cy - y,
-                Corner.BottomLeft => cy + y,
-                Corner.BottomRight => cy + y,
-                _ => cy,
+                [FillQuarterCirclePointType.Solid] = new List<Rectangle>(),
+                [FillQuarterCirclePointType.SeeThrough1] = new List<Rectangle>(),
+                [FillQuarterCirclePointType.SeeThrough2] = new List<Rectangle>(),
             };
 
-            int startX = corner switch
+            // build rectangles in a local coordinate system with center at (0,0)
+            for (int y = 0; y <= radius; y++)
             {
-                Corner.TopLeft => cx - outerX,
-                Corner.TopRight => cx + innerX,
-                Corner.BottomLeft => cx - outerX,
-                Corner.BottomRight => cx + innerX,
-                _ => cx,
-            };
+                int ySq = y * y;
 
-            int endX = corner switch
-            {
-                Corner.TopLeft => cx - innerX,
-                Corner.TopRight => cx + outerX,
-                Corner.BottomLeft => cx - innerX,
-                Corner.BottomRight => cx + outerX,
-                _ => cx,
-            };
+                int outerX = (int)Math.Floor(Math.Sqrt(radius * radius - ySq));
+                int innerX =
+                    (skipFirst > 0 && ySq < skipFirst * skipFirst)
+                        ? (int)Math.Ceiling(Math.Sqrt(skipFirst * skipFirst - ySq))
+                        : 0;
 
-            if (startX > endX)
-                continue;
-            pixelsToDraw[FillQuarterCirclePointType.Solid].Add(new Rectangle(startX, drawY, endX - startX + 1, 1));
+                int localY = corner switch
+                {
+                    Corner.TopLeft => -y,
+                    Corner.TopRight => -y,
+                    Corner.BottomLeft => y,
+                    Corner.BottomRight => y,
+                    _ => 0,
+                };
 
-            pixelsToDraw[FillQuarterCirclePointType.SeeThrough1]
-                .Add(
-                    new Rectangle(
-                        corner switch
-                        {
-                            Corner.TopLeft => startX - 1,
-                            Corner.TopRight => endX + 1,
-                            Corner.BottomLeft => startX - 1,
-                            Corner.BottomRight => endX + 1,
-                            _ => startX,
-                        },
-                        drawY,
-                        1,
-                        1
-                    )
-                );
-            pixelsToDraw[FillQuarterCirclePointType.SeeThrough2]
-                .Add(
-                    new Rectangle(
-                        corner switch
-                        {
-                            Corner.TopLeft => startX - 2,
-                            Corner.TopRight => endX + 2,
-                            Corner.BottomLeft => startX - 2,
-                            Corner.BottomRight => endX + 2,
-                            _ => startX,
-                        },
-                        drawY,
-                        1,
-                        1
-                    )
-                );
+                int startLocalX = corner switch
+                {
+                    Corner.TopLeft => -outerX,
+                    Corner.TopRight => innerX,
+                    Corner.BottomLeft => -outerX,
+                    Corner.BottomRight => innerX,
+                    _ => 0,
+                };
+
+                int endLocalX = corner switch
+                {
+                    Corner.TopLeft => -innerX,
+                    Corner.TopRight => outerX,
+                    Corner.BottomLeft => -innerX,
+                    Corner.BottomRight => outerX,
+                    _ => 0,
+                };
+
+                if (startLocalX > endLocalX)
+                    continue;
+
+                pixelsToDraw[FillQuarterCirclePointType.Solid]
+                    .Add(new Rectangle(startLocalX, localY, endLocalX - startLocalX + 1, 1));
+
+                pixelsToDraw[FillQuarterCirclePointType.SeeThrough1]
+                    .Add(
+                        new Rectangle(
+                            corner switch
+                            {
+                                Corner.TopLeft => startLocalX - 1,
+                                Corner.TopRight => endLocalX + 1,
+                                Corner.BottomLeft => startLocalX - 1,
+                                Corner.BottomRight => endLocalX + 1,
+                                _ => startLocalX,
+                            },
+                            localY,
+                            1,
+                            1
+                        )
+                    );
+
+                pixelsToDraw[FillQuarterCirclePointType.SeeThrough2]
+                    .Add(
+                        new Rectangle(
+                            corner switch
+                            {
+                                Corner.TopLeft => startLocalX - 2,
+                                Corner.TopRight => endLocalX + 2,
+                                Corner.BottomLeft => startLocalX - 2,
+                                Corner.BottomRight => endLocalX + 2,
+                                _ => startLocalX,
+                            },
+                            localY,
+                            1,
+                            1
+                        )
+                    );
+            }
+
+            _quarterCircleCache[key] = pixelsToDraw;
         }
 
         foreach (var solidPixel in pixelsToDraw[FillQuarterCirclePointType.Solid])
@@ -349,8 +368,8 @@ class SDLGraphics : IGraphics
             );
             var rect = new SDLRect
             {
-                x = solidPixel.X,
-                y = solidPixel.Y,
+                x = cx + solidPixel.X,
+                y = cy + solidPixel.Y,
                 w = solidPixel.Width,
                 h = solidPixel.Height,
             };
@@ -368,8 +387,8 @@ class SDLGraphics : IGraphics
             );
             var rect = new SDLRect
             {
-                x = seeThroughPixel.X,
-                y = seeThroughPixel.Y,
+                x = cx + seeThroughPixel.X,
+                y = cy + seeThroughPixel.Y,
                 w = seeThroughPixel.Width,
                 h = seeThroughPixel.Height,
             };
@@ -387,8 +406,8 @@ class SDLGraphics : IGraphics
             );
             var rect = new SDLRect
             {
-                x = seeThroughPixel.X,
-                y = seeThroughPixel.Y,
+                x = cx + seeThroughPixel.X,
+                y = cy + seeThroughPixel.Y,
                 w = seeThroughPixel.Width,
                 h = seeThroughPixel.Height,
             };
