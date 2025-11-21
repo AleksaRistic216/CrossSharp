@@ -93,7 +93,10 @@ class SDLGraphics : IGraphics
     static extern int SDL_RenderCopy(IntPtr renderer, IntPtr texture, IntPtr srcRect, ref SDLRect dstRect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern int SDL_SetTextureBlendMode(IntPtr texture, SDLBlendMode blendMode);
+    static extern int SDL_SetTextureBlendMode(IntPtr texture, SDLBlendMode blendMode);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern void SDL_SetRenderDrawBlendMode(IntPtr renderer, SDLBlendMode blendMode);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_RenderCopy(IntPtr renderer, IntPtr texture, IntPtr srcRect, IntPtr dstRect);
@@ -105,7 +108,10 @@ class SDLGraphics : IGraphics
     static extern void SDL_DestroyTexture(IntPtr texture);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateTexture(IntPtr renderer, uint format, int access, int w, int h);
+    static extern IntPtr SDL_CreateTexture(IntPtr renderer, uint format, int access, int w, int h);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern IntPtr SDL_GetRenderTarget(IntPtr renderer);
 
     public SDLGraphics(IntPtr renderer)
     {
@@ -231,12 +237,18 @@ class SDLGraphics : IGraphics
             SDL_RenderDrawLine(_renderer, px + r, py + h - 1, px + w - r - 1, py + h - 1); // Bottom
             SDL_RenderDrawLine(_renderer, px, py + r, px, py + h - r - 1); // Left
             SDL_RenderDrawLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
-
             FillQuarterCircle(px + r, py + r, r, Corner.TopLeft, borderColor, radius - borderWidth);
             FillQuarterCircle(px + w - r - 1, py + r, r, Corner.TopRight, borderColor, radius - borderWidth);
             FillQuarterCircle(px + r, py + h - r - 1, r, Corner.BottomLeft, borderColor, radius - borderWidth);
             FillQuarterCircle(px + w - r - 1, py + h - r - 1, r, Corner.BottomRight, borderColor, radius - borderWidth);
         }
+    }
+
+    enum FillQuarterCirclePointType
+    {
+        Solid,
+        SeeThrough1,
+        SeeThrough2,
     }
 
     void FillQuarterCircle(int cx, int cy, int radius, Corner corner, ColorRgba borderColor, int skipFirst = 0)
@@ -247,6 +259,10 @@ class SDLGraphics : IGraphics
         var seeThroughColor1 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.4f);
         var seeThroughColor2 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.2f);
 
+        var pixelsToDraw = new Dictionary<FillQuarterCirclePointType, List<Rectangle>>();
+        pixelsToDraw.TryAdd(FillQuarterCirclePointType.Solid, []);
+        pixelsToDraw.TryAdd(FillQuarterCirclePointType.SeeThrough1, []);
+        pixelsToDraw.TryAdd(FillQuarterCirclePointType.SeeThrough2, []);
         for (int y = 0; y <= radius; y++)
         {
             int ySq = y * y;
@@ -286,7 +302,44 @@ class SDLGraphics : IGraphics
 
             if (startX > endX)
                 continue;
-            // Draw the solid line
+            pixelsToDraw[FillQuarterCirclePointType.Solid].Add(new Rectangle(startX, drawY, endX - startX + 1, 1));
+
+            pixelsToDraw[FillQuarterCirclePointType.SeeThrough1]
+                .Add(
+                    new Rectangle(
+                        corner switch
+                        {
+                            Corner.TopLeft => startX - 1,
+                            Corner.TopRight => endX + 1,
+                            Corner.BottomLeft => startX - 1,
+                            Corner.BottomRight => endX + 1,
+                            _ => startX,
+                        },
+                        drawY,
+                        1,
+                        1
+                    )
+                );
+            pixelsToDraw[FillQuarterCirclePointType.SeeThrough2]
+                .Add(
+                    new Rectangle(
+                        corner switch
+                        {
+                            Corner.TopLeft => startX - 2,
+                            Corner.TopRight => endX + 2,
+                            Corner.BottomLeft => startX - 2,
+                            Corner.BottomRight => endX + 2,
+                            _ => startX,
+                        },
+                        drawY,
+                        1,
+                        1
+                    )
+                );
+        }
+
+        foreach (var solidPixel in pixelsToDraw[FillQuarterCirclePointType.Solid])
+        {
             SDL_SetRenderDrawColor(
                 _renderer,
                 borderColor.RByte,
@@ -294,18 +347,18 @@ class SDLGraphics : IGraphics
                 borderColor.BByte,
                 borderColor.AByte
             );
-            SDL_RenderDrawLine(_renderer, startX, drawY, endX, drawY);
-
-            // Draw the see-through pixel at the outer edge one
-            int seeThroughX = corner switch
+            var rect = new SDLRect
             {
-                Corner.TopLeft => startX - 1,
-                Corner.TopRight => endX + 1,
-                Corner.BottomLeft => startX - 1,
-                Corner.BottomRight => endX + 1,
-                _ => startX,
+                x = solidPixel.X,
+                y = solidPixel.Y,
+                w = solidPixel.Width,
+                h = solidPixel.Height,
             };
+            SDL_RenderFillRect(_renderer, ref rect);
+        }
 
+        foreach (var seeThroughPixel in pixelsToDraw[FillQuarterCirclePointType.SeeThrough1])
+        {
             SDL_SetRenderDrawColor(
                 _renderer,
                 seeThroughColor1.RByte,
@@ -313,17 +366,18 @@ class SDLGraphics : IGraphics
                 seeThroughColor1.BByte,
                 seeThroughColor1.AByte
             );
-            SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
-
-            // Draw the see-through pixel at the outer edge two
-            seeThroughX = corner switch
+            var rect = new SDLRect
             {
-                Corner.TopLeft => startX - 2,
-                Corner.TopRight => endX + 2,
-                Corner.BottomLeft => startX - 2,
-                Corner.BottomRight => endX + 2,
-                _ => startX,
+                x = seeThroughPixel.X,
+                y = seeThroughPixel.Y,
+                w = seeThroughPixel.Width,
+                h = seeThroughPixel.Height,
             };
+            SDL_RenderFillRect(_renderer, ref rect);
+        }
+
+        foreach (var seeThroughPixel in pixelsToDraw[FillQuarterCirclePointType.SeeThrough2])
+        {
             SDL_SetRenderDrawColor(
                 _renderer,
                 seeThroughColor2.RByte,
@@ -331,7 +385,14 @@ class SDLGraphics : IGraphics
                 seeThroughColor2.BByte,
                 seeThroughColor2.AByte
             );
-            SDL_RenderDrawPoint(_renderer, seeThroughX, drawY);
+            var rect = new SDLRect
+            {
+                x = seeThroughPixel.X,
+                y = seeThroughPixel.Y,
+                w = seeThroughPixel.Width,
+                h = seeThroughPixel.Height,
+            };
+            SDL_RenderFillRect(_renderer, ref rect);
         }
     }
 
