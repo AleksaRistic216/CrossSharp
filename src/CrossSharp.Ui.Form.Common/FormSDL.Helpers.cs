@@ -12,9 +12,9 @@ partial class FormSDL
     static IntPtr CreateWindowCore(string title, int width, int height)
     {
         var appConfig = Services.GetSingleton<IApplicationConfiguration>();
-        uint flags = SDLWindowFlags.HIDDEN | SDLWindowFlags.RESIZABLE;
+        var flags = SDLWindowFlags.HIDDEN | SDLWindowFlags.RESIZABLE;
         if (appConfig.HighDpi)
-            flags |= SDLWindowFlags.ALLOW_HIGHDPI;
+            flags |= SDLWindowFlags.HIGH_PIXEL_DENSITY;
 
         if (Services.GetSingleton<IApplicationConfiguration>().FormsStyle is FormStyle.CrossSharp)
             flags |= SDLWindowFlags.BORDERLESS;
@@ -22,14 +22,7 @@ partial class FormSDL
         // Set to OPENGL, later can be changed to VULKAN or METAL or DIRECT3D based on configuration and platform
         flags |= SDLWindowFlags.OPENGL;
 
-        var window = SDLHelpers.SDL_CreateWindow(
-            title,
-            SDLWindowPosition.CENTERED,
-            SDLWindowPosition.CENTERED,
-            width,
-            height,
-            flags
-        );
+        var window = SDLHelpers.SDL_CreateWindow(title, width, height, flags);
         return window;
     }
 

@@ -7,6 +7,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Application;
 
@@ -96,11 +97,15 @@ public class ApplicationBuilder
     {
         // Catch all exceptions
         // Commented for not because it catches them good
-        // AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
-        // {
-        //     Console.WriteLine(e.Exception);
-        //     Debugger.Break();
-        // };
+        AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
+        {
+            Console.WriteLine(e.Exception);
+            IntPtr sdlErrorMessagePointer = SDLHelpers.SDL_GetError();
+            string sdlErrorMessage = Marshal.PtrToStringAnsi(sdlErrorMessagePointer) ?? string.Empty;
+            if (!string.IsNullOrEmpty(sdlErrorMessage))
+                Console.WriteLine("SDL Error: " + sdlErrorMessage);
+            Debugger.Break();
+        };
         // ===
 
         ConfirmTheme();

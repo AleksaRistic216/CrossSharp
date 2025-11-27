@@ -46,30 +46,30 @@
     </ItemGroup>
     <ItemGroup>
         <!-- Linux native libs -->
-        <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2_ttf-2.0.so.0">
+        <None Include="../../src/lib/sdl3/usr/lib/x86_64-linux-gnu/libSDL3.so.0.2.26">
             <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/linux-x64/native/libSDL2_ttf-2.0.so.0</PackagePath>
-            <Link>runtimes/linux-x64/native/libSDL2_ttf-2.0.so.0</Link>
+            <PackagePath>runtimes/linux-x64/native/libSDL3.so.0.2.26</PackagePath>
+            <Link>runtimes/linux-x64/native/libSDL3.so.0.2.26</Link>
         </None>
-        <None Include="../../src/lib/sdl2/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0">
+        <None Include="../../src/lib/sdl3/usr/lib/x86_64-linux-gnu/libSDL3_ttf.so.0.2.2">
             <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/linux-x64/native/libSDL2-2.0.so.0</PackagePath>
-            <Link>runtimes/linux-x64/native/libSDL2-2.0.so.0</Link>
+            <PackagePath>runtimes/linux-x64/native/libSDL3_ttf.so.0.2.2</PackagePath>
+            <Link>runtimes/linux-x64/native/libSDL3_ttf.so.0.2.2</Link>
         </None>
         <!-- Windows native libs -->
-        <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2.dll">
+        <None Include="../../src/lib/sdl3/usr/lib/x64-win/SDL3.dll">
             <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/win-x64/native/SDL2.dll</PackagePath>
-            <Link>runtimes/win-x64/native/SDL2.dll</Link>
+            <PackagePath>runtimes/win-x64/native/SDL3.dll</PackagePath>
+            <Link>runtimes/win-x64/native/SDL3.dll</Link>
         </None>
-        <None Include="../../src/lib/sdl2/usr/lib/x64-win/SDL2_ttf.dll">
+        <None Include="../../src/lib/sdl3/usr/lib/x64-win/SDL3_ttf.dll">
             <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/win-x64/native/SDL2_ttf.dll</PackagePath>
-            <Link>runtimes/win-x64/native/SDL2_ttf.dll</Link>
+            <PackagePath>runtimes/win-x64/native/SDL3_ttf.dll</PackagePath>
+            <Link>runtimes/win-x64/native/SDL3_ttf.dll</Link>
         </None>
     </ItemGroup>
     <ItemGroup>

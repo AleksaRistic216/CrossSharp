@@ -45,7 +45,7 @@ class SDLGraphics : IGraphics
     // );
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_SetRenderDrawColor(IntPtr renderer, byte r, byte g, byte b, byte a);
+    static extern bool SDL_SetRenderDrawColor(IntPtr renderer, byte r, byte g, byte b, byte a);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_RenderDrawPoint(IntPtr renderer, int x, int y);
@@ -57,13 +57,10 @@ class SDLGraphics : IGraphics
     static extern int SDL_RenderClear(IntPtr renderer);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderSetClipRect(IntPtr renderer, ref SDLRect rect);
+    static extern bool SDL_SetRenderClipRect(IntPtr renderer, ref SDLRect rect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderSetClipRect(IntPtr renderer, IntPtr rect);
-
-    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderFillRect(IntPtr renderer, ref SDLRect rect);
+    static extern bool SDL_RenderFillRect(IntPtr renderer, ref SDLRect rect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_SetRenderTarget(IntPtr renderer, IntPtr texture);
@@ -72,7 +69,7 @@ class SDLGraphics : IGraphics
     static extern int SDL_RenderDrawRect(IntPtr renderer, ref SDLRect rect);
 
     [DllImport(SDLHelpers.TTF_LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int TTF_Init();
+    static extern bool TTF_Init();
 
     [DllImport(SDLHelpers.TTF_LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern IntPtr TTF_OpenFont(string file, int ptsize);
@@ -81,16 +78,19 @@ class SDLGraphics : IGraphics
     static extern IntPtr TTF_CloseFont(IntPtr font);
 
     [DllImport(SDLHelpers.TTF_LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern IntPtr TTF_RenderUTF8_Blended(IntPtr font, string text, SDLColor color);
+    static extern IntPtr TTF_RenderText_Blended(IntPtr font, string text, short length, SDLColor color);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern IntPtr SDL_CreateTextureFromSurface(IntPtr renderer, IntPtr surface);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_QueryTexture(IntPtr texture, IntPtr format, IntPtr access, out int w, out int h);
+    static extern bool SDL_GetTextureSize(IntPtr texture, out int w, out int h);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderCopy(IntPtr renderer, IntPtr texture, IntPtr srcRect, ref SDLRect dstRect);
+    static extern bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, IntPtr srcRect, ref SDLRect dstRect);
+
+    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
+    static extern bool SDL_RenderTexture(IntPtr renderer, IntPtr texture, IntPtr srcRect, IntPtr dstRect);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern int SDL_SetTextureBlendMode(IntPtr texture, SDLBlendMode blendMode);
@@ -99,10 +99,7 @@ class SDLGraphics : IGraphics
     static extern void SDL_SetRenderDrawBlendMode(IntPtr renderer, SDLBlendMode blendMode);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern int SDL_RenderCopy(IntPtr renderer, IntPtr texture, IntPtr srcRect, IntPtr dstRect);
-
-    [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
-    static extern void SDL_FreeSurface(IntPtr surface);
+    static extern void SDL_DestroySurface(IntPtr surface);
 
     [DllImport(SDLHelpers.LIB, CallingConvention = CallingConvention.Cdecl)]
     static extern void SDL_DestroyTexture(IntPtr texture);
@@ -190,8 +187,8 @@ class SDLGraphics : IGraphics
             h = height,
         };
 
-        SDL_RenderCopy(_renderer, maskTexture, IntPtr.Zero, ref dstRect);
-        SDL_RenderCopy(_renderer, targetTexture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, maskTexture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, targetTexture, IntPtr.Zero, ref dstRect);
 
         SDL_DestroyTexture(maskTexture);
         SDL_DestroyTexture(targetTexture);
@@ -466,8 +463,8 @@ class SDLGraphics : IGraphics
             h = height,
         };
 
-        SDL_RenderCopy(_renderer, maskTexture, IntPtr.Zero, ref dstRect);
-        SDL_RenderCopy(_renderer, targetTexture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, maskTexture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, targetTexture, IntPtr.Zero, ref dstRect);
 
         SDL_DestroyTexture(maskTexture);
         SDL_DestroyTexture(targetTexture);
@@ -483,7 +480,7 @@ class SDLGraphics : IGraphics
             return;
         x += _offset.X;
         y += _offset.Y;
-        SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte);
+        var a = SDL_SetRenderDrawColor(_renderer, fillColor.RByte, fillColor.GByte, fillColor.BByte, fillColor.AByte);
         var rect = new SDLRect
         {
             x = x,
@@ -491,7 +488,7 @@ class SDLGraphics : IGraphics
             w = width,
             h = height,
         };
-        SDL_RenderFillRect(_renderer, ref rect);
+        var c = SDL_RenderFillRect(_renderer, ref rect);
     }
 
     void FillRoundedRectMask(int x, int y, int w, int h, int r, ColorRgba fillColor)
@@ -557,7 +554,7 @@ class SDLGraphics : IGraphics
 
         // Create texture and render
         IntPtr texture = SDL_CreateTextureFromSurface(_renderer, surface);
-        SDL_FreeSurface(surface);
+        SDL_DestroySurface(surface);
         Marshal.FreeHGlobal(unmanagedBuffer);
 
         SDLRect dstRect = new SDLRect
@@ -567,7 +564,7 @@ class SDLGraphics : IGraphics
             w = rect.Width,
             h = rect.Height,
         };
-        SDL_RenderCopy(_renderer, texture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, texture, IntPtr.Zero, ref dstRect);
         SDL_DestroyTexture(texture);
     }
     #endregion
@@ -613,17 +610,18 @@ class SDLGraphics : IGraphics
             a = textColor.AByte,
         };
 
-        IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
+        var bytes = System.Text.Encoding.UTF8.GetBytes(text); // stupid
+        IntPtr surface = TTF_RenderText_Blended(font, text, (short)bytes.Length, color);
         // TTF_CloseFont(font); // I cache fonts, don't close here, do somewhere else (on app level is laziest but for performance should consider something else)
         if (surface == IntPtr.Zero)
             return;
 
         IntPtr textTexture = SDL_CreateTextureFromSurface(_renderer, surface);
-        SDL_FreeSurface(surface);
+        SDL_DestroySurface(surface);
         if (textTexture == IntPtr.Zero)
             return;
 
-        SDL_QueryTexture(textTexture, IntPtr.Zero, IntPtr.Zero, out int w, out int h);
+        SDL_GetTextureSize(textTexture, out var w, out var h);
         int scaledW = w / FONT_SCALE;
         int scaledH = h / FONT_SCALE;
 
@@ -638,7 +636,7 @@ class SDLGraphics : IGraphics
         if (_clipState.CornerRadius <= 0)
         {
             SDL_SetTextureBlendMode(textTexture, SDLBlendMode.Blend);
-            SDL_RenderCopy(_renderer, textTexture, IntPtr.Zero, ref dstRect);
+            SDL_RenderTexture(_renderer, textTexture, IntPtr.Zero, ref dstRect);
             SDL_DestroyTexture(textTexture);
             return;
         }
@@ -656,7 +654,7 @@ class SDLGraphics : IGraphics
         SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0); // Fully transparent
         SDL_RenderClear(_renderer);
         SDL_SetTextureBlendMode(textTexture, SDLBlendMode.Blend);
-        SDL_RenderCopy(_renderer, textTexture, IntPtr.Zero, IntPtr.Zero);
+        SDL_RenderTexture(_renderer, textTexture, IntPtr.Zero, IntPtr.Zero);
 
         // Step 2: Create rounded mask texture
         IntPtr maskTexture = SDL_CreateTexture(
@@ -678,8 +676,8 @@ class SDLGraphics : IGraphics
         SDL_SetTextureBlendMode(maskTexture, SDLBlendMode.Blend);
         SDL_SetTextureBlendMode(targetTexture, SDLBlendMode.Blend);
 
-        SDL_RenderCopy(_renderer, maskTexture, IntPtr.Zero, ref dstRect);
-        SDL_RenderCopy(_renderer, targetTexture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, maskTexture, IntPtr.Zero, ref dstRect);
+        SDL_RenderTexture(_renderer, targetTexture, IntPtr.Zero, ref dstRect);
 
         SDL_DestroyTexture(maskTexture);
         SDL_DestroyTexture(targetTexture);
@@ -706,7 +704,8 @@ class SDLGraphics : IGraphics
             a = 1,
         };
 
-        IntPtr surface = TTF_RenderUTF8_Blended(font, text, color);
+        var bytes = System.Text.Encoding.UTF8.GetBytes(text); // stupid
+        IntPtr surface = TTF_RenderText_Blended(font, text, (short)bytes.Length, color);
         // TTF_CloseFont(font); // I cache fonts, don't close here, do somewhere else (on app level is laziest but for performance should consider something else)
         if (surface == IntPtr.Zero)
             return Size.Empty;
@@ -714,12 +713,12 @@ class SDLGraphics : IGraphics
         IntPtr texture = SDL_CreateTextureFromSurface(_renderer, surface);
         if (texture == IntPtr.Zero)
         {
-            SDL_FreeSurface(surface);
+            SDL_DestroySurface(surface);
             return Size.Empty;
         }
 
-        SDL_QueryTexture(texture, IntPtr.Zero, IntPtr.Zero, out int w, out int h);
-        SDL_FreeSurface(surface);
+        SDL_GetTextureSize(texture, out var w, out var h);
+        SDL_DestroySurface(surface);
         SDL_DestroyTexture(texture);
         return new Size(w / FONT_SCALE, h / FONT_SCALE);
     }
@@ -741,7 +740,7 @@ class SDLGraphics : IGraphics
             w = state.Bounds.Width,
             h = state.Bounds.Height,
         };
-        SDL_RenderSetClipRect(_renderer, ref rect);
+        SDL_SetRenderClipRect(_renderer, ref rect);
     }
 
     public ClipState GetClipState() => _clipState;

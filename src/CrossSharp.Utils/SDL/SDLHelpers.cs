@@ -5,21 +5,21 @@ namespace CrossSharp.Utils.SDL;
 static class SDLHelpers
 {
 #if WINDOWS
-    internal const string LIB = "runtimes/win-x64/native/SDL2.dll";
-    internal const string TTF_LIB = "runtimes/win-x64/native/SDL2_ttf.dll";
+    internal const string LIB = "runtimes/win-x64/native/SDL3.dll";
+    internal const string TTF_LIB = "runtimes/win-x64/native/SDL3_ttf.dll";
 #else
-    internal const string LIB = "runtimes/linux-x64/native/libSDL2-2.0.so.0";
-    internal const string TTF_LIB = "runtimes/linux-x64/native/libSDL2_ttf-2.0.so.0";
+    internal const string LIB = "runtimes/linux-x64/native/libSDL3.so.0.2.26";
+    internal const string TTF_LIB = "runtimes/linux-x64/native/libSDL3_ttf.so.0.2.2";
 #endif
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern int SDL_Init(uint flags);
+    internal static extern bool SDL_Init(SDL_InitFlags flags);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern IntPtr SDL_GetError();
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateWindow(string title, int x, int y, int w, int h, uint flags);
+    internal static extern IntPtr SDL_CreateWindow(string title, int w, int h, SDLWindowFlags flags);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_SetWindowTitle(IntPtr window, string title);
@@ -61,7 +61,7 @@ static class SDLHelpers
     internal static extern bool SDL_GetWindowWMInfo(IntPtr window, ref SDL_SysWMinfo info);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern uint SDL_GetWindowFlags(IntPtr window);
+    internal static extern SDLWindowFlags SDL_GetWindowFlags(IntPtr window);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern uint SDL_GetWindowID(IntPtr window);
@@ -76,10 +76,8 @@ static class SDLHelpers
     internal static extern void SDL_Delay(uint ms);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
-    internal static extern IntPtr SDL_CreateRenderer(IntPtr window, int index, SDLRenderFlags flags);
+    internal static extern IntPtr SDL_CreateRenderer(IntPtr window, string? rendererName, SDLRenderFlags flags);
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern int SDL_GetRendererInfo(IntPtr renderer, ref SDLRendererInfo info);
-
-    internal const uint SDL_INIT_VIDEO = 0x00000020;
 }
