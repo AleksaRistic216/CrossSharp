@@ -11,7 +11,7 @@ static class CrossSharpApplicationRunner
     internal static void Run<T>()
         where T : IForm
     {
-        if (SDLHelpers.SDL_Init(SDLHelpers.SDL_INIT_VIDEO) != 0)
+        if (!SDLHelpers.SDL_Init(SDLInitFlags.Video))
             throw new Exception("SDL_Init failed.");
 
         var application = Services.GetSingleton<IApplication>();
@@ -69,17 +69,15 @@ static class CrossSharpApplicationRunner
 
     static void HandleEvents(SDL_Event e)
     {
+        // SDL3: window events are now individual event types, not sub-types
         switch (e.type)
         {
-            case SDL_EventTypes.SDL_WINDOWEVENT:
-                if (e.window.eventType == SDL_EventTypes.WindowEvents.SDL_WINDOWEVENT_CLOSE)
-                {
-                    var form = Services
-                        .GetSingleton<IApplication>()
-                        .Forms.OfType<IFormSDL>()
-                        .FirstOrDefault(x => x.WindowId == e.window.windowID);
-                    form?.Close();
-                }
+            case SDL_EventTypes.SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+                var form = Services
+                    .GetSingleton<IApplication>()
+                    .Forms.OfType<IFormSDL>()
+                    .FirstOrDefault(x => x.WindowId == e.window.windowID);
+                form?.Close();
                 break;
         }
     }

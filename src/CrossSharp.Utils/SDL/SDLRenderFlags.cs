@@ -1,6 +1,7 @@
 namespace CrossSharp.Utils.SDL;
 
-// Docs: https://wiki.libsdl.org/SDL2/SDL_RendererFlags
+// Note: SDL3 no longer uses renderer flags. This enum is kept for backwards compatibility reference.
+// In SDL3, use SDL_SetRenderVSync() and properties-based configuration instead.
 [Flags]
 enum SDLRenderFlags
 {

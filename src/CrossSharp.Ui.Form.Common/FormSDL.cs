@@ -28,17 +28,8 @@ partial class FormSDL : IFormSDL
 
     void CreateRenderer()
     {
-        Renderer = SDLHelpers.SDL_CreateRenderer(
-            Handle,
-            -1,
-            SDLRenderFlags.SDL_RENDERER_ACCELERATED | SDLRenderFlags.SDL_RENDERER_TARGETTEXTURE
-        );
-        if (Renderer == IntPtr.Zero) // Try again without acceleration
-            Renderer = SDLHelpers.SDL_CreateRenderer(
-                Handle,
-                -1,
-                SDLRenderFlags.SDL_RENDERER_SOFTWARE | SDLRenderFlags.SDL_RENDERER_TARGETTEXTURE
-            );
+        // SDL3: renderer creation no longer uses flags, it auto-selects the best available
+        Renderer = SDLHelpers.SDL_CreateRenderer(Handle, null);
     }
 
     /// <summary>
