@@ -46,13 +46,13 @@
     </ItemGroup>
     <ItemGroup>
         <!-- Linux native libs -->
-        <None Include="../../src/lib/sdl3/usr/lib/x86_64-linux-gnu/libSDL3_ttf.so.0.2.2">
+        <None Include="../../src/lib/sdl3/usr/lib/x86_64-linux-gnu/libSDL3_ttf.so.0">
             <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/linux-x64/native/libSDL3_ttf.so.0</PackagePath>
             <Link>runtimes/linux-x64/native/libSDL3_ttf.so.0</Link>
         </None>
-        <None Include="../../src/lib/sdl3/usr/lib/x86_64-linux-gnu/libSDL3.so.0.2.26">
+        <None Include="../../src/lib/sdl3/usr/lib/x86_64-linux-gnu/libSDL3.so.0">
             <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/linux-x64/native/libSDL3.so.0</PackagePath>
@@ -84,6 +84,7 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Extensions\" />
+        <Folder Include="runtimes\linux-x64\native\" />
     </ItemGroup>
     <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
         <DefineConstants>WINDOWS</DefineConstants>
