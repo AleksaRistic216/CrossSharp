@@ -1,4 +1,4 @@
-namespace CrossSharp.Icons.IconSets;
+namespace CrossSharp.Utils.Interfaces;
 
 public enum Icon
 {

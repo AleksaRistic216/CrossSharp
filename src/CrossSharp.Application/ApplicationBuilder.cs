@@ -112,6 +112,7 @@ public class ApplicationBuilder
         // ===
 
         ConfirmTheme();
+        ConfirmIconProvider();
         Services.GetSingleton<IApplicationLoop>().Run<T>();
     }
 
@@ -131,6 +132,26 @@ public class ApplicationBuilder
     {
         Debug.Log(LogCategory.Theme, $"Setting theme: {theme.GetType().Name}");
         Services.AddSingleton(theme, true);
+    }
+
+    static void ConfirmIconProvider()
+    {
+        if (Services.IsRegistered<IIconProvider>())
+            return;
+
+        const string message =
+            "No icon provider registered. "
+            + "Register your own implementation of IIconProvider "
+            + "or reference `CrossSharp.Icons` and register one of the built-in providers.";
+
+        Debug.LogError(message);
+        throw new InvalidOperationException(message);
+    }
+
+    public void SetIconProvider(IIconProvider iconProvider)
+    {
+        Debug.Log(LogCategory.App, $"Setting icon provider: {iconProvider.GetType().Name}");
+        Services.AddSingleton(iconProvider, true);
     }
 
     public void AddSingleton<T>(T instance)
