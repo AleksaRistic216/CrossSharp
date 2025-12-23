@@ -52,4 +52,6 @@ public class EfficientImageCache : IEfficientImagesCache
         Debug.LogError($"Image not found in cache: {identifier}");
         throw new KeyNotFoundException(string.Format(ImageNotFoundMessage, identifier));
     }
+
+    public bool HasImage(string identifier) => _cache.ContainsKey(identifier);
 }

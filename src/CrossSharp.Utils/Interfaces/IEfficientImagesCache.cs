@@ -41,4 +41,11 @@ public interface IEfficientImagesCache
     /// <param name="identifier"></param>
     /// <returns></returns>
     IEfficientImage GetImage(string identifier);
+
+    /// <summary>
+    /// Checks if an image with the given identifier exists in the cache.
+    /// </summary>
+    /// <param name="identifier"></param>
+    /// <returns></returns>
+    bool HasImage(string identifier);
 }

@@ -1,14 +1,20 @@
 using System.Drawing;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using SkiaSharp;
 
 namespace CrossSharp.Ui.Common;
 
 // ReSharper disable once InconsistentNaming
 sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 {
+    const string MaximizeIconKey = nameof(Icon.Maximize);
+    const string RestoreIconKey = nameof(Icon.Collapse);
+    const string MinimizeIconKey = nameof(Icon.Minimize);
+
     internal FormSDLTitleBar(FormSDL form)
     {
         Parent = form;
@@ -20,6 +26,8 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         InputHandler.MousePressed += OnMousePressed;
         InputHandler.MouseDragged += OnMouseDragged;
         InputHandler.MouseReleased += OnMouseReleased;
+
+        LoadTitleBarIcons();
 
         var buttonWidth = 50;
 
@@ -37,7 +45,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
         _maximizeRestoreButton = new Button();
         _maximizeRestoreButton.DockIndex = 1;
-        _maximizeRestoreButton.Text = "⬜";
+        _maximizeRestoreButton.Image = EfficientImage.Get(MaximizeIconKey);
         _maximizeRestoreButton.Width = buttonWidth;
         _maximizeRestoreButton.Height = Height;
         _maximizeRestoreButton.Dock = DockStyle.Right;
@@ -53,7 +61,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
         _minimizeButton = new Button();
         _minimizeButton.DockIndex = 2;
-        _minimizeButton.Text = "–";
+        _minimizeButton.Image = EfficientImage.Get(MinimizeIconKey);
         _minimizeButton.Width = buttonWidth;
         _minimizeButton.Height = Height;
         _minimizeButton.Dock = DockStyle.Right;
@@ -63,6 +71,32 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         };
         _minimizeButton.ThemePerformed += TitleBarButtonThemePerformed;
         Add(_minimizeButton);
+    }
+
+    void LoadTitleBarIcons()
+    {
+        var iconProvider = Services.GetSingleton<IIconProvider>();
+        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
+        const int iconSize = 64;
+        var iconColor = SKColors.White;
+
+        if (!imagesCache.HasImage(MaximizeIconKey))
+        {
+            var svg = iconProvider.GetSvg(Icon.Maximize);
+            imagesCache.AddImage(MaximizeIconKey, ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+        }
+
+        if (!imagesCache.HasImage(RestoreIconKey))
+        {
+            var svg = iconProvider.GetSvg(Icon.Collapse);
+            imagesCache.AddImage(RestoreIconKey, ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+        }
+
+        if (!imagesCache.HasImage(MinimizeIconKey))
+        {
+            var svg = iconProvider.GetSvg(Icon.Minimize);
+            imagesCache.AddImage(MinimizeIconKey, ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+        }
     }
 
     void TitleBarButtonThemePerformed(object? sender, EventArgs e)
@@ -83,9 +117,10 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
     void FormStateChanged(object? sender, EventArgs e)
     {
-        const string maximizeChar = "M"; // TODO: Replace with proper icon
-        const string restoreChar = "R"; // TODO: Replace with proper icon
-        _maximizeRestoreButton.Text = Form.State == WindowState.Maximized ? restoreChar : maximizeChar;
+        _maximizeRestoreButton.Image =
+            Form.State == WindowState.Maximized
+                ? EfficientImage.Get(RestoreIconKey)
+                : EfficientImage.Get(MaximizeIconKey);
     }
 
     public override void Invalidate()
