@@ -1,4 +1,5 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
 using SharpHook;
@@ -21,9 +22,16 @@ class InputHandler : IInputHandler
     public void StartListeningAsync(CancellationToken token)
     {
         if (DISABLED)
+        {
+            Debug.LogWarning("InputHandler is disabled");
             return;
+        }
         if (_hook.IsRunning)
+        {
+            Debug.LogError("InputHandler hook is already running");
             throw new InvalidOperationException("InputHandler hook is already running.");
+        }
+        Debug.Log(LogCategory.Input, "Starting input handler");
         var thread = new Thread(() =>
         {
             _hook.KeyPressed += OnKeyPressed;
@@ -33,6 +41,7 @@ class InputHandler : IInputHandler
             _hook.MouseWheel += OnMouseWheel;
             _hook.MouseDragged += OnMouseDragged;
             _hook.RunAsync();
+            Debug.Log(LogCategory.Input, "Input hook started successfully");
         });
         thread.Start();
     }
@@ -229,8 +238,13 @@ class InputHandler : IInputHandler
     internal void StopListening()
     {
         if (!_hook.IsRunning)
-            throw new InvalidOperationException("InputHandler hook is not running.");
+        {
+            Debug.LogWarning("InputHandler hook is not running, cannot stop");
+            return;
+        }
+        Debug.Log(LogCategory.Input, "Stopping input handler");
         _hook.Stop();
+        Debug.Log(LogCategory.Input, "Input handler stopped");
     }
 
     static CrossSharp.Utils.Enums.MouseButton ToCrossSharpMouseButton(MouseButton button) =>

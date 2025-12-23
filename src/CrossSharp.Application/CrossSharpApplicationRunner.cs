@@ -12,13 +12,21 @@ static class CrossSharpApplicationRunner
     internal static void Run<T>()
         where T : IForm
     {
+        Debug.Log(LogCategory.SDL, "Initializing SDL3 with Video subsystem");
         if (!SDLHelpers.SDL_Init(SDLInitFlags.Video))
+        {
+            Debug.LogError("SDL_Init failed");
             throw new Exception("SDL_Init failed.");
+        }
+        Debug.Log(LogCategory.SDL, "SDL3 initialized successfully");
 
         var application = Services.GetSingleton<IApplication>();
         application.MainFormType = typeof(T);
+        Debug.Log(LogCategory.App, $"Creating main form: {typeof(T).Name}");
         application.Start();
         application.MainWindowHandle = application.MainForm.Handle;
+        Debug.Log(LogCategory.App, $"Main form created, handle: 0x{application.MainWindowHandle:X}");
+        Debug.Log(LogCategory.App, "Entering main loop");
         while (
             Services.GetSingleton<IApplication>().MainForm.Handle != IntPtr.Zero // Need to use this instead of application.MainWindowHandle because it can be changed when the main form is replaced
         )
@@ -43,11 +51,15 @@ static class CrossSharpApplicationRunner
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception in main loop: " + ex);
+                Debug.LogError("Exception in main loop", ex);
             }
         }
+        Debug.Log(LogCategory.App, "Main loop exited");
+        Debug.Log(LogCategory.SDL, "Destroying main window");
         SDLHelpers.SDL_DestroyWindow(Services.GetSingleton<IApplication>().MainWindowHandle);
+        Debug.Log(LogCategory.SDL, "Shutting down SDL");
         SDLHelpers.SDL_Quit();
+        Debug.Log(LogCategory.App, "Application shutdown complete");
     }
 
     static DateTime _lastFrameTime = DateTime.UtcNow;

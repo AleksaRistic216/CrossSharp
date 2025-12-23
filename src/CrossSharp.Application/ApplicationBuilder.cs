@@ -1,12 +1,12 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using CrossSharp.Themes;
-using CrossSharp.Ui;
+﻿using CrossSharp.Themes;
+using CrossSharp.Ui.Linux;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Linux;
 
 namespace CrossSharp.Application;
 
@@ -14,8 +14,11 @@ public class ApplicationBuilder
 {
     public ApplicationBuilder(IApplicationConfiguration applicationConfiguration)
     {
+        Debug.Log(LogCategory.App, $"Initializing ApplicationBuilder for '{applicationConfiguration.ApplicationName}'");
+        Debug.Log(LogCategory.App, $"Log file: {Debug.GetLogFilePath()}");
         RegisterCommonServices(applicationConfiguration);
         RegisterPlatformSpecificServices();
+        Debug.Log(LogCategory.App, "ApplicationBuilder initialized successfully");
     }
 
     void RegisterCommonServices(IApplicationConfiguration applicationConfiguration)
@@ -29,7 +32,9 @@ public class ApplicationBuilder
 
     void RegisterPlatformSpecificServices()
     {
-        switch (PlatformHelpers.GetCurrentPlatform())
+        var platform = PlatformHelpers.GetCurrentPlatform();
+        Debug.Log(LogCategory.App, $"Detected platform: {platform}");
+        switch (platform)
         {
             case CrossPlatformType.Windows:
                 RegisterWindowsServices();
@@ -42,28 +47,29 @@ public class ApplicationBuilder
                 break;
             case CrossPlatformType.Undefined:
             default:
+                Debug.LogError($"Unsupported platform: {platform}");
                 throw new NotSupportedException("Current platform is not supported");
         }
     }
 
     void RegisterLinuxServices()
     {
-        AddSingleton<IFormFactory, Ui.Linux.FormFactory>();
-        AddSingleton<IModularFormFactory, Ui.Linux.ModularFormFactory>();
-        AddSingleton<IStaticLayoutFactory, Ui.Linux.StaticLayoutFactory>();
-        AddSingleton<IStackedLayoutFactory, Ui.Linux.StackedLayoutFactory>();
-        AddSingleton<ITabbedLayoutFactory, Ui.Linux.TabbedLayoutFactory>();
-        AddSingleton<IFlowLayoutFactory, Ui.Linux.FlowLayoutFactory>();
-        AddSingleton<IFilesPickerFactory, Ui.Linux.FilesPickerFactory>();
-        AddSingleton<IPanelFactory, Ui.Linux.PanelFactory>();
-        AddSingleton<ILabelFactory, Ui.Linux.LabelFactory>();
-        AddSingleton<IFontFamilyMap, Utils.Linux.FontFamilyMap>();
-        AddSingleton<IButtonFactory, Ui.Linux.ButtonFactory>();
-        AddSingleton<IInputFactory, Ui.Linux.InputFactory>();
-        AddSingleton<IAccordionFactory, Ui.Linux.AccordionFactory>();
-        AddSingleton<IDropdownFactory, Ui.Linux.DropdownFactory>();
-        AddSingleton<IThemePickerFactory, Ui.Linux.ThemePickerFactory>();
-        AddSingleton<IDataGridFactory, Ui.Linux.DataGridFactory>();
+        AddSingleton<IFormFactory, FormFactory>();
+        AddSingleton<IModularFormFactory, ModularFormFactory>();
+        AddSingleton<IStaticLayoutFactory, StaticLayoutFactory>();
+        AddSingleton<IStackedLayoutFactory, StackedLayoutFactory>();
+        AddSingleton<ITabbedLayoutFactory, TabbedLayoutFactory>();
+        AddSingleton<IFlowLayoutFactory, FlowLayoutFactory>();
+        AddSingleton<IFilesPickerFactory, FilesPickerFactory>();
+        AddSingleton<IPanelFactory, PanelFactory>();
+        AddSingleton<ILabelFactory, LabelFactory>();
+        AddSingleton<IFontFamilyMap, FontFamilyMap>();
+        AddSingleton<IButtonFactory, ButtonFactory>();
+        AddSingleton<IInputFactory, InputFactory>();
+        AddSingleton<IAccordionFactory, AccordionFactory>();
+        AddSingleton<IDropdownFactory, DropdownFactory>();
+        AddSingleton<IThemePickerFactory, ThemePickerFactory>();
+        AddSingleton<IDataGridFactory, DataGridFactory>();
     }
 
     void RegisterWindowsServices()
@@ -94,12 +100,14 @@ public class ApplicationBuilder
     public void Run<T>()
         where T : IForm
     {
+        Debug.Log(LogCategory.App, $"Starting application with main form: {typeof(T).Name}");
+
         // Catch all exceptions
         // Commented for not because it catches them good
         // AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
         // {
         //     Console.WriteLine(e.Exception);
-        //     Debugger.Break();
+        //     DebugLog.Break();
         // };
         // ===
 
@@ -110,12 +118,20 @@ public class ApplicationBuilder
     static void ConfirmTheme()
     {
         if (Services.IsRegistered<ITheme>())
+        {
+            Debug.Log(LogCategory.Theme, $"Using registered theme: {Services.GetSingleton<ITheme>().GetType().Name}");
             return;
+        }
 
+        Debug.Log(LogCategory.Theme, "No theme registered, using DefaultTheme");
         Services.AddSingleton<ITheme, DefaultTheme>();
     }
 
-    public void SetTheme(ITheme theme) => Services.AddSingleton(theme, true);
+    public void SetTheme(ITheme theme)
+    {
+        Debug.Log(LogCategory.Theme, $"Setting theme: {theme.GetType().Name}");
+        Services.AddSingleton(theme, true);
+    }
 
     public void AddSingleton<T>(T instance)
         where T : class => Services.AddSingleton(instance);

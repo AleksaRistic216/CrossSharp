@@ -1,3 +1,4 @@
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -6,16 +7,18 @@ namespace CrossSharp.Utils.Drawing;
 
 public class EfficientImageCache : IEfficientImagesCache
 {
-    const string ImageAlreadyExistsMessage =
-        "An image with the identifier '{0}' already exists in the cache.";
-    const string ImageNotFoundMessage =
-        "No image with the identifier '{0}' was found in the cache.";
+    const string ImageAlreadyExistsMessage = "An image with the identifier '{0}' already exists in the cache.";
+    const string ImageNotFoundMessage = "No image with the identifier '{0}' was found in the cache.";
     readonly Dictionary<string, IEfficientImage> _cache = new();
 
     public void AddImage(string identifier, byte[] imageData, bool overwrite = false)
     {
         if (!overwrite && _cache.ContainsKey(identifier))
+        {
+            Debug.LogWarning($"Image already in cache: {identifier}");
             throw new ArgumentException(string.Format(ImageAlreadyExistsMessage, identifier));
+        }
+        Debug.Log(LogCategory.Cache, $"Adding image from bytes: {identifier} ({imageData.Length} bytes)");
         Image.Load<Rgba32>(imageData);
         _cache[identifier] = EfficientImage.FromImage(identifier, Image.Load<Rgba32>(imageData));
     }
@@ -23,14 +26,22 @@ public class EfficientImageCache : IEfficientImagesCache
     public void AddImage(string identifier, string filePath, bool overwrite = false)
     {
         if (!overwrite && _cache.ContainsKey(identifier))
+        {
+            Debug.LogWarning($"Image already in cache: {identifier}");
             throw new ArgumentException(string.Format(ImageAlreadyExistsMessage, identifier));
+        }
+        Debug.Log(LogCategory.Cache, $"Adding image from file: {identifier} ({filePath})");
         _cache[identifier] = EfficientImage.FromImage(identifier, Image.Load<Rgba32>(filePath));
     }
 
     public void AddImage(string identifier, Image image, bool overwrite = false)
     {
         if (!overwrite && _cache.ContainsKey(identifier))
+        {
+            Debug.LogWarning($"Image already in cache: {identifier}");
             throw new ArgumentException(string.Format(ImageAlreadyExistsMessage, identifier));
+        }
+        Debug.Log(LogCategory.Cache, $"Adding image: {identifier} ({image.Width}x{image.Height})");
         _cache[identifier] = EfficientImage.FromImage(identifier, image.CloneAs<Rgba32>());
     }
 
@@ -38,6 +49,7 @@ public class EfficientImageCache : IEfficientImagesCache
     {
         if (_cache.TryGetValue(identifier, out var efficientImage))
             return efficientImage;
+        Debug.LogError($"Image not found in cache: {identifier}");
         throw new KeyNotFoundException(string.Format(ImageNotFoundMessage, identifier));
     }
 }

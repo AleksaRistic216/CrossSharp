@@ -2,6 +2,7 @@ using System.Drawing;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.SDL;
 using Rectangle = System.Drawing.Rectangle;
@@ -13,7 +14,9 @@ partial class FormSDL : IFormSDL
 {
     protected FormSDL()
     {
+        Debug.Log(LogCategory.Form, $"Creating form: {GetType().Name}");
         Handle = CreateWindow(Title, Width, Height + (_titleBar?.Height ?? 0));
+        Debug.Log(LogCategory.Form, $"Window created, handle: 0x{Handle:X}");
         ((IFormSDL)this).RecordLocation();
         ((IFormSDL)this).RecordSize();
         ((IFormSDL)this).RecordState();
@@ -24,12 +27,18 @@ partial class FormSDL : IFormSDL
         InvalidateTitleBar();
         PerformTheme();
         Invalidate();
+        Debug.Log(LogCategory.Form, $"Form initialized: {GetType().Name} ({Width}x{Height})");
     }
 
     void CreateRenderer()
     {
         // SDL3: renderer creation no longer uses flags, it auto-selects the best available
+        Debug.Log(LogCategory.SDL, "Creating renderer");
         Renderer = SDLHelpers.SDL_CreateRenderer(Handle, null);
+        if (Renderer == IntPtr.Zero)
+            Debug.LogError("Failed to create SDL renderer");
+        else
+            Debug.Log(LogCategory.SDL, $"Renderer created, handle: 0x{Renderer:X}");
     }
 
     /// <summary>
@@ -63,8 +72,10 @@ partial class FormSDL : IFormSDL
 
     public void PerformTheme()
     {
+        var theme = Services.GetSingleton<ITheme>();
+        Debug.Log(LogCategory.Theme, $"Applying theme to form: {GetType().Name}");
         _titleBar?.PerformTheme();
-        BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
+        BackgroundColor = theme.LayoutBackgroundColor;
         foreach (var control in Controls)
             control.PerformTheme();
         OnThemePerformed();
@@ -98,6 +109,7 @@ partial class FormSDL : IFormSDL
 
     public void Show()
     {
+        Debug.Log(LogCategory.Form, $"Showing form: {GetType().Name}");
         Visible = true;
     }
 
@@ -158,21 +170,25 @@ partial class FormSDL : IFormSDL
 
     public void Close()
     {
+        Debug.Log(LogCategory.Form, $"Closing form: {GetType().Name}");
         Dispose();
     }
 
     public void Minimize()
     {
+        Debug.Log(LogCategory.Form, $"Minimizing form: {GetType().Name}");
         SDLHelpers.SDL_MinimizeWindow(Handle);
     }
 
     public void Maximize()
     {
+        Debug.Log(LogCategory.Form, $"Maximizing form: {GetType().Name}");
         SDLHelpers.SDL_MaximizeWindow(Handle);
     }
 
     public void Restore()
     {
+        Debug.Log(LogCategory.Form, $"Restoring form: {GetType().Name}");
         SDLHelpers.SDL_RestoreWindow(Handle);
     }
 
@@ -180,11 +196,13 @@ partial class FormSDL : IFormSDL
 
     void OnTickDispose(object? sender, EventArgs e)
     {
+        Debug.Log(LogCategory.Form, $"Disposing form: {GetType().Name}");
         Controls.Dispose();
         DestroyWindow();
         Handle = IntPtr.Zero;
         Renderer = IntPtr.Zero;
         Services.GetSingleton<IApplication>().Forms.Remove(this);
         Services.GetSingleton<IApplication>().Tick -= OnTickDispose;
+        Debug.Log(LogCategory.Form, $"Form disposed: {GetType().Name}");
     }
 }

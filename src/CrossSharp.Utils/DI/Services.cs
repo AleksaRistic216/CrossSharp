@@ -1,3 +1,5 @@
+using CrossSharp.Utils.Helpers;
+
 namespace CrossSharp.Utils.DI;
 
 public static class Services
@@ -12,13 +14,18 @@ public static class Services
         Type implementationType = typeof(T);
         if (overrideExisting && _services.ContainsKey(implementationType))
         {
+            Debug.Log(LogCategory.DI, $"Overriding service: {implementationType.Name} -> {instance.GetType().Name}");
             _services[implementationType] = instance;
             return;
         }
         if (!_services.TryAdd(implementationType, instance))
+        {
+            Debug.LogError($"Service already registered: {implementationType.FullName}");
             throw new InvalidOperationException(
                 $"Service for type {implementationType.FullName} is already registered."
             );
+        }
+        Debug.Log(LogCategory.DI, $"Registered service: {implementationType.Name} -> {instance.GetType().Name}");
     }
 
     public static void AddSingleton<TInterface, TImplementation>(bool overrideExisting = false)
@@ -26,17 +33,19 @@ public static class Services
         where TImplementation : class, TInterface
     {
         Type interfaceType = typeof(TInterface);
+        Type implementationType = typeof(TImplementation);
         if (overrideExisting && _services.ContainsKey(interfaceType))
         {
+            Debug.Log(LogCategory.DI, $"Overriding service: {interfaceType.Name} -> {implementationType.Name}");
             _services[interfaceType] = Activator.CreateInstance<TImplementation>();
             return;
         }
         if (_services.ContainsKey(interfaceType))
         {
-            throw new InvalidOperationException(
-                $"Service for type {interfaceType.FullName} is already registered."
-            );
+            Debug.LogError($"Service already registered: {interfaceType.FullName}");
+            throw new InvalidOperationException($"Service for type {interfaceType.FullName} is already registered.");
         }
+        Debug.Log(LogCategory.DI, $"Registered service: {interfaceType.Name} -> {implementationType.Name}");
         TImplementation implementationInstance = Activator.CreateInstance<TImplementation>();
         _services[interfaceType] = implementationInstance;
     }
@@ -52,9 +61,8 @@ public static class Services
                     $"Registered service cannot be cast to type {interfaceType.FullName}."
                 );
         }
-        throw new KeyNotFoundException(
-            $"Service for type {interfaceType.FullName} is not registered."
-        );
+        Debug.LogError($"Service not registered: {interfaceType.FullName}");
+        throw new KeyNotFoundException($"Service for type {interfaceType.FullName} is not registered.");
     }
 
     public static object GetSingleton(Type interfaceType)
@@ -63,9 +71,7 @@ public static class Services
         {
             return service;
         }
-        throw new KeyNotFoundException(
-            $"Service for type {interfaceType.FullName} is not registered."
-        );
+        throw new KeyNotFoundException($"Service for type {interfaceType.FullName} is not registered.");
     }
 
     public static bool IsRegistered<TInterface>()
