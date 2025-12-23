@@ -98,6 +98,7 @@ partial class FormSDL
     public int Index { get; set; }
 
     public bool IsMouseOver { get; set; }
+    FormSDLHitTestHandler? _hitTestHandler;
     Margin _margin = Margin.Zero;
     public Margin Margin
     {

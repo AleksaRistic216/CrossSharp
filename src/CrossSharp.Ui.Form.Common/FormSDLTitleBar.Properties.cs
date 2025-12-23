@@ -13,18 +13,7 @@ sealed partial class FormSDLTitleBar
     IButton _closeButton;
     IButton _minimizeButton;
     IButton _maximizeRestoreButton = null!;
-    CancellationTokenSource? _formDragCancellationTokenSource;
 
-    // ReSharper disable once NotAccessedField.Local
-    Task? _formDragTask;
-    Point? _formDragDestination;
-    int CoreFps => Services.GetSingleton<IApplicationConfiguration>().CoreFps;
-    DateTime? _lastFormDragTime;
-    const int MOVEMENT_THRESHOLD = 1;
-    Point? _mouseDownMousePosition;
-    Point? _mouseDownFormPosition;
-    int _deltaX;
-    int _deltaY;
     DateTime? _lastClickTime;
     Point? _lastClickPosition;
     const int DOUBLE_CLICK_THRESHOLD_MS = 500;

@@ -25,9 +25,19 @@ partial class FormSDL : IFormSDL
         Controls.Parent = this;
         Services.GetSingleton<IApplication>().Forms.Add(this);
         InvalidateTitleBar();
+        RegisterHitTest();
         PerformTheme();
         Invalidate();
         Debug.Log(LogCategory.Form, $"Form initialized: {GetType().Name} ({Width}x{Height})");
+    }
+
+    void RegisterHitTest()
+    {
+        if (Services.GetSingleton<IApplicationConfiguration>().FormsStyle is not FormStyle.CrossSharp)
+            return;
+        _hitTestHandler = new FormSDLHitTestHandler(this);
+        _hitTestHandler.Register();
+        Debug.Log(LogCategory.Form, "Hit test handler registered for resize/drag support");
     }
 
     void CreateRenderer()
@@ -197,6 +207,7 @@ partial class FormSDL : IFormSDL
     void OnTickDispose(object? sender, EventArgs e)
     {
         Debug.Log(LogCategory.Form, $"Disposing form: {GetType().Name}");
+        _hitTestHandler?.Unregister();
         Controls.Dispose();
         DestroyWindow();
         Handle = IntPtr.Zero;

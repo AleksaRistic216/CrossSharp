@@ -26,8 +26,6 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         Width = Form.Width;
         InputHandler.MouseMoved += OnMouseMoved;
         InputHandler.MousePressed += OnMousePressed;
-        InputHandler.MouseDragged += OnMouseDragged;
-        InputHandler.MouseReleased += OnMouseReleased;
 
         var buttonWidth = 50;
 
@@ -107,46 +105,10 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         base.Invalidate();
     }
 
-    bool IsWithinDraggableBounds(Point screenPoint)
-    {
-        foreach (var button in new[] { _closeButton, _maximizeRestoreButton, _minimizeButton })
-            if (button.GetScreenBounds().Contains(screenPoint))
-                return false;
-        return true;
-    }
-
-    void StartMovingForm()
-    {
-        _formDragCancellationTokenSource = new CancellationTokenSource();
-        _formDragTask = Task.Run(
-            () =>
-            {
-                while (!_formDragCancellationTokenSource.IsCancellationRequested)
-                {
-                    if (_formDragDestination is null)
-                        continue;
-                    int targetDelay = (int)(1000f / CoreFps);
-                    int timeSinceLastDrag = _lastFormDragTime is null
-                        ? int.MaxValue
-                        : (int)(DateTime.Now - _lastFormDragTime.Value).TotalMilliseconds;
-                    if (timeSinceLastDrag < targetDelay)
-                        continue;
-                    _lastFormDragTime = DateTime.Now;
-                    Form.Move(_formDragDestination.Value);
-                }
-            },
-            _formDragCancellationTokenSource.Token
-        );
-    }
-
     public override void Dispose()
     {
         base.Dispose();
         InputHandler.MouseMoved -= OnMouseMoved;
         InputHandler.MousePressed -= OnMousePressed;
-        InputHandler.MouseDragged -= OnMouseDragged;
-        InputHandler.MouseReleased -= OnMouseReleased;
-        _formDragCancellationTokenSource?.Cancel();
-        _formDragTask = null;
     }
 }

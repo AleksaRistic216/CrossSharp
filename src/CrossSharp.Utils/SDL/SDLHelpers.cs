@@ -2,6 +2,39 @@ using System.Runtime.InteropServices;
 
 namespace CrossSharp.Utils.SDL;
 
+/// <summary>
+/// SDL hit test result values for SDL_SetWindowHitTest callback.
+/// </summary>
+enum SDLHitTestResult
+{
+    SDL_HITTEST_NORMAL = 0,
+    SDL_HITTEST_DRAGGABLE = 1,
+    SDL_HITTEST_RESIZE_TOPLEFT = 2,
+    SDL_HITTEST_RESIZE_TOP = 3,
+    SDL_HITTEST_RESIZE_TOPRIGHT = 4,
+    SDL_HITTEST_RESIZE_RIGHT = 5,
+    SDL_HITTEST_RESIZE_BOTTOMRIGHT = 6,
+    SDL_HITTEST_RESIZE_BOTTOM = 7,
+    SDL_HITTEST_RESIZE_BOTTOMLEFT = 8,
+    SDL_HITTEST_RESIZE_LEFT = 9,
+}
+
+/// <summary>
+/// SDL point structure for hit test callback.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+struct SDL_Point
+{
+    public int x;
+    public int y;
+}
+
+/// <summary>
+/// Delegate for SDL_SetWindowHitTest callback.
+/// </summary>
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+delegate SDLHitTestResult SDL_HitTest(IntPtr window, ref SDL_Point area, IntPtr data);
+
 static class SDLHelpers
 {
 #if WINDOWS
@@ -77,4 +110,7 @@ static class SDLHelpers
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern bool SDL_SetRenderVSync(IntPtr renderer, int vsync);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern bool SDL_SetWindowHitTest(IntPtr window, SDL_HitTest? callback, IntPtr callbackData);
 }
