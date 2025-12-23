@@ -11,9 +11,11 @@ namespace CrossSharp.Ui.Common;
 // ReSharper disable once InconsistentNaming
 sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 {
-    const string MaximizeIconKey = nameof(Icon.Maximize);
-    const string RestoreIconKey = nameof(Icon.Collapse);
-    const string MinimizeIconKey = nameof(Icon.Minimize);
+    const Icon CLOSE_ICON = Icon.Close;
+    const Icon MAXIMIZE_ICON = Icon.Maximize;
+    const Icon RESTORE_ICON = Icon.Restore;
+    const Icon MINIMIZE_ICON = Icon.Minimize;
+    static readonly SizeF _actionButtonIconScale = new SizeF(0.7f, 0.7f);
 
     internal FormSDLTitleBar(FormSDL form)
     {
@@ -32,7 +34,8 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         var buttonWidth = 50;
 
         _closeButton = new Button();
-        _closeButton.Text = "X";
+        _closeButton.Image = EfficientImage.Get(nameof(CLOSE_ICON));
+        _closeButton.ImageScale = _actionButtonIconScale;
         _closeButton.Width = buttonWidth;
         _closeButton.Height = Height;
         _closeButton.Dock = DockStyle.Right;
@@ -45,7 +48,8 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
         _maximizeRestoreButton = new Button();
         _maximizeRestoreButton.DockIndex = 1;
-        _maximizeRestoreButton.Image = EfficientImage.Get(MaximizeIconKey);
+        _maximizeRestoreButton.Image = EfficientImage.Get(nameof(MAXIMIZE_ICON));
+        _maximizeRestoreButton.ImageScale = _actionButtonIconScale;
         _maximizeRestoreButton.Width = buttonWidth;
         _maximizeRestoreButton.Height = Height;
         _maximizeRestoreButton.Dock = DockStyle.Right;
@@ -61,7 +65,8 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
         _minimizeButton = new Button();
         _minimizeButton.DockIndex = 2;
-        _minimizeButton.Image = EfficientImage.Get(MinimizeIconKey);
+        _minimizeButton.Image = EfficientImage.Get(nameof(MINIMIZE_ICON));
+        _minimizeButton.ImageScale = _actionButtonIconScale;
         _minimizeButton.Width = buttonWidth;
         _minimizeButton.Height = Height;
         _minimizeButton.Dock = DockStyle.Right;
@@ -80,22 +85,28 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         const int iconSize = 64;
         var iconColor = SKColors.White;
 
-        if (!imagesCache.HasImage(MaximizeIconKey))
+        if (!imagesCache.HasImage(nameof(CLOSE_ICON)))
         {
-            var svg = iconProvider.GetSvg(Icon.Maximize);
-            imagesCache.AddImage(MaximizeIconKey, ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+            var svg = iconProvider.GetSvg(CLOSE_ICON);
+            imagesCache.AddImage(nameof(CLOSE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
         }
 
-        if (!imagesCache.HasImage(RestoreIconKey))
+        if (!imagesCache.HasImage(nameof(MAXIMIZE_ICON)))
         {
-            var svg = iconProvider.GetSvg(Icon.Collapse);
-            imagesCache.AddImage(RestoreIconKey, ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+            var svg = iconProvider.GetSvg(MAXIMIZE_ICON);
+            imagesCache.AddImage(nameof(MAXIMIZE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
         }
 
-        if (!imagesCache.HasImage(MinimizeIconKey))
+        if (!imagesCache.HasImage(nameof(RESTORE_ICON)))
         {
-            var svg = iconProvider.GetSvg(Icon.Minimize);
-            imagesCache.AddImage(MinimizeIconKey, ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+            var svg = iconProvider.GetSvg(RESTORE_ICON);
+            imagesCache.AddImage(nameof(RESTORE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
+        }
+
+        if (!imagesCache.HasImage(nameof(MINIMIZE_ICON)))
+        {
+            var svg = iconProvider.GetSvg(MINIMIZE_ICON);
+            imagesCache.AddImage(nameof(MINIMIZE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
         }
     }
 
@@ -119,8 +130,8 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
     {
         _maximizeRestoreButton.Image =
             Form.State == WindowState.Maximized
-                ? EfficientImage.Get(RestoreIconKey)
-                : EfficientImage.Get(MaximizeIconKey);
+                ? EfficientImage.Get(nameof(RESTORE_ICON))
+                : EfficientImage.Get(nameof(MAXIMIZE_ICON));
     }
 
     public override void Invalidate()

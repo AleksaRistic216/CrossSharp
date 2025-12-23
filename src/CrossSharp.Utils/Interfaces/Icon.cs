@@ -4,5 +4,7 @@ public enum Icon
 {
     Collapse,
     Maximize,
+    Restore,
     Minimize,
+    Close,
 }
