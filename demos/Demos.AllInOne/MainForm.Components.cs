@@ -78,7 +78,8 @@ public partial class MainForm
         _accordionItems.Add(btn3);
 
         var btn4 = new Button();
-        btn4.Text = "Data Grid";
+        btn4.Image = EfficientImage.GetIcon(Icon.DataGrid, SKColors.White);
+        btn4.ImageScale = menuItemImageScale;
         btn4.Height = menuItemButtonHeight;
         btn4.Tag = nameof(DataGridView);
         btn4.Click += OnAccordionButtonClick;

@@ -10,4 +10,5 @@ public enum Icon
     Home,
     Palette,
     Dropdown,
+    DataGrid,
 }
