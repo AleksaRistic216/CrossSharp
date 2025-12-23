@@ -42,6 +42,6 @@ Common patterns for this codebase:
 
 ## Important Notes
 
-- Always include the Claude Code footer in commits
+- Commit as current user
 - Keep the main message under 50 characters
 - Follow existing commit message patterns in the project

@@ -9,6 +9,7 @@ namespace CrossSharp.Application;
 
 class InputHandler : IInputHandler
 {
+    static bool DISABLED = false;
     readonly SimpleGlobalHook _hook = new();
     public event EventHandler<KeyInputArgs>? KeyPressed;
     public event EventHandler<MouseInputArgs>? MousePressed;
@@ -19,6 +20,8 @@ class InputHandler : IInputHandler
 
     public void StartListeningAsync(CancellationToken token)
     {
+        if (DISABLED)
+            return;
         if (_hook.IsRunning)
             throw new InvalidOperationException("InputHandler hook is already running.");
         var thread = new Thread(() =>
