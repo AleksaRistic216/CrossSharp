@@ -1,8 +1,10 @@
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 
 namespace CrossSharp.Utils.Drawing;
 
@@ -30,6 +32,21 @@ public class EfficientImage : IEfficientImage
         Services.GetSingleton<IEfficientImagesCache>().GetImage(identifier);
 
     /// <summary>
+    /// Returns an efficient image for the specified icon.
+    /// If icon image is not found in the cache, it will be loaded from the embedded resources.
+    /// </summary>
+    /// <param name="icon"></param>
+    /// <returns></returns>
+    public static IEfficientImage GetIcon(Icon icon, SKColor color, int width = 64, int height = 64)
+    {
+        var iconProvider = Services.GetSingleton<IIconProvider>();
+        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
+        if (!imagesCache.HasImage(nameof(icon)))
+            imagesCache.AddImage(nameof(icon), ImageHelpers.FromSvg(iconProvider.GetSvg(icon), width, height, color));
+        return imagesCache.GetImage(nameof(icon));
+    }
+
+    /// <summary>
     /// Returns a new IEfficientImage scaled to fit within a square of the specified size,
     /// maintaining the aspect ratio. The larger side of the image will be equal to
     /// largerSidePixels, and the smaller side will be scaled proportionally.
@@ -39,10 +56,7 @@ public class EfficientImage : IEfficientImage
     public IEfficientImage ScaledToFit(int largerSidePixels)
     {
         if (largerSidePixels <= 0)
-            throw new ArgumentOutOfRangeException(
-                nameof(largerSidePixels),
-                "Must be greater than zero."
-            );
+            throw new ArgumentOutOfRangeException(nameof(largerSidePixels), "Must be greater than zero.");
         if (_scaledToFitCache.TryGetValue(largerSidePixels, out var cachedImage))
             return cachedImage;
 
@@ -52,10 +66,7 @@ public class EfficientImage : IEfficientImage
         if (originalWidth <= largerSidePixels && originalHeight <= largerSidePixels)
             return this; // No scaling needed
 
-        float scale = Math.Min(
-            (float)largerSidePixels / originalWidth,
-            (float)largerSidePixels / originalHeight
-        );
+        float scale = Math.Min((float)largerSidePixels / originalWidth, (float)largerSidePixels / originalHeight);
         int newWidth = (int)(originalWidth * scale);
         int newHeight = (int)(originalHeight * scale);
 

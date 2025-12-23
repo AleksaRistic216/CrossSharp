@@ -2,9 +2,11 @@ using System.Drawing;
 using CrossSharp;
 using CrossSharp.Ui;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using Demos.AllInOne.MainFormViews;
+using SkiaSharp;
 
 namespace Demos.AllInOne;
 
@@ -46,8 +48,11 @@ public partial class MainForm
         _accordion.State = AccordionState.Collapsed;
         Controls.Add(_accordion);
 
+        SizeF menuItemImageScale = new SizeF(0.7f, 0.7f);
+
         var btn1 = new Button();
-        btn1.Text = "Home";
+        btn1.Image = EfficientImage.GetIcon(Icon.Home, SKColors.White);
+        btn1.ImageScale = menuItemImageScale;
         btn1.Height = 40;
         btn1.Tag = nameof(HomeView);
         btn1.Click += OnAccordionButtonClick;

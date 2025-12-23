@@ -7,4 +7,5 @@ public enum Icon
     Restore,
     Minimize,
     Close,
+    Home,
 }
