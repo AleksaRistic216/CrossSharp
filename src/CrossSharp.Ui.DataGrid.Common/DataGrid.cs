@@ -12,14 +12,23 @@ partial class DataGrid : ControlBase, IDataGrid
 {
     internal DataGrid()
     {
-        _inputHandler.MouseWheel += InputHandlerOnMouseWheel;
         _inputHandler.KeyPressed += InputHandlerOnKeyPressed;
+        _scrollbarHandler = new ScrollbarInteractionHandler<DataGrid>(
+            _inputHandler,
+            this,
+            () => _viewport,
+            vp => _viewport = vp,
+            OnScrolled,
+            () => IsMouseOver,
+            v => IsMouseOver = v
+        );
+        _scrollbarHandler.Subscribe();
     }
 
     public override void Dispose()
     {
-        _inputHandler.MouseWheel -= InputHandlerOnMouseWheel;
         _inputHandler.KeyPressed -= InputHandlerOnKeyPressed;
+        _scrollbarHandler?.Dispose();
         base.Dispose();
     }
 

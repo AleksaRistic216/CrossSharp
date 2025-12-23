@@ -96,7 +96,7 @@ partial class FlowLayout
         foreach (var c in _controls)
             c.Dispose();
         _controls.Clear();
-        UnsubscribeFromInputHandlerEvents();
+        DisposeScrollbarHandler();
         RaiseDisposing();
     }
 

@@ -15,7 +15,7 @@ partial class StackedLayout : IStackedLayout
     protected StackedLayout()
     {
         _inputHandler = Services.GetSingleton<IInputHandler>();
-        SubscribeToInputHandlerEvents();
+        InitializeScrollbarHandler();
         PerformTheme();
     }
 

@@ -3,6 +3,7 @@ using System.Reflection;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
@@ -11,6 +12,7 @@ partial class DataGrid
 {
     List<IDataGridCell> _selectedCells = [];
     Dictionary<string, PropertyInfo>? _dataSourceProperties;
+    ScrollbarInteractionHandler<DataGrid>? _scrollbarHandler;
     int _rowHeight;
     int _itemsToLoad;
     readonly IInputHandler _inputHandler = Services.GetSingleton<IInputHandler>();

@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
 
@@ -9,6 +10,7 @@ namespace CrossSharp.Ui.Common;
 partial class FlowLayout
 {
     IInputHandler _inputHandler;
+    ScrollbarInteractionHandler<FlowLayout>? _scrollbarHandler;
     public object? Parent { get; set; }
     public bool IsMouseOver { get; set; }
     bool _visible = true;
