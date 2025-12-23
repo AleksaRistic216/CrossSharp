@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Text;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
@@ -16,16 +18,41 @@ public enum LogCategory
 
 public static class Debug
 {
-    static readonly object _lock = new();
+    static readonly ConcurrentQueue<string> _messageQueue = new();
+    static readonly Thread _writerThread;
+    static readonly AutoResetEvent _signal = new(false);
+    static volatile bool _running = true;
     static string? _logFilePath;
-    static bool _initialized;
+    static volatile bool _initialized;
+    static StreamWriter? _writer;
+
+    // Pre-cached category names to avoid Enum.ToString() allocations
+    static readonly string[] CategoryNames = ["App", "SDL", "DI", "Input", "Form", "Theme", "Cache"];
+
+    static Debug()
+    {
+        _writerThread = new Thread(ProcessQueue)
+        {
+            IsBackground = true,
+            Name = "DebugLogWriter",
+            Priority = ThreadPriority.BelowNormal,
+        };
+        _writerThread.Start();
+
+        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+    }
+
+    static void OnProcessExit(object? sender, System.EventArgs e)
+    {
+        Flush();
+    }
 
     static void EnsureInitialized()
     {
         if (_initialized)
             return;
 
-        lock (_lock)
+        lock (_messageQueue)
         {
             if (_initialized)
                 return;
@@ -45,78 +72,162 @@ public static class Debug
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             _logFilePath = Path.Combine(logDir, $"debug_{timestamp}.log");
 
+            try
+            {
+                _writer = new StreamWriter(_logFilePath, append: true, Encoding.UTF8) { AutoFlush = false };
+            }
+            catch
+            {
+                // Silently fail if we can't create the log file
+            }
+
             _initialized = true;
         }
     }
 
     public static void Log(string message)
     {
-        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        string formattedMessage = $"[{timestamp}] {message}";
+        var timestamp = DateTime.Now;
+        var sb = new StringBuilder(64 + message.Length);
+        AppendTimestamp(sb, timestamp);
+        sb.Append("] ");
+        sb.Append(message);
 
-        Console.WriteLine(formattedMessage);
-
-        WriteToFile(formattedMessage);
+        EnqueueMessage(sb.ToString());
     }
 
     public static void Log(LogCategory category, string message)
     {
-        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        string formattedMessage = $"[{timestamp}] [{category}] {message}";
+        var timestamp = DateTime.Now;
+        var categoryName = CategoryNames[(int)category];
 
-        Console.WriteLine(formattedMessage);
+        var sb = new StringBuilder(64 + categoryName.Length + message.Length);
+        AppendTimestamp(sb, timestamp);
+        sb.Append("] [");
+        sb.Append(categoryName);
+        sb.Append("] ");
+        sb.Append(message);
 
-        WriteToFile(formattedMessage);
+        EnqueueMessage(sb.ToString());
     }
 
     public static void LogWarning(string message)
     {
-        LogInternal("WARNING", message);
+        var timestamp = DateTime.Now;
+        var sb = new StringBuilder(64 + message.Length);
+        AppendTimestamp(sb, timestamp);
+        sb.Append("] [WARNING] ");
+        sb.Append(message);
+
+        EnqueueMessage(sb.ToString());
     }
 
     public static void LogError(string message)
     {
-        LogInternal("ERROR", message);
+        var timestamp = DateTime.Now;
+        var sb = new StringBuilder(64 + message.Length);
+        AppendTimestamp(sb, timestamp);
+        sb.Append("] [ERROR] ");
+        sb.Append(message);
+
+        EnqueueMessage(sb.ToString());
     }
 
     public static void LogError(Exception ex)
     {
-        LogInternal("ERROR", $"{ex.Message}\n{ex.StackTrace}");
+        LogError($"{ex.Message}\n{ex.StackTrace}");
     }
 
     public static void LogError(string message, Exception ex)
     {
-        LogInternal("ERROR", $"{message}: {ex.Message}\n{ex.StackTrace}");
+        LogError($"{message}: {ex.Message}\n{ex.StackTrace}");
     }
 
-    static void LogInternal(string category, string message)
+    static void AppendTimestamp(StringBuilder sb, DateTime timestamp)
     {
-        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        string formattedMessage = $"[{timestamp}] [{category}] {message}";
-
-        Console.WriteLine(formattedMessage);
-
-        WriteToFile(formattedMessage);
+        sb.Append('[');
+        sb.Append(timestamp.Year);
+        sb.Append('-');
+        Append2Digits(sb, timestamp.Month);
+        sb.Append('-');
+        Append2Digits(sb, timestamp.Day);
+        sb.Append(' ');
+        Append2Digits(sb, timestamp.Hour);
+        sb.Append(':');
+        Append2Digits(sb, timestamp.Minute);
+        sb.Append(':');
+        Append2Digits(sb, timestamp.Second);
+        sb.Append('.');
+        Append3Digits(sb, timestamp.Millisecond);
     }
 
-    static void WriteToFile(string message)
+    static void Append2Digits(StringBuilder sb, int value)
     {
+        if (value < 10)
+            sb.Append('0');
+        sb.Append(value);
+    }
+
+    static void Append3Digits(StringBuilder sb, int value)
+    {
+        if (value < 10)
+            sb.Append("00");
+        else if (value < 100)
+            sb.Append('0');
+        sb.Append(value);
+    }
+
+    static void EnqueueMessage(string message)
+    {
+        Console.WriteLine(message);
+        _messageQueue.Enqueue(message);
+        _signal.Set();
+    }
+
+    static void ProcessQueue()
+    {
+        while (_running || !_messageQueue.IsEmpty)
+        {
+            _signal.WaitOne(100); // Wake up every 100ms or when signaled
+
+            WriteBufferedMessages();
+        }
+
+        // Final flush
+        WriteBufferedMessages();
+        _writer?.Dispose();
+    }
+
+    static void WriteBufferedMessages()
+    {
+        if (_messageQueue.IsEmpty)
+            return;
+
         try
         {
             EnsureInitialized();
 
-            if (_logFilePath is null)
+            if (_writer is null)
                 return;
 
-            lock (_lock)
+            while (_messageQueue.TryDequeue(out var message))
             {
-                File.AppendAllText(_logFilePath, message + Environment.NewLine);
+                _writer.WriteLine(message);
             }
+
+            _writer.Flush();
         }
         catch
         {
-            // Silently fail if we can't write to file
+            // Silently fail
         }
+    }
+
+    public static void Flush()
+    {
+        _running = false;
+        _signal.Set();
+        _writerThread.Join(1000); // Wait up to 1 second for flush
     }
 
     public static string? GetLogFilePath()
