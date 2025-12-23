@@ -81,6 +81,9 @@
         <ProjectReference Include="..\CrossSharp.Ui.Button.Linux\CrossSharp.Ui.Button.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Button.Windows\CrossSharp.Ui.Button.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Chart.Linux\CrossSharp.Ui.Chart.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Chart.Windows\CrossSharp.Ui.Chart.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Chart\CrossSharp.Ui.Chart.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.DataGrid.Linux\CrossSharp.Ui.DataGrid.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.DataGrid.Windows\CrossSharp.Ui.DataGrid.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.DataGrid\CrossSharp.Ui.DataGrid.csproj" />

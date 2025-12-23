@@ -119,3 +119,255 @@ To add a new icon to the project:
 
 Icons are loaded via `IIconProvider.GetSvg(Icon icon)` which reads from embedded resources using the pattern:
 `CrossSharp.Icons.IconSets.{IconSetName}.{IconName}.svg`
+
+## Adding New Controls
+
+To add a new control (e.g., `Chart`), follow these steps:
+
+### Step 1: Create Interfaces in CrossSharp.Utils
+
+Create two interface files in `src/CrossSharp.Utils/Interfaces/`:
+
+**IChart.cs** - Control interface inheriting from required base interfaces:
+```csharp
+namespace CrossSharp.Utils.Interfaces;
+
+public interface IChart : IControl, IBackgroundColorProvider, IDockable { }
+```
+
+**IChartFactory.cs** - Factory interface for DI:
+```csharp
+namespace CrossSharp.Utils.Interfaces;
+
+public interface IChartFactory
+{
+    IChart Create();
+}
+```
+
+Common interfaces to inherit from:
+- `IControl` - Base control interface (required)
+- `IBackgroundColorProvider` - Adds `BackgroundColor` and `BackgroundColorChanged`
+- `IDockable` - Adds `Dock` and `DockIndex` for docking support
+- `IRoundedCorners` - Adds `CornerRadius` property
+- `IClickable` - Adds `Click` event
+- `IAutoSize` - Adds auto-sizing properties
+
+### Step 2: Create the Four Projects
+
+Create directories and projects under `src/`:
+
+#### 2.1 Public API Project (`CrossSharp.Ui.Chart`)
+
+**Chart.cs** - Wrapper class delegating to implementation:
+```csharp
+using CrossSharp.Utils;
+using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.Interfaces;
+
+namespace CrossSharp.Ui;
+
+public class Chart() : CrossControl<IChart>(Services.GetSingleton<IChartFactory>().Create()), IChart
+{
+    public ColorRgba BackgroundColor
+    {
+        get => Implementation.BackgroundColor;
+        set => Implementation.BackgroundColor = value;
+    }
+    public EventHandler? BackgroundColorChanged
+    {
+        get => Implementation.BackgroundColorChanged;
+        set => Implementation.BackgroundColorChanged = value;
+    }
+    public int DockIndex
+    {
+        get => Implementation.DockIndex;
+        set => Implementation.DockIndex = value;
+    }
+    public DockStyle Dock
+    {
+        get => Implementation.Dock;
+        set => Implementation.Dock = value;
+    }
+}
+```
+
+#### 2.2 Common Implementation Project (`CrossSharp.Ui.Chart.Common`)
+
+Split into partial classes for organization:
+
+**Chart.cs** - Main logic, constructor, PerformTheme, Invalidate:
+```csharp
+using CrossSharp.Utils;
+using CrossSharp.Utils.Helpers;
+using CrossSharp.Utils.Interfaces;
+
+namespace CrossSharp.Ui.Common;
+
+partial class Chart : ControlBase, IChart
+{
+    internal Chart() { }
+
+    public override void PerformTheme() { }
+
+    public override void Invalidate()
+    {
+        this.PerformDocking();  // Required for IDockable controls
+    }
+}
+```
+
+**Chart.Properties.cs** - Property definitions with backing fields:
+```csharp
+using CrossSharp.Utils;
+using CrossSharp.Utils.Enums;
+
+namespace CrossSharp.Ui.Common;
+
+partial class Chart
+{
+    ColorRgba _backgroundColor = ColorRgba.Transparent;
+    public ColorRgba BackgroundColor
+    {
+        get => _backgroundColor;
+        set
+        {
+            if (_backgroundColor == value)
+                return;
+            _backgroundColor = value;
+            OnBackgroundColorChangedInternal();  // Trigger change handler
+        }
+    }
+
+    public int DockIndex { get; set; }
+    public DockStyle Dock { get; set; }
+}
+```
+
+**Chart.Handlers.cs** - Event handlers and change notifications:
+```csharp
+namespace CrossSharp.Ui.Common;
+
+partial class Chart
+{
+    public EventHandler? BackgroundColorChanged { get; set; }
+
+    void OnBackgroundColorChangedInternal()
+    {
+        Invalidate();
+        RaiseBackgroundColorChanged();
+    }
+
+    void RaiseBackgroundColorChanged() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
+}
+```
+
+**AssemblyInfo.cs** - Grant access to platform projects:
+```csharp
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("CrossSharp.Ui.Chart.Linux")]
+[assembly: InternalsVisibleTo("CrossSharp.Ui.Chart.Windows")]
+```
+
+#### 2.3 Platform Projects (`CrossSharp.Ui.Chart.Linux` and `CrossSharp.Ui.Chart.Windows`)
+
+Each platform project contains:
+
+**Chart.cs** - Empty class inheriting from Common:
+```csharp
+namespace CrossSharp.Ui.Linux;  // or CrossSharp.Ui.Windows
+
+class Chart : Common.Chart { }
+```
+
+**ChartFactory.cs** - Factory implementation:
+```csharp
+using CrossSharp.Utils.Interfaces;
+
+namespace CrossSharp.Ui.Linux;  // or CrossSharp.Ui.Windows
+
+class ChartFactory : IChartFactory
+{
+    public IChart Create()
+    {
+        var chart = new Chart();
+        return chart;
+    }
+}
+```
+
+**AssemblyInfo.cs** - Grant access to Application project:
+```csharp
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("CrossSharp.Application")]
+```
+
+### Step 3: Add to Solution
+
+```bash
+dotnet sln cross-sharp.sln add src/CrossSharp.Ui.Chart/CrossSharp.Ui.Chart.csproj --solution-folder Controls/Chart
+dotnet sln cross-sharp.sln add src/CrossSharp.Ui.Chart.Common/CrossSharp.Ui.Chart.Common.csproj --solution-folder Controls/Chart
+dotnet sln cross-sharp.sln add src/CrossSharp.Ui.Chart.Linux/CrossSharp.Ui.Chart.Linux.csproj --solution-folder Controls/Chart
+dotnet sln cross-sharp.sln add src/CrossSharp.Ui.Chart.Windows/CrossSharp.Ui.Chart.Windows.csproj --solution-folder Controls/Chart
+```
+
+### Step 4: Register in CrossSharp.Application
+
+**CrossSharp.Application.csproj** - Add project references:
+```xml
+<ProjectReference Include="..\CrossSharp.Ui.Chart.Linux\CrossSharp.Ui.Chart.Linux.csproj" />
+<ProjectReference Include="..\CrossSharp.Ui.Chart.Windows\CrossSharp.Ui.Chart.Windows.csproj" />
+<ProjectReference Include="..\CrossSharp.Ui.Chart\CrossSharp.Ui.Chart.csproj" />
+```
+
+**ApplicationBuilder.cs** - Register factories:
+```csharp
+// In RegisterLinuxServices():
+AddSingleton<IChartFactory, ChartFactory>();
+
+// In RegisterWindowsServices():
+AddSingleton<IChartFactory, Ui.Windows.ChartFactory>();
+```
+
+### Property Change Pattern
+
+For properties that need change notification:
+
+1. **Properties.cs**: Use backing field, call `On{Property}ChangedInternal()` in setter
+2. **Handlers.cs**: Define event, internal handler (calls Invalidate + Raise), and raise method
+
+```csharp
+// In Properties.cs
+ColorRgba _backgroundColor = ColorRgba.Transparent;
+public ColorRgba BackgroundColor
+{
+    get => _backgroundColor;
+    set
+    {
+        if (_backgroundColor == value) return;
+        _backgroundColor = value;
+        OnBackgroundColorChangedInternal();
+    }
+}
+
+// In Handlers.cs
+public EventHandler? BackgroundColorChanged { get; set; }
+
+void OnBackgroundColorChangedInternal()
+{
+    Invalidate();
+    RaiseBackgroundColorChanged();
+}
+
+void RaiseBackgroundColorChanged() => BackgroundColorChanged?.Invoke(this, EventArgs.Empty);
+```
+
+### Important Notes
+
+- Controls implementing `IDockable` MUST call `this.PerformDocking()` in `Invalidate()`
+- The `DrawBackground()` method in `ControlBase` automatically uses `IBackgroundColorProvider.BackgroundColor`
+- Platform projects use `internal` classes - `InternalsVisibleTo` grants access to required assemblies
+- All csproj files should use `<RootNamespace>` matching the project's namespace convention

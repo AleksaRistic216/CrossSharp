@@ -33,6 +33,7 @@ public partial class MainForm
         _viewer.Register(nameof(DropdownsView), typeof(DropdownsView));
         _viewer.Register(nameof(DataGridView), typeof(DataGridView));
         _viewer.Register(nameof(ImagePreviewView), typeof(ImagePreviewView));
+        _viewer.Register(nameof(ChartsView), typeof(ChartsView));
         _viewer.Show(nameof(HomeView));
     }
 
@@ -96,6 +97,16 @@ public partial class MainForm
         btn5.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn5);
         _accordionItems.Add(btn5);
+
+        var btn6 = new Button();
+        btn6.Text = "C";
+        // btn6.Image = EfficientImage.GetIcon(Icon.Chart, SKColors.White);
+        // btn6.ImageScale = menuItemImageScale;
+        btn6.Height = menuItemButtonHeight;
+        btn6.Tag = nameof(ChartsView);
+        btn6.Click += OnAccordionButtonClick;
+        _accordion.AddItem(btn6);
+        _accordionItems.Add(btn6);
     }
 
     void OnAccordionButtonClick(object? sender, EventArgs e)

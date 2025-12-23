@@ -65,6 +65,7 @@ public class ApplicationBuilder
         AddSingleton<ILabelFactory, LabelFactory>();
         AddSingleton<IFontFamilyMap, FontFamilyMap>();
         AddSingleton<IButtonFactory, ButtonFactory>();
+        AddSingleton<IChartFactory, ChartFactory>();
         AddSingleton<IInputFactory, InputFactory>();
         AddSingleton<IAccordionFactory, AccordionFactory>();
         AddSingleton<IDropdownFactory, DropdownFactory>();
@@ -86,6 +87,7 @@ public class ApplicationBuilder
         AddSingleton<ILabelFactory, Ui.Windows.LabelFactory>();
         AddSingleton<IFontFamilyMap, Utils.Windows.FontFamilyMap>();
         AddSingleton<IButtonFactory, Ui.Windows.ButtonFactory>();
+        AddSingleton<IChartFactory, Ui.Windows.ChartFactory>();
         AddSingleton<IInputFactory, Ui.Windows.InputFactory>();
         AddSingleton<IAccordionFactory, Ui.Windows.AccordionFactory>();
         AddSingleton<IDropdownFactory, Ui.Windows.DropdownFactory>();
