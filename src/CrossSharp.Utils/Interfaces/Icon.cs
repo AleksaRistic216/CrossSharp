@@ -9,4 +9,5 @@ public enum Icon
     Close,
     Home,
     Palette,
+    Dropdown,
 }

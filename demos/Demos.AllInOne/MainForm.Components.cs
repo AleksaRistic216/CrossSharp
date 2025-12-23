@@ -41,6 +41,8 @@ public partial class MainForm
 
     void InitializeSideMenu()
     {
+        SizeF menuItemImageScale = new SizeF(0.7f, 0.7f);
+        int menuItemButtonHeight = 40;
         _accordion = new Accordion();
         _accordion.Dock = DockStyle.Left;
         _accordion.DockIndex = 0;
@@ -48,12 +50,10 @@ public partial class MainForm
         _accordion.State = AccordionState.Collapsed;
         Controls.Add(_accordion);
 
-        SizeF menuItemImageScale = new SizeF(0.7f, 0.7f);
-
         var btn1 = new Button();
         btn1.Image = EfficientImage.GetIcon(Icon.Home, SKColors.White);
         btn1.ImageScale = menuItemImageScale;
-        btn1.Height = 40;
+        btn1.Height = menuItemButtonHeight;
         btn1.Tag = nameof(HomeView);
         btn1.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn1);
@@ -62,15 +62,16 @@ public partial class MainForm
         var btn2 = new Button();
         btn2.Image = EfficientImage.GetIcon(Icon.Palette, SKColors.White);
         btn2.ImageScale = menuItemImageScale;
-        btn2.Height = 40;
+        btn2.Height = menuItemButtonHeight;
         btn2.Tag = nameof(ThemesView);
         btn2.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn2);
         _accordionItems.Add(btn2);
 
         var btn3 = new Button();
-        btn3.Text = "Dropdowns";
-        btn3.Height = 40;
+        btn3.Image = EfficientImage.GetIcon(Icon.Dropdown, SKColors.White);
+        btn3.ImageScale = menuItemImageScale;
+        btn3.Height = menuItemButtonHeight;
         btn3.Tag = nameof(DropdownsView);
         btn3.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn3);
@@ -78,7 +79,7 @@ public partial class MainForm
 
         var btn4 = new Button();
         btn4.Text = "Data Grid";
-        btn4.Height = 40;
+        btn4.Height = menuItemButtonHeight;
         btn4.Tag = nameof(DataGridView);
         btn4.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn4);
