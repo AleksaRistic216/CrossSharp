@@ -68,6 +68,9 @@
         <ProjectReference Include="..\CrossSharp.Ui.Form.Linux\CrossSharp.Ui.Form.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Form.Windows\CrossSharp.Ui.Form.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ImagePreview.Linux\CrossSharp.Ui.ImagePreview.Linux.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ImagePreview.Windows\CrossSharp.Ui.ImagePreview.Windows.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ImagePreview\CrossSharp.Ui.ImagePreview.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Input.Linux\CrossSharp.Ui.Input.Linux.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Input.Windows\CrossSharp.Ui.Input.Windows.csproj" />
         <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />

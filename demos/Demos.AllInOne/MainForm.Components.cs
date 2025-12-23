@@ -32,6 +32,7 @@ public partial class MainForm
         _viewer.Register(nameof(ThemesView), typeof(ThemesView));
         _viewer.Register(nameof(DropdownsView), typeof(DropdownsView));
         _viewer.Register(nameof(DataGridView), typeof(DataGridView));
+        _viewer.Register(nameof(ImagePreviewView), typeof(ImagePreviewView));
         _viewer.Show(nameof(HomeView));
     }
 
@@ -85,6 +86,16 @@ public partial class MainForm
         btn4.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn4);
         _accordionItems.Add(btn4);
+
+        var btn5 = new Button();
+        btn5.Text = "I";
+        // btn5.Image = EfficientImage.GetIcon(Icon.DataGrid, SKColors.White);
+        // btn5.ImageScale = menuItemImageScale;
+        btn5.Height = menuItemButtonHeight;
+        btn5.Tag = nameof(ImagePreviewView);
+        btn5.Click += OnAccordionButtonClick;
+        _accordion.AddItem(btn5);
+        _accordionItems.Add(btn5);
     }
 
     void OnAccordionButtonClick(object? sender, EventArgs e)

@@ -70,6 +70,7 @@ public class ApplicationBuilder
         AddSingleton<IDropdownFactory, DropdownFactory>();
         AddSingleton<IThemePickerFactory, ThemePickerFactory>();
         AddSingleton<IDataGridFactory, DataGridFactory>();
+        AddSingleton<IImagePreviewFactory, ImagePreviewFactory>();
     }
 
     void RegisterWindowsServices()
@@ -90,6 +91,7 @@ public class ApplicationBuilder
         AddSingleton<IDropdownFactory, Ui.Windows.DropdownFactory>();
         AddSingleton<IThemePickerFactory, Ui.Windows.ThemePickerFactory>();
         AddSingleton<IDataGridFactory, Ui.Windows.DataGridFactory>();
+        AddSingleton<IImagePreviewFactory, Ui.Windows.ImagePreviewFactory>();
     }
 
     void RegisterMacOsServices()
