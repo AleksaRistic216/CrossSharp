@@ -60,7 +60,8 @@ public partial class MainForm
         _accordionItems.Add(btn1);
 
         var btn2 = new Button();
-        btn2.Text = "Themes";
+        btn2.Image = EfficientImage.GetIcon(Icon.Palette, SKColors.White);
+        btn2.ImageScale = menuItemImageScale;
         btn2.Height = 40;
         btn2.Tag = nameof(ThemesView);
         btn2.Click += OnAccordionButtonClick;

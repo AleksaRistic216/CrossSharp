@@ -8,4 +8,5 @@ public enum Icon
     Minimize,
     Close,
     Home,
+    Palette,
 }
