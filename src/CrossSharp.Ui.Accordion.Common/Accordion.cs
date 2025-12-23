@@ -1,7 +1,10 @@
+using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
+using SkiaSharp;
 
 namespace CrossSharp.Ui.Common;
 
@@ -45,7 +48,8 @@ partial class Accordion : StackedLayout, IAccordion
         _hamburgButton = new Button();
         _hamburgButton.Width = _headerArea.Height;
         _hamburgButton.Height = _headerArea.Height;
-        _hamburgButton.Text = "☰";
+        _hamburgButton.Image = EfficientImage.GetIcon(Icon.HamburgerMenu, SKColors.White);
+        _hamburgButton.ImageScale = new SizeF(0.7f, 0.7f);
         _hamburgButton.Click += (_, _) =>
         {
             State = State == AccordionState.Collapsed ? AccordionState.Expanded : AccordionState.Collapsed;

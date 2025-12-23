@@ -11,4 +11,5 @@ public enum Icon
     Palette,
     Dropdown,
     DataGrid,
+    HamburgerMenu,
 }
