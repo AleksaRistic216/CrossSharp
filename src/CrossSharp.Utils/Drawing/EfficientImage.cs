@@ -42,7 +42,7 @@ public class EfficientImage : IEfficientImage
         var iconProvider = Services.GetSingleton<IIconProvider>();
         var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
 
-        var key = icon.ToString();
+        var key = $"{icon}_{color}_{width}x{height}";
 
         if (!imagesCache.HasImage(key))
             imagesCache.AddImage(key, ImageHelpers.FromSvg(iconProvider.GetSvg(icon), width, height, color));
