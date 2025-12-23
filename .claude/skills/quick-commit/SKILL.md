@@ -19,17 +19,10 @@ When the user asks to commit changes with a short message:
     - Uses present tense ("Add" not "Added")
     - Describes what the change does
     - Follows the project's commit message patterns
-4. **Commit**: Add files and commit using the heredoc format:
+4. **Commit**: Add files and commit:
    ```bash
-   git add <files> && git commit -m "$(cat <<'EOF'
-   Your commit message here.
-
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-   EOF
-   )"
-   ```\
+   git add <files> && git commit -m "Your commit message here"
+   ```
 5. **Verify**: Run `git status` to confirm the commit succeeded
 
 ## Examples

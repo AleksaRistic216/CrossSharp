@@ -25,4 +25,8 @@ sealed partial class FormSDLTitleBar
     Point? _mouseDownFormPosition;
     int _deltaX;
     int _deltaY;
+    DateTime? _lastClickTime;
+    Point? _lastClickPosition;
+    const int DOUBLE_CLICK_THRESHOLD_MS = 500;
+    const int DOUBLE_CLICK_DISTANCE_THRESHOLD = 5;
 }
