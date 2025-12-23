@@ -41,9 +41,13 @@ public class EfficientImage : IEfficientImage
     {
         var iconProvider = Services.GetSingleton<IIconProvider>();
         var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
-        if (!imagesCache.HasImage(nameof(icon)))
-            imagesCache.AddImage(nameof(icon), ImageHelpers.FromSvg(iconProvider.GetSvg(icon), width, height, color));
-        return imagesCache.GetImage(nameof(icon));
+
+        var key = icon.ToString();
+
+        if (!imagesCache.HasImage(key))
+            imagesCache.AddImage(key, ImageHelpers.FromSvg(iconProvider.GetSvg(icon), width, height, color));
+
+        return imagesCache.GetImage(key);
     }
 
     /// <summary>

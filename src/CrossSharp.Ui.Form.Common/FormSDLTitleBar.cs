@@ -29,12 +29,10 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         InputHandler.MouseDragged += OnMouseDragged;
         InputHandler.MouseReleased += OnMouseReleased;
 
-        LoadTitleBarIcons();
-
         var buttonWidth = 50;
 
         _closeButton = new Button();
-        _closeButton.Image = EfficientImage.Get(nameof(CLOSE_ICON));
+        _closeButton.Image = EfficientImage.GetIcon(CLOSE_ICON, SKColors.White);
         _closeButton.ImageScale = _actionButtonIconScale;
         _closeButton.Width = buttonWidth;
         _closeButton.Height = Height;
@@ -48,7 +46,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
         _maximizeRestoreButton = new Button();
         _maximizeRestoreButton.DockIndex = 1;
-        _maximizeRestoreButton.Image = EfficientImage.Get(nameof(MAXIMIZE_ICON));
+        _maximizeRestoreButton.Image = EfficientImage.GetIcon(MAXIMIZE_ICON, SKColors.White);
         _maximizeRestoreButton.ImageScale = _actionButtonIconScale;
         _maximizeRestoreButton.Width = buttonWidth;
         _maximizeRestoreButton.Height = Height;
@@ -65,7 +63,7 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
 
         _minimizeButton = new Button();
         _minimizeButton.DockIndex = 2;
-        _minimizeButton.Image = EfficientImage.Get(nameof(MINIMIZE_ICON));
+        _minimizeButton.Image = EfficientImage.GetIcon(MINIMIZE_ICON, SKColors.White);
         _minimizeButton.ImageScale = _actionButtonIconScale;
         _minimizeButton.Width = buttonWidth;
         _minimizeButton.Height = Height;
@@ -76,38 +74,6 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
         };
         _minimizeButton.ThemePerformed += TitleBarButtonThemePerformed;
         Add(_minimizeButton);
-    }
-
-    void LoadTitleBarIcons()
-    {
-        var iconProvider = Services.GetSingleton<IIconProvider>();
-        var imagesCache = Services.GetSingleton<IEfficientImagesCache>();
-        const int iconSize = 64;
-        var iconColor = SKColors.White;
-
-        if (!imagesCache.HasImage(nameof(CLOSE_ICON)))
-        {
-            var svg = iconProvider.GetSvg(CLOSE_ICON);
-            imagesCache.AddImage(nameof(CLOSE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
-        }
-
-        if (!imagesCache.HasImage(nameof(MAXIMIZE_ICON)))
-        {
-            var svg = iconProvider.GetSvg(MAXIMIZE_ICON);
-            imagesCache.AddImage(nameof(MAXIMIZE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
-        }
-
-        if (!imagesCache.HasImage(nameof(RESTORE_ICON)))
-        {
-            var svg = iconProvider.GetSvg(RESTORE_ICON);
-            imagesCache.AddImage(nameof(RESTORE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
-        }
-
-        if (!imagesCache.HasImage(nameof(MINIMIZE_ICON)))
-        {
-            var svg = iconProvider.GetSvg(MINIMIZE_ICON);
-            imagesCache.AddImage(nameof(MINIMIZE_ICON), ImageHelpers.FromSvg(svg, iconSize, iconSize, iconColor));
-        }
     }
 
     void TitleBarButtonThemePerformed(object? sender, EventArgs e)
@@ -130,8 +96,8 @@ sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
     {
         _maximizeRestoreButton.Image =
             Form.State == WindowState.Maximized
-                ? EfficientImage.Get(nameof(RESTORE_ICON))
-                : EfficientImage.Get(nameof(MAXIMIZE_ICON));
+                ? EfficientImage.GetIcon(RESTORE_ICON, SKColors.White)
+                : EfficientImage.GetIcon(MAXIMIZE_ICON, SKColors.White);
     }
 
     public override void Invalidate()
