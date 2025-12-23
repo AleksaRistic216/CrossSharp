@@ -89,3 +89,33 @@ public class MainForm : Form
 ## Platform Targeting
 
 Projects use conditional compilation based on `$(OS)` property (Windows_NT or Linux). Platform-specific code is isolated in dedicated projects with matching OS prefixes.
+
+## Adding New Icons
+
+To add a new icon to the project:
+
+1. **Add to Icon enum** - Add the icon name to `src/CrossSharp.Utils/Interfaces/Icon.cs`:
+   ```csharp
+   public enum Icon
+   {
+       // existing icons...
+       MyNewIcon,
+   }
+   ```
+
+2. **Create SVG files** - Create an SVG file for each icon set in `src/CrossSharp.Icons/IconSets/{IconSetName}/`:
+   - File must be named exactly as the enum value: `MyNewIcon.svg`
+   - SVG files are automatically embedded as resources via the csproj
+
+3. **Icon set style (CrossSharp2026)** - Follow this format:
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+     <!-- icon paths/shapes here -->
+   </svg>
+   ```
+
+### Icon Loading
+
+Icons are loaded via `IIconProvider.GetSvg(Icon icon)` which reads from embedded resources using the pattern:
+`CrossSharp.Icons.IconSets.{IconSetName}.{IconName}.svg`
