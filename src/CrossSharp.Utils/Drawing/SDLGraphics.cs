@@ -238,7 +238,7 @@ class SDLGraphics : IGraphics
             SDL_RenderLine(_renderer, px, py + r, px, py + h - r - 1); // Left
             SDL_RenderLine(_renderer, px + w - 1, py + r, px + w - 1, py + h - r - 1); // Right
             FillQuarterCircle(px + r - 1, py + r - 1, r, Corner.TopLeft, borderColor, radius - borderWidth);
-            FillQuarterCircle(px + w - r, py + r + 1, r, Corner.TopRight, borderColor, radius - borderWidth);
+            FillQuarterCircle(px + w - r, py + r - 1, r, Corner.TopRight, borderColor, radius - borderWidth);
             FillQuarterCircle(px + r - 1, py + h - r, r, Corner.BottomLeft, borderColor, radius - borderWidth);
             FillQuarterCircle(px + w - r, py + h - r, r, Corner.BottomRight, borderColor, radius - borderWidth);
         }
@@ -262,156 +262,91 @@ class SDLGraphics : IGraphics
         if (radius <= 0 || skipFirst >= radius)
             return;
 
-        var seeThroughColor1 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.3f);
-        var seeThroughColor2 = new ColorRgba(borderColor.R, borderColor.G, borderColor.B, borderColor.A * 0.15f);
+        SDL_SetRenderDrawBlendMode(_renderer, SDLBlendMode.Blend);
+        float outerRadius = radius;
+        float innerRadius = skipFirst;
 
-        var key = (corner, radius, skipFirst);
-        if (!_quarterCircleCache.TryGetValue(key, out var pixelsToDraw))
+        for (int y = 0; y <= radius; y++)
         {
-            pixelsToDraw = new Dictionary<FillQuarterCirclePointType, List<Rectangle>>
+            int ySq = y * y;
+
+            // Calculate exact x positions where circle edges cross this scanline
+            float outerXExact = (float)Math.Sqrt(Math.Max(0, outerRadius * outerRadius - ySq));
+            float innerXExact = innerRadius > 0 && ySq < innerRadius * innerRadius
+                ? (float)Math.Sqrt(innerRadius * innerRadius - ySq)
+                : 0;
+
+            int outerXInt = (int)outerXExact;
+            int innerXInt = (int)Math.Ceiling(innerXExact);
+
+            int localY = corner switch
             {
-                [FillQuarterCirclePointType.Solid] = new List<Rectangle>(),
-                [FillQuarterCirclePointType.SeeThrough1] = new List<Rectangle>(),
-                [FillQuarterCirclePointType.SeeThrough2] = new List<Rectangle>(),
+                Corner.TopLeft => -y,
+                Corner.TopRight => -y,
+                Corner.BottomLeft => y,
+                Corner.BottomRight => y,
+                _ => 0,
             };
 
-            // build rectangles in a local coordinate system with center at (0,0)
-            for (int y = 0; y <= radius; y++)
+            // Draw solid pixels (fully inside the shape)
+            for (int x = innerXInt; x < outerXInt; x++)
             {
-                int ySq = y * y;
-
-                int outerX = (int)Math.Floor(Math.Sqrt(radius * radius - ySq));
-                int innerX =
-                    (skipFirst > 0 && ySq < skipFirst * skipFirst)
-                        ? (int)Math.Ceiling(Math.Sqrt(skipFirst * skipFirst - ySq))
-                        : 0;
-
-                int localY = corner switch
+                int localX = corner switch
                 {
-                    Corner.TopLeft => -y,
-                    Corner.TopRight => -y,
-                    Corner.BottomLeft => y,
-                    Corner.BottomRight => y,
-                    _ => 0,
+                    Corner.TopLeft => -x,
+                    Corner.TopRight => x,
+                    Corner.BottomLeft => -x,
+                    Corner.BottomRight => x,
+                    _ => x,
                 };
-
-                int startLocalX = corner switch
-                {
-                    Corner.TopLeft => -outerX,
-                    Corner.TopRight => innerX,
-                    Corner.BottomLeft => -outerX,
-                    Corner.BottomRight => innerX,
-                    _ => 0,
-                };
-
-                int endLocalX = corner switch
-                {
-                    Corner.TopLeft => -innerX,
-                    Corner.TopRight => outerX,
-                    Corner.BottomLeft => -innerX,
-                    Corner.BottomRight => outerX,
-                    _ => 0,
-                };
-
-                if (startLocalX > endLocalX)
-                    continue;
-
-                pixelsToDraw[FillQuarterCirclePointType.Solid]
-                    .Add(new Rectangle(startLocalX, localY, endLocalX - startLocalX + 1, 1));
-
-                pixelsToDraw[FillQuarterCirclePointType.SeeThrough1]
-                    .Add(
-                        new Rectangle(
-                            corner switch
-                            {
-                                Corner.TopLeft => startLocalX - 1,
-                                Corner.TopRight => endLocalX + 1,
-                                Corner.BottomLeft => startLocalX - 1,
-                                Corner.BottomRight => endLocalX + 1,
-                                _ => startLocalX,
-                            },
-                            localY,
-                            1,
-                            1
-                        )
-                    );
-
-                pixelsToDraw[FillQuarterCirclePointType.SeeThrough2]
-                    .Add(
-                        new Rectangle(
-                            corner switch
-                            {
-                                Corner.TopLeft => startLocalX - 2,
-                                Corner.TopRight => endLocalX + 2,
-                                Corner.BottomLeft => startLocalX - 2,
-                                Corner.BottomRight => endLocalX + 2,
-                                _ => startLocalX,
-                            },
-                            localY,
-                            1,
-                            1
-                        )
-                    );
+                SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, borderColor.AByte);
+                SDL_RenderPoint(_renderer, cx + localX, cy + localY);
             }
 
-            _quarterCircleCache[key] = pixelsToDraw;
-        }
-
-        foreach (var solidPixel in pixelsToDraw[FillQuarterCirclePointType.Solid])
-        {
-            SDL_SetRenderDrawColor(
-                _renderer,
-                borderColor.RByte,
-                borderColor.GByte,
-                borderColor.BByte,
-                borderColor.AByte
-            );
-            var rect = new SDLFRect
+            // Draw anti-aliased outer edge pixel
+            if (outerXExact > 0)
             {
-                x = cx + solidPixel.X,
-                y = cy + solidPixel.Y,
-                w = solidPixel.Width,
-                h = solidPixel.Height,
-            };
-            SDL_RenderFillRect(_renderer, ref rect);
-        }
+                float outerFrac = outerXExact - outerXInt; // How much circle extends into next pixel
+                if (outerFrac > 0.01f)
+                {
+                    int edgeX = outerXInt;
+                    int localX = corner switch
+                    {
+                        Corner.TopLeft => -edgeX,
+                        Corner.TopRight => edgeX,
+                        Corner.BottomLeft => -edgeX,
+                        Corner.BottomRight => edgeX,
+                        _ => edgeX,
+                    };
+                    byte alpha = (byte)(borderColor.AByte * outerFrac);
+                    SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, alpha);
+                    SDL_RenderPoint(_renderer, cx + localX, cy + localY);
+                }
+            }
 
-        foreach (var seeThroughPixel in pixelsToDraw[FillQuarterCirclePointType.SeeThrough1])
-        {
-            SDL_SetRenderDrawColor(
-                _renderer,
-                seeThroughColor1.RByte,
-                seeThroughColor1.GByte,
-                seeThroughColor1.BByte,
-                seeThroughColor1.AByte
-            );
-            var rect = new SDLFRect
+            // Draw anti-aliased inner edge pixel (for rings/borders)
+            if (innerRadius > 0 && innerXExact > 0)
             {
-                x = cx + seeThroughPixel.X,
-                y = cy + seeThroughPixel.Y,
-                w = seeThroughPixel.Width,
-                h = seeThroughPixel.Height,
-            };
-            SDL_RenderFillRect(_renderer, ref rect);
-        }
-
-        foreach (var seeThroughPixel in pixelsToDraw[FillQuarterCirclePointType.SeeThrough2])
-        {
-            SDL_SetRenderDrawColor(
-                _renderer,
-                seeThroughColor2.RByte,
-                seeThroughColor2.GByte,
-                seeThroughColor2.BByte,
-                seeThroughColor2.AByte
-            );
-            var rect = new SDLFRect
-            {
-                x = cx + seeThroughPixel.X,
-                y = cy + seeThroughPixel.Y,
-                w = seeThroughPixel.Width,
-                h = seeThroughPixel.Height,
-            };
-            SDL_RenderFillRect(_renderer, ref rect);
+                float innerFrac = innerXInt - innerXExact; // Gap between inner edge and first solid pixel
+                if (innerFrac > 0.01f)
+                {
+                    int edgeX = innerXInt - 1;
+                    if (edgeX >= 0)
+                    {
+                        int localX = corner switch
+                        {
+                            Corner.TopLeft => -edgeX,
+                            Corner.TopRight => edgeX,
+                            Corner.BottomLeft => -edgeX,
+                            Corner.BottomRight => edgeX,
+                            _ => edgeX,
+                        };
+                        byte alpha = (byte)(borderColor.AByte * innerFrac);
+                        SDL_SetRenderDrawColor(_renderer, borderColor.RByte, borderColor.GByte, borderColor.BByte, alpha);
+                        SDL_RenderPoint(_renderer, cx + localX, cy + localY);
+                    }
+                }
+            }
         }
     }
 
