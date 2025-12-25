@@ -156,7 +156,9 @@ partial class FlowLayout : IFlowLayout
         var oldClipState = graphics.GetClipState();
         var clientBounds = this.GetClientBounds();
         graphics.SetOffset(clientBounds.Location);
-        graphics.SetClip(ClipState.Create(oldClipState, clientBounds, CornerRadius));
+        graphics.SetClip(
+            NoClip ? ClipState.Max(CornerRadius) : ClipState.Create(oldClipState, clientBounds, CornerRadius)
+        );
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);

@@ -98,6 +98,12 @@ public class TabbedLayout()
         set => _impl.Index = value;
     }
 
+    public bool NoClip
+    {
+        get => _impl.NoClip;
+        set => _impl.NoClip = value;
+    }
+
     public int DockIndex
     {
         get => _impl.DockIndex;

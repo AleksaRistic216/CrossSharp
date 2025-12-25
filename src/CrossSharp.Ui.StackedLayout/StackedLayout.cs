@@ -129,6 +129,11 @@ public class StackedLayout()
         set => _impl.Index = value;
     }
 
+    public bool NoClip
+    {
+        get => _impl.NoClip;
+        set => _impl.NoClip = value;
+    }
     public ColorRgba BackgroundColor
     {
         get => _impl.BackgroundColor;

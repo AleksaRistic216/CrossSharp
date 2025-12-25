@@ -27,4 +27,9 @@ public interface IControl
     /// This determines the order in which controls are rendered and laid out.
     /// </summary>
     int Index { get; set; }
+
+    /// <summary>
+    /// Indicates if control has no clip. If that is the case, upon rendering, clipping will not be applied
+    /// </summary>
+    bool NoClip { get; set; }
 }

@@ -26,6 +26,7 @@ partial class FlowLayout
         }
     }
     public int Index { get; set; }
+    public bool NoClip { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
     Point _location;

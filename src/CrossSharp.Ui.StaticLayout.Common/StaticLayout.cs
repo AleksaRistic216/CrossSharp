@@ -18,6 +18,7 @@ class StaticLayout : IStaticLayout
 
     public EventHandler? Disposing { get; set; }
     public int Index { get; set; }
+    public bool NoClip { get; set; }
     public DockStyle Dock { get; set; }
     public int BorderWidth { get; set; }
     public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
@@ -140,7 +141,9 @@ class StaticLayout : IStaticLayout
         var oldClipState = graphics.GetClipState();
         var clientBounds = this.GetClientBounds();
         graphics.SetOffset(clientBounds.Location);
-        graphics.SetClip(ClipState.Create(oldClipState, this.GetClientBounds(), CornerRadius));
+        graphics.SetClip(
+            NoClip ? ClipState.Max(CornerRadius) : ClipState.Create(oldClipState, clientBounds, CornerRadius)
+        );
         DrawBackground(ref graphics);
         foreach (var c in _controls.ToArray())
             c.Draw(ref graphics);

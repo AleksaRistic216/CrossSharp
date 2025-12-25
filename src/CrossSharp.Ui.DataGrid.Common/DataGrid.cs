@@ -194,7 +194,7 @@ partial class DataGrid : ControlBase, IDataGrid
             textColor = backgroundColor.Contrasted;
         }
         var clipState = g.GetClipState();
-        g.SetClip(ClipState.Create(clipState, clipState.Bounds, 0));
+        g.SetClip(NoClip ? ClipState.Max(0) : ClipState.Create(clipState, clipState.Bounds, 0));
         g.FillRectangle(x, y, width, height, backgroundColor);
         g.DrawText(
             text,

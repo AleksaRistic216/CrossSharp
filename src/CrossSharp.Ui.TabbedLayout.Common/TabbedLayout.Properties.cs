@@ -68,6 +68,7 @@ partial class TabbedLayout
         }
     }
     public int Index { get; set; }
+    public bool NoClip { get; set; }
     public int DockIndex { get; set; }
     public DockStyle Dock { get; set; }
     ColorRgba _backgroundColor = ColorRgba.Transparent;

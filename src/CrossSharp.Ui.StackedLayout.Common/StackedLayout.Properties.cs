@@ -26,6 +26,7 @@ partial class StackedLayout
         }
     }
     public int Index { get; set; }
+    public bool NoClip { get; set; }
     int _width;
     public int Width
     {

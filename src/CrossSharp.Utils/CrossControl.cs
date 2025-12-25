@@ -89,6 +89,11 @@ public abstract class CrossControl<T>(T implementation) : CrossWrapper<IControl>
         get => Implementation.Index;
         set => Implementation.Index = value;
     }
+    public bool NoClip
+    {
+        get => Implementation.NoClip;
+        set => Implementation.NoClip = value;
+    }
 
     public bool IsMouseOver
     {

@@ -52,6 +52,7 @@ public partial class ControlBase
             _visible = value;
         }
     }
+    public bool NoClip { get; set; }
     public int Width
     {
         get => _width;

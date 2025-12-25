@@ -208,7 +208,7 @@ partial class FormSDL : IFormSDL
     public void Draw(ref IGraphics graphics)
     {
         var clipState = ClipState.Create(
-            ClipState.Max,
+            ClipState.Max(0),
             new Rectangle(0, 0, Width, Height + (_titleBar?.Height ?? 0)),
             0
         );
@@ -232,8 +232,6 @@ partial class FormSDL : IFormSDL
 
     protected virtual void DrawContent(ref IGraphics g)
     {
-        _titleBar?.Draw(ref g);
-
         var oldOffset = g.GetOffset();
         foreach (var control in Controls.ToArray())
         {
@@ -241,6 +239,7 @@ partial class FormSDL : IFormSDL
             control.Draw(ref g);
             g.SetOffset(oldOffset);
         }
+        _titleBar?.Draw(ref g);
     }
 
     #endregion

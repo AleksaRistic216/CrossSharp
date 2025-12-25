@@ -113,6 +113,11 @@ public class StaticLayout()
         get => _impl.Index;
         set => _impl.Index = value;
     }
+    public bool NoClip
+    {
+        get => _impl.NoClip;
+        set => _impl.NoClip = value;
+    }
 
     public ColorRgba BackgroundColor
     {

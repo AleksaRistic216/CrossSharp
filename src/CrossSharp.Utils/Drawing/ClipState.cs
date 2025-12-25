@@ -6,8 +6,13 @@ public class ClipState
 {
     ClipState() { }
 
-    public static ClipState Max =>
-        new() { Bounds = Rectangle.FromLTRB(int.MinValue, int.MinValue, int.MaxValue, int.MaxValue), CornerRadius = 0 };
+    public static ClipState Max(int cornerRadius) =>
+        new()
+        {
+            Bounds = Rectangle.FromLTRB(int.MinValue, int.MinValue, int.MaxValue, int.MaxValue),
+            CornerRadius = cornerRadius,
+        };
+
     public static ClipState Empty => new() { Bounds = Rectangle.Empty, CornerRadius = 0 };
     public Rectangle Bounds { get; set; }
     public int CornerRadius { get; set; }

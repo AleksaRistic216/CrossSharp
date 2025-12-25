@@ -95,6 +95,11 @@ public class FlowLayout() : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlo
         get => _impl.Index;
         set => _impl.Index = value;
     }
+    public bool NoClip
+    {
+        get => _impl.NoClip;
+        set => _impl.NoClip = value;
+    }
 
     public IEnumerator<IControl> GetEnumerator() => _impl.GetEnumerator();
 

@@ -40,7 +40,7 @@ partial class FormSDL
     public int Row { get; set; }
     public int ZIndex { get; set; }
     public int Index { get; set; }
-
+    public bool NoClip { get; set; }
     #endregion
 
     #region Size Properties

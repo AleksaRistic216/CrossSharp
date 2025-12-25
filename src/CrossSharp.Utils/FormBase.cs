@@ -135,6 +135,11 @@ public abstract class FormBase<T> : IForm
         get => Implementation.Index;
         set { Implementation.Index = value; }
     }
+    public bool NoClip
+    {
+        get => Implementation.NoClip;
+        set => Implementation.NoClip = value;
+    }
 
     public int BorderWidth
     {

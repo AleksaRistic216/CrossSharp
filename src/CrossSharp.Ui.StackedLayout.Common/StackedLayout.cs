@@ -137,7 +137,7 @@ partial class StackedLayout : IStackedLayout
         var oldOffset = graphics.GetOffset();
         var oldState = graphics.GetClipState();
         graphics.SetOffset(clientBounds.Location);
-        graphics.SetClip(ClipState.Create(oldState, clientBounds, CornerRadius));
+        graphics.SetClip(NoClip ? ClipState.Max(CornerRadius) : ClipState.Create(oldState, clientBounds, CornerRadius));
         DrawBackground(ref graphics);
         foreach (var c in _controls.Where(ShouldControlBeDrawn))
             c.Draw(ref graphics);

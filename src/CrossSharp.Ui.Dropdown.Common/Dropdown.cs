@@ -81,7 +81,7 @@ partial class Dropdown : StackedLayout, IDropdown
         var textSize = TextHelpers.MeasureText(this, _placeholder.Text, _placeholder.FontFamily, _placeholder.FontSize);
         _placeholder.Width = textSize.Width;
         _placeholder.Height = textSize.Height;
-        var selectedItemText = _selectedItem is null ? "Select an option" : "(1)";
+        var selectedItemText = _selectedItem is null ? "Select an option" : _selectedItem.ToString();
         if (_selectedItem is IButton btn)
             selectedItemText = btn.Text;
         _placeholder.Text = selectedItemText!;
