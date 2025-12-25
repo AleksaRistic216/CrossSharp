@@ -1,11 +1,14 @@
 using System.Drawing;
+using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Helpers;
+using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui.Common;
 
 partial class StackedLayout
 {
     ScrollbarInteractionHandler<StackedLayout>? _scrollbarHandler;
+    ReorderInteractionHandler<StackedLayout>? _reorderHandler;
 
     void InitializeScrollbarHandler()
     {
@@ -25,6 +28,32 @@ partial class StackedLayout
     {
         _scrollbarHandler?.Dispose();
         _scrollbarHandler = null;
+    }
+
+    void InitializeReorderHandler()
+    {
+        if (_reorderHandler is not null)
+            return;
+        _reorderHandler = new ReorderInteractionHandler<StackedLayout>(
+            _inputHandler,
+            this,
+            () => IsMouseOver,
+            UpdateDragState,
+            OnReorderCompleted
+        );
+        _reorderHandler.Subscribe();
+    }
+
+    void DisposeReorderHandler()
+    {
+        _reorderHandler?.Dispose();
+        _reorderHandler = null;
+    }
+
+    void UpdateDragState(IControl? draggedControl, int dropTargetIndex)
+    {
+        DraggedControl = draggedControl;
+        DropTargetIndex = dropTargetIndex;
     }
 
     public EventHandler<Point>? LocationChanged { get; set; }
@@ -79,6 +108,7 @@ partial class StackedLayout
             c.Dispose();
         _controls.Clear();
         DisposeScrollbarHandler();
+        DisposeReorderHandler();
         RaiseDisposing();
     }
 
@@ -118,5 +148,53 @@ partial class StackedLayout
     {
         Invalidate();
         RaiseMarginChanged();
+    }
+
+    public EventHandler<ControlsReorderedEventArgs>? ControlsReordered { get; set; }
+
+    void RaiseControlsReordered(IControl control, int oldIndex, int newIndex)
+    {
+        ControlsReordered?.Invoke(this, new ControlsReorderedEventArgs(control, oldIndex, newIndex));
+    }
+
+    void OnReorderEnabledChanged()
+    {
+        if (ReorderEnabled)
+            InitializeReorderHandler();
+        else
+            DisposeReorderHandler();
+        Invalidate();
+    }
+
+    void OnReorderCompleted(IControl control, int newIndex)
+    {
+        var oldIndex = control.Index;
+        if (oldIndex == newIndex)
+            return;
+
+        // Reorder the controls by updating their Index values
+        var controls = _controls.Where(c => c.Visible).OrderBy(c => c.Index).ToList();
+
+        if (newIndex > oldIndex)
+        {
+            // Moving down: shift controls between oldIndex and newIndex up
+            foreach (var c in controls.Where(c => c.Index > oldIndex && c.Index <= newIndex))
+            {
+                c.Index--;
+            }
+            control.Index = newIndex;
+        }
+        else
+        {
+            // Moving up: shift controls between newIndex and oldIndex down
+            foreach (var c in controls.Where(c => c.Index >= newIndex && c.Index < oldIndex))
+            {
+                c.Index++;
+            }
+            control.Index = newIndex;
+        }
+
+        Invalidate();
+        RaiseControlsReordered(control, oldIndex, newIndex);
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
 
@@ -198,5 +199,20 @@ public class StackedLayout()
     {
         get => _impl.MaxHeight;
         set => _impl.MaxHeight = value;
+    }
+    public bool ReorderEnabled
+    {
+        get => _impl.ReorderEnabled;
+        set => _impl.ReorderEnabled = value;
+    }
+    public int GrabberSize
+    {
+        get => _impl.GrabberSize;
+        set => _impl.GrabberSize = value;
+    }
+    public EventHandler<ControlsReorderedEventArgs>? ControlsReordered
+    {
+        get => _impl.ControlsReordered;
+        set => _impl.ControlsReordered = value;
     }
 }

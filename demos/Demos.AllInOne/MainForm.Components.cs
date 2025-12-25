@@ -34,6 +34,7 @@ public partial class MainForm
         _viewer.Register(nameof(DataGridView), typeof(DataGridView));
         _viewer.Register(nameof(ImagePreviewView), typeof(ImagePreviewView));
         _viewer.Register(nameof(ChartsView), typeof(ChartsView));
+        _viewer.Register(nameof(StackedLayoutWithReorderView), typeof(StackedLayoutWithReorderView));
         _viewer.Show(nameof(HomeView));
     }
 
@@ -107,6 +108,16 @@ public partial class MainForm
         btn6.Click += OnAccordionButtonClick;
         _accordion.AddItem(btn6);
         _accordionItems.Add(btn6);
+
+        var btn7 = new Button();
+        btn7.Text = "D";
+        // btn7.Image = EfficientImage.GetIcon(Icon.Chart, SKColors.White);
+        // btn7.ImageScale = menuItemImageScale;
+        btn7.Height = menuItemButtonHeight;
+        btn7.Tag = nameof(StackedLayoutWithReorderView);
+        btn7.Click += OnAccordionButtonClick;
+        _accordion.AddItem(btn7);
+        _accordionItems.Add(btn7);
     }
 
     void OnAccordionButtonClick(object? sender, EventArgs e)

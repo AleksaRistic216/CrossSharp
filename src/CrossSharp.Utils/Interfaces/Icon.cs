@@ -13,4 +13,5 @@ public enum Icon
     DataGrid,
     HamburgerMenu,
     Settings,
+    Grabber,
 }

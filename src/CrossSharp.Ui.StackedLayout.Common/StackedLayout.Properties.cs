@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
+using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
 
@@ -103,4 +104,34 @@ partial class StackedLayout
     public int CornerRadius { get; set; }
     public int? MaxWidth { get; set; }
     public int? MaxHeight { get; set; }
+
+    // Reorder properties
+    bool _reorderEnabled;
+    public bool ReorderEnabled
+    {
+        get => _reorderEnabled;
+        set
+        {
+            if (_reorderEnabled == value)
+                return;
+            _reorderEnabled = value;
+            OnReorderEnabledChanged();
+        }
+    }
+    int _grabberSize = 24;
+    public int GrabberSize
+    {
+        get => _grabberSize;
+        set
+        {
+            if (_grabberSize == value)
+                return;
+            _grabberSize = value;
+            Invalidate();
+        }
+    }
+
+    // Reorder state
+    internal IControl? DraggedControl { get; set; }
+    internal int DropTargetIndex { get; set; } = -1;
 }

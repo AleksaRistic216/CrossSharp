@@ -113,4 +113,35 @@ static class SDLHelpers
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern bool SDL_SetWindowHitTest(IntPtr window, SDL_HitTest? callback, IntPtr callbackData);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern IntPtr SDL_CreateSystemCursor(SDLSystemCursor id);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern bool SDL_SetCursor(IntPtr cursor);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern IntPtr SDL_GetDefaultCursor();
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_DestroyCursor(IntPtr cursor);
+}
+
+/// <summary>
+/// SDL system cursor types.
+/// </summary>
+enum SDLSystemCursor
+{
+    SDL_SYSTEM_CURSOR_DEFAULT = 0,
+    SDL_SYSTEM_CURSOR_TEXT = 1,
+    SDL_SYSTEM_CURSOR_WAIT = 2,
+    SDL_SYSTEM_CURSOR_CROSSHAIR = 3,
+    SDL_SYSTEM_CURSOR_PROGRESS = 4,
+    SDL_SYSTEM_CURSOR_NWSE_RESIZE = 5,
+    SDL_SYSTEM_CURSOR_NESW_RESIZE = 6,
+    SDL_SYSTEM_CURSOR_EW_RESIZE = 7,
+    SDL_SYSTEM_CURSOR_NS_RESIZE = 8,
+    SDL_SYSTEM_CURSOR_MOVE = 9,
+    SDL_SYSTEM_CURSOR_NOT_ALLOWED = 10,
+    SDL_SYSTEM_CURSOR_POINTER = 11,
 }
