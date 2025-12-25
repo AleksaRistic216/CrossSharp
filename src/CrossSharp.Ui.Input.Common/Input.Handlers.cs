@@ -71,6 +71,9 @@ partial class Input
             InvalidateCaretText();
             return;
         }
+        // Click was beyond the text - place cursor at end
+        _caretPosition = new Point(text.Length, lineIndex);
+        InvalidateCaretText();
     }
 
     public EventHandler? BackgroundColorChanged { get; set; }
