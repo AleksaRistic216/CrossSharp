@@ -74,13 +74,17 @@ partial class ModularForm : FormSDL, IModularForm
         _contentPane.Dock = DockStyle.Fill;
         _contentPane.DockIndex = 2;
         Controls.Add(_contentPane);
-        SizeChanged += (s, e) =>
-        {
-            _contentPane.Width = Width;
-            _contentPane.Height = Height - TopNavigationPane.Height;
-            _contentPane.Invalidate();
-        };
+        SizeChanged += (s, e) => UpdateContentPaneLayout();
         _viewer = new DynamicControlsController(ref _contentPane);
+    }
+
+    void UpdateContentPaneLayout()
+    {
+        var topOffset = TopNavigationVisible ? TopNavigationPane.Height : 0;
+        _contentPane.Location = new Point(0, topOffset);
+        _contentPane.Width = Width;
+        _contentPane.Height = Height - topOffset;
+        _contentPane.Invalidate();
     }
 
     /// <summary>

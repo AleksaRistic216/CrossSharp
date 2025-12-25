@@ -16,4 +16,19 @@ partial class ModularForm
     // ReSharper disable once MemberCanBePrivate.Global
     public StackedLayout LeftNavigationPane { get; private set; } = null!;
     public int TopNavigationPaneHeight { get; set; } = 40;
+
+    bool _topNavigationVisible = true;
+
+    public bool TopNavigationVisible
+    {
+        get => _topNavigationVisible;
+        set
+        {
+            if (_topNavigationVisible == value)
+                return;
+            _topNavigationVisible = value;
+            TopNavigationPane.Visible = value;
+            UpdateContentPaneLayout();
+        }
+    }
 }

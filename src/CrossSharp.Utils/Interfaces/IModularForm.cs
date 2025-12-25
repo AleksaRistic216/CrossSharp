@@ -3,6 +3,7 @@ namespace CrossSharp.Utils.Interfaces;
 public interface IModularForm
 {
     int TopNavigationPaneHeight { get; set; }
+    bool TopNavigationVisible { get; set; }
     void AddPage(object identifier, Type pageType);
     void NavigateToPage(object identifier);
     string AddPageWithNavigation(string name, Type pageType);
