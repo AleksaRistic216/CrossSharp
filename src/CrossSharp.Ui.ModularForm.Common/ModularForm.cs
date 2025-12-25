@@ -3,6 +3,7 @@ using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui.Common;
 
@@ -13,28 +14,45 @@ partial class ModularForm : FormSDL, IModularForm
         InitializeLeftNavigationPane();
         InitializeTopNavigationPane();
         InitializeContentPane();
+        // Subscribe to ThemePerformed to restore navigation pane colors after theme is applied
+        // (StackedLayout.PerformTheme resets BackgroundColor to LayoutBackgroundColor)
+        ThemePerformed += OnThemePerformedRestoreColors;
         PerformTheme();
+    }
+
+    protected override void DrawContent(ref IGraphics g)
+    {
+        base.DrawContent(ref g);
+    }
+
+    void OnThemePerformedRestoreColors(object? sender, EventArgs e)
+    {
+        // Restore navigation pane colors to PrimaryColor (same as title bar) after theme is applied
+        LeftNavigationPane.BackgroundColor = _theme.PrimaryColor;
+        TopNavigationPane.BackgroundColor = _theme.PrimaryColor;
     }
 
     void InitializeLeftNavigationPane()
     {
         LeftNavigationPane = new StackedLayout();
-        LeftNavigationPane.BackgroundColor = _theme.SecondaryColor;
+        LeftNavigationPane.BackgroundColor = _theme.PrimaryColor;
         LeftNavigationPane.Orientation = Orientation.Vertical;
         LeftNavigationPane.Dock = DockStyle.Left;
         LeftNavigationPane.DockIndex = 0;
         LeftNavigationPane.Width = 150;
+        LeftNavigationPane.Margin = new Margin(_theme.DefaultLayoutItemSpacing);
         Controls.Add(LeftNavigationPane);
     }
 
     void InitializeTopNavigationPane()
     {
         TopNavigationPane = new StackedLayout();
-        TopNavigationPane.BackgroundColor = _theme.SecondaryColor;
+        TopNavigationPane.BackgroundColor = _theme.PrimaryColor;
         TopNavigationPane.Orientation = Orientation.Horizontal;
         TopNavigationPane.Dock = DockStyle.Top;
         TopNavigationPane.DockIndex = 1;
         TopNavigationPane.Height = TopNavigationPaneHeight;
+        TopNavigationPane.Margin = new Margin(_theme.DefaultLayoutItemSpacing);
         Controls.Add(TopNavigationPane);
     }
 

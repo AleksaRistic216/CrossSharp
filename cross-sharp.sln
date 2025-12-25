@@ -243,6 +243,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Chart.Linux",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharp.Ui.Chart.Windows", "src\CrossSharp.Ui.Chart.Windows\CrossSharp.Ui.Chart.Windows.csproj", "{5D0B6046-8382-4781-BAAB-40DE04065090}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demos.ModularForm", "demos\Demos.ModularForm\Demos.ModularForm.csproj", "{4AB8666C-B318-4922-8C68-6430312EEA4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1417,6 +1419,18 @@ Global
 		{5D0B6046-8382-4781-BAAB-40DE04065090}.Release|x64.Build.0 = Release|Any CPU
 		{5D0B6046-8382-4781-BAAB-40DE04065090}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D0B6046-8382-4781-BAAB-40DE04065090}.Release|x86.Build.0 = Release|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Debug|x64.Build.0 = Debug|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Debug|x86.Build.0 = Debug|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Release|x64.ActiveCfg = Release|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Release|x64.Build.0 = Release|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Release|x86.ActiveCfg = Release|Any CPU
+		{4AB8666C-B318-4922-8C68-6430312EEA4C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1529,5 +1543,6 @@ Global
 		{AE670C2D-4C52-430E-9F6A-4EC446A6765F} = {E44357D5-8696-F8A3-EA66-75D1F5B3E82C}
 		{B8D3FE13-984B-4A93-BA48-5B981A9DB690} = {E44357D5-8696-F8A3-EA66-75D1F5B3E82C}
 		{5D0B6046-8382-4781-BAAB-40DE04065090} = {E44357D5-8696-F8A3-EA66-75D1F5B3E82C}
+		{4AB8666C-B318-4922-8C68-6430312EEA4C} = {C74D1299-EDB5-4CAC-8255-BA11848B491B}
 	EndGlobalSection
 EndGlobal
