@@ -30,7 +30,7 @@ public sealed class StackedLayoutWithReorderView : StackedLayout
         var reorderableLayout = new StackedLayout
         {
             ReorderEnabled = true,
-            GrabberSize = 28,
+            GrabberSize = 28, // Optional
             Height = 350,
             Orientation = Orientation.Vertical,
         };
@@ -58,7 +58,7 @@ public sealed class StackedLayoutWithReorderView : StackedLayout
             reorderableLayout.Add(item);
         }
 
-        // Listen for reorder events
+        // Optional: Listen for reorder events
         reorderableLayout.ControlsReordered += (_, e) =>
         {
             if (_statusLabel is not null)
