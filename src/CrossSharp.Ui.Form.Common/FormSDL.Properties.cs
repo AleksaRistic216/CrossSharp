@@ -154,7 +154,7 @@ partial class FormSDL
 
     #region Internal Components
 
-    FormSDLTitleBar? _titleBar;
+    internal FormSDLTitleBar? _titleBar;
     FormSDLHitTestHandler? _hitTestHandler;
 
     #endregion

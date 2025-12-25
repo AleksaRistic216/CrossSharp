@@ -101,13 +101,14 @@ partial class StackedLayout : IStackedLayout
         foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
             currentX += c.Margin.Left;
-            c.Location = new Point(currentX, Padding.Top + c.Margin.Top);
             if (c is IDropdown dropdown)
             {
-                dropdown.CollapsedHeight = Height - Padding.Vertical - c.Margin.Vertical;
+                dropdown.Location = new Point(currentX, c.Margin.Top);
+                dropdown.CollapsedHeight = Height - c.Margin.Vertical;
             }
             else
             {
+                c.Location = new Point(currentX, Padding.Top + c.Margin.Top);
                 c.Height = Height - Padding.Vertical - c.Margin.Vertical;
             }
             currentX += c.Width + ItemsSpacing + c.Margin.Right;

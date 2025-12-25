@@ -15,6 +15,9 @@ sealed partial class FormSDLTitleBar
         if (!IsMouseOver)
             return;
 
+        if (IsMouseOverChildControl())
+            return;
+
         var mousePoint = new Point(e.X, e.Y);
         var now = DateTime.UtcNow;
 
@@ -28,6 +31,16 @@ sealed partial class FormSDLTitleBar
 
         _lastClickTime = now;
         _lastClickPosition = mousePoint;
+    }
+
+    bool IsMouseOverChildControl()
+    {
+        foreach (var control in this)
+        {
+            if (control.IsMouseOver)
+                return true;
+        }
+        return false;
     }
 
     void OnMouseMoved(object? sender, MouseInputArgs e)

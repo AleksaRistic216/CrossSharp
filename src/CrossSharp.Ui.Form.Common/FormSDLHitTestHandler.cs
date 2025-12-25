@@ -1,3 +1,5 @@
+using System.Drawing;
+using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Ui.Common;
@@ -44,7 +46,7 @@ sealed class FormSDLHitTestHandler
         if (isMaximized)
         {
             // Only allow title bar dragging for maximized windows
-            if (y < TITLE_BAR_HEIGHT && x < width - TITLE_BAR_BUTTONS_WIDTH)
+            if (y < TITLE_BAR_HEIGHT && x < width - TITLE_BAR_BUTTONS_WIDTH && !IsOverTitleBarChildControl(x, y))
                 return SDLHitTestResult.SDL_HITTEST_DRAGGABLE;
             return SDLHitTestResult.SDL_HITTEST_NORMAL;
         }
@@ -83,10 +85,26 @@ sealed class FormSDLHitTestHandler
         // Exclude the window control buttons area on the right
         if (y >= RESIZE_BORDER_THICKNESS && y < TITLE_BAR_HEIGHT)
         {
-            if (x < width - TITLE_BAR_BUTTONS_WIDTH)
+            if (x < width - TITLE_BAR_BUTTONS_WIDTH && !IsOverTitleBarChildControl(x, y))
                 return SDLHitTestResult.SDL_HITTEST_DRAGGABLE;
         }
 
         return SDLHitTestResult.SDL_HITTEST_NORMAL;
+    }
+
+    bool IsOverTitleBarChildControl(int x, int y)
+    {
+        var titleBar = _form._titleBar;
+        if (titleBar is null)
+            return false;
+
+        var point = new Point(x, y);
+        foreach (var control in titleBar)
+        {
+            var bounds = control.GetClientBounds();
+            if (bounds.Contains(point))
+                return true;
+        }
+        return false;
     }
 }
