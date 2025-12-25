@@ -201,14 +201,18 @@ partial class StackedLayout : IStackedLayout
 
         var iconSize = Math.Min(GrabberSize - 4, 20);
 
-        foreach (var control in _controls.Where(c => c.Visible))
+        // Account for scroll offset when drawing grabbers
+        var scrollOffsetX = Scrollable != ScrollableMode.None ? Viewport.X : 0;
+        var scrollOffsetY = Scrollable != ScrollableMode.None ? Viewport.Y : 0;
+
+        foreach (var control in _controls.Where(ShouldControlBeDrawn))
         {
             var grabberRect = GetGrabberLocalRect(control);
             var icon = EfficientImage.GetIcon(Icon.Grabber, grabberColor, iconSize, iconSize);
 
-            // Center the icon in the grabber area
-            var iconX = grabberRect.X + (grabberRect.Width - iconSize) / 2;
-            var iconY = grabberRect.Y + (grabberRect.Height - iconSize) / 2;
+            // Center the icon in the grabber area, adjusted for scroll
+            var iconX = grabberRect.X - scrollOffsetX + (grabberRect.Width - iconSize) / 2;
+            var iconY = grabberRect.Y - scrollOffsetY + (grabberRect.Height - iconSize) / 2;
 
             graphics.DrawImage(icon.Data, new Rectangle(iconX, iconY, iconSize, iconSize));
         }
@@ -227,6 +231,10 @@ partial class StackedLayout : IStackedLayout
             return;
 
         const int highlightThickness = 4;
+
+        // Account for scroll offset when drawing highlight
+        var scrollOffsetX = Scrollable != ScrollableMode.None ? Viewport.X : 0;
+        var scrollOffsetY = Scrollable != ScrollableMode.None ? Viewport.Y : 0;
 
         // DropTargetIndex is now a list position (0, 1, 2, ...), not an Index value
         if (Orientation == Orientation.Vertical)
@@ -251,8 +259,8 @@ partial class StackedLayout : IStackedLayout
             }
 
             graphics.FillRectangle(
-                Padding.Left + GrabberSize,
-                highlightY,
+                Padding.Left + GrabberSize - scrollOffsetX,
+                highlightY - scrollOffsetY,
                 Width - Padding.Horizontal - GrabberSize,
                 highlightThickness,
                 highlightColor
@@ -280,8 +288,8 @@ partial class StackedLayout : IStackedLayout
             }
 
             graphics.FillRectangle(
-                highlightX,
-                Padding.Top + GrabberSize,
+                highlightX - scrollOffsetX,
+                Padding.Top + GrabberSize - scrollOffsetY,
                 highlightThickness,
                 Height - Padding.Vertical - GrabberSize,
                 highlightColor
