@@ -102,7 +102,14 @@ partial class StackedLayout : IStackedLayout
         {
             currentX += c.Margin.Left;
             c.Location = new Point(currentX, Padding.Top + c.Margin.Top);
-            c.Height = Height - Padding.Vertical - c.Margin.Vertical;
+            if (c is IDropdown dropdown)
+            {
+                dropdown.CollapsedHeight = Height - Padding.Vertical - c.Margin.Vertical;
+            }
+            else
+            {
+                c.Height = Height - Padding.Vertical - c.Margin.Vertical;
+            }
             currentX += c.Width + ItemsSpacing + c.Margin.Right;
         }
     }

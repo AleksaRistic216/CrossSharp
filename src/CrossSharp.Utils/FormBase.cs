@@ -20,6 +20,10 @@ public abstract class FormBase<T> : IForm
     }
     public IControlsContainer Controls => Implementation.Controls;
     public IntPtr Handle => Implementation.Handle;
+    public ITitleBar? TitleBar
+    {
+        get => Implementation.TitleBar;
+    }
     public EventHandler? TitleChanged
     {
         get => Implementation.TitleChanged;

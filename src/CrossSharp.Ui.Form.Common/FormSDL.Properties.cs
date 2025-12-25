@@ -148,6 +148,10 @@ partial class FormSDL
 
     #endregion
 
+    #region TitleBar Properties
+    public ITitleBar TitleBar => _titleBar;
+    #endregion
+
     #region Internal Components
 
     FormSDLTitleBar? _titleBar;

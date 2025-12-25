@@ -1,3 +1,6 @@
 namespace CrossSharp.Utils.Interfaces;
 
-public interface ITitleBar { }
+public interface ITitleBar : IMouseTargetable
+{
+    void Add(params IControl[] control);
+}

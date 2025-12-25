@@ -8,6 +8,7 @@ public interface IForm : IControl, IBackgroundColorProvider
     IControlsContainer Controls { get; }
     IntPtr Handle { get; }
     string Title { get; set; }
+    ITitleBar? TitleBar { get; }
     EventHandler? TitleChanged { get; set; }
     void Close();
     EventHandler? Shown { get; set; }

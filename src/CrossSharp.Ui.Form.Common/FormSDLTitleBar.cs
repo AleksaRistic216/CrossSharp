@@ -7,7 +7,7 @@ using SkiaSharp;
 namespace CrossSharp.Ui.Common;
 
 // ReSharper disable once InconsistentNaming
-sealed partial class FormSDLTitleBar : StackedLayout, IMouseTargetable
+sealed partial class FormSDLTitleBar : StackedLayout, ITitleBar
 {
     #region Constructor
 
