@@ -52,7 +52,7 @@ public sealed class StackedLayoutWithReorderView : StackedLayout
             {
                 Text = text,
                 Height = ITEM_HEIGHT,
-                Index = i,
+                Index = i, // optional, it knows to work with all same indexes
                 BackgroundColor = color,
             };
             reorderableLayout.Add(item);

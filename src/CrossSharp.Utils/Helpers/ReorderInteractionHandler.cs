@@ -208,10 +208,10 @@ internal sealed class ReorderInteractionHandler<T> : IDisposable
                 var midY = controlScreenBounds.Y + controlScreenBounds.Height / 2;
 
                 if (screenMousePosition.Y < midY)
-                    return control.Index;
+                    return i; // Return list position, not Index
             }
-            // If past all controls, return the last index + 1
-            return controls[^1].Index + 1;
+            // If past all controls, return count (insert at end)
+            return controls.Count;
         }
         else
         {
@@ -223,10 +223,10 @@ internal sealed class ReorderInteractionHandler<T> : IDisposable
                 var midX = controlScreenBounds.X + controlScreenBounds.Width / 2;
 
                 if (screenMousePosition.X < midX)
-                    return control.Index;
+                    return i; // Return list position, not Index
             }
-            // If past all controls, return the last index + 1
-            return controls[^1].Index + 1;
+            // If past all controls, return count (insert at end)
+            return controls.Count;
         }
     }
 }

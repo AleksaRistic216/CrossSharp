@@ -166,35 +166,33 @@ partial class StackedLayout
         Invalidate();
     }
 
-    void OnReorderCompleted(IControl control, int newIndex)
+    void OnReorderCompleted(IControl control, int newPosition)
     {
-        var oldIndex = control.Index;
-        if (oldIndex == newIndex)
-            return;
-
-        // Reorder the controls by updating their Index values
+        // Get controls in current order
         var controls = _controls.Where(c => c.Visible).OrderBy(c => c.Index).ToList();
 
-        if (newIndex > oldIndex)
+        // Find current position of the dragged control
+        var oldPosition = controls.IndexOf(control);
+        if (oldPosition < 0 || oldPosition == newPosition)
+            return;
+
+        // Clamp new position to valid range
+        newPosition = Math.Clamp(newPosition, 0, controls.Count - 1);
+
+        if (oldPosition == newPosition)
+            return;
+
+        // Remove from old position and insert at new position
+        controls.RemoveAt(oldPosition);
+        controls.Insert(newPosition, control);
+
+        // Reassign all Index values sequentially
+        for (var i = 0; i < controls.Count; i++)
         {
-            // Moving down: shift controls between oldIndex and newIndex up
-            foreach (var c in controls.Where(c => c.Index > oldIndex && c.Index <= newIndex))
-            {
-                c.Index--;
-            }
-            control.Index = newIndex;
-        }
-        else
-        {
-            // Moving up: shift controls between newIndex and oldIndex down
-            foreach (var c in controls.Where(c => c.Index >= newIndex && c.Index < oldIndex))
-            {
-                c.Index++;
-            }
-            control.Index = newIndex;
+            controls[i].Index = i;
         }
 
         Invalidate();
-        RaiseControlsReordered(control, oldIndex, newIndex);
+        RaiseControlsReordered(control, oldPosition, newPosition);
     }
 }

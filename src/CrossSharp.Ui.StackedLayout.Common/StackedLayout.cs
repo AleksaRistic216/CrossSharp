@@ -228,15 +228,16 @@ partial class StackedLayout : IStackedLayout
 
         const int highlightThickness = 4;
 
+        // DropTargetIndex is now a list position (0, 1, 2, ...), not an Index value
         if (Orientation == Orientation.Vertical)
         {
             int highlightY;
-            if (DropTargetIndex <= controls[0].Index)
+            if (DropTargetIndex == 0)
             {
                 // Before first control
                 highlightY = controls[0].Location.Y - ItemsSpacing / 2 - highlightThickness / 2;
             }
-            else if (DropTargetIndex > controls[^1].Index)
+            else if (DropTargetIndex >= controls.Count)
             {
                 // After last control
                 var lastControl = controls[^1];
@@ -244,16 +245,9 @@ partial class StackedLayout : IStackedLayout
             }
             else
             {
-                // Between controls - find the control at or after DropTargetIndex
-                var targetControl = controls.FirstOrDefault(c => c.Index >= DropTargetIndex);
-                if (targetControl != null)
-                {
-                    highlightY = targetControl.Location.Y - ItemsSpacing / 2 - highlightThickness / 2;
-                }
-                else
-                {
-                    return;
-                }
+                // Between controls - use the control at this position
+                var targetControl = controls[DropTargetIndex];
+                highlightY = targetControl.Location.Y - ItemsSpacing / 2 - highlightThickness / 2;
             }
 
             graphics.FillRectangle(
@@ -267,12 +261,12 @@ partial class StackedLayout : IStackedLayout
         else
         {
             int highlightX;
-            if (DropTargetIndex <= controls[0].Index)
+            if (DropTargetIndex == 0)
             {
                 // Before first control
                 highlightX = controls[0].Location.X - ItemsSpacing / 2 - highlightThickness / 2;
             }
-            else if (DropTargetIndex > controls[^1].Index)
+            else if (DropTargetIndex >= controls.Count)
             {
                 // After last control
                 var lastControl = controls[^1];
@@ -280,16 +274,9 @@ partial class StackedLayout : IStackedLayout
             }
             else
             {
-                // Between controls - find the control at or after DropTargetIndex
-                var targetControl = controls.FirstOrDefault(c => c.Index >= DropTargetIndex);
-                if (targetControl != null)
-                {
-                    highlightX = targetControl.Location.X - ItemsSpacing / 2 - highlightThickness / 2;
-                }
-                else
-                {
-                    return;
-                }
+                // Between controls - use the control at this position
+                var targetControl = controls[DropTargetIndex];
+                highlightX = targetControl.Location.X - ItemsSpacing / 2 - highlightThickness / 2;
             }
 
             graphics.FillRectangle(
