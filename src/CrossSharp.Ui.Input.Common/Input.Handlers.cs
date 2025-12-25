@@ -105,6 +105,23 @@ partial class Input
 
     void OnTextChangedInternal()
     {
+        // Check if this was a programmatic change (not from typing)
+        if (_text != _textBeforeCaret + _textAfterCaret)
+        {
+            // Reset caret state for programmatic text changes
+            // Place caret at end of text
+            if (MultiLine && _text.Contains(Environment.NewLine))
+            {
+                var lines = _text.Split(Environment.NewLine);
+                _caretPosition = new System.Drawing.Point(lines[^1].Length, lines.Length - 1);
+            }
+            else
+            {
+                _caretPosition = new System.Drawing.Point(_text.Length, 0);
+            }
+            _textBeforeCaret = _text;
+            _textAfterCaret = string.Empty;
+        }
         InvalidateContentBounds();
         RaiseTextChanged();
     }
