@@ -12,4 +12,5 @@ public enum Icon
     Dropdown,
     DataGrid,
     HamburgerMenu,
+    Settings,
 }
