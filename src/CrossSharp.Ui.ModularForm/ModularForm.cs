@@ -5,6 +5,8 @@ namespace CrossSharp.Ui;
 
 public class ModularForm : FormBase<IModularFormFactory>, IModularForm
 {
+    public IStackedLayout SubTitleBar => ((IModularForm)Implementation).SubTitleBar;
+
     public int TopNavigationPaneHeight
     {
         get => ((IModularForm)Implementation).TopNavigationPaneHeight;

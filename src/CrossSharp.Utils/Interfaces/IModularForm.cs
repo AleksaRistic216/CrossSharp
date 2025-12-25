@@ -2,6 +2,7 @@ namespace CrossSharp.Utils.Interfaces;
 
 public interface IModularForm
 {
+    IStackedLayout SubTitleBar { get; }
     int TopNavigationPaneHeight { get; set; }
     bool TopNavigationVisible { get; set; }
     void AddPage(object identifier, Type pageType);

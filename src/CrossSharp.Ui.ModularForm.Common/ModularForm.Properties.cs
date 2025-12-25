@@ -9,6 +9,10 @@ partial class ModularForm
     ITheme _theme = Services.GetSingleton<ITheme>();
     DynamicControlsController _viewer = null!;
     IControlsContainer _contentPane = null!;
+    StackedLayout _subTitleBar = null!;
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    public IStackedLayout SubTitleBar => _subTitleBar;
 
     // ReSharper disable once MemberCanBePrivate.Global
     public StackedLayout TopNavigationPane { get; private set; } = null!;
