@@ -10,9 +10,14 @@ namespace CrossSharp.Ui.Common;
 
 partial class FormSDL
 {
-    public IntPtr Handle { get; private set; }
+    #region Window Handles
 
+    public IntPtr Handle { get; private set; }
     public IntPtr Renderer { get; private set; }
+    public IntPtr ParentHandle { get; set; }
+    public IntPtr DisplayHandle { get; set; }
+    public IntPtr WindowSurfaceHandle { get; set; }
+
     uint _windowId;
     public uint WindowId
     {
@@ -23,41 +28,23 @@ partial class FormSDL
             return _windowId;
         }
     }
+
+    #endregion
+
+    #region Layout Properties
+
+    public object? Parent { get; set; }
     public IControlsContainer Controls { get; private set; } = null!;
-    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
+    public Point Location { get; set; }
     public int Column { get; set; }
     public int Row { get; set; }
-    public IntPtr DisplayHandle { get; set; }
-    public IntPtr WindowSurfaceHandle { get; set; }
-    string _title = string.Empty;
-    public string Title
-    {
-        get => _title;
-        set
-        {
-            if (_title == value)
-                return;
-            _title = value;
-            OnTitleChangedInternal();
-        }
-    }
-    WindowState _state = WindowState.Normal;
-    public WindowState State
-    {
-        get => _state;
-        set
-        {
-            if (_state == value)
-                return;
-            _state = value;
-            OnStateChanged();
-        }
-    }
-    public IntPtr ParentHandle { get; set; }
-    public object? Parent { get; set; }
-    public int BorderWidth { get; set; }
-    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
-    public Point Location { get; set; }
+    public int ZIndex { get; set; }
+    public int Index { get; set; }
+
+    #endregion
+
+    #region Size Properties
+
     int _width = 800;
     public int Width
     {
@@ -70,6 +57,7 @@ partial class FormSDL
             OnSizeChangedInternal();
         }
     }
+
     int _height = 600;
     public int Height
     {
@@ -82,23 +70,11 @@ partial class FormSDL
             OnSizeChangedInternal();
         }
     }
-    public int ZIndex { get; set; }
-    bool _visible = false;
-    public bool Visible
-    {
-        get => _visible;
-        set
-        {
-            if (_visible == value)
-                return;
-            _visible = value;
-            OnVisibleChanged();
-        }
-    }
-    public int Index { get; set; }
 
-    public bool IsMouseOver { get; set; }
-    FormSDLHitTestHandler? _hitTestHandler;
+    #endregion
+
+    #region Margin Properties
+
     Margin _margin = Margin.Zero;
     public Margin Margin
     {
@@ -111,4 +87,71 @@ partial class FormSDL
             OnMarginChanged();
         }
     }
+
+    public int MarginTop { get; set; }
+    public int MarginBottom { get; set; }
+    public int MarginLeft { get; set; }
+    public int MarginRight { get; set; }
+
+    #endregion
+
+    #region Appearance Properties
+
+    public ColorRgba BackgroundColor { get; set; } = ColorRgba.Transparent;
+    public int BorderWidth { get; set; }
+    public ColorRgba BorderColor { get; set; } = ColorRgba.Transparent;
+
+    #endregion
+
+    #region State Properties
+
+    string _title = string.Empty;
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            if (_title == value)
+                return;
+            _title = value;
+            OnTitleChangedInternal();
+        }
+    }
+
+    WindowState _state = WindowState.Normal;
+    public WindowState State
+    {
+        get => _state;
+        set
+        {
+            if (_state == value)
+                return;
+            _state = value;
+            OnStateChanged();
+        }
+    }
+
+    bool _visible;
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            if (_visible == value)
+                return;
+            _visible = value;
+            OnVisibleChanged();
+        }
+    }
+
+    public bool IsMouseOver { get; set; }
+
+    #endregion
+
+    #region Internal Components
+
+    FormSDLTitleBar? _titleBar;
+    FormSDLHitTestHandler? _hitTestHandler;
+
+    #endregion
 }

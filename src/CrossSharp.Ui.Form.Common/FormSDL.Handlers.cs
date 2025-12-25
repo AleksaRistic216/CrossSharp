@@ -7,36 +7,25 @@ namespace CrossSharp.Ui.Common;
 
 partial class FormSDL
 {
+    #region Events
+
     public EventHandler<Point>? LocationChanged { get; set; }
     public EventHandler? Shown { get; set; }
     public EventHandler? OnClose { get; set; }
     public EventHandler? StateChanged { get; set; }
+    public EventHandler? BackgroundColorChanged { get; set; }
+    public EventHandler<Size>? SizeChanged { get; set; }
+    public EventHandler? TitleChanged { get; set; }
+    public EventHandler? MarginChanged { get; set; }
+    public EventHandler? ThemePerformed { get; set; }
+    public EventHandler? Invalidated { get; set; }
+    public EventHandler? Disposing { get; set; }
 
-    void RaiseStateChanged() => StateChanged?.Invoke(this, EventArgs.Empty);
+    #endregion
+
+    #region State Change Handlers
 
     void OnStateChanged() => RaiseStateChanged();
-
-    public EventHandler? BackgroundColorChanged { get; set; }
-
-    public EventHandler<Size>? SizeChanged { get; set; }
-
-    void OnSizeChangedInternal()
-    {
-        Invalidate();
-        RaiseSizeChanged();
-    }
-
-    void RaiseSizeChanged() => SizeChanged?.Invoke(this, new Size(Width, Height));
-
-    public EventHandler? TitleChanged { get; set; }
-
-    void OnTitleChangedInternal()
-    {
-        InvalidateTitle();
-        TitleChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    void RaiseLocationChanged() => LocationChanged?.Invoke(this, new Point(Location.X, Location.Y));
 
     void OnVisibleChanged()
     {
@@ -46,27 +35,27 @@ partial class FormSDL
         PerformTheme();
     }
 
-    public EventHandler? MarginChanged { get; set; }
-
-    void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
-
     void OnMarginChanged() => RaiseMarginChanged();
-
-    public EventHandler? ThemePerformed { get; set; }
-
-    void RaiseThemePerformed() => ThemePerformed?.Invoke(this, EventArgs.Empty);
 
     void OnThemePerformed() => RaiseThemePerformed();
 
-    public EventHandler? Invalidated { get; set; }
-
-    void RaiseInvalidated() => Invalidated?.Invoke(this, EventArgs.Empty);
-
     void OnInvalidated() => RaiseInvalidated();
 
-    public EventHandler? Disposing { get; set; }
+    #endregion
 
-    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
+    #region Internal Change Handlers
+
+    void OnSizeChangedInternal()
+    {
+        Invalidate();
+        RaiseSizeChanged();
+    }
+
+    void OnTitleChangedInternal()
+    {
+        InvalidateTitle();
+        TitleChanged?.Invoke(this, EventArgs.Empty);
+    }
 
     void OnDisposingInternal()
     {
@@ -74,4 +63,24 @@ partial class FormSDL
         Services.GetSingleton<IApplication>().Forms.Remove(this);
         RaiseDisposing();
     }
+
+    #endregion
+
+    #region Event Raisers
+
+    void RaiseStateChanged() => StateChanged?.Invoke(this, EventArgs.Empty);
+
+    void RaiseSizeChanged() => SizeChanged?.Invoke(this, new Size(Width, Height));
+
+    void RaiseLocationChanged() => LocationChanged?.Invoke(this, new Point(Location.X, Location.Y));
+
+    void RaiseMarginChanged() => MarginChanged?.Invoke(this, EventArgs.Empty);
+
+    void RaiseThemePerformed() => ThemePerformed?.Invoke(this, EventArgs.Empty);
+
+    void RaiseInvalidated() => Invalidated?.Invoke(this, EventArgs.Empty);
+
+    void RaiseDisposing() => Disposing?.Invoke(this, EventArgs.Empty);
+
+    #endregion
 }
