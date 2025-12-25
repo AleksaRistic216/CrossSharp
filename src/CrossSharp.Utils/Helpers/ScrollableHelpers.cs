@@ -227,8 +227,8 @@ static class ScrollableHelpers
             return;
         if (scrollable.Scrollable == ScrollableMode.Horizontal && scrollable.ContentBounds.Width <= scrollable.Width)
             return;
-        ColorRgba barColor = Services.GetSingleton<ITheme>().SecondaryColor;
-        barColor = new ColorRgba(barColor.R, barColor.G, barColor.B, 0.2f);
+        ColorRgba barColor = Services.GetSingleton<ITheme>().PrimaryColor;
+        barColor = new ColorRgba(barColor.R, barColor.G, barColor.B, 0.5f);
         if (scrollable.Scrollable == ScrollableMode.None)
             return;
         var viewPort = scrollable.Viewport;
