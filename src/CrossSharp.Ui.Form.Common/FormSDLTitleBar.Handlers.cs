@@ -8,13 +8,16 @@ namespace CrossSharp.Ui.Common;
 // ReSharper disable once InconsistentNaming
 sealed partial class FormSDLTitleBar
 {
+    #region Mouse Event Handlers
+
     void OnMousePressed(object? sender, MouseInputArgs e)
     {
         if (!IsMouseOver)
             return;
-        var mousePoint = new Point(e.X, e.Y);
 
+        var mousePoint = new Point(e.X, e.Y);
         var now = DateTime.UtcNow;
+
         if (IsDoubleClick(mousePoint, now))
         {
             _lastClickTime = null;
@@ -26,6 +29,15 @@ sealed partial class FormSDLTitleBar
         _lastClickTime = now;
         _lastClickPosition = mousePoint;
     }
+
+    void OnMouseMoved(object? sender, MouseInputArgs e)
+    {
+        IsMouseOver = MouseHelpers.IsMouseOver(this, new Point(e.X, e.Y));
+    }
+
+    #endregion
+
+    #region Double-Click Handling
 
     bool IsDoubleClick(Point currentPoint, DateTime now)
     {
@@ -49,8 +61,5 @@ sealed partial class FormSDLTitleBar
             Form.Maximize();
     }
 
-    void OnMouseMoved(object? sender, MouseInputArgs e)
-    {
-        IsMouseOver = MouseHelpers.IsMouseOver(this, new Point(e.X, e.Y));
-    }
+    #endregion
 }
