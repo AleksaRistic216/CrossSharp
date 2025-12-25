@@ -100,19 +100,24 @@ partial class StackedLayout : IStackedLayout
         var currentX = Padding.Left;
         foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
         {
+            if (InvalidateHorizontalItemDropdown(c, ref currentX))
+                continue;
             currentX += c.Margin.Left;
-            if (c is IDropdown dropdown)
-            {
-                dropdown.Location = new Point(currentX, c.Margin.Top);
-                dropdown.CollapsedHeight = Height - c.Margin.Vertical;
-            }
-            else
-            {
-                c.Location = new Point(currentX, Padding.Top + c.Margin.Top);
-                c.Height = Height - Padding.Vertical - c.Margin.Vertical;
-            }
+            c.Location = new Point(currentX, Padding.Top + c.Margin.Top);
+            c.Height = Height - Padding.Vertical - c.Margin.Vertical;
             currentX += c.Width + ItemsSpacing + c.Margin.Right;
         }
+    }
+
+    bool InvalidateHorizontalItemDropdown(IControl control, ref int currentX)
+    {
+        if (control is not IDropdown dropdown)
+            return false;
+        currentX += control.Margin.Left;
+        dropdown.Location = new Point(currentX, control.Margin.Top);
+        dropdown.CollapsedHeight = Height - control.Margin.Vertical;
+        currentX += control.Width + ItemsSpacing + control.Margin.Right;
+        return true;
     }
 
     public IEnumerator<IControl> GetEnumerator() => _controls.GetEnumerator();
