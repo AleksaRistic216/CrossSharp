@@ -14,4 +14,6 @@ public enum Icon
     HamburgerMenu,
     Settings,
     Grabber,
+    Show,
+    Hide,
 }
