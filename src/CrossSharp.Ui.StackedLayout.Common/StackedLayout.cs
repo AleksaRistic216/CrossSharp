@@ -65,15 +65,16 @@ partial class StackedLayout : IStackedLayout
 
     void InvalidateContentBounds()
     {
-        if (_controls.Count == 0)
+        var visibleControls = _controls.Where(c => c.Visible).ToList();
+        if (visibleControls.Count == 0)
         {
             ContentBounds = Rectangle.Empty;
             return;
         }
         var x = 0;
         var y = 0;
-        var width = _controls.Max(c => c.Location.X + c.Width) + Padding.Horizontal;
-        var height = _controls.Max(c => c.Location.Y + c.Height) + Padding.Vertical;
+        var width = visibleControls.Max(c => c.Location.X + c.Width) + Padding.Horizontal;
+        var height = visibleControls.Max(c => c.Location.Y + c.Height) + Padding.Vertical;
         ContentBounds = new Rectangle(x, y, width, height);
     }
 
