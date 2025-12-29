@@ -14,8 +14,18 @@ public class StackedLayoutContentBoundsTests : IDisposable
 {
     public StackedLayoutContentBoundsTests()
     {
-        Services.AddSingleton<IInputHandler>(new MockInputHandler(), overrideExisting: true);
-        Services.AddSingleton<ITheme>(new MockTheme(), overrideExisting: true);
+        try
+        {
+            if (!Services.IsRegistered<IInputHandler>())
+                Services.AddSingleton<IInputHandler>(new MockInputHandler());
+        }
+        catch (InvalidOperationException) { }
+        try
+        {
+            if (!Services.IsRegistered<ITheme>())
+                Services.AddSingleton<ITheme>(new MockTheme());
+        }
+        catch (InvalidOperationException) { }
     }
 
     public void Dispose() { }

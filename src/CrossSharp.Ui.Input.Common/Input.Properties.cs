@@ -24,10 +24,10 @@ partial class Input
         }
     }
 
-    Point _caretPosition = Point.Empty;
-    Point _selectionAnchor = Point.Empty;
-    bool _isSelecting = false;
-    bool HasSelection => _selectionAnchor != _caretPosition;
+    internal Point _caretPosition = Point.Empty;
+    internal Point _selectionAnchor = Point.Empty;
+    internal bool _isSelecting = false;
+    internal bool HasSelection => _selectionAnchor != _caretPosition;
     Rectangle _placeholderBounds = Rectangle.Empty;
     Rectangle _contentBounds = Rectangle.Empty;
     Rectangle _caretBounds = Rectangle.Empty;
@@ -57,8 +57,8 @@ partial class Input
             Invalidate();
         }
     }
-    string _textBeforeCaret = string.Empty;
-    string _textAfterCaret = string.Empty;
+    internal string _textBeforeCaret = string.Empty;
+    internal string _textAfterCaret = string.Empty;
     string _text = string.Empty;
 
     public string Text

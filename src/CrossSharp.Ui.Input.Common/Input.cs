@@ -49,17 +49,28 @@ partial class Input : ControlBase, IInput
         );
     }
 
-    void InvalidateCaretText()
+    internal void InvalidateCaretText()
     {
         if (!MultiLine)
         {
-            _textBeforeCaret = Text[.._caretPosition.X];
-            _textAfterCaret = Text[_caretPosition.X..];
+            // Clamp X to text length
+            var x = Math.Min(_caretPosition.X, Text.Length);
+            _textBeforeCaret = Text[..x];
+            _textAfterCaret = Text[x..];
             return;
         }
+
         _textAfterCaret = string.Empty;
         _textBeforeCaret = string.Empty;
         var lines = Text.Split(Environment.NewLine);
+
+        // If Y is beyond lines, all text is before caret
+        if (_caretPosition.Y >= lines.Length)
+        {
+            _textBeforeCaret = Text;
+            return;
+        }
+
         for (var i = 0; i < lines.Length; i++)
         {
             if (i < _caretPosition.Y)
@@ -72,8 +83,10 @@ partial class Input : ControlBase, IInput
                 var line = lines[i];
                 if (i < lines.Length - 1)
                     line += Environment.NewLine;
-                _textBeforeCaret += line[.._caretPosition.X];
-                _textAfterCaret += line[_caretPosition.X..];
+                // Clamp X to line length
+                var x = Math.Min(_caretPosition.X, line.Length);
+                _textBeforeCaret += line[..x];
+                _textAfterCaret += line[x..];
             }
             if (i > _caretPosition.Y)
             {

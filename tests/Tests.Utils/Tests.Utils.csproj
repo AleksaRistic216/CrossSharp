@@ -15,5 +15,6 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\CrossSharp.Utils\CrossSharp.Utils.csproj" />
         <ProjectReference Include="..\..\src\CrossSharp.Ui.StackedLayout.Common\CrossSharp.Ui.StackedLayout.Common.csproj" />
+        <ProjectReference Include="..\..\src\CrossSharp.Ui.Input.Common\CrossSharp.Ui.Input.Common.csproj" />
     </ItemGroup>
 </Project>

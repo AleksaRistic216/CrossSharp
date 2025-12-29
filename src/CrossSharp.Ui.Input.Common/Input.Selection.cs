@@ -8,7 +8,7 @@ partial class Input
     /// <summary>
     /// Gets the normalized selection range (start always before end in document order).
     /// </summary>
-    (Point Start, Point End) GetNormalizedSelection()
+    internal (Point Start, Point End) GetNormalizedSelection()
     {
         if (!HasSelection)
             return (_caretPosition, _caretPosition);
@@ -25,7 +25,7 @@ partial class Input
     /// <summary>
     /// Gets the selected text.
     /// </summary>
-    string GetSelectedText()
+    internal string GetSelectedText()
     {
         if (!HasSelection)
             return string.Empty;
@@ -33,20 +33,29 @@ partial class Input
         var (start, end) = GetNormalizedSelection();
 
         if (!MultiLine)
-            return Text[start.X..end.X];
+        {
+            // Clamp positions to text length
+            var startX = Math.Min(start.X, Text.Length);
+            var endX = Math.Min(end.X, Text.Length);
+            return Text[startX..endX];
+        }
 
         // Multi-line selection
         var lines = Text.Split(Environment.NewLine);
         var result = new StringBuilder();
 
-        for (int y = start.Y; y <= end.Y; y++)
+        // Clamp Y bounds
+        var startY = Math.Min(start.Y, lines.Length - 1);
+        var endY = Math.Min(end.Y, lines.Length - 1);
+
+        for (int y = startY; y <= endY; y++)
         {
             var line = lines[y];
-            var startX = (y == start.Y) ? start.X : 0;
-            var endX = (y == end.Y) ? end.X : line.Length;
+            var startX = (y == startY) ? Math.Min(start.X, line.Length) : 0;
+            var endX = (y == endY) ? Math.Min(end.X, line.Length) : line.Length;
 
             result.Append(line[startX..endX]);
-            if (y < end.Y)
+            if (y < endY)
                 result.Append(Environment.NewLine);
         }
 
@@ -56,7 +65,7 @@ partial class Input
     /// <summary>
     /// Clears the current selection.
     /// </summary>
-    void ClearSelection()
+    internal void ClearSelection()
     {
         _selectionAnchor = _caretPosition;
         _isSelecting = false;
@@ -65,7 +74,7 @@ partial class Input
     /// <summary>
     /// Selects all text.
     /// </summary>
-    void SelectAll()
+    internal void SelectAll()
     {
         if (string.IsNullOrEmpty(Text))
             return;
@@ -86,7 +95,7 @@ partial class Input
     /// <summary>
     /// Deletes selected text and positions caret at selection start.
     /// </summary>
-    void DeleteSelectedText()
+    internal void DeleteSelectedText()
     {
         if (!HasSelection)
             return;
@@ -107,7 +116,7 @@ partial class Input
     /// <summary>
     /// Gets text before the specified position.
     /// </summary>
-    string GetTextBefore(Point pos)
+    internal string GetTextBefore(Point pos)
     {
         if (string.IsNullOrEmpty(Text))
             return string.Empty;
@@ -116,13 +125,17 @@ partial class Input
             return Text[..Math.Min(pos.X, Text.Length)];
 
         var lines = Text.Split(Environment.NewLine);
+
+        // If Y is beyond lines, return all text
+        if (pos.Y >= lines.Length)
+            return Text;
+
         var result = new StringBuilder();
 
-        for (int i = 0; i < pos.Y && i < lines.Length; i++)
+        for (int i = 0; i < pos.Y; i++)
             result.Append(lines[i] + Environment.NewLine);
 
-        if (pos.Y < lines.Length)
-            result.Append(lines[pos.Y][..Math.Min(pos.X, lines[pos.Y].Length)]);
+        result.Append(lines[pos.Y][..Math.Min(pos.X, lines[pos.Y].Length)]);
 
         return result.ToString();
     }
@@ -130,7 +143,7 @@ partial class Input
     /// <summary>
     /// Gets text after the specified position.
     /// </summary>
-    string GetTextAfter(Point pos)
+    internal string GetTextAfter(Point pos)
     {
         if (string.IsNullOrEmpty(Text))
             return string.Empty;
@@ -157,7 +170,7 @@ partial class Input
     /// <summary>
     /// Finds word boundaries for double-click selection.
     /// </summary>
-    (int Start, int End) GetWordBoundaries(int lineIndex, int charIndex)
+    internal (int Start, int End) GetWordBoundaries(int lineIndex, int charIndex)
     {
         var lines = MultiLine ? Text.Split(Environment.NewLine) : new[] { Text };
         if (lineIndex >= lines.Length)
@@ -214,7 +227,7 @@ partial class Input
     /// <summary>
     /// Moves caret to the next/previous word boundary.
     /// </summary>
-    void MoveCaretToWordBoundary(int direction)
+    internal void MoveCaretToWordBoundary(int direction)
     {
         var lines = MultiLine ? Text.Split(Environment.NewLine) : new[] { Text };
         if (_caretPosition.Y >= lines.Length)
@@ -222,30 +235,30 @@ partial class Input
 
         var line = lines[_caretPosition.Y];
 
+        // Clamp caret X to line length before operating
+        int pos = Math.Min(_caretPosition.X, line.Length);
+
         if (direction < 0)
         {
             // Move left to word boundary
-            int pos = _caretPosition.X;
             // Skip whitespace
             while (pos > 0 && char.IsWhiteSpace(line[pos - 1]))
                 pos--;
             // Skip word characters
             while (pos > 0 && char.IsLetterOrDigit(line[pos - 1]))
                 pos--;
-            _caretPosition.X = pos;
         }
         else
         {
             // Move right to word boundary
-            int pos = _caretPosition.X;
             // Skip word characters
             while (pos < line.Length && char.IsLetterOrDigit(line[pos]))
                 pos++;
             // Skip whitespace
             while (pos < line.Length && char.IsWhiteSpace(line[pos]))
                 pos++;
-            _caretPosition.X = pos;
         }
+        _caretPosition.X = pos;
         InvalidateCaretText();
     }
 }

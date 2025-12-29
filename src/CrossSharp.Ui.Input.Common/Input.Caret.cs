@@ -39,7 +39,7 @@ partial class Input
         g.FillRectangle(_caretBounds.X, _caretBounds.Y, 2, LineHeight, ColorRgba.Black);
     }
 
-    void ShiftCaretPosition(int amount, bool invalidateBeforeAndAfterText = true)
+    internal void ShiftCaretPosition(int amount, bool invalidateBeforeAndAfterText = true)
     {
         if (!MultiLine)
         {
@@ -54,24 +54,26 @@ partial class Input
 
         var lines = Text.Split(Environment.NewLine);
         _caretPosition.X += amount;
+
+        // Handle wrapping to previous line when going left
         while (_caretPosition is { X: < 0, Y: > 0 })
         {
             _caretPosition.Y--;
-            _caretPosition.X = lines[_caretPosition.Y].Length;
+            _caretPosition.X += lines[_caretPosition.Y].Length + 1; // +1 for the newline
         }
         if (_caretPosition.X < 0)
         {
             _caretPosition.X = 0;
         }
-        else if (
-            _caretPosition.Y < lines.Length - 1
-            && _caretPosition.X == lines[_caretPosition.Y].Length
-            && Text.EndsWith(Environment.NewLine)
-        )
+
+        // Handle wrapping to next line when going right
+        while (_caretPosition.Y < lines.Length - 1 && _caretPosition.X > lines[_caretPosition.Y].Length)
         {
+            _caretPosition.X -= lines[_caretPosition.Y].Length + 1; // +1 for the newline
             _caretPosition.Y++;
-            _caretPosition.X = 0;
         }
+
+        // Clamp X to line length
         if (_caretPosition.X > lines[_caretPosition.Y].Length)
         {
             _caretPosition.X = lines[_caretPosition.Y].Length;
@@ -120,43 +122,47 @@ partial class Input
             _selectionAnchor = _caretPosition;
         }
 
+        bool handled = false;
+
         if (keyInputArgs.KeyCode == KeyCode.VcLeft)
         {
             if (isCtrl)
                 MoveCaretToWordBoundary(-1);
             else
                 ShiftCaretPosition(-1);
-            return true;
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcRight)
+        else if (keyInputArgs.KeyCode == KeyCode.VcRight)
         {
             if (isCtrl)
                 MoveCaretToWordBoundary(1);
             else
                 ShiftCaretPosition(1);
-            return true;
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcUp && MultiLine)
+        else if (keyInputArgs.KeyCode == KeyCode.VcUp && MultiLine)
         {
-            if (_caretPosition.Y <= 0)
-                return true;
-            _caretPosition.Y--;
-            var lines = Text.Split(Environment.NewLine);
-            _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
-            InvalidateCaretText();
-            return true;
+            if (_caretPosition.Y > 0)
+            {
+                _caretPosition.Y--;
+                var lines = Text.Split(Environment.NewLine);
+                _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
+                InvalidateCaretText();
+            }
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcDown && MultiLine)
+        else if (keyInputArgs.KeyCode == KeyCode.VcDown && MultiLine)
         {
             var lines = Text.Split(Environment.NewLine);
-            if (_caretPosition.Y >= lines.Length - 1)
-                return true;
-            _caretPosition.Y++;
-            _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
-            InvalidateCaretText();
-            return true;
+            if (_caretPosition.Y < lines.Length - 1)
+            {
+                _caretPosition.Y++;
+                _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
+                InvalidateCaretText();
+            }
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcHome)
+        else if (keyInputArgs.KeyCode == KeyCode.VcHome)
         {
             if (isCtrl && MultiLine)
             {
@@ -168,9 +174,9 @@ partial class Input
                 _caretPosition.X = 0;
             }
             InvalidateCaretText();
-            return true;
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcEnd)
+        else if (keyInputArgs.KeyCode == KeyCode.VcEnd)
         {
             if (isCtrl && MultiLine)
             {
@@ -188,25 +194,32 @@ partial class Input
                 _caretPosition.X = lines[_caretPosition.Y].Length;
             }
             InvalidateCaretText();
-            return true;
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcPageUp && MultiLine)
+        else if (keyInputArgs.KeyCode == KeyCode.VcPageUp && MultiLine)
         {
             _caretPosition.Y = 0;
             var lines = Text.Split(Environment.NewLine);
             _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
             InvalidateCaretText();
-            return true;
+            handled = true;
         }
-        if (keyInputArgs.KeyCode == KeyCode.VcPageDown && MultiLine)
+        else if (keyInputArgs.KeyCode == KeyCode.VcPageDown && MultiLine)
         {
             var lines = Text.Split(Environment.NewLine);
             _caretPosition.Y = lines.Length - 1;
             _caretPosition.X = Math.Min((int)_caretPosition.X, (int)lines[_caretPosition.Y].Length);
             InvalidateCaretText();
-            return true;
+            handled = true;
         }
-        return false;
+
+        // If movement occurred without Shift, clear selection (sync anchor with caret)
+        if (handled && !isShift)
+        {
+            ClearSelection();
+        }
+
+        return handled;
     }
 
     static bool IsModifierKey(KeyCode keyCode) =>
