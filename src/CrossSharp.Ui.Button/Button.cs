@@ -1,11 +1,13 @@
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Button")]
 public class Button() : CrossControl<IButton>(Services.GetSingleton<IButtonFactory>().Create()), IButton
 {
     public EventHandler? Click
