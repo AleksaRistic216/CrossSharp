@@ -93,7 +93,7 @@ partial class FlowLayout
 
     void OnDisposeInternal()
     {
-        foreach (var c in _controls)
+        foreach (var c in _controls.ToList())
             c.Dispose();
         _controls.Clear();
         DisposeScrollbarHandler();

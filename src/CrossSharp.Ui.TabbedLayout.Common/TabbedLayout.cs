@@ -45,7 +45,7 @@ partial class TabbedLayout : ITabbedLayout
         BackgroundColor = Services.GetSingleton<ITheme>().PrimaryColor;
         HeaderItemsSpacing = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? 8 : 0;
         HeaderPadding = Services.GetSingleton<ITheme>().DefaultCornerRadius > 0 ? new Padding(8, 4) : new Padding(0);
-        foreach (var control in _controls)
+        foreach (var control in _controls.ToList())
             control.PerformTheme();
         OnThemePerformed();
     }

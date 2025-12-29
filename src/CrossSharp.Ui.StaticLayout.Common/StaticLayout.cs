@@ -65,7 +65,7 @@ class StaticLayout : IStaticLayout
     {
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         this.Margin = new Margin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
-        foreach (var control in _controls)
+        foreach (var control in _controls.ToList())
             control.PerformTheme();
         OnThemePerformed();
     }
@@ -96,7 +96,7 @@ class StaticLayout : IStaticLayout
     public void Invalidate()
     {
         this.PerformDocking();
-        foreach (var control in _controls)
+        foreach (var control in _controls.ToList())
             control.Invalidate();
         OnInvalidated();
     }
@@ -177,7 +177,7 @@ class StaticLayout : IStaticLayout
 
     void OnDisposingInternal()
     {
-        foreach (var c in _controls)
+        foreach (var c in _controls.ToList())
             c.Dispose();
         _controls.Clear();
         RaiseDisposing();

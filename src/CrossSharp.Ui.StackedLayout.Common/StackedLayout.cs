@@ -27,7 +27,7 @@ partial class StackedLayout : IStackedLayout
         ItemsSpacing = CornerRadius > 0 ? CornerRadius : 0;
         Padding = CornerRadius > 0 ? new Padding(CornerRadius) : new Padding(0);
         // this.SetMargin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing); // Do not do this, it is bugged :)
-        foreach (var control in _controls)
+        foreach (var control in _controls.ToList())
             control.PerformTheme();
         OnThemePerformed();
     }
@@ -40,7 +40,7 @@ partial class StackedLayout : IStackedLayout
             InvalidateStackVertical();
         else
             InvalidateStackHorizontal();
-        foreach (IControl control in _controls)
+        foreach (IControl control in _controls.ToList())
             control.Invalidate();
         InvalidateContentBounds();
         InvalidateViewport();
@@ -89,7 +89,7 @@ partial class StackedLayout : IStackedLayout
     {
         var currentY = Padding.Top;
         var grabberOffset = ReorderEnabled ? GrabberSize : 0;
-        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
+        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index).ToList())
         {
             currentY += c.Margin.Top;
             c.Location = new Point(Padding.Left + c.Margin.Left + grabberOffset, currentY + c.Margin.Top);
@@ -102,7 +102,7 @@ partial class StackedLayout : IStackedLayout
     {
         var currentX = Padding.Left;
         var grabberOffset = ReorderEnabled ? GrabberSize : 0;
-        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index))
+        foreach (var c in _controls.Where(x => x.Visible).OrderBy(x => x.Index).ToList())
         {
             if (InvalidateHorizontalItemDropdown(c, ref currentX, grabberOffset))
                 continue;
@@ -153,7 +153,7 @@ partial class StackedLayout : IStackedLayout
             DrawGrabbers(ref graphics);
             DrawDropZoneHighlight(ref graphics);
         }
-        foreach (var c in _controls.Where(ShouldControlBeDrawn))
+        foreach (var c in _controls.Where(ShouldControlBeDrawn).ToList())
             c.Draw(ref graphics);
         ScrollableHelpers.DrawScrollBar(ref graphics, this);
         DrawBorders(ref graphics);
@@ -206,7 +206,7 @@ partial class StackedLayout : IStackedLayout
         var scrollOffsetX = Scrollable != ScrollableMode.None ? Viewport.X : 0;
         var scrollOffsetY = Scrollable != ScrollableMode.None ? Viewport.Y : 0;
 
-        foreach (var control in _controls.Where(ShouldControlBeDrawn))
+        foreach (var control in _controls.Where(ShouldControlBeDrawn).ToList())
         {
             var grabberRect = GetGrabberLocalRect(control);
             var icon = EfficientImage.GetIcon(Icon.Grabber, grabberColor, iconSize, iconSize);

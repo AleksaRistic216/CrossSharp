@@ -27,7 +27,7 @@ partial class FlowLayout : IFlowLayout
         Margin = new Margin(Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing);
         BackgroundColor = Services.GetSingleton<ITheme>().LayoutBackgroundColor;
         ItemsSpacing = Services.GetSingleton<ITheme>().DefaultLayoutItemSpacing;
-        foreach (var control in _controls)
+        foreach (var control in _controls.ToList())
             control.PerformTheme();
         OnThemePerformed();
     }
@@ -36,7 +36,7 @@ partial class FlowLayout : IFlowLayout
     {
         this.PerformDocking();
         InvalidateFlow();
-        foreach (IControl control in _controls)
+        foreach (IControl control in _controls.ToList())
             control.Invalidate();
         InvalidateContentBounds();
         InvalidateViewport();
@@ -92,7 +92,7 @@ partial class FlowLayout : IFlowLayout
         var currentY = 0;
         var maxHeightInRow = 0;
         List<IControl> rowControls = [];
-        foreach (var c in _controls)
+        foreach (var c in _controls.ToList())
         {
             if (currentX + c.Width > Width)
             {
@@ -160,7 +160,7 @@ partial class FlowLayout : IFlowLayout
             NoClip ? ClipState.Max(CornerRadius) : ClipState.Create(oldClipState, clientBounds, CornerRadius)
         );
         DrawBackground(ref graphics);
-        foreach (var c in _controls.Where(ShouldControlBeDrawn))
+        foreach (var c in _controls.Where(ShouldControlBeDrawn).ToList())
             c.Draw(ref graphics);
         // ScrollableHelpers.DrawScrollBar(ref graphics, this);
         // DrawBorders(ref graphics);
