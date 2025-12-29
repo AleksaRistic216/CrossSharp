@@ -205,6 +205,9 @@ public class ColorRgba(float r, float g, float b, float a)
         A < 0.01f ? Black
         : (R + G + B) / 3 < 0.5f ? White
         : Black;
+
+    public ColorRgba WithAlpha(float alpha) => new(R, G, B, alpha);
+
     public static ColorRgba Empty { get; } = new(0, 0, 0, 0);
 
     public static ColorRgba FromBytes(byte r, byte g, byte b, byte a) => new(r / 255f, g / 255f, b / 255f, a / 255f);

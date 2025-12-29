@@ -1,6 +1,7 @@
 using System.Drawing;
 using CrossSharp.Utils;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
@@ -15,6 +16,8 @@ partial class Input : ControlBase, IInput
         BorderWidth = 1;
         InputHandler.KeyPressed += InputHandlerOnKeyPressed;
         InputHandler.MousePressed += InputHandlerOnMousePressed;
+        InputHandler.MouseDragged += InputHandlerOnMouseDragged;
+        InputHandler.MouseReleased += InputHandlerOnMouseReleased;
         PerformTheme();
     }
 
@@ -98,8 +101,78 @@ partial class Input : ControlBase, IInput
     public override void DrawContent(ref IGraphics g)
     {
         DrawPlaceholder(ref g);
+        DrawSelection(ref g);
         DrawText(ref g);
         DrawCaret(ref g);
+    }
+
+    void DrawSelection(ref IGraphics g)
+    {
+        if (!HasSelection || !IsFocused)
+            return;
+
+        var (start, end) = GetNormalizedSelection();
+        var selectionColor = Services.GetSingleton<ITheme>().SelectionColor;
+
+        // Use font-based height for selection to avoid corner radius clipping
+        var selectionHeight = FontSize + LINE_GAP;
+
+        if (!MultiLine)
+        {
+            // Single line selection
+            var textBefore = Text[..start.X];
+            var selectedText = Text[start.X..end.X];
+
+            var beforeSize = g.MeasureText(textBefore, FontFamily.Default, FontSize);
+            var selectedSize = g.MeasureText(selectedText, FontFamily.Default, FontSize);
+
+            var x = _contentBounds.X + beforeSize.Width;
+            var y = _contentBounds.Y;
+
+            var clipState = g.GetClipState();
+            g.SetClip(ClipState.Create(clipState, clipState.Bounds, 0));
+            g.FillRectangle(x, y, selectedSize.Width, selectionHeight, selectionColor);
+            g.SetClip(clipState);
+            return;
+        }
+
+        // Multi-line selection
+        var lines = Text.Split(Environment.NewLine);
+        for (int lineY = start.Y; lineY <= end.Y && lineY < lines.Length; lineY++)
+        {
+            var line = lines[lineY];
+            var startX = (lineY == start.Y) ? start.X : 0;
+            var endX = (lineY == end.Y) ? end.X : line.Length;
+
+            // Clamp to line length
+            startX = Math.Min(startX, line.Length);
+            endX = Math.Min(endX, line.Length);
+
+            var clipState = g.GetClipState();
+            if (startX >= endX && lineY != end.Y)
+            {
+                // Empty line in middle of selection - draw small indicator
+                var rectY = _contentBounds.Y + lineY * LineHeight;
+
+                g.SetClip(ClipState.Create(clipState, clipState.Bounds, 0));
+                g.FillRectangle(_contentBounds.X, rectY, 4, selectionHeight, selectionColor);
+                g.SetClip(clipState);
+                continue;
+            }
+
+            var textBefore = line[..startX];
+            var selectedText = line[startX..endX];
+
+            var beforeSize = g.MeasureText(textBefore, FontFamily.Default, FontSize);
+            var selectedSize = g.MeasureText(selectedText, FontFamily.Default, FontSize);
+
+            var rectX = _contentBounds.X + beforeSize.Width;
+            var rectYPos = _contentBounds.Y + lineY * LineHeight;
+
+            g.SetClip(ClipState.Create(clipState, clipState.Bounds, 0));
+            g.FillRectangle(rectX, rectYPos, selectedSize.Width, selectionHeight, selectionColor);
+            g.SetClip(clipState);
+        }
     }
 
     void DrawPlaceholder(ref IGraphics g)

@@ -125,6 +125,19 @@ static class SDLHelpers
 
     [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
     internal static extern void SDL_DestroyCursor(IntPtr cursor);
+
+    // Clipboard functions
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern IntPtr SDL_GetClipboardText();
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern bool SDL_SetClipboardText(string text);
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern bool SDL_HasClipboardText();
+
+    [DllImport(LIB, CallingConvention = CallingConvention.Cdecl)]
+    internal static extern void SDL_free(IntPtr mem);
 }
 
 /// <summary>

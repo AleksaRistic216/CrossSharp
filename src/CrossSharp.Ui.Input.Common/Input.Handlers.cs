@@ -1,9 +1,11 @@
 using System.Drawing;
+using System.Runtime.InteropServices;
 using CrossSharp.Utils.Drawing;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Input;
 using CrossSharp.Utils.Interfaces;
+using CrossSharp.Utils.SDL;
 
 namespace CrossSharp.Ui.Common;
 
@@ -141,6 +143,32 @@ partial class Input
     {
         if (!IsFocused)
             return;
+
+        // Handle clipboard shortcuts first
+        if (e.IsCtrlPressed)
+        {
+            if (e.KeyCode == KeyCode.VcA)
+            {
+                SelectAll();
+                return;
+            }
+            if (e.KeyCode == KeyCode.VcC)
+            {
+                CopySelection();
+                return;
+            }
+            if (e.KeyCode == KeyCode.VcX)
+            {
+                CutSelection();
+                return;
+            }
+            if (e.KeyCode == KeyCode.VcV)
+            {
+                PasteFromClipboard();
+                return;
+            }
+        }
+
         if (HandleCaretMovement(e))
         {
             InvalidateCaretText();
@@ -148,6 +176,11 @@ partial class Input
         }
         if (e.KeyCode == KeyCode.VcBackspace)
         {
+            if (HasSelection)
+            {
+                DeleteSelectedText();
+                return;
+            }
             if (_textBeforeCaret.Length <= 0)
                 return;
             _textBeforeCaret = _textBeforeCaret[..^1];
@@ -157,6 +190,11 @@ partial class Input
         }
         if (e.KeyCode == KeyCode.VcDelete)
         {
+            if (HasSelection)
+            {
+                DeleteSelectedText();
+                return;
+            }
             if (_textAfterCaret.Length <= 0)
                 return;
             _textAfterCaret = _textAfterCaret[1..];
@@ -165,21 +203,136 @@ partial class Input
         }
         if (e.KeyCode == KeyCode.VcEnter && MultiLine)
         {
+            if (HasSelection)
+                DeleteSelectedText();
             _textBeforeCaret += Environment.NewLine;
             Text = _textBeforeCaret + _textAfterCaret;
             _caretPosition.Y++;
             _caretPosition.X = 0;
+            ClearSelection();
             return;
         }
         if (e.Char is null)
             return;
+
+        // Character input - delete selection first if any
+        if (HasSelection)
+            DeleteSelectedText();
+
         _textBeforeCaret += e.Char;
         Text = _textBeforeCaret + _textAfterCaret;
         ShiftCaretPosition(1, false);
+        ClearSelection();
+    }
+
+    void CopySelection()
+    {
+        if (!HasSelection)
+            return;
+        var text = GetSelectedText();
+        SDLHelpers.SDL_SetClipboardText(text);
+    }
+
+    void CutSelection()
+    {
+        if (!HasSelection)
+            return;
+        CopySelection();
+        DeleteSelectedText();
+    }
+
+    void PasteFromClipboard()
+    {
+        if (!SDLHelpers.SDL_HasClipboardText())
+            return;
+
+        var ptr = SDLHelpers.SDL_GetClipboardText();
+        if (ptr == IntPtr.Zero)
+            return;
+
+        var text = Marshal.PtrToStringUTF8(ptr);
+        SDLHelpers.SDL_free(ptr);
+
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        if (HasSelection)
+            DeleteSelectedText();
+
+        // Insert at caret position
+        _textBeforeCaret += text;
+        Text = _textBeforeCaret + _textAfterCaret;
+
+        // Update caret position
+        if (!MultiLine || !text.Contains(Environment.NewLine))
+        {
+            _caretPosition.X += text.Length;
+        }
+        else
+        {
+            var pastedLines = text.Split(Environment.NewLine);
+            _caretPosition.Y += pastedLines.Length - 1;
+            _caretPosition.X = pastedLines[^1].Length;
+        }
+        InvalidateCaretText();
+        ClearSelection();
     }
 
     void InputHandlerOnMousePressed(object? sender, MouseInputArgs e)
     {
-        OnClickInternal(e);
+        if (!IsFocused)
+        {
+            OnClickInternal(e);
+            return;
+        }
+
+        var screenBounds = this.GetScreenBounds();
+        if (!screenBounds.Contains(new Point(e.X, e.Y)))
+            return;
+
+        // Handle different click counts
+        switch (e.Clicks)
+        {
+            case 1:
+                // Single click - position caret and start potential drag selection
+                UpdateCaretPositionOnClick(new Point(e.X, e.Y));
+                _selectionAnchor = _caretPosition;
+                _isSelecting = true;
+                break;
+
+            case 2:
+                // Double click - select word at caret
+                UpdateCaretPositionOnClick(new Point(e.X, e.Y));
+                SelectWordAtCaret();
+                _isSelecting = false;
+                break;
+
+            case >= 3:
+                // Triple click - select line (or all for single-line)
+                UpdateCaretPositionOnClick(new Point(e.X, e.Y));
+                SelectCurrentLine();
+                _isSelecting = false;
+                break;
+        }
+
+        RaiseClick();
+    }
+
+    void InputHandlerOnMouseDragged(object? sender, MouseInputArgs e)
+    {
+        if (!IsFocused || !_isSelecting)
+            return;
+
+        var screenBounds = this.GetScreenBounds();
+        if (!screenBounds.Contains(new Point(e.X, e.Y)))
+            return;
+
+        // Update caret position based on drag - anchor stays where click started
+        UpdateCaretPositionOnClick(new Point(e.X, e.Y));
+    }
+
+    void InputHandlerOnMouseReleased(object? sender, MouseInputArgs e)
+    {
+        _isSelecting = false;
     }
 }

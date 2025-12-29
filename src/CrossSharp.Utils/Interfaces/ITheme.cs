@@ -18,6 +18,11 @@ public interface ITheme
     /// </summary>
     ColorRgba PrimaryColor { get; set; }
     ColorRgba SecondaryColor { get; set; }
+
+    /// <summary>
+    /// Used for text selection highlighting in input controls.
+    /// </summary>
+    ColorRgba SelectionColor { get; set; }
     int DefaultCornerRadius { get; set; }
     int DefaultLayoutItemSpacing { get; set; }
 }

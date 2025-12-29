@@ -25,6 +25,9 @@ partial class Input
     }
 
     Point _caretPosition = Point.Empty;
+    Point _selectionAnchor = Point.Empty;
+    bool _isSelecting = false;
+    bool HasSelection => _selectionAnchor != _caretPosition;
     Rectangle _placeholderBounds = Rectangle.Empty;
     Rectangle _contentBounds = Rectangle.Empty;
     Rectangle _caretBounds = Rectangle.Empty;

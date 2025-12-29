@@ -12,6 +12,7 @@ public abstract class ThemeBase : ITheme
     public virtual ColorRgba LayoutBackgroundColor { get; set; } = ColorRgba.White;
     public virtual ColorRgba PrimaryColor { get; set; } = ColorRgba.Black;
     public virtual ColorRgba SecondaryColor { get; set; } = ColorRgba.Gray;
+    public virtual ColorRgba SelectionColor { get; set; } = ColorRgba.CornflowerBlue.WithAlpha(0.4f);
     public virtual int DefaultCornerRadius { get; set; }
     public virtual int DefaultLayoutItemSpacing { get; set; }
 }

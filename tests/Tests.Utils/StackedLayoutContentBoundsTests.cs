@@ -158,6 +158,7 @@ public class StackedLayoutContentBoundsTests : IDisposable
         public ColorRgba LayoutBackgroundColor { get; set; } = ColorRgba.Transparent;
         public ColorRgba PrimaryColor { get; set; } = ColorRgba.Transparent;
         public ColorRgba SecondaryColor { get; set; } = ColorRgba.Transparent;
+        public ColorRgba SelectionColor { get; set; } = ColorRgba.Blue;
         public int DefaultCornerRadius { get; set; } = 0;
         public int DefaultLayoutItemSpacing { get; set; } = 0;
     }
