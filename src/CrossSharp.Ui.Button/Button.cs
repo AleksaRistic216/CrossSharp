@@ -7,7 +7,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Button", [ControlGroup.Input], ControlIcon.Button)]
+[Control("Button", [ControlGroup.Common, ControlGroup.Input], ControlIcon.Button)]
 public class Button() : CrossControl<IButton>(Services.GetSingleton<IButtonFactory>().Create()), IButton
 {
     public EventHandler? Click

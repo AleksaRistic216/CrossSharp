@@ -10,7 +10,11 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
-[Control("Stacked Layout", [ControlGroup.Layout, ControlGroup.Container], ControlIcon.StackedLayout)]
+[Control(
+    "Stacked Layout",
+    [ControlGroup.Common, ControlGroup.Layout, ControlGroup.Container],
+    ControlIcon.StackedLayout
+)]
 public class StackedLayout()
     : CrossWrapper<IStackedLayout>(Services.GetSingleton<IStackedLayoutFactory>().Create()),
         IStackedLayout

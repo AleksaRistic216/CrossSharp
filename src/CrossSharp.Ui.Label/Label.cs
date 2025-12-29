@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Label", [ControlGroup.Display], ControlIcon.Label)]
+[Control("Label", [ControlGroup.Common, ControlGroup.Display], ControlIcon.Label)]
 public class Label() : CrossControl<ILabel>(Services.GetSingleton<ILabelFactory>().Create()), ILabel
 {
     public ColorRgba ForegroundColor
