@@ -81,6 +81,10 @@ partial class Input
 
     bool HandleCaretMovement(KeyInputArgs keyInputArgs)
     {
+        // Ignore modifier keys pressed alone - they shouldn't affect selection
+        if (IsModifierKey(keyInputArgs.KeyCode))
+            return false;
+
         var isShift = keyInputArgs.IsShiftPressed;
         var isCtrl = keyInputArgs.IsCtrlPressed;
 
@@ -204,4 +208,15 @@ partial class Input
         }
         return false;
     }
+
+    static bool IsModifierKey(KeyCode keyCode) =>
+        keyCode
+            is KeyCode.VcLeftShift
+                or KeyCode.VcRightShift
+                or KeyCode.VcLeftControl
+                or KeyCode.VcRightControl
+                or KeyCode.VcLeftAlt
+                or KeyCode.VcRightAlt
+                or KeyCode.VcLeftMeta
+                or KeyCode.VcRightMeta;
 }
