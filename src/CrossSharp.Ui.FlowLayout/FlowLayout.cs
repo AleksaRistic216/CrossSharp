@@ -9,7 +9,7 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
-[Control("Flow Layout")]
+[Control("Flow Layout", [ControlGroup.Layout, ControlGroup.Container], ControlIcon.FlowLayout)]
 public class FlowLayout() : CrossWrapper<IFlowLayout>(Services.GetSingleton<IFlowLayoutFactory>().Create()), IFlowLayout
 {
     IFlowLayout _impl => GetImplementation();

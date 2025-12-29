@@ -1,3 +1,5 @@
+using CrossSharp.Utils.Enums;
+
 namespace CrossSharp.Utils.Attributes;
 
 /// <summary>
@@ -5,7 +7,11 @@ namespace CrossSharp.Utils.Attributes;
 /// It is used by designer toolbox when scanning for controls
 /// </summary>
 /// <param name="name"></param>
-public class ControlAttribute(string name) : Attribute
+/// <param name="groups"></param>
+/// <param name="icon"></param>
+public class ControlAttribute(string name, ControlGroup[] groups, ControlIcon icon) : Attribute
 {
     public string Name { get; set; } = name;
+    public ControlGroup[] Groups { get; set; } = groups;
+    public ControlIcon Icon { get; set; } = icon;
 }

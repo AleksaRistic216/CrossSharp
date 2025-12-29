@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Image Preview")]
+[Control("Image Preview", [ControlGroup.Display], ControlIcon.ImagePreview)]
 public class ImagePreview()
     : CrossControl<IImagePreview>(Services.GetSingleton<IImagePreviewFactory>().Create()),
         IImagePreview

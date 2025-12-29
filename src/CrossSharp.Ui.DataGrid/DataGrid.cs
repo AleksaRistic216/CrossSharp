@@ -8,7 +8,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Data Grid")]
+[Control("Data Grid", [ControlGroup.Data], ControlIcon.DataGrid)]
 public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGridFactory>().Create()), IDataGrid
 {
     public ColorRgba BackgroundColor

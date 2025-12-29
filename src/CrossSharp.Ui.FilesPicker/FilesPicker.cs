@@ -1,12 +1,13 @@
 using CrossSharp.Utils;
 using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
+using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Files Picker")]
+[Control("Files Picker", [ControlGroup.Input], ControlIcon.FilesPicker)]
 public class FilesPicker()
     : CrossControl<IFilesPicker>(Services.GetSingleton<IFilesPickerFactory>().Create()),
         IFilesPicker

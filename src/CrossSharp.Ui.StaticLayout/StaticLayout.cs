@@ -9,7 +9,7 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
-[Control("Static Layout")]
+[Control("Static Layout", [ControlGroup.Layout, ControlGroup.Container], ControlIcon.StaticLayout)]
 public class StaticLayout()
     : CrossWrapper<IStaticLayout>(Services.GetSingleton<IStaticLayoutFactory>().Create()),
         IControlsContainer

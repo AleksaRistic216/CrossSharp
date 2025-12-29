@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Input")]
+[Control("Input", [ControlGroup.Input], ControlIcon.Input)]
 public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>().Create()), IInput
 {
     public EventHandler? Click

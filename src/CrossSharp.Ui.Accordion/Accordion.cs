@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Accordion")]
+[Control("Accordion", [ControlGroup.Container], ControlIcon.Accordion)]
 public class Accordion()
     : CrossControl<IAccordion>(Services.GetSingleton<IAccordionFactory>().Create()),
         IAccordion

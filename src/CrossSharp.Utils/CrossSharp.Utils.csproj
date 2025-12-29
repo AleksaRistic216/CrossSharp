@@ -86,6 +86,10 @@
         <Folder Include="Extensions\" />
         <Folder Include="runtimes\linux-x64\native\" />
     </ItemGroup>
+    <!-- Embed control icons as resources -->
+    <ItemGroup>
+        <EmbeddedResource Include="ControlIcons\*.svg" />
+    </ItemGroup>
     <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
         <DefineConstants>WINDOWS</DefineConstants>
     </PropertyGroup>

@@ -9,7 +9,7 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
-[Control("Tabbed Layout")]
+[Control("Tabbed Layout", [ControlGroup.Layout, ControlGroup.Container, ControlGroup.Navigation], ControlIcon.TabbedLayout)]
 public class TabbedLayout()
     : CrossWrapper<ITabbedLayout>(Services.GetSingleton<ITabbedLayoutFactory>().Create()),
         ITabbedLayout

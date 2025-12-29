@@ -6,7 +6,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
-[Control("Chart")]
+[Control("Chart", [ControlGroup.Display, ControlGroup.Data], ControlIcon.Chart)]
 public class Chart() : CrossControl<IChart>(Services.GetSingleton<IChartFactory>().Create()), IChart
 {
     public ColorRgba BackgroundColor
