@@ -1,10 +1,12 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Label")]
 public class Label() : CrossControl<ILabel>(Services.GetSingleton<ILabelFactory>().Create()), ILabel
 {
     public ColorRgba ForegroundColor

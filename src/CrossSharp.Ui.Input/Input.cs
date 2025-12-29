@@ -1,10 +1,12 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Input")]
 public class Input() : CrossControl<IInput>(Services.GetSingleton<IInputFactory>().Create()), IInput
 {
     public EventHandler? Click

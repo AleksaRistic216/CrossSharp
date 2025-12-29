@@ -1,4 +1,5 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -6,6 +7,7 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
+[Control("Dropdown")]
 public class Dropdown() : CrossControl<IDropdown>(Services.GetSingleton<IDropdownFactory>().Create()), IDropdown
 {
     public new int Height

@@ -1,5 +1,6 @@
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
@@ -7,6 +8,7 @@ using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Data Grid")]
 public class DataGrid() : CrossControl<IDataGrid>(Services.GetSingleton<IDataGridFactory>().Create()), IDataGrid
 {
     public ColorRgba BackgroundColor

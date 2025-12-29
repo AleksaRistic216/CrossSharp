@@ -1,9 +1,11 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Panel")]
 public class Panel() : CrossControl<IPanel>(Services.GetSingleton<IPanelFactory>().Create()), IPanel
 {
     public ColorRgba BackgroundColor

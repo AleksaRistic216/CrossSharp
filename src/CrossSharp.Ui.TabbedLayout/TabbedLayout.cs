@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Drawing;
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
@@ -8,6 +9,7 @@ using CrossSharp.Utils.Structs;
 
 namespace CrossSharp.Ui;
 
+[Control("Tabbed Layout")]
 public class TabbedLayout()
     : CrossWrapper<ITabbedLayout>(Services.GetSingleton<ITabbedLayoutFactory>().Create()),
         ITabbedLayout

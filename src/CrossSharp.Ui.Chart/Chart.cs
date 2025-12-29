@@ -1,10 +1,12 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Chart")]
 public class Chart() : CrossControl<IChart>(Services.GetSingleton<IChartFactory>().Create()), IChart
 {
     public ColorRgba BackgroundColor

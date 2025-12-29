@@ -1,10 +1,12 @@
 using CrossSharp.Utils;
+using CrossSharp.Utils.Attributes;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 
 namespace CrossSharp.Ui;
 
+[Control("Image Preview")]
 public class ImagePreview()
     : CrossControl<IImagePreview>(Services.GetSingleton<IImagePreviewFactory>().Create()),
         IImagePreview
