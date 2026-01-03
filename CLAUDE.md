@@ -120,6 +120,115 @@ To add a new icon to the project:
 Icons are loaded via `IIconProvider.GetSvg(Icon icon)` which reads from embedded resources using the pattern:
 `CrossSharp.Icons.IconSets.{IconSetName}.{IconName}.svg`
 
+## Adding New Icon Sets
+
+To create a complete new icon set (e.g., `CrossSharp2026_Winter`), follow these steps:
+
+### Step 1: Create the Icon Set Directory
+
+Create a new directory under `src/CrossSharp.Icons/IconSets/` with your icon set name:
+```bash
+mkdir -p src/CrossSharp.Icons/IconSets/{IconSetName}
+```
+
+### Step 2: Define Your Design Language
+
+Before creating icons, establish a consistent design language for the set. Consider:
+- **Visual theme**: What makes this set unique (e.g., winter theme with snow accents)
+- **Stroke style**: stroke-width, linecap, linejoin settings
+- **Decorative elements**: Consistent accents across all icons (e.g., wavy snow lines)
+
+Example design pattern (Winter theme with snow accumulation):
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Base icon shape -->
+  <path d="..."/>
+  <!-- Snow accent using quadratic bezier curves -->
+  <path d="M4 4 Q7 2 10 4 Q13 6 16 4 Q19 2 20 4"/>
+</svg>
+```
+
+### Step 3: Create SVG Files for All Icons
+
+Create one SVG file for each icon in the `Icon` enum (`src/CrossSharp.Utils/Interfaces/Icon.cs`):
+
+| Icon | File Name | Design Notes |
+|------|-----------|--------------|
+| Collapse | Collapse.svg | Arrow with snow on peak |
+| Maximize | Maximize.svg | Rectangle with snow on top edge |
+| Restore | Restore.svg | Overlapping rectangles with snow |
+| Minimize | Minimize.svg | Line with snow wave |
+| Close | Close.svg | X with snow on top corners |
+| Home | Home.svg | House with snow on roof |
+| Palette | Palette.svg | Palette with snow on curve |
+| Dropdown | Dropdown.svg | Arrow with snow on arms |
+| DataGrid | DataGrid.svg | Grid with snow on top |
+| HamburgerMenu | HamburgerMenu.svg | Lines with snow on top |
+| Settings | Settings.svg | Gear with snow on top |
+| Grabber | Grabber.svg | Dots with snow caps |
+| Show | Show.svg | Eye with snow above |
+| Hide | Hide.svg | Crossed eye with snow |
+| Bookmark | Bookmark.svg | Bookmark with snow on top |
+
+SVG requirements:
+- `viewBox="0 0 24 24"` - Standard 24x24 grid
+- `fill="none"` - No fill (stroke-based icons)
+- `stroke="currentColor"` - Allows theming via CSS/code
+- `stroke-width="2"` - Consistent stroke weight
+- File name must exactly match enum value
+
+### Step 4: Create the Icon Provider Class
+
+Create a provider class in `src/CrossSharp.Icons/Providers/`:
+
+**{IconSetName}IconProvider.cs**:
+```csharp
+namespace CrossSharp.Icons.Providers;
+
+public class {IconSetName}IconProvider() : IconProviderBase("{IconSetName}");
+```
+
+Example for `CrossSharp2026_Winter`:
+```csharp
+namespace CrossSharp.Icons.Providers;
+
+public class CrossSharp2026WinterIconProvider() : IconProviderBase("CrossSharp2026_Winter");
+```
+
+### Step 5: Verify Build
+
+Build the Icons project to ensure SVGs are embedded correctly:
+```bash
+dotnet build src/CrossSharp.Icons/CrossSharp.Icons.csproj
+```
+
+### Step 6: Usage
+
+Use the new icon provider in your application:
+```csharp
+var iconProvider = new CrossSharp2026WinterIconProvider();
+var svg = iconProvider.GetSvg(Icon.Home);
+```
+
+### Design Tips for Themed Icon Sets
+
+**Snow/Winter effects**:
+- Use quadratic bezier curves (`Q`) for wavy snow lines: `M4 4 Q7 2 10 4 Q13 6 16 4`
+- Place snow accents on horizontal surfaces and top edges
+- Keep snow curves subtle (2-4 units variation)
+
+**Avoid problematic designs**:
+- Don't use small vertical lines hanging from edges (can look inappropriate)
+- Keep decorative elements proportional to the icon
+- Ensure the base icon remains recognizable
+
+**Consistency checklist**:
+- All icons use same stroke-width
+- Decorative elements follow same pattern
+- Snow/accent curves use similar amplitude
+- Icons remain functional and recognizable
+
 ## Adding New Controls
 
 To add a new control (e.g., `Chart`), follow these steps:

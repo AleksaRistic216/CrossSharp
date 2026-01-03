@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+  <!-- Six dots in 2x3 pattern -->
+  <circle cx="9" cy="6" r="2"/>
+  <circle cx="15" cy="6" r="2"/>
+  <circle cx="9" cy="12" r="2"/>
+  <circle cx="15" cy="12" r="2"/>
+  <circle cx="9" cy="18" r="2"/>
+  <circle cx="15" cy="18" r="2"/>
+  <!-- Snow caps on top dots -->
+  <path d="M7 5 Q9 3 11 5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <path d="M13 5 Q15 3 17 5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+</svg>

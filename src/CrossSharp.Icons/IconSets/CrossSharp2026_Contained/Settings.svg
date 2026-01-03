@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Container -->
+  <rect x="2" y="2" width="20" height="20" rx="4"/>
+  <!-- Center circle -->
+  <circle cx="12" cy="12" r="2"/>
+  <!-- Gear teeth simplified -->
+  <path d="M12 6v1.5M12 16.5V18M6 12h1.5M16.5 12H18M7.76 7.76l1.06 1.06M15.18 15.18l1.06 1.06M7.76 16.24l1.06-1.06M15.18 8.82l1.06-1.06"/>
+</svg>
