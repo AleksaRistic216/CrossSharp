@@ -16,4 +16,5 @@ public enum Icon
     Grabber,
     Show,
     Hide,
+    Bookmark,
 }
