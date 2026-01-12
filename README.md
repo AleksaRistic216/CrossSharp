@@ -29,6 +29,7 @@ This project provides an easy way to develop C# UI applications across all major
 - Accordion
 
 ## Try it out
+Download demo from releases (I recommend "All in one" demo) and run it (on linux you just invoke `.run.sh`. On windows it is `.run.bat`)
 Clone repository and run any demo application
 or
 [Read documentation to see how you can try it out yourself](https://limitlesssoft.youtrack.cloud/articles/CS-A-20/Setting-up-the-application)
