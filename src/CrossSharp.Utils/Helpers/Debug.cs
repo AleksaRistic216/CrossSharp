@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Interfaces;
@@ -234,5 +235,24 @@ public static class Debug
     {
         EnsureInitialized();
         return _logFilePath;
+    }
+
+    public static void LogStack()
+    {
+        var sb = new StringBuilder();
+        var stackTrace = new StackTrace(true);
+
+        sb.AppendLine("=== Current Stack Trace ===");
+        foreach (var frame in stackTrace.GetFrames())
+        {
+            var method = frame.GetMethod();
+            string? fileName = frame.GetFileName();
+            int lineNumber = frame.GetFileLineNumber();
+
+            sb.AppendLine($"{method?.DeclaringType}.{method?.Name} in {fileName}:{lineNumber}");
+        }
+        sb.AppendLine("===========================");
+
+        EnqueueMessage(sb.ToString());
     }
 }

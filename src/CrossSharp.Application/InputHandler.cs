@@ -76,6 +76,7 @@ class InputHandler : IInputHandler
             return GetCharFromKeyCodeWindows(keyCode, modifiers);
         if (OperatingSystem.IsMacOS())
             return GetCharFromKeyCodeMacOS(keyCode, modifiers);
+        Debug.LogError($"{nameof(ConvertKeyCodeToChar)} is not implemented for this OS");
         throw new NotImplementedException();
     }
 
