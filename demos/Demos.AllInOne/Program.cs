@@ -10,5 +10,5 @@ var configuration = new BaseConfiguration()
     FormsStyle = FormStyle.CrossSharp,
 };
 var builder = new ApplicationBuilder(configuration);
-builder.SetIconProvider(new CrossSharp2026ContainedIconProvider());
+builder.SetIconProvider(new CrossSharp2026IconProvider());
 builder.Run<MainForm>();
