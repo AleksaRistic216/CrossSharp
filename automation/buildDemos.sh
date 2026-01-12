@@ -25,22 +25,22 @@ for dir in ../demos/*/; do
         mkdir -p ../bin/demos/${demo_name}-$rt
         cp -r "$dir"/bin/${CONFIG:-Debug}/* ../bin/demos/${demo_name}-$rt/
         # Clean up unneeded runtimes to reduce zip size
-        find ../bin/demos/${demo_name}-$rt/net9.0/runtimes/ -mindepth 1 -maxdepth 1 ! -name "$rt" -exec rm -rf {} +
+        find ../bin/demos/${demo_name}-$rt/net10.0/runtimes/ -mindepth 1 -maxdepth 1 ! -name "$rt" -exec rm -rf {} +
         # Clean up unnecessary libraries from the ./lib folder
         if [[ "$rt" == win-* ]]; then
-          find ../bin/demos/${demo_name}-$rt/net9.0/lib -mindepth 1 -maxdepth 1 ! -name '*.dll' -exec rm -f {} +
+          find ../bin/demos/${demo_name}-$rt/net10.0/lib -mindepth 1 -maxdepth 1 ! -name '*.dll' -exec rm -f {} +
         else
-          find ../bin/demos/${demo_name}-$rt/net9.0/lib -mindepth 1 -maxdepth 1 -name '*.dll' -exec rm -f {} +
+          find ../bin/demos/${demo_name}-$rt/net10.0/lib -mindepth 1 -maxdepth 1 -name '*.dll' -exec rm -f {} +
         fi
         # Clean all PDB files
         find ../bin/demos/${demo_name}-$rt/ -name '*.pdb' -exec rm -f {} +
         # create run script within the demo folder
         if [[ "$rt" == win-* ]]; then
           echo "@echo off" > ../bin/demos/${demo_name}-$rt/run.bat
-          echo "dotnet ./net9.0/${demo_name}.dll \"\$@\"" >> ../bin/demos/${demo_name}-$rt/run.bat
+          echo "dotnet ./net10.0/${demo_name}.dll \"\$@\"" >> ../bin/demos/${demo_name}-$rt/run.bat
         else
           echo "#!/bin/bash" > ../bin/demos/${demo_name}-$rt/run.sh
-          echo "dotnet ./net9.0/${demo_name}.dll \"\$@\"" >> ../bin/demos/${demo_name}-$rt/run.sh
+          echo "dotnet ./net10.0/${demo_name}.dll \"\$@\"" >> ../bin/demos/${demo_name}-$rt/run.sh
           chmod +x ../bin/demos/${demo_name}-$rt/run.sh
         fi
         ( cd ../bin/demos && zip -r ${demo_name}-$rt.zip ${demo_name}-$rt ) &
