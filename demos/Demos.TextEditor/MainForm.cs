@@ -6,6 +6,7 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.EventArgs;
 using CrossSharp.Utils.Interfaces;
 using CrossSharp.Utils.Structs;
+using SkiaSharp;
 
 namespace Demos.TextEditor;
 
@@ -66,7 +67,7 @@ public class MainForm : Form
         Controls.Add(_editorBar);
 
         var btn = new Button();
-        btn.Image = EfficientImage.Get(nameof(Constants.SaveFileIconKind));
+        btn.Image = EfficientImage.GetIcon(Icon.Home, SKColors.White);
         btn.Width = editorBarHeight;
         btn.Click += (_, _) => {
             // if (string.IsNullOrWhiteSpace(_title))
@@ -90,7 +91,7 @@ public class MainForm : Form
         var btn = _tabbedLayout.CreateTabButton();
         btn.AutoSize = false;
         btn.Width = Constants.IMAGE_SIZE;
-        btn.Image = EfficientImage.Get(nameof(Constants.AddFileIconKind));
+        btn.Image = EfficientImage.GetIcon(Icon.Home, SKColors.White);
         btn.Click += (_, _) =>
         {
             var applicationDataPath = Path.Combine(
@@ -127,7 +128,7 @@ public class MainForm : Form
         Controls.Add(_menuBar);
 
         var btn1 = new Button();
-        btn1.Image = EfficientImage.Get(nameof(Constants.OpenFileIconKind));
+        btn1.Image = EfficientImage.GetIcon(Icon.Home, SKColors.White);
         btn1.Width = Constants.IMAGE_SIZE + 4;
         btn1.CornerRadius = 0;
         btn1.MinHeight = menuBarHeight;
