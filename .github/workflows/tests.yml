@@ -69,7 +69,18 @@ jobs:
         run: dotnet restore ${{ matrix.project }}
 
       - name: Run tests
-        run: dotnet test ${{ matrix.project }} --configuration Release --no-restore --logger "trx;LogFileName=${{ matrix.name }}.trx" ${{ matrix.extra-args }}
+        id: test
+        run: |
+          output=$(dotnet test ${{ matrix.project }} --configuration Release --no-restore --logger "trx;LogFileName=${{ matrix.name }}.trx" ${{ matrix.extra-args }} 2>&1)
+          echo "$output"
+          passed=$(echo "$output" | grep -oP 'Passed:\s*\K\d+' | tail -1)
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+
+      - name: Write job summary
+        if: success()
+        run: |
+          echo "### ${{ matrix.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All ${{ steps.test.outputs.passed }} tests passed successfully" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
