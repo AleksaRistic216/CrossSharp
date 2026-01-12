@@ -71,17 +71,11 @@ class InputHandler : IInputHandler
     char? ConvertKeyCodeToChar(KeyCode keyCode, EventMask modifiers)
     {
         if (OperatingSystem.IsLinux())
-        {
             return GetCharFromKeyCodeLinux(keyCode, modifiers);
-        }
         if (OperatingSystem.IsWindows())
-        {
-            throw new NotImplementedException();
-        }
+            return GetCharFromKeyCodeWindows(keyCode, modifiers);
         if (OperatingSystem.IsMacOS())
-        {
-            throw new NotImplementedException();
-        }
+            return GetCharFromKeyCodeMacOS(keyCode, modifiers);
         throw new NotImplementedException();
     }
 
@@ -139,6 +133,11 @@ class InputHandler : IInputHandler
             _ => null,
         };
     }
+
+    char? GetCharFromKeyCodeWindows(KeyCode keyCode, EventMask modifiers) =>
+        GetCharFromKeyCodeLinux(keyCode, modifiers);
+
+    char? GetCharFromKeyCodeMacOS(KeyCode keyCode, EventMask modifiers) => GetCharFromKeyCodeLinux(keyCode, modifiers);
 
     private DateTime lastClickTime = DateTime.MinValue;
     private (short X, short Y) lastClickPosition = (0, 0);
