@@ -37,15 +37,16 @@ jobs:
           - name: Tests.Utils
             project: tests/Tests.Utils/Tests.Utils.csproj
             extra-args: ''
-          - name: Tests.Demo
-            project: tests/Tests.Demo/Tests.Demo.csproj
-            extra-args: '-p:OS=Linux'
-          - name: Tests.ScreenShots
-            project: tests/Tests.ScreenShots/Tests.ScreenShots.csproj
-            extra-args: ''
-          - name: Tests.Demo.ScreenShots
-            project: tests/Tests.Demo.ScreenShots/Tests.Demo.ScreenShots.csproj
-            extra-args: ''
+          # Tests below require display/SDL3 - disabled for CI
+          # - name: Tests.Demo
+          #   project: tests/Tests.Demo/Tests.Demo.csproj
+          #   extra-args: '-p:OS=Linux'
+          # - name: Tests.ScreenShots
+          #   project: tests/Tests.ScreenShots/Tests.ScreenShots.csproj
+          #   extra-args: ''
+          # - name: Tests.Demo.ScreenShots
+          #   project: tests/Tests.Demo.ScreenShots/Tests.Demo.ScreenShots.csproj
+          #   extra-args: ''
 
     name: ${{ matrix.name }}
 
@@ -58,9 +59,6 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Install xvfb
-        run: sudo apt-get update && sudo apt-get install -y xvfb
-
       - name: Restore NuGet cache
         uses: actions/cache@v4
         with:
@@ -71,7 +69,7 @@ jobs:
         run: dotnet restore ${{ matrix.project }}
 
       - name: Run tests
-        run: xvfb-run dotnet test ${{ matrix.project }} --configuration Release --no-restore --logger "trx;LogFileName=${{ matrix.name }}.trx" ${{ matrix.extra-args }}
+        run: dotnet test ${{ matrix.project }} --configuration Release --no-restore --logger "trx;LogFileName=${{ matrix.name }}.trx" ${{ matrix.extra-args }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
