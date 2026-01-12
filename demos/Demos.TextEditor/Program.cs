@@ -1,4 +1,5 @@
 using CrossSharp.Application;
+using CrossSharp.Icons.Providers;
 using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
@@ -14,6 +15,7 @@ var configuration = new BaseConfiguration()
 };
 var builder = new ApplicationBuilder(configuration);
 builder.SetTheme(new CustomTheme());
+builder.SetIconProvider(new CrossSharp2026IconProvider());
 LoadImages();
 builder.Run<MainForm>();
 
