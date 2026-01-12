@@ -20,7 +20,7 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore cross-sharp.sln
 
       - name: Run Tests.Utils
         run: dotnet test tests/Tests.Utils/Tests.Utils.csproj --configuration Release --logger "trx;LogFileName=tests-utils.trx"
