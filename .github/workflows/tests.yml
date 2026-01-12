@@ -9,6 +9,24 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Tests.Utils
+            project: tests/Tests.Utils/Tests.Utils.csproj
+            extra-args: ''
+          - name: Tests.Demo
+            project: tests/Tests.Demo/Tests.Demo.csproj
+            extra-args: '-p:OS=Linux'
+          - name: Tests.ScreenShots
+            project: tests/Tests.ScreenShots/Tests.ScreenShots.csproj
+            extra-args: ''
+          - name: Tests.Demo.ScreenShots
+            project: tests/Tests.Demo.ScreenShots/Tests.Demo.ScreenShots.csproj
+            extra-args: ''
+
+    name: ${{ matrix.name }}
 
     steps:
       - name: Checkout repository
@@ -22,22 +40,13 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore cross-sharp.sln
 
-      - name: Run Tests.Utils
-        run: dotnet test tests/Tests.Utils/Tests.Utils.csproj --configuration Release --logger "trx;LogFileName=tests-utils.trx"
-
-      - name: Run Tests.Demo
-        run: dotnet test tests/Tests.Demo/Tests.Demo.csproj --configuration Release --logger "trx;LogFileName=tests-demo.trx" -p:OS=Linux
-
-      - name: Run Tests.ScreenShots
-        run: dotnet test tests/Tests.ScreenShots/Tests.ScreenShots.csproj --configuration Release --logger "trx;LogFileName=tests-screenshots.trx"
-
-      - name: Run Tests.Demo.ScreenShots
-        run: dotnet test tests/Tests.Demo.ScreenShots/Tests.Demo.ScreenShots.csproj --configuration Release --logger "trx;LogFileName=tests-demo-screenshots.trx"
+      - name: Run tests
+        run: dotnet test ${{ matrix.project }} --configuration Release --logger "trx;LogFileName=${{ matrix.name }}.trx" ${{ matrix.extra-args }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-results
+          name: test-results-${{ matrix.name }}
           path: '**/TestResults/*.trx'
           retention-days: 7
