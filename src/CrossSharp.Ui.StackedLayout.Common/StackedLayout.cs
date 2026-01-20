@@ -143,6 +143,8 @@ partial class StackedLayout : IStackedLayout
     public void Draw(ref IGraphics graphics)
     {
         var clientBounds = this.GetClientBounds();
+        if (clientBounds.Width == 0 || clientBounds.Height == 0)
+            return;
         var oldOffset = graphics.GetOffset();
         var oldState = graphics.GetClipState();
         graphics.SetOffset(clientBounds.Location);

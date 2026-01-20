@@ -155,6 +155,8 @@ partial class FlowLayout : IFlowLayout
         var oldOffset = graphics.GetOffset();
         var oldClipState = graphics.GetClipState();
         var clientBounds = this.GetClientBounds();
+        if (clientBounds.Width == 0 || clientBounds.Height == 0)
+            return;
         graphics.SetOffset(clientBounds.Location);
         graphics.SetClip(
             NoClip ? ClipState.Max(CornerRadius) : ClipState.Create(oldClipState, clientBounds, CornerRadius)

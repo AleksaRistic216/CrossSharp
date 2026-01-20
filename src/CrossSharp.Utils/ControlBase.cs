@@ -55,6 +55,8 @@ public abstract partial class ControlBase : IControl
             return;
         var oldState = graphics.GetClipState();
         var clientBounds = this.GetClientBounds();
+        if (clientBounds.Width == 0 || clientBounds.Height == 0)
+            return;
         graphics.SetClip(ClipState.Create(oldState, clientBounds, this is IRoundedCorners rc ? rc.CornerRadius : 0));
         graphics.SetOffset(clientBounds.Location);
         DrawShadows(ref graphics);
