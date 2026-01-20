@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageId>CrossSharp.Templates</PackageId>
+    <Title>CrossSharp Templates</Title>
+    <Authors>CrossSharp</Authors>
+    <Description>Project templates for creating CrossSharp cross-platform UI applications.</Description>
+    <PackageTags>crosssharp;templates;ui;cross-platform;linux;windows;macos</PackageTags>
+    <PackageVersion>10.0.2</PackageVersion>
+    <PackageProjectUrl>https://github.com/parpil/CrossSharp</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <TargetFramework>net10.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="FormsApp\**\*" Exclude="FormsApp\bin\**;FormsApp\obj\**" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+</Project>

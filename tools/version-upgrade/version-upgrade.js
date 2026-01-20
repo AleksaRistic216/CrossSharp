@@ -96,6 +96,48 @@ fs.exists('./version-upgrade.config', (exists) => {
       }
     }
 
+    // Update templates
+    console.log();
+    console.log('Starting templates versions upgrade...');
+
+    const templatesPath = '../../templates/';
+
+    // Update CrossSharp.Templates.csproj PackageVersion
+    const templatePackCsproj = path.join(templatesPath, 'CrossSharp.Templates.csproj');
+    if (fs.existsSync(templatePackCsproj)) {
+      console.log(`Updating version on template pack: ${templatePackCsproj}`);
+      try {
+        let content = fs.readFileSync(templatePackCsproj, 'utf-8');
+        let parsed = parser.parse(content);
+
+        if (parsed.Project.PropertyGroup) {
+          parsed.Project.PropertyGroup.PackageVersion = config.nextVersion;
+        }
+
+        const builder = new XMLBuilder(xmlOptions);
+        fs.writeFileSync(templatePackCsproj, builder.build(parsed));
+      } catch (error) {
+        console.error(`Error processing ${templatePackCsproj}:`, error);
+      }
+    }
+
+    // Update FormsApp template PackageReference versions
+    const formsAppCsproj = path.join(templatesPath, 'FormsApp/FormsApp.csproj');
+    if (fs.existsSync(formsAppCsproj)) {
+      console.log(`Updating PackageReference versions on: ${formsAppCsproj}`);
+      try {
+        let content = fs.readFileSync(formsAppCsproj, 'utf-8');
+        // Use regex to update CrossSharp package versions
+        content = content.replace(
+          /(<PackageReference Include="CrossSharp(?:\.[\w]+)?" Version=")[\d.]+(")/g,
+          `$1${config.nextVersion}$2`
+        );
+        fs.writeFileSync(formsAppCsproj, content);
+      } catch (error) {
+        console.error(`Error processing ${formsAppCsproj}:`, error);
+      }
+    }
+
     fs.writeFileSync(
       './version-upgrade.config',
       JSON.stringify({ currentVersion: config.nextVersion })
