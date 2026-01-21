@@ -1,13 +1,7 @@
-using CrossSharp.Utils.Enums;
-using CrossSharp.Utils.Interfaces;
-
 namespace CrossSharp.Application;
 
-public class BaseConfiguration : IApplicationConfiguration
-{
-    public FormStyle FormsStyle { get; set; } = FormStyle.Native;
-    public bool HighDpi { get; set; }
-    public required string ApplicationName { get; set; }
-    public required string CompanyName { get; set; }
-    public int CoreFps { get; set; } = 120;
-}
+/// <summary>
+/// Application configuration for CrossSharp applications.
+/// This type alias provides backwards compatibility - the actual implementation is in CrossSharp.Utils.
+/// </summary>
+public class BaseConfiguration : Utils.BaseConfiguration;

@@ -6,11 +6,13 @@ public static class PlatformHelpers {
     public static CrossPlatformType GetCurrentPlatform() {
         if (_currentPlatform.HasValue)
             return _currentPlatform.Value;
-        if (OperatingSystem.IsWindows())
+        if (OperatingSystem.IsAndroid())
+            _currentPlatform = CrossPlatformType.Android;
+        else if (OperatingSystem.IsWindows())
             _currentPlatform = CrossPlatformType.Windows;
-        if (OperatingSystem.IsLinux())
+        else if (OperatingSystem.IsLinux())
             _currentPlatform = CrossPlatformType.Linux;
-        if (OperatingSystem.IsMacOS())
+        else if (OperatingSystem.IsMacOS())
             _currentPlatform = CrossPlatformType.MacOs;
         if(!_currentPlatform.HasValue)
             _currentPlatform = CrossPlatformType.Undefined;

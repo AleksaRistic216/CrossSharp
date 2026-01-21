@@ -7,6 +7,7 @@ using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using Demos.AllInOne.MainFormViews;
 using SkiaSharp;
+using Button = CrossSharp.Ui.Button;
 
 namespace Demos.AllInOne;
 

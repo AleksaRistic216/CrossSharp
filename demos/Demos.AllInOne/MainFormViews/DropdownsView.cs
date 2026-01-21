@@ -4,6 +4,7 @@ using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Helpers;
 using CrossSharp.Utils.Interfaces;
+using Button = CrossSharp.Ui.Button;
 
 namespace Demos.AllInOne.MainFormViews;
 
