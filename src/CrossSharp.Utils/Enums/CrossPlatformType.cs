@@ -1,8 +1,10 @@
 namespace CrossSharp.Utils.Enums;
 
-public enum CrossPlatformType {
+public enum CrossPlatformType
+{
     Undefined,
     Windows,
     Linux,
-    MacOs
+    MacOs,
+    Android,
 }

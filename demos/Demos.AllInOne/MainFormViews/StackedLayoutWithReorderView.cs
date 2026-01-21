@@ -1,6 +1,8 @@
 using CrossSharp.Ui;
 using CrossSharp.Utils;
 using CrossSharp.Utils.Enums;
+using Button = CrossSharp.Ui.Button;
+using Orientation = CrossSharp.Utils.Enums.Orientation;
 
 namespace Demos.AllInOne.MainFormViews;
 

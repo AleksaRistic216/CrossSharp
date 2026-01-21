@@ -1,12 +1,33 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>net10.0;net10.0-android</TargetFrameworks>
+        <OutputType>Exe</OutputType>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-    <ItemGroup>
+
+    <!-- Android-specific properties -->
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+        <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+        <ApplicationId>com.crosssharp.demos.allinone</ApplicationId>
+        <ApplicationVersion>1</ApplicationVersion>
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationTitle>CrossSharp AllInOne</ApplicationTitle>
+        <AndroidManifest>Properties/AndroidManifest.xml</AndroidManifest>
+    </PropertyGroup>
+
+    <!-- Desktop references -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
         <ProjectReference Include="..\..\src\CrossSharp.Application\CrossSharp.Application.csproj" />
+    </ItemGroup>
+
+    <!-- Android references -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+        <ProjectReference Include="..\..\src\CrossSharp.Application.Android\CrossSharp.Application.Android.csproj" />
+    </ItemGroup>
+
+    <!-- Common references -->
+    <ItemGroup>
         <ProjectReference Include="..\..\src\CrossSharp.Icons\CrossSharp.Icons.csproj" />
     </ItemGroup>
 </Project>

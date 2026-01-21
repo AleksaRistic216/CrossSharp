@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0-android</TargetFramework>
+        <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Version>10.0.2</Version>
+        <RootNamespace>CrossSharp.Application.Android</RootNamespace>
+        <RepositoryUrl>https://github.com/AleksaRistic216/CrossSharp</RepositoryUrl>
+        <Description>Cross-platform UI c# library - Android application framework</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\README.md">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CrossSharp.Utils\CrossSharp.Utils.csproj" />
+        <ProjectReference Include="..\CrossSharp.Utils.Android\CrossSharp.Utils.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Themes\CrossSharp.Themes.csproj" />
+        <!-- Public UI controls -->
+        <ProjectReference Include="..\CrossSharp.Ui.StaticLayout\CrossSharp.Ui.StaticLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StackedLayout\CrossSharp.Ui.StackedLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Panel\CrossSharp.Ui.Panel.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Label\CrossSharp.Ui.Label.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Button\CrossSharp.Ui.Button.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Accordion\CrossSharp.Ui.Accordion.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Form\CrossSharp.Ui.Form.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ModularForm\CrossSharp.Ui.ModularForm.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FlowLayout\CrossSharp.Ui.FlowLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout\CrossSharp.Ui.TabbedLayout.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ImagePreview\CrossSharp.Ui.ImagePreview.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.DataGrid\CrossSharp.Ui.DataGrid.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Chart\CrossSharp.Ui.Chart.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Dropdown\CrossSharp.Ui.Dropdown.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Input\CrossSharp.Ui.Input.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FilesPicker\CrossSharp.Ui.FilesPicker.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ThemePicker\CrossSharp.Ui.ThemePicker.csproj" />
+        <ProjectReference Include="..\CrossSharp.DynamicControlsController\CrossSharp.DynamicControlsController.csproj" />
+        <!-- Android control implementations -->
+        <ProjectReference Include="..\CrossSharp.Ui.StaticLayout.Android\CrossSharp.Ui.StaticLayout.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.StackedLayout.Android\CrossSharp.Ui.StackedLayout.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Panel.Android\CrossSharp.Ui.Panel.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Label.Android\CrossSharp.Ui.Label.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Button.Android\CrossSharp.Ui.Button.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Accordion.Android\CrossSharp.Ui.Accordion.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Chart.Android\CrossSharp.Ui.Chart.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.DataGrid.Android\CrossSharp.Ui.DataGrid.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Dropdown.Android\CrossSharp.Ui.Dropdown.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FilesPicker.Android\CrossSharp.Ui.FilesPicker.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.FlowLayout.Android\CrossSharp.Ui.FlowLayout.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ImagePreview.Android\CrossSharp.Ui.ImagePreview.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.Input.Android\CrossSharp.Ui.Input.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ModularForm.Android\CrossSharp.Ui.ModularForm.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.TabbedLayout.Android\CrossSharp.Ui.TabbedLayout.Android.csproj" />
+        <ProjectReference Include="..\CrossSharp.Ui.ThemePicker.Android\CrossSharp.Ui.ThemePicker.Android.csproj" />
+    </ItemGroup>
+</Project>

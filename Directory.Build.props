@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <AndroidSdkDirectory Condition="'$(AndroidSdkDirectory)' == ''">/home/parpil/Android/Sdk</AndroidSdkDirectory>
+  </PropertyGroup>
+</Project>

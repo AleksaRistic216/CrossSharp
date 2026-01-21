@@ -1,9 +1,8 @@
 using CrossSharp.Ui;
-using CrossSharp.Utils;
-using CrossSharp.Utils.DI;
 using CrossSharp.Utils.Enums;
 using CrossSharp.Utils.Interfaces;
 using Demos.AllInOne.Models;
+using Orientation = CrossSharp.Utils.Enums.Orientation;
 
 namespace Demos.AllInOne.MainFormViews;
 
